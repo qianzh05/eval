@@ -61,9 +61,12 @@ try:
 except Exception:
     NEW_API = False
 
-# LLM imports
+# LLM imports — browser-use 0.12.x ships its own LLM wrappers.
+# langchain-aws's ChatBedrockConverse is rejected by browser-use's
+# token_cost_service.register_llm() because it lacks the expected `ainvoke`
+# field.  Use the native ChatAnthropicBedrock instead.
 try:
-    from langchain_aws import ChatBedrockConverse  # type: ignore
+    from browser_use.llm import ChatAnthropicBedrock  # type: ignore
     HAS_BEDROCK = True
 except Exception:
     HAS_BEDROCK = False
@@ -121,10 +124,10 @@ def git_commit() -> str:
 def build_llm(provider: str) -> Any:
     if provider == "bedrock":
         if not HAS_BEDROCK:
-            raise RuntimeError("langchain-aws not installed; cannot use bedrock")
-        return ChatBedrockConverse(
+            raise RuntimeError("browser_use.llm.ChatAnthropicBedrock not importable")
+        return ChatAnthropicBedrock(
             model=os.getenv("BEDROCK_MODEL_ID", "us.anthropic.claude-sonnet-4-6"),
-            region_name=os.getenv("AWS_DEFAULT_REGION", "us-east-1"),
+            aws_region=os.getenv("AWS_DEFAULT_REGION", "us-east-1"),
             temperature=0.0,
             max_tokens=4096,
         )
