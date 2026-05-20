@@ -61,15 +61,22 @@ try:
 except Exception:
     NEW_API = False
 
-# LLM imports — browser-use 0.12.x ships its own LLM wrappers.
-# langchain-aws's ChatBedrockConverse is rejected by browser-use's
-# token_cost_service.register_llm() because it lacks the expected `ainvoke`
-# field.  Use the native ChatAnthropicBedrock instead.
+# LLM imports.
+#   - Agent uses browser-use's native ChatAnthropicBedrock (browser-use 0.12.x
+#     rejects langchain LLMs in its token_cost_service.register_llm).
+#   - Evaluator (auto_eval_browser_use.py) still uses langchain ChatBedrockConverse
+#     because it constructs prompts with langchain HumanMessage/SystemMessage.
 try:
     from browser_use.llm import ChatAnthropicBedrock  # type: ignore
     HAS_BEDROCK = True
 except Exception:
     HAS_BEDROCK = False
+
+try:
+    from langchain_aws import ChatBedrockConverse  # type: ignore
+    HAS_LC_BEDROCK = True
+except Exception:
+    HAS_LC_BEDROCK = False
 
 from dotenv import load_dotenv
 
@@ -121,13 +128,28 @@ def git_commit() -> str:
         return "unknown"
 
 
-def build_llm(provider: str) -> Any:
+def build_agent_llm(provider: str) -> Any:
+    """LLM used BY THE AGENT — must be browser-use native."""
     if provider == "bedrock":
         if not HAS_BEDROCK:
             raise RuntimeError("browser_use.llm.ChatAnthropicBedrock not importable")
         return ChatAnthropicBedrock(
             model=os.getenv("BEDROCK_MODEL_ID", "us.anthropic.claude-sonnet-4-6"),
             aws_region=os.getenv("AWS_DEFAULT_REGION", "us-east-1"),
+            temperature=0.0,
+            max_tokens=4096,
+        )
+    raise ValueError(f"unsupported provider: {provider}")
+
+
+def build_eval_llm(provider: str) -> Any:
+    """LLM used BY THE EVALUATOR — uses langchain message protocol."""
+    if provider == "bedrock":
+        if not HAS_LC_BEDROCK:
+            raise RuntimeError("langchain_aws.ChatBedrockConverse not importable")
+        return ChatBedrockConverse(
+            model=os.getenv("BEDROCK_MODEL_ID", "us.anthropic.claude-sonnet-4-6"),
+            region_name=os.getenv("AWS_DEFAULT_REGION", "us-east-1"),
             temperature=0.0,
             max_tokens=4096,
         )
@@ -165,7 +187,8 @@ def load_tasks(jsonl: Path) -> list[TaskData]:
 
 async def run_one_task(
     task: TaskData,
-    llm: Any,
+    agent_llm: Any,
+    eval_llm: Any,
     results_dir: Path,
     use_vision: bool,
     max_steps: int,
@@ -291,7 +314,7 @@ async def run_one_task(
 
         agent = Agent(
             task=task_str,
-            llm=llm,
+            llm=agent_llm,
             browser=session,
             use_vision=use_vision,
             max_failures=3,
@@ -303,9 +326,9 @@ async def run_one_task(
         num_steps = len(getattr(history, "history", []) or [])
         final_answer = history.final_result() or "<NO FINAL ANSWER>"
 
-        # Run the auto-evaluator (re-use the existing implementation).
+        # Auto-evaluator uses the langchain LLM (it constructs HumanMessage/SystemMessage).
         eval_result, gpt_4v_res = await auto_eval_by_gpt4o(
-            task=task_str, openai_client=llm, history=history,
+            task=task_str, openai_client=eval_llm, history=history,
         )
 
     except _CaptchaAbort as e:
@@ -420,7 +443,8 @@ async def main(args: argparse.Namespace) -> None:
     }
     (results_dir / "run_manifest.json").write_text(json.dumps(manifest, indent=2))
 
-    llm = build_llm(args.model_provider)
+    agent_llm = build_agent_llm(args.model_provider)
+    eval_llm = build_eval_llm(args.model_provider)
     sem = asyncio.Semaphore(args.max_concurrent)
     skip_count = 0
     done_count = 0
@@ -433,7 +457,7 @@ async def main(args: argparse.Namespace) -> None:
                 log.info(f"[{t['id']}] skip (prior success, prompt unchanged)  [{done_count + skip_count}/{len(tasks)}]")
                 return
             res = await run_one_task(
-                t, llm, results_dir,
+                t, agent_llm, eval_llm, results_dir,
                 use_vision=args.use_vision,
                 max_steps=args.max_steps,
                 wallclock_cap_s=args.wallclock_cap_s,

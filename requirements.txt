@@ -1,6 +1,7 @@
 # pinned runtime requirements for browser-use-eval v2
-# browser-use 0.12.x ships its own LLM wrappers (browser_use.llm.ChatAnthropicBedrock),
-# so we don't need langchain-aws / ChatBedrockConverse. python-dotenv and
-# python-docx come transitively from browser-use 0.12.6.
+# browser-use 0.12.x ships its own LLM wrappers (browser_use.llm.ChatAnthropicBedrock)
+# used by the AGENT. The EVALUATOR still uses langchain ChatBedrockConverse,
+# so we keep langchain-aws (which transitively pulls langchain-core).
 browser-use[aws]==0.12.6
 patchright
+langchain-aws
