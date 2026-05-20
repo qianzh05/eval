@@ -1,14 +1,33 @@
+import base64
 import time
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Protocol
 
-from browser_use import AgentHistoryList
-from langchain_anthropic import ChatAnthropic
 from langchain_core.messages import HumanMessage, SystemMessage
-from langchain_google_genai import ChatGoogleGenerativeAI
-from langchain_openai import AzureChatOpenAI
+
+if TYPE_CHECKING:
+    from langchain_anthropic import ChatAnthropic
+    from langchain_google_genai import ChatGoogleGenerativeAI
+    from langchain_openai import AzureChatOpenAI
+
+try:
+    from langchain_aws import ChatBedrockConverse
+    HAS_BEDROCK = True
+except ImportError:
+    HAS_BEDROCK = False
 
 if TYPE_CHECKING:
     from run_browser_use import EvalResult
+
+
+class HistoryLike(Protocol):
+    def is_done(self) -> bool:
+        ...
+
+    def final_result(self) -> str | None:
+        ...
+
+    def screenshots(self) -> list[str | None]:
+        ...
 
 
 SYSTEM_PROMPT = """As an evaluator, you will be presented with three primary components to assist you in your role:
@@ -34,13 +53,34 @@ Result Response: <answer>
 <num> screenshot at the end: """
 
 
-async def auto_eval_by_gpt4o(
-    history: AgentHistoryList,
-    task: str,
-    openai_client: AzureChatOpenAI | ChatAnthropic | ChatGoogleGenerativeAI,
-) -> tuple["EvalResult", str]:
-    # print(f"--------------------- {process_dir} ---------------------")
+def _resize_screenshot_if_needed(screenshot_b64: str, max_bytes: int = 3_500_000) -> str:
+    """Resize a base64-encoded PNG screenshot if it exceeds max_bytes.
+    Bedrock has a ~5MB per-image limit; we target 3.5MB to leave headroom.
+    Returns base64-encoded JPEG (smaller) if resizing was needed, otherwise original."""
+    raw = base64.b64decode(screenshot_b64)
+    if len(raw) <= max_bytes:
+        return screenshot_b64, "image/png"
 
+    try:
+        from io import BytesIO
+        from PIL import Image
+
+        img = Image.open(BytesIO(raw))
+        # Resize to 50% if too large
+        img = img.resize((img.width // 2, img.height // 2), Image.LANCZOS)
+        buf = BytesIO()
+        img.save(buf, format="JPEG", quality=75)
+        return base64.b64encode(buf.getvalue()).decode(), "image/jpeg"
+    except ImportError:
+        # PIL not available, just return original and hope for the best
+        return screenshot_b64, "image/png"
+
+
+async def auto_eval_by_gpt4o(
+    history: HistoryLike,
+    task: str,
+    openai_client,
+) -> tuple["EvalResult", str]:
     if not history.is_done():
         return "failed", ""
 
@@ -49,18 +89,38 @@ async def auto_eval_by_gpt4o(
         return "failed", ""
 
     screenshots = history.screenshots()[-4:]
-    screenshot_content = [
-        {
-            "type": "image_url",
-            "image_url": {"url": f"data:image/png;base64,{screenshot}"},
-        }
-        for screenshot in screenshots
-    ]
 
-    # Prepare GPT-4V messages
+    # Skip eval if no screenshots available
+    if not screenshots:
+        return "unknown", "No screenshots available for evaluation"
+
+    # Bedrock Converse needs image_url with data URI (same as OpenAI format)
+    # but may fail on very large images, so we resize if needed
+    is_bedrock = HAS_BEDROCK and isinstance(openai_client, ChatBedrockConverse)
+
+    screenshot_content = []
+    for screenshot in screenshots:
+        if not screenshot:
+            continue
+        if is_bedrock:
+            resized, media_type = _resize_screenshot_if_needed(screenshot)
+            screenshot_content.append({
+                "type": "image_url",
+                "image_url": {"url": f"data:{media_type};base64,{resized}"},
+            })
+        else:
+            screenshot_content.append({
+                "type": "image_url",
+                "image_url": {"url": f"data:image/png;base64,{screenshot}"},
+            })
+
+    if not screenshot_content:
+        return "unknown", "All screenshots were empty"
+
+    # Prepare messages
     user_prompt_tmp = USER_PROMPT.replace("<task>", task)
     user_prompt_tmp = user_prompt_tmp.replace("<answer>", answer)
-    user_prompt_tmp = user_prompt_tmp.replace("<num>", str(len(screenshots)))
+    user_prompt_tmp = user_prompt_tmp.replace("<num>", str(len(screenshot_content)))
 
     messages = [
         SystemMessage(content=SYSTEM_PROMPT),
@@ -73,22 +133,37 @@ async def auto_eval_by_gpt4o(
         ),
     ]
 
-    while True:
+    max_retries = 5
+    response = None
+    for attempt in range(max_retries):
         try:
-            # print("Calling gpt4v API to get the auto evaluation......")
             response = await openai_client.ainvoke(messages)
-            # print("API call complete...")
             break
         except Exception as e:
-            print(e)
-            if type(e).__name__ == "RateLimitError":
-                time.sleep(10)
+            error_str = str(e)
+            print(f"Eval attempt {attempt + 1}/{max_retries} failed: {error_str[:200]}")
+
+            if attempt == max_retries - 1:
+                return "unknown", f"Eval failed after {max_retries} retries: {error_str[:500]}"
+
+            # Non-retryable errors — bail immediately
+            if "Could not process image" in error_str:
+                return "unknown", f"Bedrock image processing error: {error_str[:500]}"
+            if type(e).__name__ == "InvalidRequestError":
+                return "unknown", f"Invalid request: {error_str[:500]}"
+            if "ValidationException" in error_str:
+                return "unknown", f"Validation error: {error_str[:500]}"
+
+            # Retryable errors
+            if type(e).__name__ == "RateLimitError" or "ThrottlingException" in error_str:
+                time.sleep(10 + attempt * 5)  # backoff
             elif type(e).__name__ == "APIError":
                 time.sleep(15)
-            elif type(e).__name__ == "InvalidRequestError":
-                exit(0)
             else:
-                time.sleep(10)
+                time.sleep(5 + attempt * 3)
+
+    if response is None:
+        return "unknown", "No response from eval LLM"
 
     gpt_4v_res = str(response.content)
 

@@ -4,6 +4,7 @@ import json
 import logging
 import os
 import random
+import re
 import shutil
 from asyncio import Semaphore
 from dataclasses import dataclass, field
@@ -15,13 +16,69 @@ from browser_use import Agent, Browser, BrowserConfig
 from browser_use.browser.context import BrowserContextConfig
 from dotenv import load_dotenv
 from langchain_anthropic import ChatAnthropic
-from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_openai import AzureChatOpenAI
+
+try:
+    from langchain_google_genai import ChatGoogleGenerativeAI
+    HAS_GOOGLE = True
+except ImportError:
+    HAS_GOOGLE = False
 from pydantic import BaseModel, Field, SecretStr
+
+# Bedrock imports
+try:
+    from langchain_aws import ChatBedrockConverse
+    HAS_BEDROCK = True
+except ImportError:
+    HAS_BEDROCK = False
 
 from evaluation.auto_eval_browser_use import auto_eval_by_gpt4o
 
 load_dotenv()
+
+
+def shift_past_dates(text: str) -> str:
+    """Shift past dates in task text to equivalent future dates.
+
+    Replaces years 2023/2024/2025 with a future year that preserves the
+    day-of-week alignment where possible. Also handles date formats like
+    20/12/2024 and standalone year references in booking/flight contexts.
+    """
+    now = datetime.now()
+    current_year = now.year
+
+    def replace_year(match: re.Match) -> str:
+        full = match.group(0)
+        year_str = match.group("year")
+        year = int(year_str)
+        if year < current_year:
+            # Shift forward by the smallest multiple of years to make it future
+            new_year = current_year + 1
+            return full.replace(year_str, str(new_year))
+        return full
+
+    # Match patterns: "January 10, 2025", "February 28, 2025", "March 2025"
+    text = re.sub(
+        r'(?P<prefix>(?:january|february|march|april|may|june|july|august|september|october|november|december)\s+\d{1,2},?\s*)(?P<year>202[345])',
+        replace_year,
+        text,
+        flags=re.IGNORECASE,
+    )
+    # Match dd/mm/yyyy format like 20/12/2024
+    text = re.sub(
+        r'(?P<prefix>\d{1,2}/\d{1,2}/)(?P<year>202[345])',
+        replace_year,
+        text,
+        flags=re.IGNORECASE,
+    )
+    # Match standalone year references like "in 2024", "for 2024"
+    # but NOT season formats like "2024-25" where both parts are year fragments
+    text = re.sub(
+        r'(?P<prefix>\b)(?P<year>202[345])(?!-\d{2}\b)',
+        replace_year,
+        text,
+    )
+    return text
 
 
 class TaskData(TypedDict):
@@ -146,9 +203,9 @@ def print_task_progress(
     )
 
 
-def save_experiment_results(experiment_results: ExperimentResults) -> None:
+def save_experiment_results(experiment_results: ExperimentResults, results_dir: Path) -> None:
     """Save experiment results to file."""
-    with open("results/examples-browser-use/experiment_results.json", "w") as f:
+    with open(results_dir / "experiment_results.json", "w") as f:
         json.dump(experiment_results.model_dump(), f, indent=2, default=str)
 
 
@@ -220,19 +277,22 @@ def get_llm_model_generator(
             yield east_us.model  # 450
             yield east_us_2.model  # 450
             yield west_us.model  # 450
-        elif model_provider == "google/gemini-1.5-flash":
-            llm = ChatGoogleGenerativeAI(
-                model="gemini-1.5-flash",
+        elif model_provider.startswith("google/"):
+            if not HAS_GOOGLE:
+                raise ImportError("langchain-google-genai is required for Google models. Install: pip install langchain-google-genai")
+            model_name = model_provider.split("/", 1)[1]
+            yield ChatGoogleGenerativeAI(model=model_name)
+        elif model_provider == "bedrock":
+            if not HAS_BEDROCK:
+                raise ImportError("langchain-aws is required for Bedrock. Install: pip install langchain-aws")
+            model_id = os.getenv("BEDROCK_MODEL_ID", "anthropic.claude-sonnet-4-6")
+            region = os.getenv("AWS_DEFAULT_REGION", "us-east-1")
+            yield ChatBedrockConverse(
+                model=model_id,
+                region_name=region,
+                temperature=0.0,
+                max_tokens=4096,
             )
-            yield llm
-        elif model_provider == "google/gemini-1.5-pro":
-            llm = ChatGoogleGenerativeAI(
-                model="gemini-1.5-pro",
-            )
-            yield llm
-        elif model_provider == "google/gemini-1.5-flash-8b":
-            llm = ChatGoogleGenerativeAI(model="gemini-1.5-flash-8b")
-            yield llm
         else:
             raise ValueError(f"Invalid model provider: {model_provider}")
 
@@ -244,6 +304,7 @@ async def process_single_task(
     results_dir: Path,
     experiment_results: ExperimentResults,
     browser: Browser,
+    use_vision: bool = True,
 ) -> None:
     """Process a single task asynchronously."""
     task_str = f"{task['ques']} on {task['web']}"
@@ -261,6 +322,7 @@ async def process_single_task(
                 browser=browser,
                 validate_output=True,
                 generate_gif=False,
+                use_vision=use_vision,
             )
 
             history = await agent.run(max_steps=30)
@@ -310,7 +372,7 @@ async def process_single_task(
         await browser.close()
 
 
-async def main(max_concurrent_tasks: int, model_provider: str) -> None:
+async def main(max_concurrent_tasks: int, model_provider: str, use_vision: bool = True) -> None:
     try:
         # Setup
         cleanup_webdriver_cache()
@@ -322,11 +384,6 @@ async def main(max_concurrent_tasks: int, model_provider: str) -> None:
             for line in f:
                 tasks.append(json.loads(line))
 
-        # remove impossible tasks
-        with open("data/WebVoyagerImpossibleTasks.json", "r") as f:
-            impossible_tasks = set(json.load(f))
-        tasks = [task for task in tasks if task["id"] not in impossible_tasks]
-
         # randomize the order of tasks
         random.seed(42)
         random.shuffle(tasks)
@@ -335,7 +392,8 @@ async def main(max_concurrent_tasks: int, model_provider: str) -> None:
 
         experiment_results = ExperimentResults()
         stats = RunStats(total_tasks=len(tasks))
-        results_dir = Path("results/examples-browser-use")
+        vision_tag = "vision-true" if use_vision else "vision-false"
+        results_dir = Path(f"results/examples-browser-use-{vision_tag}")
         results_dir.mkdir(parents=True, exist_ok=True)
 
         # Process tasks concurrently with semaphore
@@ -371,6 +429,7 @@ async def main(max_concurrent_tasks: int, model_provider: str) -> None:
                     results_dir,
                     experiment_results,
                     browser,  # Pass browser instance
+                    use_vision=use_vision,
                 )
                 stats.current_task += 1
 
@@ -385,7 +444,7 @@ async def main(max_concurrent_tasks: int, model_provider: str) -> None:
                 print(f"Success rate: {stats.get_success_rate()}")
                 # if stats.current_task % max_concurrent_tasks == 0:
                 stats.print_periodic_summary()
-                save_experiment_results(experiment_results)
+                save_experiment_results(experiment_results, results_dir)
 
         # Create and run all tasks
         all_tasks = []
@@ -422,16 +481,25 @@ if __name__ == "__main__":
             choices=[
                 "azure",
                 "anthropic",
+                "bedrock",
                 "google/gemini-1.5-flash",
                 "google/gemini-1.5-flash-8b",
                 "google/gemini-1.5-pro",
             ],
         )
+        parser.add_argument(
+            "--use-vision",
+            type=str,
+            default="true",
+            choices=["true", "false"],
+            help="Whether to send screenshots to the LLM (default: true)",
+        )
         args = parser.parse_args()
 
-        logging.info(f"Running with {args.max_concurrent} concurrent tasks")
+        use_vision = args.use_vision == "true"
+        logging.info(f"Running with {args.max_concurrent} concurrent tasks, use_vision={use_vision}")
 
-        asyncio.run(main(args.max_concurrent, args.model_provider))
+        asyncio.run(main(args.max_concurrent, args.model_provider, use_vision=use_vision))
     except KeyboardInterrupt:
         print("\nReceived keyboard interrupt, shutting down...")
     except Exception as e:
