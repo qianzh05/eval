@@ -1,6 +1,5 @@
 # pinned runtime requirements for browser-use-eval v2
+# python-dotenv and python-docx come transitively from browser-use 0.12.6.
 browser-use[aws]==0.12.6
-patchright==1.55.0
+patchright
 langchain-aws
-python-dotenv==1.0.1
-python-docx==1.1.2
