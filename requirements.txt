@@ -1,12 +1,6 @@
 # pinned runtime requirements for browser-use-eval v2
-browser-use==0.12.6
+browser-use[aws]==0.12.6
 patchright==1.55.0
-langchain-aws==0.2.30
-langchain-anthropic==0.3.21
-langchain-openai==0.3.39
-boto3==1.35.99
+langchain-aws
 python-dotenv==1.0.1
-pydantic==2.12.5
 python-docx==1.1.2
-psutil==6.0.0
-tqdm==4.66.5

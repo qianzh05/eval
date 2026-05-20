@@ -23,3 +23,7 @@ data/WebVoyager_data.jsonl.shifted-2027
 
 # local-only failure-analysis exports
 failure_analysis/
+
+# SSH private keys — never commit these
+*.pem
+*.key
