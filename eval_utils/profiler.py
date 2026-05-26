@@ -1,29 +1,32 @@
-"""Per-step phase-time and token-usage capture for browser-use Agents.
+"""Per-step + per-task timing and metadata recorder.
 
-How it plugs in:
-  - Pass `register_new_step_callback=profiler.on_step` to the Agent.
-  - browser-use 0.12.x invokes the callback after each step with
-    (browser_state, agent_output, step_number) — we read history items off
-    the agent's state to get timings and token counts.
+What this captures (independent of browser-use's internal fields):
+  - **think_s** — time spent in the LLM call(s) during the step
+  - **wait_s**  — time spent waiting on the per-domain rate limiter
+  - **act_s**   — residual: step total minus think and wait → browser ops
+  - **step_total_s** — wall-clock between consecutive on_step callbacks
+  - Per-step action names, url before/after, captcha flag, stuck counter
+  - Tokens (if browser-use's history exposes them)
 
-The profiler maintains a list of step records and emits:
-  - `<task_dir>/steps.jsonl`   — one JSON object per step
-  - aggregated phase totals + token totals returned by `.task_summary()`
+Aggregates exported as:
+  - steps.jsonl  — one row per step
+  - profile.json — per-task totals and per-step distributions (mean/p50/p90/p95)
 
-If browser-use's step API changes between versions, the callback degrades to
-"record what we can" and emits None for fields we couldn't extract.
+All derived from values WE measure (LLM wrapper counter, rate-limiter counter,
+wall-clock timestamps) rather than browser-use's internal metadata, so this is
+robust across browser-use minor version changes.
 """
 from __future__ import annotations
 
 import json
+import statistics
 import time
-from dataclasses import dataclass, field
+from dataclasses import asdict, dataclass, field
 from pathlib import Path
 from typing import Any, Optional
 
 
 def _get(o: Any, name: str, default: Any = None) -> Any:
-    """Defensive attribute/key getter — browser-use models change shape between minor versions."""
     if o is None:
         return default
     if isinstance(o, dict):
@@ -34,16 +37,14 @@ def _get(o: Any, name: str, default: Any = None) -> Any:
 @dataclass
 class StepRecord:
     step: int
-    t_step_start: float
-    t_step_end: float
-    t_step_total_s: float = 0.0
-    t_llm_s: Optional[float] = None
-    t_action_s: Optional[float] = None
-    t_dom_extract_s: Optional[float] = None
-    t_screenshot_s: Optional[float] = None
-    input_tokens: Optional[int] = None
-    output_tokens: Optional[int] = None
-    cached_tokens: Optional[int] = None
+    t_step_start: float = 0.0
+    t_step_end: float = 0.0
+    step_total_s: float = 0.0
+    # The "think / wait / act" decomposition for this step
+    think_s: float = 0.0    # LLM call time
+    wait_s: float = 0.0    # rate-limit wait
+    act_s: float = 0.0    # residual = step_total − think − wait
+    # Step content
     n_actions: int = 0
     action_names: list[str] = field(default_factory=list)
     url_before: Optional[str] = None
@@ -51,6 +52,10 @@ class StepRecord:
     page_title: Optional[str] = None
     n_dom_elements: Optional[int] = None
     n_interactive: Optional[int] = None
+    # Token info if browser-use happens to expose it
+    input_tokens: Optional[int] = None
+    output_tokens: Optional[int] = None
+    # Signals
     captcha_detected: bool = False
     captcha_type: Optional[str] = None
     stuck_consec_run: int = 1
@@ -63,13 +68,10 @@ class TaskProfiler:
     task_dir: Path
     started_at: float = field(default_factory=time.time)
     steps: list[StepRecord] = field(default_factory=list)
-    _last_step_end: float = 0.0
-
-    def __post_init__(self) -> None:
-        self._last_step_end = self.started_at
 
     def record_step(
         self,
+        *,
         step_no: int,
         history_item: Any,
         url_before: Optional[str],
@@ -77,14 +79,15 @@ class TaskProfiler:
         captcha_detected: bool,
         captcha_type: Optional[str],
         stuck_consec_run: int,
+        step_start: float,
+        step_end: float,
+        think_s: float,
+        wait_s: float,
     ) -> StepRecord:
-        """Build a StepRecord from a browser-use history item plus context."""
-        now = time.time()
-        step_total = now - self._last_step_end
+        step_total = max(0.0, step_end - step_start)
+        act_s = max(0.0, step_total - think_s - wait_s)
 
-        # browser-use history items expose: model_output (with action list),
-        # result (list of ActionResult), state (BrowserState), metadata.
-        actions = []
+        # Extract action names from history_item (Pydantic model OR dict)
         action_names: list[str] = []
         try:
             mo = _get(history_item, "model_output")
@@ -92,90 +95,107 @@ class TaskProfiler:
                 if isinstance(a, dict):
                     for k, v in a.items():
                         if v is not None:
-                            action_names.append(k)
-                            actions.append({k: v})
-                            break
+                            action_names.append(k); break
+                else:
+                    d = a.model_dump() if hasattr(a, "model_dump") else {}
+                    for k, v in d.items():
+                        if v is not None:
+                            action_names.append(k); break
         except Exception:
             pass
 
-        # Token + timing from history metadata if present
+        # Tokens if present (older browser-use versions populate this)
         meta = _get(history_item, "metadata", {}) or {}
         usage = _get(meta, "usage", {}) or {}
+        in_tok = _get(usage, "input_tokens") or _get(usage, "prompt_tokens") or _get(meta, "input_tokens")
+        out_tok = _get(usage, "output_tokens") or _get(usage, "completion_tokens")
+
+        state = _get(history_item, "state")
+        first_result = (_get(history_item, "result") or [{}])
+        err = _get(first_result[0] if first_result else {}, "error")
 
         rec = StepRecord(
             step=step_no,
-            t_step_start=self._last_step_end,
-            t_step_end=now,
-            t_step_total_s=step_total,
-            t_llm_s=_get(meta, "llm_duration_s") or _get(meta, "step_llm_time"),
-            t_action_s=_get(meta, "action_duration_s") or _get(meta, "step_action_time"),
-            t_dom_extract_s=_get(meta, "dom_extract_s"),
-            t_screenshot_s=_get(meta, "screenshot_s"),
-            input_tokens=_get(usage, "input_tokens") or _get(usage, "prompt_tokens"),
-            output_tokens=_get(usage, "output_tokens") or _get(usage, "completion_tokens"),
-            cached_tokens=_get(usage, "cached_input_tokens"),
+            t_step_start=step_start,
+            t_step_end=step_end,
+            step_total_s=step_total,
+            think_s=think_s,
+            wait_s=wait_s,
+            act_s=act_s,
             n_actions=len(action_names),
             action_names=action_names,
             url_before=url_before,
             url_after=url_after,
-            page_title=_get(_get(history_item, "state"), "title"),
-            n_dom_elements=_get(_get(history_item, "state"), "element_count"),
-            n_interactive=_get(_get(history_item, "state"), "interactive_count"),
+            page_title=_get(state, "title"),
+            n_dom_elements=_get(state, "element_count"),
+            n_interactive=_get(state, "interactive_count"),
+            input_tokens=in_tok,
+            output_tokens=out_tok,
             captcha_detected=captcha_detected,
             captcha_type=captcha_type,
             stuck_consec_run=stuck_consec_run,
-            error=_get((_get(history_item, "result") or [{}])[0], "error"),
+            error=err,
         )
         self.steps.append(rec)
-        self._last_step_end = now
         return rec
 
     def flush(self) -> None:
-        """Write steps.jsonl to task_dir."""
         self.task_dir.mkdir(parents=True, exist_ok=True)
         with (self.task_dir / "steps.jsonl").open("w") as f:
             for rec in self.steps:
-                f.write(json.dumps(rec.__dict__, default=str) + "\n")
+                f.write(json.dumps(asdict(rec), default=str) + "\n")
+
+    @staticmethod
+    def _stats(xs: list[float]) -> dict[str, float]:
+        if not xs:
+            return {"n": 0, "sum": 0.0, "mean": 0.0, "p50": 0.0, "p90": 0.0, "p95": 0.0, "max": 0.0}
+        s = sorted(xs)
+
+        def p(q: int) -> float:
+            return s[min(len(s) - 1, max(0, int(round(q / 100 * (len(s) - 1)))))]
+        return {"n": len(xs), "sum": sum(xs), "mean": statistics.mean(xs),
+                "p50": p(50), "p90": p(90), "p95": p(95), "max": max(xs)}
 
     def task_summary(self) -> dict[str, Any]:
-        """Aggregated per-task profile."""
-        def total(field_name: str) -> float:
-            return sum((getattr(s, field_name) or 0.0) for s in self.steps)
-
-        def total_int(field_name: str) -> int:
-            return sum((getattr(s, field_name) or 0) for s in self.steps)
+        steps = self.steps
+        think = [s.think_s for s in steps]
+        wait = [s.wait_s for s in steps]
+        act = [s.act_s for s in steps]
+        total = [s.step_total_s for s in steps]
 
         from collections import Counter
-        action_hist = Counter()
-        for s in self.steps:
+        action_hist: Counter[str] = Counter()
+        for s in steps:
             for a in s.action_names:
                 action_hist[a] += 1
 
-        wall = (self.steps[-1].t_step_end - self.started_at) if self.steps else 0.0
-        llm = total("t_llm_s")
-        act = total("t_action_s")
-        dom = total("t_dom_extract_s")
-        ss = total("t_screenshot_s")
-        other = max(0.0, wall - (llm + act + dom + ss))
+        wall = (steps[-1].t_step_end - self.started_at) if steps else 0.0
 
         return {
             "task_id": self.task_id,
-            "n_steps": len(self.steps),
+            "n_steps": len(steps),
             "wall_clock_s": wall,
+            # Per-task totals (sum across steps)
             "phase_totals_s": {
-                "llm": llm,
-                "browser_action": act,
-                "dom_extract": dom,
-                "screenshot": ss,
-                "other": other,
+                "think": sum(think),
+                "wait": sum(wait),
+                "act": sum(act),
+                "step_total": sum(total),
             },
-            "tokens": {
-                "input": total_int("input_tokens"),
-                "output": total_int("output_tokens"),
-                "cached_input": total_int("cached_tokens"),
+            # Per-step distributions
+            "per_step_stats": {
+                "think_s": self._stats(think),
+                "wait_s": self._stats(wait),
+                "act_s": self._stats(act),
+                "step_total_s": self._stats(total),
             },
             "n_actions_by_type": dict(action_hist),
-            "n_steps_with_captcha": sum(1 for s in self.steps if s.captcha_detected),
-            "captcha_types": sorted({s.captcha_type for s in self.steps if s.captcha_type}),
-            "max_stuck_run": max((s.stuck_consec_run for s in self.steps), default=1),
+            "n_steps_with_captcha": sum(1 for s in steps if s.captcha_detected),
+            "captcha_types": sorted({s.captcha_type for s in steps if s.captcha_type}),
+            "max_stuck_run": max((s.stuck_consec_run for s in steps), default=1),
+            # Tokens if present
+            "tokens": {
+                "input_total": sum((s.input_tokens or 0) for s in steps),
+                "output_total": sum((s.output_tokens or 0) for s in steps),
+            },
         }

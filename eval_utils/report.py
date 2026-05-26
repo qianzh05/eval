@@ -74,12 +74,15 @@ def render(report: dict[str, Any]) -> str:
 
     # ---- aggregate phase times / tokens ----
     wall = [t.get("_profile", {}).get("wall_clock_s") or t.get("duration_seconds") or 0.0 for t in tasks]
-    llm_t = [t.get("_profile", {}).get("phase_totals_s", {}).get("llm", 0.0) for t in tasks]
-    act_t = [t.get("_profile", {}).get("phase_totals_s", {}).get("browser_action", 0.0) for t in tasks]
-    dom_t = [t.get("_profile", {}).get("phase_totals_s", {}).get("dom_extract", 0.0) for t in tasks]
-    ss_t = [t.get("_profile", {}).get("phase_totals_s", {}).get("screenshot", 0.0) for t in tasks]
-    tok_in = sum((t.get("_profile", {}).get("tokens", {}).get("input") or 0) for t in tasks)
-    tok_out = sum((t.get("_profile", {}).get("tokens", {}).get("output") or 0) for t in tasks)
+    # New per-task phase totals (think / wait / act); prefer task_result top-level fields
+    # which the runner writes alongside profile.json.
+    think_t = [t.get("llm_time_s") or t.get("_profile", {}).get("phase_totals_s", {}).get("think", 0.0) for t in tasks]
+    wait_t  = [t.get("wait_time_s") or t.get("_profile", {}).get("phase_totals_s", {}).get("wait", 0.0) for t in tasks]
+    act_t   = [t.get("browser_time_s") or t.get("_profile", {}).get("phase_totals_s", {}).get("act", 0.0) for t in tasks]
+    tok_in  = sum(((t.get("cost_totals") or {}).get("input_tokens") or
+                   t.get("_profile", {}).get("tokens", {}).get("input_total") or 0) for t in tasks)
+    tok_out = sum(((t.get("cost_totals") or {}).get("output_tokens") or
+                   t.get("_profile", {}).get("tokens", {}).get("output_total") or 0) for t in tasks)
 
     # ---- per-site ----
     sites: dict[str, list[dict[str, Any]]] = defaultdict(list)
@@ -164,15 +167,40 @@ def render(report: dict[str, Any]) -> str:
         md.append("\n## CAPTCHA types encountered\n")
         md.append(_md_table(["type", "count"], list(captcha_types.items())))
 
-    md.append("\n## Phase timing (seconds)\n")
+    md.append("\n## Per-task phase timing (seconds, totals across all steps)\n")
     ph_rows = []
-    for label, xs in [("LLM inference", llm_t), ("Browser action", act_t),
-                      ("DOM extract", dom_t), ("Screenshot", ss_t),
-                      ("Wall clock", wall)]:
+    for label, xs in [("Think (LLM)", think_t), ("Wait (rate-limit)", wait_t),
+                      ("Act (browser)", act_t), ("Wall clock", wall)]:
         p = _percentiles(xs)
         ph_rows.append([label, f"{stats.mean(xs):.1f}" if xs else "-",
                         f"{p['p50']:.1f}", f"{p['p90']:.1f}", f"{p['p95']:.1f}"])
     md.append(_md_table(["phase", "mean", "p50", "p90", "p95"], ph_rows))
+
+    # Per-step phase distribution (mean across tasks' per-step samples)
+    md.append("\n## Per-step phase timing (seconds, distribution across all steps)\n")
+    all_think_steps: list[float] = []
+    all_wait_steps: list[float] = []
+    all_act_steps: list[float] = []
+    all_total_steps: list[float] = []
+    for t in tasks:
+        sf = (Path(report["results_dir"]) / t["_dir"] / "steps.jsonl")
+        if not sf.exists(): continue
+        for line in sf.read_text().splitlines():
+            try: rec = json.loads(line)
+            except Exception: continue
+            if rec.get("step_total_s", 0) > 0:
+                all_think_steps.append(rec.get("think_s", 0.0))
+                all_wait_steps.append(rec.get("wait_s", 0.0))
+                all_act_steps.append(rec.get("act_s", 0.0))
+                all_total_steps.append(rec.get("step_total_s", 0.0))
+    ps_rows = []
+    for label, xs in [("Think (LLM)", all_think_steps), ("Wait (rate-limit)", all_wait_steps),
+                      ("Act (browser)", all_act_steps), ("Step total", all_total_steps)]:
+        if not xs: continue
+        p = _percentiles(xs)
+        ps_rows.append([label, len(xs), f"{stats.mean(xs):.2f}",
+                        f"{p['p50']:.2f}", f"{p['p90']:.2f}", f"{p['p95']:.2f}"])
+    md.append(_md_table(["phase", "n_steps", "mean_s", "p50_s", "p90_s", "p95_s"], ps_rows))
 
     md.append("\n## Top 10 slowest tasks\n")
     md.append(_md_table(

@@ -1,0 +1,3865 @@
+{
+  "Allrecipes--0": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Allrecipes--1": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Allrecipes--2": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Allrecipes--3": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": true
+  },
+  "Allrecipes--4": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Allrecipes--5": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Allrecipes--6": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Allrecipes--7": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": true
+  },
+  "Allrecipes--8": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Allrecipes--9": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Allrecipes--10": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Allrecipes--11": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Allrecipes--12": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Allrecipes--13": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Allrecipes--14": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Allrecipes--15": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Allrecipes--16": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": true
+  },
+  "Allrecipes--17": {
+    "issues": [
+      "TIME_SENSITIVE_LOOSE"
+    ],
+    "was_impossible": false
+  },
+  "Allrecipes--18": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Allrecipes--19": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": true
+  },
+  "Allrecipes--20": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Allrecipes--21": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Allrecipes--22": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Allrecipes--23": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": true
+  },
+  "Allrecipes--24": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Allrecipes--25": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Allrecipes--26": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Allrecipes--27": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Allrecipes--28": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Allrecipes--29": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Allrecipes--30": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": true
+  },
+  "Allrecipes--31": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Allrecipes--32": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Allrecipes--33": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Allrecipes--34": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Allrecipes--35": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Allrecipes--36": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Allrecipes--37": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Allrecipes--38": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Allrecipes--39": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Allrecipes--40": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Allrecipes--41": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Allrecipes--42": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Allrecipes--43": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Allrecipes--44": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Amazon--0": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Amazon--1": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Amazon--2": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Amazon--3": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Amazon--4": {
+    "issues": [
+      "SPECIFIC_LISTING"
+    ],
+    "was_impossible": true
+  },
+  "Amazon--5": {
+    "issues": [
+      "REQUIRES_PURCHASE"
+    ],
+    "was_impossible": false
+  },
+  "Amazon--6": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Amazon--7": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Amazon--8": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Amazon--9": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Amazon--10": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Amazon--11": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Amazon--12": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Amazon--13": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Amazon--14": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Amazon--15": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Amazon--16": {
+    "issues": [
+      "SPECIFIC_LISTING"
+    ],
+    "was_impossible": true
+  },
+  "Amazon--17": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Amazon--18": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Amazon--19": {
+    "issues": [
+      "TIME_SENSITIVE_LOOSE"
+    ],
+    "was_impossible": true
+  },
+  "Amazon--20": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Amazon--21": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Amazon--22": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Amazon--23": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Amazon--24": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Amazon--25": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Amazon--26": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Amazon--27": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Amazon--28": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Amazon--29": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Amazon--30": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Amazon--31": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Amazon--32": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Amazon--33": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Amazon--34": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Amazon--35": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Amazon--36": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Amazon--37": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Amazon--38": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Amazon--39": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Amazon--40": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Apple--0": {
+    "issues": [
+      "TIME_SENSITIVE_LOOSE"
+    ],
+    "was_impossible": false
+  },
+  "Apple--1": {
+    "issues": [
+      "OUTDATED_PRODUCT"
+    ],
+    "was_impossible": true
+  },
+  "Apple--2": {
+    "issues": [
+      "OUTDATED_PRODUCT"
+    ],
+    "was_impossible": true
+  },
+  "Apple--3": {
+    "issues": [
+      "TIME_SENSITIVE_LOOSE"
+    ],
+    "was_impossible": false
+  },
+  "Apple--4": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Apple--5": {
+    "issues": [
+      "TIME_SENSITIVE_LOOSE"
+    ],
+    "was_impossible": false
+  },
+  "Apple--6": {
+    "issues": [
+      "TIME_SENSITIVE_LOOSE"
+    ],
+    "was_impossible": false
+  },
+  "Apple--7": {
+    "issues": [
+      "OUTDATED_PRODUCT"
+    ],
+    "was_impossible": true
+  },
+  "Apple--8": {
+    "issues": [
+      "TIME_SENSITIVE_LOOSE"
+    ],
+    "was_impossible": false
+  },
+  "Apple--9": {
+    "issues": [
+      "PAST_DATE_BOOKING",
+      "TIME_SENSITIVE_LOOSE"
+    ],
+    "was_impossible": true
+  },
+  "Apple--10": {
+    "issues": [
+      "TIME_SENSITIVE_LOOSE"
+    ],
+    "was_impossible": false
+  },
+  "Apple--11": {
+    "issues": [
+      "TIME_SENSITIVE_LOOSE"
+    ],
+    "was_impossible": false
+  },
+  "Apple--12": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Apple--13": {
+    "issues": [
+      "TIME_SENSITIVE_LOOSE"
+    ],
+    "was_impossible": false
+  },
+  "Apple--14": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": true
+  },
+  "Apple--15": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Apple--16": {
+    "issues": [
+      "PRODUCT_MAY_BE_DISCONTINUED"
+    ],
+    "was_impossible": true
+  },
+  "Apple--17": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Apple--18": {
+    "issues": [
+      "TIME_SENSITIVE_LOOSE"
+    ],
+    "was_impossible": false
+  },
+  "Apple--19": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Apple--20": {
+    "issues": [
+      "OUTDATED_PRODUCT"
+    ],
+    "was_impossible": true
+  },
+  "Apple--21": {
+    "issues": [
+      "TIME_SENSITIVE_LOOSE"
+    ],
+    "was_impossible": false
+  },
+  "Apple--22": {
+    "issues": [
+      "OUTDATED_PRODUCT"
+    ],
+    "was_impossible": false
+  },
+  "Apple--23": {
+    "issues": [
+      "TIME_SENSITIVE_LOOSE"
+    ],
+    "was_impossible": false
+  },
+  "Apple--24": {
+    "issues": [
+      "TIME_SENSITIVE_LOOSE"
+    ],
+    "was_impossible": false
+  },
+  "Apple--25": {
+    "issues": [
+      "TIME_SENSITIVE_LOOSE"
+    ],
+    "was_impossible": false
+  },
+  "Apple--26": {
+    "issues": [
+      "TIME_SENSITIVE_LOOSE"
+    ],
+    "was_impossible": false
+  },
+  "Apple--27": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Apple--28": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Apple--29": {
+    "issues": [
+      "TIME_SENSITIVE_LOOSE"
+    ],
+    "was_impossible": false
+  },
+  "Apple--30": {
+    "issues": [
+      "TIME_SENSITIVE_LOOSE"
+    ],
+    "was_impossible": false
+  },
+  "Apple--31": {
+    "issues": [
+      "TIME_SENSITIVE_LOOSE"
+    ],
+    "was_impossible": false
+  },
+  "Apple--32": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Apple--33": {
+    "issues": [
+      "TIME_SENSITIVE_LOOSE"
+    ],
+    "was_impossible": false
+  },
+  "Apple--34": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Apple--35": {
+    "issues": [
+      "TIME_SENSITIVE_LOOSE"
+    ],
+    "was_impossible": false
+  },
+  "Apple--36": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Apple--37": {
+    "issues": [
+      "OUTDATED_PRODUCT"
+    ],
+    "was_impossible": true
+  },
+  "Apple--38": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Apple--39": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Apple--40": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Apple--41": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": true
+  },
+  "Apple--42": {
+    "issues": [
+      "OUTDATED_PRODUCT"
+    ],
+    "was_impossible": true
+  },
+  "ArXiv--0": {
+    "issues": [
+      "TIME_SENSITIVE_LOOSE"
+    ],
+    "was_impossible": false
+  },
+  "ArXiv--1": {
+    "issues": [
+      "TIME_SENSITIVE_STRICT"
+    ],
+    "was_impossible": false
+  },
+  "ArXiv--2": {
+    "issues": [
+      "TIME_SENSITIVE_LOOSE"
+    ],
+    "was_impossible": false
+  },
+  "ArXiv--3": {
+    "issues": [
+      "TIME_SENSITIVE_LOOSE"
+    ],
+    "was_impossible": false
+  },
+  "ArXiv--4": {
+    "issues": [
+      "TIME_SENSITIVE_LOOSE"
+    ],
+    "was_impossible": false
+  },
+  "ArXiv--5": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "ArXiv--6": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "ArXiv--7": {
+    "issues": [
+      "TIME_SENSITIVE_LOOSE"
+    ],
+    "was_impossible": false
+  },
+  "ArXiv--8": {
+    "issues": [
+      "TIME_SENSITIVE_LOOSE"
+    ],
+    "was_impossible": false
+  },
+  "ArXiv--9": {
+    "issues": [
+      "TIME_SENSITIVE_LOOSE"
+    ],
+    "was_impossible": false
+  },
+  "ArXiv--10": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "ArXiv--11": {
+    "issues": [
+      "SPECIFIC_PAGE_CONTENT"
+    ],
+    "was_impossible": true
+  },
+  "ArXiv--12": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "ArXiv--13": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "ArXiv--14": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "ArXiv--15": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "ArXiv--16": {
+    "issues": [
+      "TIME_SENSITIVE_STRICT"
+    ],
+    "was_impossible": false
+  },
+  "ArXiv--17": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "ArXiv--18": {
+    "issues": [
+      "REQUIRES_DOWNLOAD"
+    ],
+    "was_impossible": false
+  },
+  "ArXiv--19": {
+    "issues": [
+      "TIME_SENSITIVE_LOOSE"
+    ],
+    "was_impossible": false
+  },
+  "ArXiv--20": {
+    "issues": [
+      "TIME_SENSITIVE_LOOSE"
+    ],
+    "was_impossible": false
+  },
+  "ArXiv--21": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "ArXiv--22": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "ArXiv--23": {
+    "issues": [
+      "TIME_SENSITIVE_STRICT"
+    ],
+    "was_impossible": false
+  },
+  "ArXiv--24": {
+    "issues": [
+      "TIME_SENSITIVE_LOOSE"
+    ],
+    "was_impossible": false
+  },
+  "ArXiv--25": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "ArXiv--26": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "ArXiv--27": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "ArXiv--28": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "ArXiv--29": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "ArXiv--30": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "ArXiv--31": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "ArXiv--32": {
+    "issues": [
+      "TIME_SENSITIVE_LOOSE"
+    ],
+    "was_impossible": false
+  },
+  "ArXiv--33": {
+    "issues": [
+      "TIME_SENSITIVE_LOOSE"
+    ],
+    "was_impossible": false
+  },
+  "ArXiv--34": {
+    "issues": [
+      "TIME_SENSITIVE_LOOSE"
+    ],
+    "was_impossible": false
+  },
+  "ArXiv--35": {
+    "issues": [
+      "TIME_SENSITIVE_LOOSE"
+    ],
+    "was_impossible": false
+  },
+  "ArXiv--36": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "ArXiv--37": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "ArXiv--38": {
+    "issues": [
+      "TIME_SENSITIVE_LOOSE"
+    ],
+    "was_impossible": false
+  },
+  "ArXiv--39": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "ArXiv--40": {
+    "issues": [
+      "TIME_SENSITIVE_LOOSE"
+    ],
+    "was_impossible": false
+  },
+  "ArXiv--41": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "ArXiv--42": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "BBC News--0": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "BBC News--1": {
+    "issues": [
+      "TIME_SENSITIVE_LOOSE"
+    ],
+    "was_impossible": false
+  },
+  "BBC News--2": {
+    "issues": [
+      "TIME_SENSITIVE_STRICT"
+    ],
+    "was_impossible": true
+  },
+  "BBC News--3": {
+    "issues": [
+      "TIME_SENSITIVE_LOOSE"
+    ],
+    "was_impossible": false
+  },
+  "BBC News--4": {
+    "issues": [
+      "TIME_SENSITIVE_LOOSE"
+    ],
+    "was_impossible": false
+  },
+  "BBC News--5": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "BBC News--6": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "BBC News--7": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "BBC News--8": {
+    "issues": [
+      "TIME_SENSITIVE_LOOSE"
+    ],
+    "was_impossible": false
+  },
+  "BBC News--9": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "BBC News--10": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "BBC News--11": {
+    "issues": [
+      "TIME_SENSITIVE_LOOSE"
+    ],
+    "was_impossible": false
+  },
+  "BBC News--12": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "BBC News--13": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "BBC News--14": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": true
+  },
+  "BBC News--15": {
+    "issues": [
+      "TIME_SENSITIVE_LOOSE"
+    ],
+    "was_impossible": false
+  },
+  "BBC News--16": {
+    "issues": [
+      "TIME_SENSITIVE_LOOSE"
+    ],
+    "was_impossible": true
+  },
+  "BBC News--17": {
+    "issues": [
+      "TIME_SENSITIVE_LOOSE"
+    ],
+    "was_impossible": false
+  },
+  "BBC News--18": {
+    "issues": [
+      "EPHEMERAL_CONTENT"
+    ],
+    "was_impossible": true
+  },
+  "BBC News--19": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "BBC News--20": {
+    "issues": [
+      "TIME_SENSITIVE_LOOSE"
+    ],
+    "was_impossible": false
+  },
+  "BBC News--21": {
+    "issues": [
+      "EPHEMERAL_CONTENT"
+    ],
+    "was_impossible": true
+  },
+  "BBC News--22": {
+    "issues": [
+      "TIME_SENSITIVE_LOOSE"
+    ],
+    "was_impossible": false
+  },
+  "BBC News--23": {
+    "issues": [
+      "TIME_SENSITIVE_LOOSE"
+    ],
+    "was_impossible": false
+  },
+  "BBC News--24": {
+    "issues": [
+      "TIME_SENSITIVE_LOOSE"
+    ],
+    "was_impossible": false
+  },
+  "BBC News--25": {
+    "issues": [
+      "TIME_SENSITIVE_LOOSE"
+    ],
+    "was_impossible": false
+  },
+  "BBC News--26": {
+    "issues": [
+      "TIME_SENSITIVE_LOOSE"
+    ],
+    "was_impossible": false
+  },
+  "BBC News--27": {
+    "issues": [
+      "TIME_SENSITIVE_LOOSE"
+    ],
+    "was_impossible": false
+  },
+  "BBC News--28": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "BBC News--29": {
+    "issues": [
+      "TIME_SENSITIVE_LOOSE"
+    ],
+    "was_impossible": false
+  },
+  "BBC News--30": {
+    "issues": [
+      "TIME_SENSITIVE_LOOSE"
+    ],
+    "was_impossible": false
+  },
+  "BBC News--31": {
+    "issues": [
+      "TIME_SENSITIVE_LOOSE"
+    ],
+    "was_impossible": false
+  },
+  "BBC News--32": {
+    "issues": [
+      "EPHEMERAL_CONTENT"
+    ],
+    "was_impossible": false
+  },
+  "BBC News--33": {
+    "issues": [
+      "TIME_SENSITIVE_LOOSE"
+    ],
+    "was_impossible": true
+  },
+  "BBC News--34": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "BBC News--35": {
+    "issues": [
+      "TIME_SENSITIVE_LOOSE"
+    ],
+    "was_impossible": false
+  },
+  "BBC News--36": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "BBC News--37": {
+    "issues": [
+      "TIME_SENSITIVE_LOOSE"
+    ],
+    "was_impossible": true
+  },
+  "BBC News--38": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "BBC News--39": {
+    "issues": [
+      "TIME_SENSITIVE_STRICT"
+    ],
+    "was_impossible": false
+  },
+  "BBC News--40": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "BBC News--41": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Booking--0": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Booking--1": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Booking--2": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Booking--3": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Booking--4": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Booking--5": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Booking--6": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": true
+  },
+  "Booking--7": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Booking--8": {
+    "issues": [
+      "PAST_DATE_BOOKING"
+    ],
+    "was_impossible": false
+  },
+  "Booking--9": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Booking--10": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Booking--11": {
+    "issues": [
+      "REQUIRES_BOOKING_ACTION"
+    ],
+    "was_impossible": true
+  },
+  "Booking--12": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Booking--13": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": true
+  },
+  "Booking--14": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": true
+  },
+  "Booking--15": {
+    "issues": [
+      "PAST_DATE_BOOKING"
+    ],
+    "was_impossible": false
+  },
+  "Booking--16": {
+    "issues": [
+      "PAST_DATE_BOOKING"
+    ],
+    "was_impossible": false
+  },
+  "Booking--17": {
+    "issues": [
+      "PAST_DATE_BOOKING"
+    ],
+    "was_impossible": false
+  },
+  "Booking--18": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Booking--19": {
+    "issues": [
+      "PAST_DATE_BOOKING"
+    ],
+    "was_impossible": false
+  },
+  "Booking--20": {
+    "issues": [
+      "PAST_DATE_BOOKING"
+    ],
+    "was_impossible": false
+  },
+  "Booking--21": {
+    "issues": [
+      "PAST_DATE_BOOKING"
+    ],
+    "was_impossible": false
+  },
+  "Booking--22": {
+    "issues": [
+      "PAST_DATE_BOOKING"
+    ],
+    "was_impossible": false
+  },
+  "Booking--23": {
+    "issues": [
+      "PAST_DATE_BOOKING"
+    ],
+    "was_impossible": false
+  },
+  "Booking--24": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Booking--25": {
+    "issues": [
+      "PAST_DATE_BOOKING"
+    ],
+    "was_impossible": false
+  },
+  "Booking--26": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Booking--27": {
+    "issues": [
+      "PAST_DATE_BOOKING"
+    ],
+    "was_impossible": false
+  },
+  "Booking--28": {
+    "issues": [
+      "PAST_DATE_BOOKING"
+    ],
+    "was_impossible": false
+  },
+  "Booking--29": {
+    "issues": [
+      "PAST_DATE_BOOKING"
+    ],
+    "was_impossible": false
+  },
+  "Booking--30": {
+    "issues": [
+      "PAST_DATE_BOOKING"
+    ],
+    "was_impossible": false
+  },
+  "Booking--31": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Booking--32": {
+    "issues": [
+      "PAST_DATE_BOOKING"
+    ],
+    "was_impossible": false
+  },
+  "Booking--33": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Booking--34": {
+    "issues": [
+      "PAST_DATE_BOOKING"
+    ],
+    "was_impossible": false
+  },
+  "Booking--35": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Booking--36": {
+    "issues": [
+      "PAST_DATE_BOOKING"
+    ],
+    "was_impossible": false
+  },
+  "Booking--37": {
+    "issues": [
+      "PAST_DATE_BOOKING"
+    ],
+    "was_impossible": false
+  },
+  "Booking--38": {
+    "issues": [
+      "PAST_DATE_BOOKING"
+    ],
+    "was_impossible": false
+  },
+  "Booking--39": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Booking--40": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Booking--41": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Booking--42": {
+    "issues": [
+      "PAST_DATE_BOOKING"
+    ],
+    "was_impossible": false
+  },
+  "Booking--43": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Cambridge Dictionary--0": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Cambridge Dictionary--1": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Cambridge Dictionary--2": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Cambridge Dictionary--3": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Cambridge Dictionary--4": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Cambridge Dictionary--5": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Cambridge Dictionary--6": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Cambridge Dictionary--7": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Cambridge Dictionary--8": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Cambridge Dictionary--9": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Cambridge Dictionary--10": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Cambridge Dictionary--11": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Cambridge Dictionary--12": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Cambridge Dictionary--13": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Cambridge Dictionary--14": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Cambridge Dictionary--15": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Cambridge Dictionary--16": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Cambridge Dictionary--17": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Cambridge Dictionary--18": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Cambridge Dictionary--19": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Cambridge Dictionary--20": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Cambridge Dictionary--21": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Cambridge Dictionary--22": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Cambridge Dictionary--23": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Cambridge Dictionary--24": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Cambridge Dictionary--25": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Cambridge Dictionary--26": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Cambridge Dictionary--27": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Cambridge Dictionary--28": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Cambridge Dictionary--29": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Cambridge Dictionary--30": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Cambridge Dictionary--31": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Cambridge Dictionary--32": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Cambridge Dictionary--33": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Cambridge Dictionary--34": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Cambridge Dictionary--35": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Cambridge Dictionary--36": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Cambridge Dictionary--37": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Cambridge Dictionary--38": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Cambridge Dictionary--39": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Cambridge Dictionary--40": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Cambridge Dictionary--41": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Cambridge Dictionary--42": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Coursera--0": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Coursera--1": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Coursera--2": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Coursera--3": {
+    "issues": [
+      "TIME_SENSITIVE_LOOSE"
+    ],
+    "was_impossible": false
+  },
+  "Coursera--4": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Coursera--5": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Coursera--6": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Coursera--7": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Coursera--8": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Coursera--9": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Coursera--10": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Coursera--11": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Coursera--12": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Coursera--13": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Coursera--14": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Coursera--15": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Coursera--16": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Coursera--17": {
+    "issues": [
+      "UI_FILTER_MAY_CHANGE"
+    ],
+    "was_impossible": true
+  },
+  "Coursera--18": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Coursera--19": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Coursera--20": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Coursera--21": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Coursera--22": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Coursera--23": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Coursera--24": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Coursera--25": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Coursera--26": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Coursera--27": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Coursera--28": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": true
+  },
+  "Coursera--29": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Coursera--30": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Coursera--31": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Coursera--32": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Coursera--33": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Coursera--34": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Coursera--35": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Coursera--36": {
+    "issues": [
+      "TIME_SENSITIVE_LOOSE"
+    ],
+    "was_impossible": false
+  },
+  "Coursera--37": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Coursera--38": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Coursera--39": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Coursera--40": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Coursera--41": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "ESPN--0": {
+    "issues": [
+      "TIME_SENSITIVE_LOOSE"
+    ],
+    "was_impossible": false
+  },
+  "ESPN--1": {
+    "issues": [
+      "TIME_SENSITIVE_LOOSE"
+    ],
+    "was_impossible": false
+  },
+  "ESPN--2": {
+    "issues": [
+      "TIME_SENSITIVE_STRICT"
+    ],
+    "was_impossible": true
+  },
+  "ESPN--3": {
+    "issues": [
+      "TIME_SENSITIVE_LOOSE"
+    ],
+    "was_impossible": false
+  },
+  "ESPN--4": {
+    "issues": [
+      "TIME_SENSITIVE_STRICT"
+    ],
+    "was_impossible": false
+  },
+  "ESPN--5": {
+    "issues": [
+      "TIME_SENSITIVE_LOOSE"
+    ],
+    "was_impossible": false
+  },
+  "ESPN--6": {
+    "issues": [
+      "TIME_SENSITIVE_LOOSE"
+    ],
+    "was_impossible": false
+  },
+  "ESPN--7": {
+    "issues": [
+      "TIME_SENSITIVE_LOOSE"
+    ],
+    "was_impossible": false
+  },
+  "ESPN--8": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "ESPN--9": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "ESPN--10": {
+    "issues": [
+      "TIME_SENSITIVE_LOOSE"
+    ],
+    "was_impossible": false
+  },
+  "ESPN--11": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "ESPN--12": {
+    "issues": [
+      "EPHEMERAL_CONTENT",
+      "TIME_SENSITIVE_LOOSE"
+    ],
+    "was_impossible": false
+  },
+  "ESPN--13": {
+    "issues": [
+      "EPHEMERAL_CONTENT"
+    ],
+    "was_impossible": false
+  },
+  "ESPN--14": {
+    "issues": [
+      "TIME_SENSITIVE_LOOSE"
+    ],
+    "was_impossible": false
+  },
+  "ESPN--15": {
+    "issues": [
+      "PAST_SPORT_DATE",
+      "PAST_DATE_REF"
+    ],
+    "was_impossible": false
+  },
+  "ESPN--16": {
+    "issues": [
+      "PAST_DATE_BOOKING",
+      "PAST_SPORT_DATE",
+      "TIME_SENSITIVE_LOOSE"
+    ],
+    "was_impossible": false
+  },
+  "ESPN--17": {
+    "issues": [
+      "PAST_SEASON_REF"
+    ],
+    "was_impossible": false
+  },
+  "ESPN--18": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "ESPN--19": {
+    "issues": [
+      "PAST_SEASON_REF"
+    ],
+    "was_impossible": true
+  },
+  "ESPN--20": {
+    "issues": [
+      "TIME_SENSITIVE_LOOSE"
+    ],
+    "was_impossible": false
+  },
+  "ESPN--21": {
+    "issues": [
+      "TIME_SENSITIVE_STRICT"
+    ],
+    "was_impossible": true
+  },
+  "ESPN--22": {
+    "issues": [
+      "TIME_SENSITIVE_LOOSE"
+    ],
+    "was_impossible": false
+  },
+  "ESPN--23": {
+    "issues": [
+      "TIME_SENSITIVE_LOOSE"
+    ],
+    "was_impossible": false
+  },
+  "ESPN--24": {
+    "issues": [
+      "TIME_SENSITIVE_LOOSE"
+    ],
+    "was_impossible": false
+  },
+  "ESPN--25": {
+    "issues": [
+      "TIME_SENSITIVE_LOOSE"
+    ],
+    "was_impossible": false
+  },
+  "ESPN--26": {
+    "issues": [
+      "TIME_SENSITIVE_STRICT"
+    ],
+    "was_impossible": true
+  },
+  "ESPN--27": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "ESPN--28": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "ESPN--29": {
+    "issues": [
+      "EPHEMERAL_CONTENT"
+    ],
+    "was_impossible": false
+  },
+  "ESPN--30": {
+    "issues": [
+      "PAST_SEASON_REF"
+    ],
+    "was_impossible": false
+  },
+  "ESPN--31": {
+    "issues": [
+      "PAST_SEASON_REF"
+    ],
+    "was_impossible": false
+  },
+  "ESPN--32": {
+    "issues": [
+      "TIME_SENSITIVE_STRICT"
+    ],
+    "was_impossible": false
+  },
+  "ESPN--33": {
+    "issues": [
+      "TIME_SENSITIVE_LOOSE"
+    ],
+    "was_impossible": false
+  },
+  "ESPN--34": {
+    "issues": [
+      "TIME_SENSITIVE_LOOSE"
+    ],
+    "was_impossible": false
+  },
+  "ESPN--35": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "ESPN--36": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "ESPN--37": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "ESPN--38": {
+    "issues": [
+      "PAST_SEASON_REF"
+    ],
+    "was_impossible": false
+  },
+  "ESPN--39": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "ESPN--40": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "ESPN--41": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "ESPN--42": {
+    "issues": [
+      "TIME_SENSITIVE_LOOSE"
+    ],
+    "was_impossible": false
+  },
+  "ESPN--43": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "GitHub--0": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "GitHub--1": {
+    "issues": [
+      "TIME_SENSITIVE_STRICT"
+    ],
+    "was_impossible": false
+  },
+  "GitHub--2": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "GitHub--3": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "GitHub--4": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "GitHub--5": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "GitHub--6": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "GitHub--7": {
+    "issues": [
+      "TIME_SENSITIVE_LOOSE"
+    ],
+    "was_impossible": false
+  },
+  "GitHub--8": {
+    "issues": [
+      "TIME_SENSITIVE_LOOSE"
+    ],
+    "was_impossible": false
+  },
+  "GitHub--9": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "GitHub--10": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "GitHub--11": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "GitHub--12": {
+    "issues": [
+      "TIME_SENSITIVE_LOOSE"
+    ],
+    "was_impossible": false
+  },
+  "GitHub--13": {
+    "issues": [
+      "TIME_SENSITIVE_LOOSE"
+    ],
+    "was_impossible": false
+  },
+  "GitHub--14": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "GitHub--15": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "GitHub--16": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "GitHub--17": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "GitHub--18": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "GitHub--19": {
+    "issues": [
+      "TIME_SENSITIVE_LOOSE"
+    ],
+    "was_impossible": false
+  },
+  "GitHub--20": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "GitHub--21": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "GitHub--22": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": true
+  },
+  "GitHub--23": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "GitHub--24": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "GitHub--25": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "GitHub--26": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "GitHub--27": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "GitHub--28": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "GitHub--29": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "GitHub--30": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "GitHub--31": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "GitHub--32": {
+    "issues": [
+      "TIME_SENSITIVE_LOOSE"
+    ],
+    "was_impossible": false
+  },
+  "GitHub--33": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "GitHub--34": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "GitHub--35": {
+    "issues": [
+      "TIME_SENSITIVE_LOOSE"
+    ],
+    "was_impossible": false
+  },
+  "GitHub--36": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "GitHub--37": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "GitHub--38": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "GitHub--39": {
+    "issues": [
+      "TIME_SENSITIVE_LOOSE"
+    ],
+    "was_impossible": false
+  },
+  "GitHub--40": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Google Flights--0": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": true
+  },
+  "Google Flights--1": {
+    "issues": [
+      "PAST_DATE_BOOKING"
+    ],
+    "was_impossible": false
+  },
+  "Google Flights--2": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Google Flights--3": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Google Flights--4": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Google Flights--5": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Google Flights--6": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Google Flights--7": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": true
+  },
+  "Google Flights--8": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Google Flights--9": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Google Flights--10": {
+    "issues": [
+      "PAST_DATE_BOOKING"
+    ],
+    "was_impossible": false
+  },
+  "Google Flights--11": {
+    "issues": [
+      "PAST_DATE_BOOKING"
+    ],
+    "was_impossible": false
+  },
+  "Google Flights--12": {
+    "issues": [
+      "PAST_DATE_BOOKING"
+    ],
+    "was_impossible": false
+  },
+  "Google Flights--13": {
+    "issues": [
+      "PAST_DATE_BOOKING"
+    ],
+    "was_impossible": false
+  },
+  "Google Flights--14": {
+    "issues": [
+      "PAST_DATE_BOOKING"
+    ],
+    "was_impossible": false
+  },
+  "Google Flights--15": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Google Flights--16": {
+    "issues": [
+      "PAST_DATE_BOOKING"
+    ],
+    "was_impossible": false
+  },
+  "Google Flights--17": {
+    "issues": [
+      "PAST_DATE_BOOKING"
+    ],
+    "was_impossible": false
+  },
+  "Google Flights--18": {
+    "issues": [
+      "PAST_DATE_BOOKING"
+    ],
+    "was_impossible": false
+  },
+  "Google Flights--19": {
+    "issues": [
+      "PAST_DATE_BOOKING"
+    ],
+    "was_impossible": false
+  },
+  "Google Flights--20": {
+    "issues": [
+      "PAST_DATE_BOOKING"
+    ],
+    "was_impossible": true
+  },
+  "Google Flights--21": {
+    "issues": [
+      "PAST_DATE_BOOKING"
+    ],
+    "was_impossible": false
+  },
+  "Google Flights--22": {
+    "issues": [
+      "PAST_DATE_BOOKING"
+    ],
+    "was_impossible": false
+  },
+  "Google Flights--23": {
+    "issues": [
+      "PAST_DATE_BOOKING"
+    ],
+    "was_impossible": false
+  },
+  "Google Flights--24": {
+    "issues": [
+      "PAST_DATE_BOOKING"
+    ],
+    "was_impossible": false
+  },
+  "Google Flights--25": {
+    "issues": [
+      "PAST_DATE_BOOKING"
+    ],
+    "was_impossible": false
+  },
+  "Google Flights--26": {
+    "issues": [
+      "PAST_DATE_BOOKING"
+    ],
+    "was_impossible": false
+  },
+  "Google Flights--27": {
+    "issues": [
+      "PAST_DATE_BOOKING"
+    ],
+    "was_impossible": false
+  },
+  "Google Flights--28": {
+    "issues": [
+      "PAST_DATE_BOOKING"
+    ],
+    "was_impossible": false
+  },
+  "Google Flights--29": {
+    "issues": [
+      "PAST_DATE_BOOKING"
+    ],
+    "was_impossible": false
+  },
+  "Google Flights--30": {
+    "issues": [
+      "PAST_DATE_BOOKING"
+    ],
+    "was_impossible": false
+  },
+  "Google Flights--31": {
+    "issues": [
+      "PAST_DATE_BOOKING"
+    ],
+    "was_impossible": false
+  },
+  "Google Flights--32": {
+    "issues": [
+      "PAST_DATE_BOOKING"
+    ],
+    "was_impossible": false
+  },
+  "Google Flights--33": {
+    "issues": [
+      "PAST_DATE_BOOKING"
+    ],
+    "was_impossible": false
+  },
+  "Google Flights--34": {
+    "issues": [
+      "PAST_DATE_BOOKING"
+    ],
+    "was_impossible": false
+  },
+  "Google Flights--35": {
+    "issues": [
+      "PAST_DATE_BOOKING"
+    ],
+    "was_impossible": false
+  },
+  "Google Flights--36": {
+    "issues": [
+      "PAST_DATE_BOOKING"
+    ],
+    "was_impossible": false
+  },
+  "Google Flights--37": {
+    "issues": [
+      "PAST_DATE_BOOKING"
+    ],
+    "was_impossible": false
+  },
+  "Google Flights--38": {
+    "issues": [
+      "PAST_DATE_BOOKING"
+    ],
+    "was_impossible": false
+  },
+  "Google Flights--39": {
+    "issues": [
+      "PAST_DATE_BOOKING"
+    ],
+    "was_impossible": false
+  },
+  "Google Flights--40": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Google Flights--41": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Google Map--0": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Google Map--1": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Google Map--2": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Google Map--3": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Google Map--4": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Google Map--5": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Google Map--6": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Google Map--7": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Google Map--8": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Google Map--9": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Google Map--10": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Google Map--11": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Google Map--12": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Google Map--13": {
+    "issues": [
+      "REQUIRES_BOOKING_ACTION"
+    ],
+    "was_impossible": true
+  },
+  "Google Map--14": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Google Map--15": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Google Map--16": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Google Map--17": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Google Map--18": {
+    "issues": [
+      "REQUIRES_PRINT"
+    ],
+    "was_impossible": true
+  },
+  "Google Map--19": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Google Map--20": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Google Map--21": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Google Map--22": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Google Map--23": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Google Map--24": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Google Map--25": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Google Map--26": {
+    "issues": [
+      "REQUIRES_PRINT"
+    ],
+    "was_impossible": true
+  },
+  "Google Map--27": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Google Map--28": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Google Map--29": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Google Map--30": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Google Map--31": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Google Map--32": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Google Map--33": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Google Map--34": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Google Map--35": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Google Map--36": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Google Map--37": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Google Map--38": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Google Map--39": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Google Map--40": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Google Search--0": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Google Search--1": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Google Search--2": {
+    "issues": [
+      "TIME_SENSITIVE_LOOSE"
+    ],
+    "was_impossible": false
+  },
+  "Google Search--3": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Google Search--4": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Google Search--5": {
+    "issues": [
+      "TIME_SENSITIVE_LOOSE"
+    ],
+    "was_impossible": false
+  },
+  "Google Search--6": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Google Search--7": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Google Search--8": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Google Search--9": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Google Search--10": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Google Search--11": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Google Search--12": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Google Search--13": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Google Search--14": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Google Search--15": {
+    "issues": [
+      "REQUIRES_LOGIN_CREDS"
+    ],
+    "was_impossible": true
+  },
+  "Google Search--16": {
+    "issues": [
+      "EPHEMERAL_CONTENT"
+    ],
+    "was_impossible": true
+  },
+  "Google Search--17": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Google Search--18": {
+    "issues": [
+      "TIME_SENSITIVE_LOOSE"
+    ],
+    "was_impossible": false
+  },
+  "Google Search--19": {
+    "issues": [
+      "TIME_SENSITIVE_LOOSE"
+    ],
+    "was_impossible": false
+  },
+  "Google Search--20": {
+    "issues": [
+      "TIME_SENSITIVE_LOOSE"
+    ],
+    "was_impossible": false
+  },
+  "Google Search--21": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Google Search--22": {
+    "issues": [
+      "EPHEMERAL_CONTENT"
+    ],
+    "was_impossible": true
+  },
+  "Google Search--23": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Google Search--24": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Google Search--25": {
+    "issues": [
+      "TIME_SENSITIVE_LOOSE"
+    ],
+    "was_impossible": false
+  },
+  "Google Search--26": {
+    "issues": [
+      "TIME_SENSITIVE_LOOSE"
+    ],
+    "was_impossible": false
+  },
+  "Google Search--27": {
+    "issues": [
+      "TIME_SENSITIVE_LOOSE"
+    ],
+    "was_impossible": false
+  },
+  "Google Search--28": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Google Search--29": {
+    "issues": [
+      "TIME_SENSITIVE_LOOSE"
+    ],
+    "was_impossible": false
+  },
+  "Google Search--30": {
+    "issues": [
+      "TIME_SENSITIVE_LOOSE"
+    ],
+    "was_impossible": false
+  },
+  "Google Search--31": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Google Search--32": {
+    "issues": [
+      "TIME_SENSITIVE_LOOSE"
+    ],
+    "was_impossible": false
+  },
+  "Google Search--33": {
+    "issues": [
+      "TIME_SENSITIVE_LOOSE"
+    ],
+    "was_impossible": false
+  },
+  "Google Search--34": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Google Search--35": {
+    "issues": [
+      "TIME_SENSITIVE_LOOSE"
+    ],
+    "was_impossible": false
+  },
+  "Google Search--36": {
+    "issues": [
+      "TIME_SENSITIVE_LOOSE"
+    ],
+    "was_impossible": false
+  },
+  "Google Search--37": {
+    "issues": [
+      "TIME_SENSITIVE_LOOSE"
+    ],
+    "was_impossible": false
+  },
+  "Google Search--38": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Google Search--39": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Google Search--40": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Google Search--41": {
+    "issues": [
+      "TIME_SENSITIVE_LOOSE"
+    ],
+    "was_impossible": false
+  },
+  "Google Search--42": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Huggingface--0": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Huggingface--1": {
+    "issues": [
+      "REQUIRES_API_INTERACTION"
+    ],
+    "was_impossible": true
+  },
+  "Huggingface--2": {
+    "issues": [
+      "TIME_SENSITIVE_STRICT"
+    ],
+    "was_impossible": false
+  },
+  "Huggingface--3": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Huggingface--4": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Huggingface--5": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Huggingface--6": {
+    "issues": [
+      "REQUIRES_API_INTERACTION"
+    ],
+    "was_impossible": true
+  },
+  "Huggingface--7": {
+    "issues": [
+      "TIME_SENSITIVE_LOOSE"
+    ],
+    "was_impossible": false
+  },
+  "Huggingface--8": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Huggingface--9": {
+    "issues": [
+      "REQUIRES_DOWNLOAD"
+    ],
+    "was_impossible": false
+  },
+  "Huggingface--10": {
+    "issues": [
+      "REQUIRES_API_INTERACTION"
+    ],
+    "was_impossible": true
+  },
+  "Huggingface--11": {
+    "issues": [
+      "TIME_SENSITIVE_LOOSE"
+    ],
+    "was_impossible": false
+  },
+  "Huggingface--12": {
+    "issues": [
+      "TIME_SENSITIVE_LOOSE"
+    ],
+    "was_impossible": false
+  },
+  "Huggingface--13": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Huggingface--14": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Huggingface--15": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Huggingface--16": {
+    "issues": [
+      "TIME_SENSITIVE_LOOSE"
+    ],
+    "was_impossible": false
+  },
+  "Huggingface--17": {
+    "issues": [
+      "TIME_SENSITIVE_LOOSE"
+    ],
+    "was_impossible": false
+  },
+  "Huggingface--18": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Huggingface--19": {
+    "issues": [
+      "TIME_SENSITIVE_LOOSE"
+    ],
+    "was_impossible": false
+  },
+  "Huggingface--20": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": true
+  },
+  "Huggingface--21": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": true
+  },
+  "Huggingface--22": {
+    "issues": [
+      "DOCS_MAY_CHANGE"
+    ],
+    "was_impossible": true
+  },
+  "Huggingface--23": {
+    "issues": [
+      "TIME_SENSITIVE_STRICT"
+    ],
+    "was_impossible": true
+  },
+  "Huggingface--24": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Huggingface--25": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Huggingface--26": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Huggingface--27": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Huggingface--28": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Huggingface--29": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Huggingface--30": {
+    "issues": [
+      "TIME_SENSITIVE_LOOSE"
+    ],
+    "was_impossible": false
+  },
+  "Huggingface--31": {
+    "issues": [
+      "TIME_SENSITIVE_LOOSE"
+    ],
+    "was_impossible": false
+  },
+  "Huggingface--32": {
+    "issues": [
+      "SPECIFIC_MODEL_UI"
+    ],
+    "was_impossible": true
+  },
+  "Huggingface--33": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Huggingface--34": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Huggingface--35": {
+    "issues": [
+      "TIME_SENSITIVE_LOOSE"
+    ],
+    "was_impossible": false
+  },
+  "Huggingface--36": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Huggingface--37": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Huggingface--38": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Huggingface--39": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Huggingface--40": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Huggingface--41": {
+    "issues": [
+      "TIME_SENSITIVE_LOOSE"
+    ],
+    "was_impossible": false
+  },
+  "Huggingface--42": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Wolfram Alpha--0": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Wolfram Alpha--1": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Wolfram Alpha--2": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Wolfram Alpha--3": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Wolfram Alpha--4": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Wolfram Alpha--5": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Wolfram Alpha--6": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Wolfram Alpha--7": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Wolfram Alpha--8": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Wolfram Alpha--9": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Wolfram Alpha--10": {
+    "issues": [
+      "PAST_DATE_REF"
+    ],
+    "was_impossible": false
+  },
+  "Wolfram Alpha--11": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Wolfram Alpha--12": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Wolfram Alpha--13": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Wolfram Alpha--14": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Wolfram Alpha--15": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Wolfram Alpha--16": {
+    "issues": [
+      "TIME_SENSITIVE_LOOSE"
+    ],
+    "was_impossible": false
+  },
+  "Wolfram Alpha--17": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Wolfram Alpha--18": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Wolfram Alpha--19": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Wolfram Alpha--20": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Wolfram Alpha--21": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Wolfram Alpha--22": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Wolfram Alpha--23": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Wolfram Alpha--24": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Wolfram Alpha--25": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Wolfram Alpha--26": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Wolfram Alpha--27": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Wolfram Alpha--28": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Wolfram Alpha--29": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Wolfram Alpha--30": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Wolfram Alpha--31": {
+    "issues": [
+      "TIME_SENSITIVE_LOOSE"
+    ],
+    "was_impossible": false
+  },
+  "Wolfram Alpha--32": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Wolfram Alpha--33": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Wolfram Alpha--34": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Wolfram Alpha--35": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Wolfram Alpha--36": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Wolfram Alpha--37": {
+    "issues": [
+      "PAST_DATE_REF"
+    ],
+    "was_impossible": false
+  },
+  "Wolfram Alpha--38": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Wolfram Alpha--39": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Wolfram Alpha--40": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Wolfram Alpha--41": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Wolfram Alpha--42": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Wolfram Alpha--43": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Wolfram Alpha--44": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  },
+  "Wolfram Alpha--45": {
+    "issues": [
+      "NONE"
+    ],
+    "was_impossible": false
+  }
+}

@@ -1,0 +1,103 @@
+WEBVOYAGER TASK ANALYSIS - April 14, 2026
+==========================================
+
+SUMMARY
+-------
+Total tasks analyzed: 643
+Tasks requiring fixes: 96
+Tasks that cannot be fixed (SKIP): 8
+
+TASKS TO SKIP (Cannot be fixed)
+==============================
+
+These 8 tasks require features not available in a headless browser environment or depend on non-existent resources:
+
+1. ArXiv--12: ArXiv has no merchandise store
+   Original: "Find store in arXiv Help, tell me how many styles of arXiv Logo Shirt are available?"
+   Issue: ArXiv does not have a merchandise/store section
+
+2. ArXiv--25: ArXiv has no merchandise store
+   Original: "Browse the ArXiv store and let me know how many different types of merchandise are available."
+   Issue: ArXiv does not have a merchandise/store section
+
+3. ArXiv--41: ArXiv has no merchandise store
+   Original: "Find the button to share arxiv non-profit store and follow the QR code to share the shop..."
+   Issue: ArXiv does not have a merchandise/store section
+
+4. Cambridge Dictionary--29: Requires Cambridge Dictionary Plus account login
+   Original: "Go to the Plus section of Cambridge Dictionary, find Image quizzes..."
+   Issue: Plus section requires paid subscription/login
+
+5. Cambridge Dictionary--38: Requires login credentials
+   Original: "Go to the Plus section of Cambridge Dictionary, finish a recommended Grammar quiz without login..."
+   Issue: Requires login credentials
+
+6. Cambridge Dictionary--39: Requires Cambridge Dictionary Plus account login
+   Original: "Try the Word Scramble game in the Plus section..."
+   Issue: Plus section requires paid subscription/login
+
+7. Google Map--26: Requires PDF export/print functionality
+   Original: "Search for Los Angeles on Google Map, try to print the map as PDF..."
+   Issue: Headless browser cannot print to PDF
+
+8. Google Search--15: Requires login credentials
+   Original: "Please try to log in to twitter with email: webagenttest@testmail.com..."
+   Issue: Requires login credentials (cannot use test credentials in headless browser)
+
+
+CATEGORIES OF FIXES APPLIED
+============================
+
+1. Past Dates (2023/2024/2025) - Shifted to 2027
+   - Booking hotel/flight dates shifted from 2024/2025 to 2027
+   - Research/publication dates shifted to 2027
+   - Sports event dates shifted to 2027
+   - 32 Booking tasks fixed
+   - 32 Google Flights tasks fixed
+   - 8 ESPN tasks fixed
+
+2. Outdated Products - Updated to current models
+   - iPhone 14 Pro -> iPhone 16 Pro (Apple--2, Apple--37)
+   - Apple Watch Series 7/8 -> Apple Watch Series 10 (Apple--42)
+   - iPad Mini 64GB -> iPad Mini 128GB
+
+3. Vision Pro Release Date - Changed to general inquiry
+   - "When and where Vision Pro will be released" -> "details about Apple Vision Pro"
+   - (Apple--7)
+
+4. Seasonal Year References (2024-25) - Updated to 2026-27
+   - NBA/NHL seasonal references updated from 2024-25 to 2026-27
+   - (ESPN--17, ESPN--19, ESPN--30, ESPN--31, ESPN--38)
+
+5. Coursera Filters - Replaced outdated filter
+   - "Credit Eligible" filter -> "Free courses" filter
+   - (Coursera--17) - filter may have changed
+
+6. Trending Year References - Updated to 2026 (current year)
+   - "Trending for 2024" -> "Trending for 2026"
+   - (Google Search--39, BBC News--18)
+
+7. Past Event Dates - Updated year
+   - Oscars 2024 -> Oscars 2027 (Google Search--8)
+   - ArXiv publication years 2023/2024/2025 -> 2027
+
+
+BREAKDOWN BY WEBSITE
+====================
+
+Amazon:           2 fixes (books released in 2027)
+Apple:            5 fixes (products, dates)
+ArXiv:            5 fixes (publication dates) + 3 skip
+BBC News:         1 fix (trending podcasts for 2026)
+Booking:          32 fixes (hotel dates shifted to 2027)
+Cambridge Dict:   0 fixes + 3 skip
+Coursera:         1 fix (filter change)
+ESPN:             8 fixes (season refs, game dates)
+GitHub:           2 fixes (project creation dates)
+Google Flights:   32 fixes (flight dates shifted to 2027)
+Google Maps:      0 fixes + 1 skip
+Google Search:    2 fixes (trending year, video year)
+HuggingFace:      1 fix (model update date)
+Wolfram Alpha:    5 fixes (year references)
+
+Total websites affected: 14

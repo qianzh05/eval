@@ -1,0 +1,55 @@
+Allrecipes--12
+Allrecipes--14
+Allrecipes--23
+Amazon--24
+Amazon--27
+Amazon--7
+Apple--1
+Apple--10
+Apple--30
+Apple--33
+Apple--6
+ArXiv--11
+ArXiv--33
+BBC News--0
+BBC News--14
+BBC News--20
+BBC News--23
+BBC News--29
+BBC News--8
+Booking--31
+Booking--37
+Booking--39
+Booking--5
+Cambridge Dictionary--10
+Cambridge Dictionary--27
+Cambridge Dictionary--3
+Cambridge Dictionary--7
+Coursera--25
+Coursera--26
+Coursera--27
+Coursera--38
+ESPN--15
+ESPN--25
+ESPN--28
+ESPN--32
+GitHub--16
+GitHub--31
+Google Flights--13
+Google Flights--2
+Google Flights--28
+Google Flights--29
+Google Flights--38
+Google Map--1
+Google Map--12
+Google Map--4
+Google Search--28
+Google Search--34
+Google Search--42
+Huggingface--13
+Huggingface--15
+Huggingface--34
+Wolfram Alpha--23
+Wolfram Alpha--29
+Wolfram Alpha--31
+Wolfram Alpha--36
