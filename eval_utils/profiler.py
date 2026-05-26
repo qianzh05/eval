@@ -73,24 +73,28 @@ class TaskProfiler:
         self,
         *,
         step_no: int,
-        history_item: Any,
-        url_before: Optional[str],
-        url_after: Optional[str],
-        captcha_detected: bool,
-        captcha_type: Optional[str],
-        stuck_consec_run: int,
-        step_start: float,
-        step_end: float,
-        think_s: float,
-        wait_s: float,
+        history_item: Any = None,
+        model_output: Any = None,
+        url_before: Optional[str] = None,
+        url_after: Optional[str] = None,
+        captcha_detected: bool = False,
+        captcha_type: Optional[str] = None,
+        stuck_consec_run: int = 1,
+        step_start: float = 0.0,
+        step_end: float = 0.0,
+        think_s: float = 0.0,
+        wait_s: float = 0.0,
+        input_tokens: Optional[int] = None,
+        output_tokens: Optional[int] = None,
     ) -> StepRecord:
         step_total = max(0.0, step_end - step_start)
         act_s = max(0.0, step_total - think_s - wait_s)
 
-        # Extract action names from history_item (Pydantic model OR dict)
+        # Extract action names. Prefer the directly-passed model_output (most
+        # reliable); fall back to history_item.model_output if not given.
+        mo = model_output if model_output is not None else _get(history_item, "model_output")
         action_names: list[str] = []
         try:
-            mo = _get(history_item, "model_output")
             for a in (_get(mo, "action", []) or []):
                 if isinstance(a, dict):
                     for k, v in a.items():
@@ -104,11 +108,18 @@ class TaskProfiler:
         except Exception:
             pass
 
-        # Tokens if present (older browser-use versions populate this)
-        meta = _get(history_item, "metadata", {}) or {}
-        usage = _get(meta, "usage", {}) or {}
-        in_tok = _get(usage, "input_tokens") or _get(usage, "prompt_tokens") or _get(meta, "input_tokens")
-        out_tok = _get(usage, "output_tokens") or _get(usage, "completion_tokens")
+        # Tokens: prefer explicit values passed in (from our LLM wrapper).
+        # Fall back to history_item.metadata if the wrapper didn't have data.
+        in_tok = input_tokens
+        out_tok = output_tokens
+        if in_tok is None or out_tok is None:
+            meta = _get(history_item, "metadata", {}) or {}
+            usage = _get(meta, "usage", {}) or {}
+            if in_tok is None:
+                in_tok = (_get(usage, "input_tokens") or _get(usage, "prompt_tokens")
+                          or _get(meta, "input_tokens") or 0)
+            if out_tok is None:
+                out_tok = _get(usage, "output_tokens") or _get(usage, "completion_tokens") or 0
 
         state = _get(history_item, "state")
         first_result = (_get(history_item, "result") or [{}])

@@ -226,15 +226,20 @@ async def run_one_task(
         # Initial captcha check after the agent's first navigation will happen
         # in the on_step callback; no warm-up — we don't pretend to be a returning user.
 
-        # LLM-call timer state. Populated by the wrapper we install below;
-        # snapshotted per step inside on_step to derive per-step think_s.
-        _llm_state = {"total": 0.0, "n_calls": 0}
+        # LLM-call timer + token counter. Populated by the wrapper we install
+        # below; snapshotted per step inside on_step to derive per-step
+        # think_s / tokens.
+        _llm_state = {"total": 0.0, "n_calls": 0,
+                      "input_tokens": 0, "output_tokens": 0}
 
         # Per-step delta-tracking snapshots, used to derive think/wait/act per step.
         _step_snap = {
             "prev_step_end": started_at,  # wall time of end of previous step (or task start)
             "prev_llm_total": 0.0,
             "prev_wait_total": 0.0,
+            "prev_in_tokens": 0,
+            "prev_out_tokens": 0,
+            "prev_url": None,             # for per-page rate-limit gating
         }
 
         # --- per-step callback wires CAPTCHA + stuck detection + profiler
@@ -245,17 +250,29 @@ async def run_one_task(
                 page = await session.get_current_page()
             except Exception:
                 pass
+
+            # URL resolution priority: page.url → browser_state.url → task["web"]
             url_after = None
             if page is not None:
                 try: url_after = page.url
                 except Exception: pass
+            if not url_after or url_after in ("about:blank", "chrome://newtab/"):
+                try: url_after = getattr(browser_state, "url", None)
+                except Exception: pass
+            if not url_after or url_after in ("about:blank", "chrome://newtab/"):
+                url_after = task["web"]
 
-            # Politeness: wait if we've recently hit this domain.
-            if url_after:
+            # Politeness (per-page): only check when the URL actually changed,
+            # i.e. this step navigated/crawled a new page. Same-page interactions
+            # (clicks, typing, scrolling) don't count as a re-crawl.
+            current_key = DomainRateLimiter.page_key(url_after)
+            prev_key = DomainRateLimiter.page_key(_step_snap["prev_url"] or "")
+            if current_key and current_key != prev_key:
                 try:
                     await rate_limiter.wait_for(url_after, task_id)
                 except Exception:
                     pass
+            _step_snap["prev_url"] = url_after
 
             # Captcha check
             kind = None
@@ -290,24 +307,30 @@ async def run_one_task(
                 stuck_reason = "wall_clock"
                 raise _StuckAbort({"reason": "wall_clock"})
 
-            # --- Per-step think / wait / act decomposition ---
+            # --- Per-step think / wait / act / tokens decomposition ---
             now = time.time()
             step_total = max(0.0, now - _step_snap["prev_step_end"])
             cur_llm_total = _llm_state["total"]
             think_s = max(0.0, cur_llm_total - _step_snap["prev_llm_total"])
             cur_wait_total = rate_limiter.wait_total_s.get(task_id, 0.0)
             wait_s = max(0.0, cur_wait_total - _step_snap["prev_wait_total"])
+            in_tok_step = max(0, _llm_state["input_tokens"] - _step_snap["prev_in_tokens"])
+            out_tok_step = max(0, _llm_state["output_tokens"] - _step_snap["prev_out_tokens"])
             _step_snap["prev_step_end"] = now
             _step_snap["prev_llm_total"] = cur_llm_total
             _step_snap["prev_wait_total"] = cur_wait_total
+            _step_snap["prev_in_tokens"] = _llm_state["input_tokens"]
+            _step_snap["prev_out_tokens"] = _llm_state["output_tokens"]
 
-            # Record the step with per-phase timing
+            # Record the step with per-phase timing. We pass `model_output`
+            # (the callback parameter) directly so action_names always populate,
+            # rather than relying on browser_state.history[-1] which may not yet
+            # contain this step's entry depending on call ordering.
             try:
-                hist = getattr(browser_state, "history", None) or []
-                last_item = hist[-1] if hist else None
                 profiler.record_step(
                     step_no=step_no,
-                    history_item=last_item,
+                    history_item=None,
+                    model_output=model_output,
                     url_before=None,
                     url_after=url_after,
                     captcha_detected=kind is not None,
@@ -317,22 +340,56 @@ async def run_one_task(
                     step_end=now,
                     think_s=think_s,
                     wait_s=wait_s,
+                    input_tokens=in_tok_step,
+                    output_tokens=out_tok_step,
                 )
             except Exception:
                 pass
 
-        # LLM-timing wrapper: monkey-patch the most likely entry point names
-        # on this task's LLM instance so each call records elapsed time.
-        # Per-task patching means concurrent tasks don't double-count.
-        # (_llm_state is initialized above so on_step can read it.)
+        # LLM-timing + token-counting wrapper. Times every LLM call AND extracts
+        # `usage` from the returned response (Bedrock always returns it; this
+        # doesn't depend on any browser-use internal field).
+        def _extract_usage(result: Any) -> tuple[int, int]:
+            """Return (input_tokens, output_tokens) from an LLM response, best-effort.
+            Handles langchain BaseMessage, browser-use's response objects, or dicts."""
+            candidates = []
+            # Common direct attributes / fields
+            for attr in ("usage_metadata", "usage", "response_metadata"):
+                v = getattr(result, attr, None)
+                if v is None and isinstance(result, dict):
+                    v = result.get(attr)
+                if v is not None:
+                    candidates.append(v)
+                    # response_metadata sometimes wraps token_usage one level down
+                    if isinstance(v, dict):
+                        for sub in ("token_usage", "usage"):
+                            if sub in v:
+                                candidates.append(v[sub])
+            for c in candidates:
+                if not c: continue
+                if hasattr(c, "model_dump"):
+                    c = c.model_dump()
+                if isinstance(c, dict):
+                    in_t = (c.get("input_tokens") or c.get("prompt_tokens")
+                            or c.get("inputTokens") or 0)
+                    out_t = (c.get("output_tokens") or c.get("completion_tokens")
+                             or c.get("outputTokens") or 0)
+                    if in_t or out_t:
+                        return int(in_t), int(out_t)
+            return 0, 0
+
         for method_name in ("ainvoke", "acomplete", "agenerate", "complete", "invoke"):
             orig = getattr(agent_llm, method_name, None)
             if orig is None or not callable(orig):
                 continue
-            async def _timed(*args, _orig=orig, _state=_llm_state, **kwargs):
+            async def _timed(*args, _orig=orig, _state=_llm_state, _extract=_extract_usage, **kwargs):
                 _t = time.monotonic()
                 try:
-                    return await _orig(*args, **kwargs)
+                    result = await _orig(*args, **kwargs)
+                    in_t, out_t = _extract(result)
+                    _state["input_tokens"] += in_t
+                    _state["output_tokens"] += out_t
+                    return result
                 finally:
                     _state["total"] += time.monotonic() - _t
                     _state["n_calls"] += 1
@@ -373,22 +430,7 @@ async def run_one_task(
         num_steps = len(getattr(history, "history", []) or [])
         final_answer = history.final_result() or "<NO FINAL ANSWER>"
         llm_time_s = _llm_state["total"]
-
-        # Pull token + cost totals from browser-use's token-cost service.
-        # Field names vary between minor releases, so probe defensively.
-        cost_totals: dict[str, Any] = {}
-        try:
-            tcs = getattr(agent, "token_cost_service", None)
-            if tcs is not None:
-                for getter in ("get_totals", "totals", "get_total_cost"):
-                    fn = getattr(tcs, getter, None)
-                    if fn is None: continue
-                    v = fn() if callable(fn) else fn
-                    if v is not None:
-                        cost_totals = v if isinstance(v, dict) else {"raw": str(v)}
-                        break
-        except Exception as e:
-            cost_totals = {"_error": str(e)}
+        # Token + cost totals are computed below from _llm_state (our wrapper).
 
         # Auto-evaluator uses the langchain LLM (it constructs HumanMessage/SystemMessage).
         eval_result, gpt_4v_res = await auto_eval_by_gpt4o(
@@ -431,6 +473,36 @@ async def run_one_task(
     # Browser-action / DOM / screenshot time isn't separately measurable, so
     # we report it as the residual: total - LLM - wait.
     other_time_s = max(0.0, duration - llm_time_s - wait_time_s)
+
+    # Token + cost totals from our independent LLM-wrapper (reads response.usage
+    # directly; doesn't depend on browser-use's internal token_cost_service).
+    # Cost is computed locally from a pricing table — model-specific.
+    INPUT_PRICE_PER_M = {
+        "us.anthropic.claude-sonnet-4-6": 3.00,
+        "anthropic.claude-sonnet-4-6": 3.00,
+    }
+    OUTPUT_PRICE_PER_M = {
+        "us.anthropic.claude-sonnet-4-6": 15.00,
+        "anthropic.claude-sonnet-4-6": 15.00,
+    }
+    _model_id = os.getenv("BEDROCK_MODEL_ID", "")
+    _in_price = INPUT_PRICE_PER_M.get(_model_id, 3.00)   # default to Sonnet pricing
+    _out_price = OUTPUT_PRICE_PER_M.get(_model_id, 15.00)
+    try:
+        tcs_in_tok = locals().get("_llm_state", {}).get("input_tokens", 0)
+        tcs_out_tok = locals().get("_llm_state", {}).get("output_tokens", 0)
+        tcs_n_calls = locals().get("_llm_state", {}).get("n_calls", 0)
+    except Exception:
+        tcs_in_tok = tcs_out_tok = tcs_n_calls = 0
+    cost_totals = {
+        "input_tokens": tcs_in_tok,
+        "output_tokens": tcs_out_tok,
+        "n_llm_calls": tcs_n_calls,
+        "cost_usd": tcs_in_tok / 1_000_000 * _in_price + tcs_out_tok / 1_000_000 * _out_price,
+        "model_id": _model_id,
+        "input_price_per_m": _in_price,
+        "output_price_per_m": _out_price,
+    }
 
     # --- write task_result.json (extended schema)
     task_result = {
@@ -499,7 +571,10 @@ async def main(args: argparse.Namespace) -> None:
     tasks = interleave_by_site(tasks)
 
     vision_tag = "vision-true" if args.use_vision else "vision-false"
-    results_dir = Path(f"results/examples-browser-use-{vision_tag}")
+    if args.results_dir:
+        results_dir = Path(args.results_dir)
+    else:
+        results_dir = Path(f"results/examples-browser-use-{vision_tag}")
     results_dir.mkdir(parents=True, exist_ok=True)
 
     # manifest
@@ -575,6 +650,9 @@ def parse_args() -> argparse.Namespace:
     ap.add_argument("--tasks", default="data/WebVoyager_data.jsonl")
     ap.add_argument("--limit", type=int, default=None, help="run only the first N tasks")
     ap.add_argument("--seed", type=int, default=42)
+    ap.add_argument("--results-dir", default=None,
+                    help="override output path; useful for test flights "
+                         "(e.g. --results-dir results/testflight)")
     return ap.parse_args()
 
 

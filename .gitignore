@@ -13,6 +13,9 @@ gcp-login.json
 # session / env noise
 .DS_Store
 .venv/
+.venv*/
+venv*/
+*.egg-info/
 
 # local binary artifacts (not part of the eval run)
 *.pptx
