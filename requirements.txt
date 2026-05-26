@@ -2,4 +2,6 @@
 # Methodology: vanilla Playwright (no Patchright), no stealth.
 # python-dotenv / python-docx come transitively from browser-use 0.12.6.
 browser-use[aws]==0.12.6
+playwright
 langchain-aws
+botocore[crt]
