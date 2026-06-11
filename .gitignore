@@ -20,9 +20,10 @@ gcp-login.json
 venv*/
 *.egg-info/
 
-# local binary artifacts (not part of the eval run)
+# local notes and binary artifacts (not part of the eval run)
 *.pptx
 *.docx
+*.md
 
 # local rollback / intermediate dataset snapshots
 data/WebVoyager_data.jsonl.shifted-2027
@@ -33,3 +34,6 @@ failure_analysis/
 # SSH private keys — never commit these
 *.pem
 *.key
+
+# cloned third-party agent repos (studied locally, never commit)
+/agent-browser/

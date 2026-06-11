@@ -1,0 +1,90 @@
+Allrecipes--10
+Allrecipes--17
+Allrecipes--19
+Allrecipes--29
+Allrecipes--30
+Amazon--5
+Amazon--6
+Apple--14
+Apple--17
+Apple--20
+Apple--9
+ArXiv--39
+ArXiv--6
+BBC News--18
+BBC News--2
+BBC News--29
+Booking--0
+Booking--1
+Booking--10
+Booking--11
+Booking--12
+Booking--13
+Booking--14
+Booking--15
+Booking--16
+Booking--17
+Booking--19
+Booking--2
+Booking--20
+Booking--21
+Booking--22
+Booking--23
+Booking--24
+Booking--25
+Booking--26
+Booking--27
+Booking--28
+Booking--29
+Booking--3
+Booking--30
+Booking--31
+Booking--32
+Booking--33
+Booking--34
+Booking--36
+Booking--37
+Booking--38
+Booking--39
+Booking--4
+Booking--40
+Booking--5
+Booking--6
+Booking--7
+Booking--8
+Booking--9
+Cambridge Dictionary--19
+Cambridge Dictionary--41
+Coursera--17
+Coursera--28
+ESPN--33
+ESPN--40
+GitHub--33
+Google Flights--14
+Google Flights--28
+Google Flights--3
+Google Flights--37
+Google Flights--41
+Google Search--1
+Google Search--11
+Google Search--13
+Google Search--14
+Google Search--17
+Google Search--20
+Google Search--21
+Google Search--22
+Google Search--26
+Google Search--27
+Google Search--3
+Google Search--34
+Google Search--36
+Google Search--40
+Google Search--41
+Google Search--42
+Google Search--5
+Huggingface--0
+Huggingface--1
+Huggingface--10
+Huggingface--20
+Huggingface--6
+Wolfram Alpha--13

@@ -640,7 +640,7 @@ async def main(args: argparse.Namespace) -> None:
 def parse_args() -> argparse.Namespace:
     ap = argparse.ArgumentParser()
     ap.add_argument("--model-provider", default="bedrock", choices=["bedrock"])
-    ap.add_argument("--use-vision", type=lambda s: s.lower() == "true", default=True)
+    ap.add_argument("--use-vision", type=lambda s: "auto" if s.strip().lower() == "auto" else (s.strip().lower() == "true"), default=True)
     ap.add_argument("--max-concurrent", type=int, default=6)
     ap.add_argument("--max-steps", type=int, default=DEFAULT_MAX_STEPS)
     ap.add_argument("--wallclock-cap-s", type=float, default=DEFAULT_WALLCLOCK_CAP_S)
