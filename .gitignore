@@ -6,11 +6,11 @@ __pycache__
 venv/
 .env
 
-# Eval run outputs: a single curated result set is committed for in-repo
-# analysis (incl. screenshots/gifs). Old dated runs stay ignored.
-results*/**/*.webm
-results*/**/*.mp4
-results*/**/*.zip
+# Raw eval run outputs are NOT committed (too large / binary-heavy).
+# The one curated set we DO commit lives in auto-vf-failures/, which is
+# not matched by these rules and so stays trackable.
+results/
+/results*
 gcp-login.json
 
 # session / env noise
