@@ -6,8 +6,17 @@ __pycache__
 venv/
 .env
 
-results/
-/results*
+# Eval run outputs: keep the structured data (json/jsonl/txt/md) so it can be
+# analyzed in-repo, but drop the heavy per-step binaries (screenshots, gifs,
+# videos, pdfs). Matches both results/ and results-vm-*/ trees.
+results*/**/*.png
+results*/**/*.jpg
+results*/**/*.jpeg
+results*/**/*.gif
+results*/**/*.webm
+results*/**/*.mp4
+results*/**/*.pdf
+results*/**/*.zip
 gcp-login.json
 
 # session / env noise
