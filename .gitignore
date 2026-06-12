@@ -6,16 +6,10 @@ __pycache__
 venv/
 .env
 
-# Eval run outputs: keep the structured data (json/jsonl/txt/md) so it can be
-# analyzed in-repo, but drop the heavy per-step binaries (screenshots, gifs,
-# videos, pdfs). Matches both results/ and results-vm-*/ trees.
-results*/**/*.png
-results*/**/*.jpg
-results*/**/*.jpeg
-results*/**/*.gif
+# Eval run outputs: a single curated result set is committed for in-repo
+# analysis (incl. screenshots/gifs). Old dated runs stay ignored.
 results*/**/*.webm
 results*/**/*.mp4
-results*/**/*.pdf
 results*/**/*.zip
 gcp-login.json
 
