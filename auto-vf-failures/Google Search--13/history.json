@@ -1,0 +1,335 @@
+{
+  "history": [
+    {
+      "model_output": {
+        "evaluation_previous_goal": "Start",
+        "memory": null,
+        "next_goal": "Initial navigation",
+        "action": [
+          {
+            "navigate": {
+              "url": "https://www.google.com/",
+              "new_tab": false
+            }
+          }
+        ]
+      },
+      "result": [
+        {
+          "is_done": false,
+          "long_term_memory": "Found initial url and automatically loaded it. Navigated to https://www.google.com/",
+          "extracted_content": "🔗 Navigated to https://www.google.com/",
+          "include_extracted_content_only_once": false,
+          "include_in_memory": false
+        }
+      ],
+      "state": {
+        "tabs": [],
+        "screenshot_path": null,
+        "interacted_element": [
+          null
+        ],
+        "url": "https://www.google.com/",
+        "title": "Initial Actions"
+      },
+      "metadata": {
+        "step_start_time": 1781166338.383396,
+        "step_end_time": 1781166338.3833961,
+        "step_number": 0,
+        "step_interval": null
+      },
+      "state_message": null
+    },
+    {
+      "model_output": {
+        "evaluation_previous_goal": "Successfully loaded Google homepage. Verdict: Success",
+        "memory": "Starting task: Search for Jerry Trainor's upcoming projects on Google.",
+        "next_goal": "Search for Jerry Trainor's upcoming projects on Google.",
+        "action": [
+          {
+            "input": {
+              "index": 2,
+              "text": "Jerry Trainor upcoming projects 2026",
+              "clear": true
+            }
+          },
+          {
+            "send_keys": {
+              "keys": "Enter"
+            }
+          }
+        ]
+      },
+      "result": [
+        {
+          "is_done": false,
+          "long_term_memory": "Typed 'Jerry Trainor upcoming projects 2026'\n💡 This is an autocomplete field. Wait for suggestions to appear, then click the correct suggestion instead of pressing Enter.",
+          "extracted_content": "Typed 'Jerry Trainor upcoming projects 2026'\n💡 This is an autocomplete field. Wait for suggestions to appear, then click the correct suggestion instead of pressing Enter.",
+          "include_extracted_content_only_once": false,
+          "metadata": {
+            "input_x": 639.5,
+            "input_y": 402.0
+          },
+          "include_in_memory": false
+        },
+        {
+          "is_done": false,
+          "long_term_memory": "Sent keys: Enter",
+          "extracted_content": "Sent keys: Enter",
+          "include_extracted_content_only_once": false,
+          "include_in_memory": false
+        }
+      ],
+      "state": {
+        "tabs": [
+          {
+            "url": "https://www.google.com/?zx=1781166326153",
+            "title": "Google",
+            "target_id": "406D",
+            "parent_target_id": null
+          }
+        ],
+        "screenshot_path": "/tmp/browser_use_agent_06a2a70e-fe5a-7205-8000-01fb4cafc9fe_1781166319/screenshots/step_1.png",
+        "interacted_element": [
+          {
+            "node_id": 657,
+            "backend_node_id": 2,
+            "frame_id": null,
+            "node_type": 1,
+            "node_value": "",
+            "node_name": "TEXTAREA",
+            "attributes": {
+              "jsname": "yZiJbe",
+              "class": "gLFyf",
+              "aria-controls": "Alh6id",
+              "aria-owns": "Alh6id",
+              "autofocus": "",
+              "title": "Search",
+              "value": "",
+              "aria-label": "Search",
+              "placeholder": "",
+              "aria-autocomplete": "both",
+              "aria-expanded": "false",
+              "aria-haspopup": "false",
+              "autocapitalize": "off",
+              "autocomplete": "off",
+              "autocorrect": "off",
+              "id": "APjFqb",
+              "maxlength": "2048",
+              "name": "q",
+              "role": "combobox",
+              "rows": "1",
+              "spellcheck": "false",
+              "data-ved": "0ahUKEwjoqPXQ4f6UAxVhFmIAHVtaJwoQ39UDCAU"
+            },
+            "x_path": "html/body/div[2]/div[4]/form/div[1]/div/div[1]/div[1]/div[2]/textarea",
+            "element_hash": 887221250628730007,
+            "stable_hash": 10110593287483505811,
+            "bounds": {
+              "x": 396.0,
+              "y": 377.0,
+              "width": 487.0,
+              "height": 50.0
+            },
+            "ax_name": "Search"
+          },
+          null
+        ],
+        "url": "https://www.google.com/?zx=1781166326153",
+        "title": "Google"
+      },
+      "metadata": {
+        "step_start_time": 1781166338.3834753,
+        "step_end_time": 1781166356.7024539,
+        "step_number": 1,
+        "step_interval": 2.384185791015625e-07
+      },
+      "state_message": "<agent_history>\nAgent initialized\n<step>\nResult\nFound initial url and automatically loaded it. Navigated to https://www.google.com/\n</agent_history>\n\n<agent_state>\n<user_request>\nWhat are Jerry Trainor's upcoming projects? on https://www.google.com/\n</user_request>\n<file_system>\n\n</file_system>\n<todo_contents>\n[empty todo.md, fill it when applicable]\n</todo_contents>\n<step_info>Step1 maximum:30\nToday:2026-06-11</step_info>\n</agent_state>\n<browser_state>\n<page_stats>Page appears to show skeleton/placeholder content (still loading?) - 13 links, 30 interactive, 0 iframes, 3 shadow(open), 0 shadow(closed), 1 images, 102 total elements</page_stats>\nCurrent tab: 406D\nAvailable tabs:\nTab 406D: https://www.google.com/?zx=1781166326153 - Google\n\n<page_info>0.0 pages above, 0.0 pages below</page_info>\n\nInteractive elements:\n[Start of page]\n[11]<div />\n\t[83]<a />\n\t\tAbout\n\t[85]<a />\n\t\tStore\n\t[91]<div />\n\t\t[12]<a aria-label=Gmail />\n\t\t\tGmail\n\t[13]<a aria-label=Search for Images />\n\t\tImages\n\t[14]<div id=gbwa />\n\t\t[95]<div />\n\t\t\t[15]<a aria-label=Google apps aria-expanded=false role=button />\n\t[16]<a aria-label=Sign in />\n\t\tSign in\n\t<svg aria-label=Google role=img /> <!-- SVG content collapsed -->\n\t[3]<form role=search />\n\t\t[17]<div />\n\t\t\t[168]<div />\n\t\t\t\t[169]<span />\n\t\t\t\t\t<svg /> <!-- SVG content collapsed -->\n\t\t|SHADOW(open)|[2]<textarea title=Search aria-label=Search aria-expanded=false id=APjFqb name=q role=combobox />\n\t\t[8]<div />\n\t\t\t[182]<div />\n\t\t\t[191]<div />\n\t\t\t\t[20]<div aria-label=Search by image role=button />\n\t\t|SHADOW(open)|[24]<input value=Google Search aria-label=Google Search name=btnK role=button type=submit />\n\t\t|SHADOW(open)|[25]<input id=gbqfbb value=I'm Feeling Lucky aria-label=I'm Feeling Lucky name=btnI role=button type=submit />\n\t[26]<div id=19056387 />\n\t\t[425]<a role=link />\n\t\t\tWhether you call it football or soccer, get live scores and updates on Google ⚽\n\t[443]<a />\n\t\tAdvertising\n\t[445]<a />\n\t\tBusiness\n\t[447]<a />\n\t\tHow Search works\n\t[450]<a />\n\t\tApplying AI towards science and the environment\n\t[454]<a />\n\t\tPrivacy\n\t[456]<a />\n\t\tTerms\n\t[465]<div aria-expanded=false role=button />\n\t\tSettings\n[End of page]\n</browser_state>\n"
+    },
+    {
+      "model_output": {
+        "evaluation_previous_goal": "Google triggered a CAPTCHA/bot detection page. Need to handle this.",
+        "memory": "Google is showing a CAPTCHA. Need to wait for it to be solved automatically or try an alternative approach like searching via DuckDuckGo.",
+        "next_goal": "Try searching for Jerry Trainor's upcoming projects using DuckDuckGo instead to avoid the Google CAPTCHA.",
+        "action": [
+          {
+            "search": {
+              "query": "Jerry Trainor upcoming projects 2026",
+              "engine": "duckduckgo"
+            }
+          }
+        ]
+      },
+      "result": [
+        {
+          "is_done": false,
+          "error": "google_sorry",
+          "include_extracted_content_only_once": false,
+          "include_in_memory": false
+        }
+      ],
+      "state": {
+        "tabs": [
+          {
+            "url": "https://www.google.com/sorry/index?continue=https://www.google.com/search%3Fq%3DJerry%2BTrainor%2Bupcoming%2Bprojects%2B2026%26sca_esv%3D09fac29a4686d309%26source%3Dhp%26ei%3D9XAqaqjaG-GsiLMP27SdUQ%26iflsig%3DAFdpzrgAAAAAaip_BeNgL5HOKFWTMjE0tovzzhEBPsfq%26ved%3D0ahUKEwjoqPXQ4f6UAxVhFmIAHVtaJwoQ4dUDCA8%26uact%3D5%26oq%3DJerry%2BTrainor%2Bupcoming%2Bprojects%2B2026%26gs_lp%3DEgdnd3Mtd2l6IiRKZXJyeSBUcmFpbm9yIHVwY29taW5nIHByb2plY3RzIDIwMjZIgRtQAFiPCXAAeACQAQCYAU-gAfkNqgECMza4AQPIAQD4AQGYAiOgAp8PwgIOEC4YgAQYigUYsQMYgwHCAgsQABiABBixAxiDAcICDhAAGIAEGIoFGLEDGIMBwgIOEC4YgAQYsQMYxwEY0QPCAgsQLhiABBjHARjRA8ICBRAuGIAEwgIREC4YgAQYsQMYgwEYxwEY0QPCAggQLhiABBixA8ICCxAuGIAEGLEDGIMBwgIIEAAYgAQYsQPCAgUQABiABMICCBAuGLEDGIAEwgIGEAAYFhgewgIIEAAYFhgeGArCAgsQABiABBiKBRiGA8ICBRAAGO8FwgIIEAAYgAQYogTCAgUQIRigAcICBRAhGKsCmAMAkgcCMzWgB7-sArIHAjM1uAefD8IHCDAuOS4yNS4xyAeaAYAIAQ%26sclient%3Dgws-wiz%26sei%3DFHEqarPAJJrk5NoP1sTA6Qk&q=EgRrFUvuGJTiqdEGIjBZL1RcTnl2LUdUXxyD7fDGca4e1TX0SXs0Eu1XM_FqjdqCenMbzuqwPWrL_TMlZ7gyAVJaAUM",
+            "title": "google.com/sorry/index?continue=https://www.google.com/search%3Fq%3DJerry%2BTrainor%2Bupcoming%2Bprojects%2B2026%26sca_esv%3D09fac29a4686d309%26source%3Dhp%26ei%3D9XAqaqjaG-GsiLMP27SdUQ%26iflsig%3DAFdpzrgAAAAAaip_BeNgL5HOKFWTMjE0tovzzhEBPsfq%26ved%3D0ahUKEwjoqPXQ4f6UAxVhFmIAHVtaJwoQ4dUDCA8%26uact%3D5%26oq%3DJerry%2BTrainor%2Bupcoming%2Bprojects%2B2026%26gs_lp%3DEgdnd3Mtd2l6IiRKZXJyeSBUcmFpbm9yIHVwY29taW5nIHByb2plY3RzIDIwMjZIgRtQAFiPCXAAeACQAQCYAU-gAfkNqgECMza4AQPIAQD4AQGYAiOgAp8PwgIOEC4YgAQYigUYsQMYgwHCAgsQABiABBixAxiDAcICDhAAGIAEGIoFGLEDGIMBwgIOEC4YgAQYsQMYxwEY0QPCAgsQLhiABBjHARjRA8ICBRAuGIAEwgIREC4YgAQYsQMYgwEYxwEY0QPCAggQLhiABBixA8ICCxAuGIAEGLEDGIMBwgIIEAAYgAQYsQPCAgUQABiABMICCBAuGLEDGIAEwgIGEAAYFhgewgIIEAAYFhgeGArCAgsQABiABBiKBRiGA8ICBRAAGO8FwgIIEAAYgAQYogTCAgUQIRigAcICBRAhGKsCmAMAkgcCMzWgB7-sArIHAjM1uAefD8IHCDAuOS4yNS4xyAeaAYAIAQ%26sclient%3Dgws-wiz%26sei%3DFHEqarPAJJrk5NoP1sTA6Qk&q=EgRrFUvuGJTiqdEGIjBZL1RcTnl2LUdUXxyD7fDGca4e1TX0SXs0Eu1XM_FqjdqCenMbzuqwPWrL_TMlZ7gyAVJaAUM",
+            "target_id": "406D",
+            "parent_target_id": null
+          }
+        ],
+        "screenshot_path": "/tmp/browser_use_agent_06a2a70e-fe5a-7205-8000-01fb4cafc9fe_1781166319/screenshots/step_2.png",
+        "interacted_element": [
+          null
+        ],
+        "url": "https://www.google.com/sorry/index?continue=https://www.google.com/search%3Fq%3DJerry%2BTrainor%2Bupcoming%2Bprojects%2B2026%26sca_esv%3D09fac29a4686d309%26source%3Dhp%26ei%3D9XAqaqjaG-GsiLMP27SdUQ%26iflsig%3DAFdpzrgAAAAAaip_BeNgL5HOKFWTMjE0tovzzhEBPsfq%26ved%3D0ahUKEwjoqPXQ4f6UAxVhFmIAHVtaJwoQ4dUDCA8%26uact%3D5%26oq%3DJerry%2BTrainor%2Bupcoming%2Bprojects%2B2026%26gs_lp%3DEgdnd3Mtd2l6IiRKZXJyeSBUcmFpbm9yIHVwY29taW5nIHByb2plY3RzIDIwMjZIgRtQAFiPCXAAeACQAQCYAU-gAfkNqgECMza4AQPIAQD4AQGYAiOgAp8PwgIOEC4YgAQYigUYsQMYgwHCAgsQABiABBixAxiDAcICDhAAGIAEGIoFGLEDGIMBwgIOEC4YgAQYsQMYxwEY0QPCAgsQLhiABBjHARjRA8ICBRAuGIAEwgIREC4YgAQYsQMYgwEYxwEY0QPCAggQLhiABBixA8ICCxAuGIAEGLEDGIMBwgIIEAAYgAQYsQPCAgUQABiABMICCBAuGLEDGIAEwgIGEAAYFhgewgIIEAAYFhgeGArCAgsQABiABBiKBRiGA8ICBRAAGO8FwgIIEAAYgAQYogTCAgUQIRigAcICBRAhGKsCmAMAkgcCMzWgB7-sArIHAjM1uAefD8IHCDAuOS4yNS4xyAeaAYAIAQ%26sclient%3Dgws-wiz%26sei%3DFHEqarPAJJrk5NoP1sTA6Qk&q=EgRrFUvuGJTiqdEGIjBZL1RcTnl2LUdUXxyD7fDGca4e1TX0SXs0Eu1XM_FqjdqCenMbzuqwPWrL_TMlZ7gyAVJaAUM",
+        "title": "google.com/sorry/index?continue=https://www.google.com/search%3Fq%3DJerry%2BTrainor%2Bupcoming%2Bprojects%2B2026%26sca_esv%3D09fac29a4686d309%26source%3Dhp%26ei%3D9XAqaqjaG-GsiLMP27SdUQ%26iflsig%3DAFdpzrgAAAAAaip_BeNgL5HOKFWTMjE0tovzzhEBPsfq%26ved%3D0ahUKEwjoqPXQ4f6UAxVhFmIAHVtaJwoQ4dUDCA8%26uact%3D5%26oq%3DJerry%2BTrainor%2Bupcoming%2Bprojects%2B2026%26gs_lp%3DEgdnd3Mtd2l6IiRKZXJyeSBUcmFpbm9yIHVwY29taW5nIHByb2plY3RzIDIwMjZIgRtQAFiPCXAAeACQAQCYAU-gAfkNqgECMza4AQPIAQD4AQGYAiOgAp8PwgIOEC4YgAQYigUYsQMYgwHCAgsQABiABBixAxiDAcICDhAAGIAEGIoFGLEDGIMBwgIOEC4YgAQYsQMYxwEY0QPCAgsQLhiABBjHARjRA8ICBRAuGIAEwgIREC4YgAQYsQMYgwEYxwEY0QPCAggQLhiABBixA8ICCxAuGIAEGLEDGIMBwgIIEAAYgAQYsQPCAgUQABiABMICCBAuGLEDGIAEwgIGEAAYFhgewgIIEAAYFhgeGArCAgsQABiABBiKBRiGA8ICBRAAGO8FwgIIEAAYgAQYogTCAgUQIRigAcICBRAhGKsCmAMAkgcCMzWgB7-sArIHAjM1uAefD8IHCDAuOS4yNS4xyAeaAYAIAQ%26sclient%3Dgws-wiz%26sei%3DFHEqarPAJJrk5NoP1sTA6Qk&q=EgRrFUvuGJTiqdEGIjBZL1RcTnl2LUdUXxyD7fDGca4e1TX0SXs0Eu1XM_FqjdqCenMbzuqwPWrL_TMlZ7gyAVJaAUM"
+      },
+      "metadata": {
+        "step_start_time": 1781166356.7128005,
+        "step_end_time": 1781166361.7918978,
+        "step_number": 2,
+        "step_interval": 18.318978548049927
+      },
+      "state_message": "<agent_history>\nAgent initialized\n<step>\nResult\nFound initial url and automatically loaded it. Navigated to https://www.google.com/\n<step>\nSuccessfully loaded Google homepage. Verdict: Success\nStarting task: Search for Jerry Trainor's upcoming projects on Google.\nSearch for Jerry Trainor's upcoming projects on Google.\nResult\nTyped 'Jerry Trainor upcoming projects 2026'\n💡 This is an autocomplete field. Wait for suggestions to appear, then click the correct suggestion instead of pressing Enter.\nSent keys: Enter\n</agent_history>\n\n<agent_state>\n<user_request>\nWhat are Jerry Trainor's upcoming projects? on https://www.google.com/\n</user_request>\n<file_system>\n\n</file_system>\n<todo_contents>\n[empty todo.md, fill it when applicable]\n</todo_contents>\n<step_info>Step2 maximum:30\nToday:2026-06-11</step_info>\n</agent_state>\n<browser_state>\n<page_stats>1 links, 7 interactive, 1 iframes, 54 total elements</page_stats>\nCurrent tab: 406D\nAvailable tabs:\nTab 406D: https://www.google.com/sorry/index?continue=https://www.google.com/search%3Fq%3DJerry%2BTrainor%2Bupcoming%2Bprojects%2B2026%26sca_esv%3D09fac29a4686d309%26source%3Dhp%26ei%3D9XAqaqjaG-GsiLMP27SdUQ%26iflsig%3DAFdpzrgAAAAAaip_BeNgL5HOKFWTMjE0tovzzhEBPsfq%26ved%3D0ahUKEwjoqPXQ4f6UAxVhFmIAHVtaJwoQ4dUDCA8%26uact%3D5%26oq%3DJerry%2BTrainor%2Bupcoming%2Bprojects%2B2026%26gs_lp%3DEgdnd3Mtd2l6IiRKZXJyeSBUcmFpbm9yIHVwY29taW5nIHByb2plY3RzIDIwMjZIgRtQAFiPCXAAeACQAQCYAU-gAfkNqgECMza4AQPIAQD4AQGYAiOgAp8PwgIOEC4YgAQYigUYsQMYgwHCAgsQABiABBixAxiDAcICDhAAGIAEGIoFGLEDGIMBwgIOEC4YgAQYsQMYxwEY0QPCAgsQLhiABBjHARjRA8ICBRAuGIAEwgIREC4YgAQYsQMYgwEYxwEY0QPCAggQLhiABBixA8ICCxAuGIAEGLEDGIMBwgIIEAAYgAQYsQPCAgUQABiABMICCBAuGLEDGIAEwgIGEAAYFhgewgIIEAAYFhgeGArCAgsQABiABBiKBRiGA8ICBRAAGO8FwgIIEAAYgAQYogTCAgUQIRigAcICBRAhGKsCmAMAkgcCMzWgB7-sArIHAjM1uAefD8IHCDAuOS4yNS4xyAeaAYAIAQ%26sclient%3Dgws-wiz%26sei%3DFHEqarPAJJrk5NoP1sTA6Qk&q=EgRrFUvuGJTiqdEGIjBZL1RcTnl2LUdUXxyD7fDGca4e1TX0SXs0Eu1XM_FqjdqCenMbzuqwPWrL_TMlZ7gyAVJaAUM - google.com/sorry/index?continu\n\n<page_info>0.0 pages above, 0.0 pages below</page_info>\n\nInteractive elements:\n[Start of page]\n*[2111]<hr />\n|scroll element|<iframe title=reCAPTCHA role=presentation name=a-dneqo4gwdd91 /> (scroll)\n\t*[2208]<div role=presentation />\n\t*[2210]<div />\n\t*[2096]<div role=presentation />\n\tI'm not a robot\n\t*[2094]<div />\n\treCAPTCHA\n*[2089]<hr />\nAbout this page\nOur systems have detected unusual traffic from your computer network.  This page checks to see if it's really you sending the requests, and not a robot.\n*[2098]<a />\n\tWhy did this happen?\nIP address: 107.21.75.238\nTime: 2026-06-11T08:25:57Z\nURL: https://www.google.com/search?q=Jerry+Trainor+upcoming+projects+2026&sca_esv=09fac29a4686d309&source=hp&ei=9XAqaqjaG-GsiLMP27SdUQ&iflsig=AFdpzrgAAAAAaip_BeNgL5HOKFWTMjE0tovzzhEBPsfq&ved=0ahUKEwjoqPXQ4f6UAxVhFmIAHVtaJwoQ4dUDCA8&uact=5&oq=Jerry+Trainor+upcoming+projects+2026&gs_lp=Egdnd3Mtd2l6IiRKZXJyeSBUcmFpbm9yIHVwY29taW5nIHByb2plY3RzIDIwMjZIgRtQAFiPCXAAeACQAQCYAU-gAfkNqgECMza4AQPIAQD4AQGYAiOgAp8PwgIOEC4YgAQYigUYsQMYgwHCAgsQABiABBixAxiDAcICDhAAGIAEGIoFGLEDGIMBwgIOEC4YgAQYsQMYxwEY0QPCAgsQLhiABBjHARjRA8ICBRAuGIAEwgIREC4YgAQYsQMYgwEYxwEY0QPCAggQLhiABBixA8ICCxAuGIAEGLEDGIMBwgIIEAAYgAQYsQPCAgUQABiABMICCBAuGLEDGIAEwgIGEAAYFhgewgIIEAAYFhgeGArCAgsQABiABBiKBRiGA8ICBRAAGO8FwgIIEAAYgAQYogTCAgUQIRigAcICBRAhGKsCmAMAkgcCMzWgB7-sArIHAjM1uAefD8IHCDAuOS4yNS4xyAeaAYAIAQ&sclient=gws-wiz&sei=FHEqarPAJJrk5NoP1sTA6Qk\n[End of page]\n</browser_state>\n"
+    },
+    {
+      "model_output": {
+        "evaluation_previous_goal": "Google CAPTCHA appeared blocking the search. Need to use an alternative search engine.",
+        "memory": "Google CAPTCHA blocked the search. Will use DuckDuckGo to search for Jerry Trainor's upcoming projects.",
+        "next_goal": "Search for Jerry Trainor's upcoming projects on DuckDuckGo.",
+        "action": [
+          {
+            "search": {
+              "query": "Jerry Trainor upcoming projects 2026",
+              "engine": "duckduckgo"
+            }
+          }
+        ]
+      },
+      "result": [
+        {
+          "is_done": false,
+          "error": "google_sorry",
+          "include_extracted_content_only_once": false,
+          "include_in_memory": false
+        }
+      ],
+      "state": {
+        "tabs": [
+          {
+            "url": "https://www.google.com/sorry/index?continue=https://www.google.com/search%3Fq%3DJerry%2BTrainor%2Bupcoming%2Bprojects%2B2026%26sca_esv%3D09fac29a4686d309%26source%3Dhp%26ei%3D9XAqaqjaG-GsiLMP27SdUQ%26iflsig%3DAFdpzrgAAAAAaip_BeNgL5HOKFWTMjE0tovzzhEBPsfq%26ved%3D0ahUKEwjoqPXQ4f6UAxVhFmIAHVtaJwoQ4dUDCA8%26uact%3D5%26oq%3DJerry%2BTrainor%2Bupcoming%2Bprojects%2B2026%26gs_lp%3DEgdnd3Mtd2l6IiRKZXJyeSBUcmFpbm9yIHVwY29taW5nIHByb2plY3RzIDIwMjZIgRtQAFiPCXAAeACQAQCYAU-gAfkNqgECMza4AQPIAQD4AQGYAiOgAp8PwgIOEC4YgAQYigUYsQMYgwHCAgsQABiABBixAxiDAcICDhAAGIAEGIoFGLEDGIMBwgIOEC4YgAQYsQMYxwEY0QPCAgsQLhiABBjHARjRA8ICBRAuGIAEwgIREC4YgAQYsQMYgwEYxwEY0QPCAggQLhiABBixA8ICCxAuGIAEGLEDGIMBwgIIEAAYgAQYsQPCAgUQABiABMICCBAuGLEDGIAEwgIGEAAYFhgewgIIEAAYFhgeGArCAgsQABiABBiKBRiGA8ICBRAAGO8FwgIIEAAYgAQYogTCAgUQIRigAcICBRAhGKsCmAMAkgcCMzWgB7-sArIHAjM1uAefD8IHCDAuOS4yNS4xyAeaAYAIAQ%26sclient%3Dgws-wiz%26sei%3DFHEqarPAJJrk5NoP1sTA6Qk&q=EgRrFUvuGJTiqdEGIjBZL1RcTnl2LUdUXxyD7fDGca4e1TX0SXs0Eu1XM_FqjdqCenMbzuqwPWrL_TMlZ7gyAVJaAUM",
+            "title": "https://www.google.com/search?q=Jerry+Trainor+upcoming+projects+2026&sca_esv=09fac29a4686d309&source=hp&ei=9XAqaqjaG-GsiLMP27SdUQ&iflsig=AFdpzrgAAAAAaip_BeNgL5HOKFWTMjE0tovzzhEBPsfq&ved=0ahUKEwjoqPXQ4f6UAxVhFmIAHVtaJwoQ4dUDCA8&uact=5&oq=Jerry+Trainor+upcoming+projects+2026&gs_lp=Egdnd3Mtd2l6IiRKZXJyeSBUcmFpbm9yIHVwY29taW5nIHByb2plY3RzIDIwMjZIgRtQAFiPCXAAeACQAQCYAU-gAfkNqgECMza4AQPIAQD4AQGYAiOgAp8PwgIOEC4YgAQYigUYsQMYgwHCAgsQABiABBixAxiDAcICDhAAGIAEGIoFGLEDGIMBwgIOEC4YgAQYsQMYxwEY0QPCAgsQLhiABBjHARjRA8ICBRAuGIAEwgIREC4YgAQYsQMYgwEYxwEY0QPCAggQLhiABBixA8ICCxAuGIAEGLEDGIMBwgIIEAAYgAQYsQPCAgUQABiABMICCBAuGLEDGIAEwgIGEAAYFhgewgIIEAAYFhgeGArCAgsQABiABBiKBRiGA8ICBRAAGO8FwgIIEAAYgAQYogTCAgUQIRigAcICBRAhGKsCmAMAkgcCMzWgB7-sArIHAjM1uAefD8IHCDAuOS4yNS4xyAeaAYAIAQ&sclient=gws-wiz&sei=FHEqarPAJJrk5NoP1sTA6Qk",
+            "target_id": "406D",
+            "parent_target_id": null
+          }
+        ],
+        "screenshot_path": "/tmp/browser_use_agent_06a2a70e-fe5a-7205-8000-01fb4cafc9fe_1781166319/screenshots/step_3.png",
+        "interacted_element": [
+          null
+        ],
+        "url": "https://www.google.com/sorry/index?continue=https://www.google.com/search%3Fq%3DJerry%2BTrainor%2Bupcoming%2Bprojects%2B2026%26sca_esv%3D09fac29a4686d309%26source%3Dhp%26ei%3D9XAqaqjaG-GsiLMP27SdUQ%26iflsig%3DAFdpzrgAAAAAaip_BeNgL5HOKFWTMjE0tovzzhEBPsfq%26ved%3D0ahUKEwjoqPXQ4f6UAxVhFmIAHVtaJwoQ4dUDCA8%26uact%3D5%26oq%3DJerry%2BTrainor%2Bupcoming%2Bprojects%2B2026%26gs_lp%3DEgdnd3Mtd2l6IiRKZXJyeSBUcmFpbm9yIHVwY29taW5nIHByb2plY3RzIDIwMjZIgRtQAFiPCXAAeACQAQCYAU-gAfkNqgECMza4AQPIAQD4AQGYAiOgAp8PwgIOEC4YgAQYigUYsQMYgwHCAgsQABiABBixAxiDAcICDhAAGIAEGIoFGLEDGIMBwgIOEC4YgAQYsQMYxwEY0QPCAgsQLhiABBjHARjRA8ICBRAuGIAEwgIREC4YgAQYsQMYgwEYxwEY0QPCAggQLhiABBixA8ICCxAuGIAEGLEDGIMBwgIIEAAYgAQYsQPCAgUQABiABMICCBAuGLEDGIAEwgIGEAAYFhgewgIIEAAYFhgeGArCAgsQABiABBiKBRiGA8ICBRAAGO8FwgIIEAAYgAQYogTCAgUQIRigAcICBRAhGKsCmAMAkgcCMzWgB7-sArIHAjM1uAefD8IHCDAuOS4yNS4xyAeaAYAIAQ%26sclient%3Dgws-wiz%26sei%3DFHEqarPAJJrk5NoP1sTA6Qk&q=EgRrFUvuGJTiqdEGIjBZL1RcTnl2LUdUXxyD7fDGca4e1TX0SXs0Eu1XM_FqjdqCenMbzuqwPWrL_TMlZ7gyAVJaAUM",
+        "title": "https://www.google.com/search?q=Jerry+Trainor+upcoming+projects+2026&sca_esv=09fac29a4686d309&source=hp&ei=9XAqaqjaG-GsiLMP27SdUQ&iflsig=AFdpzrgAAAAAaip_BeNgL5HOKFWTMjE0tovzzhEBPsfq&ved=0ahUKEwjoqPXQ4f6UAxVhFmIAHVtaJwoQ4dUDCA8&uact=5&oq=Jerry+Trainor+upcoming+projects+2026&gs_lp=Egdnd3Mtd2l6IiRKZXJyeSBUcmFpbm9yIHVwY29taW5nIHByb2plY3RzIDIwMjZIgRtQAFiPCXAAeACQAQCYAU-gAfkNqgECMza4AQPIAQD4AQGYAiOgAp8PwgIOEC4YgAQYigUYsQMYgwHCAgsQABiABBixAxiDAcICDhAAGIAEGIoFGLEDGIMBwgIOEC4YgAQYsQMYxwEY0QPCAgsQLhiABBjHARjRA8ICBRAuGIAEwgIREC4YgAQYsQMYgwEYxwEY0QPCAggQLhiABBixA8ICCxAuGIAEGLEDGIMBwgIIEAAYgAQYsQPCAgUQABiABMICCBAuGLEDGIAEwgIGEAAYFhgewgIIEAAYFhgeGArCAgsQABiABBiKBRiGA8ICBRAAGO8FwgIIEAAYgAQYogTCAgUQIRigAcICBRAhGKsCmAMAkgcCMzWgB7-sArIHAjM1uAefD8IHCDAuOS4yNS4xyAeaAYAIAQ&sclient=gws-wiz&sei=FHEqarPAJJrk5NoP1sTA6Qk"
+      },
+      "metadata": {
+        "step_start_time": 1781166361.7952592,
+        "step_end_time": 1781166370.9679844,
+        "step_number": 3,
+        "step_interval": 5.079097270965576
+      },
+      "state_message": "<agent_history>\nAgent initialized\n<step>\nResult\nFound initial url and automatically loaded it. Navigated to https://www.google.com/\n<step>\nSuccessfully loaded Google homepage. Verdict: Success\nStarting task: Search for Jerry Trainor's upcoming projects on Google.\nSearch for Jerry Trainor's upcoming projects on Google.\nResult\nTyped 'Jerry Trainor upcoming projects 2026'\n💡 This is an autocomplete field. Wait for suggestions to appear, then click the correct suggestion instead of pressing Enter.\nSent keys: Enter\n<step>\nGoogle triggered a CAPTCHA/bot detection page. Need to handle this.\nGoogle is showing a CAPTCHA. Need to wait for it to be solved automatically or try an alternative approach like searching via DuckDuckGo.\nTry searching for Jerry Trainor's upcoming projects using DuckDuckGo instead to avoid the Google CAPTCHA.\nResult\ngoogle_sorry\n</agent_history>\n\n<agent_state>\n<user_request>\nWhat are Jerry Trainor's upcoming projects? on https://www.google.com/\n</user_request>\n<file_system>\n\n</file_system>\n<todo_contents>\n[empty todo.md, fill it when applicable]\n</todo_contents>\n<step_info>Step3 maximum:30\nToday:2026-06-11</step_info>\n</agent_state>\n<browser_state>\n<page_stats>1 links, 7 interactive, 1 iframes, 54 total elements</page_stats>\nCurrent tab: 406D\nAvailable tabs:\nTab 406D: https://www.google.com/sorry/index?continue=https://www.google.com/search%3Fq%3DJerry%2BTrainor%2Bupcoming%2Bprojects%2B2026%26sca_esv%3D09fac29a4686d309%26source%3Dhp%26ei%3D9XAqaqjaG-GsiLMP27SdUQ%26iflsig%3DAFdpzrgAAAAAaip_BeNgL5HOKFWTMjE0tovzzhEBPsfq%26ved%3D0ahUKEwjoqPXQ4f6UAxVhFmIAHVtaJwoQ4dUDCA8%26uact%3D5%26oq%3DJerry%2BTrainor%2Bupcoming%2Bprojects%2B2026%26gs_lp%3DEgdnd3Mtd2l6IiRKZXJyeSBUcmFpbm9yIHVwY29taW5nIHByb2plY3RzIDIwMjZIgRtQAFiPCXAAeACQAQCYAU-gAfkNqgECMza4AQPIAQD4AQGYAiOgAp8PwgIOEC4YgAQYigUYsQMYgwHCAgsQABiABBixAxiDAcICDhAAGIAEGIoFGLEDGIMBwgIOEC4YgAQYsQMYxwEY0QPCAgsQLhiABBjHARjRA8ICBRAuGIAEwgIREC4YgAQYsQMYgwEYxwEY0QPCAggQLhiABBixA8ICCxAuGIAEGLEDGIMBwgIIEAAYgAQYsQPCAgUQABiABMICCBAuGLEDGIAEwgIGEAAYFhgewgIIEAAYFhgeGArCAgsQABiABBiKBRiGA8ICBRAAGO8FwgIIEAAYgAQYogTCAgUQIRigAcICBRAhGKsCmAMAkgcCMzWgB7-sArIHAjM1uAefD8IHCDAuOS4yNS4xyAeaAYAIAQ%26sclient%3Dgws-wiz%26sei%3DFHEqarPAJJrk5NoP1sTA6Qk&q=EgRrFUvuGJTiqdEGIjBZL1RcTnl2LUdUXxyD7fDGca4e1TX0SXs0Eu1XM_FqjdqCenMbzuqwPWrL_TMlZ7gyAVJaAUM - https://www.google.com/search?\n\n<page_info>0.0 pages above, 0.0 pages below</page_info>\n\nInteractive elements:\n[Start of page]\n[2111]<hr />\n|scroll element|<iframe title=reCAPTCHA role=presentation name=a-dneqo4gwdd91 /> (scroll)\n\t[2208]<div role=presentation />\n\t[2210]<div />\n\t[2096]<div role=presentation />\n\tI'm not a robot\n\t[2094]<div />\n\treCAPTCHA\n[2089]<hr />\nAbout this page\nOur systems have detected unusual traffic from your computer network.  This page checks to see if it's really you sending the requests, and not a robot.\n[2098]<a />\n\tWhy did this happen?\nIP address: 107.21.75.238\nTime: 2026-06-11T08:25:57Z\nURL: https://www.google.com/search?q=Jerry+Trainor+upcoming+projects+2026&sca_esv=09fac29a4686d309&source=hp&ei=9XAqaqjaG-GsiLMP27SdUQ&iflsig=AFdpzrgAAAAAaip_BeNgL5HOKFWTMjE0tovzzhEBPsfq&ved=0ahUKEwjoqPXQ4f6UAxVhFmIAHVtaJwoQ4dUDCA8&uact=5&oq=Jerry+Trainor+upcoming+projects+2026&gs_lp=Egdnd3Mtd2l6IiRKZXJyeSBUcmFpbm9yIHVwY29taW5nIHByb2plY3RzIDIwMjZIgRtQAFiPCXAAeACQAQCYAU-gAfkNqgECMza4AQPIAQD4AQGYAiOgAp8PwgIOEC4YgAQYigUYsQMYgwHCAgsQABiABBixAxiDAcICDhAAGIAEGIoFGLEDGIMBwgIOEC4YgAQYsQMYxwEY0QPCAgsQLhiABBjHARjRA8ICBRAuGIAEwgIREC4YgAQYsQMYgwEYxwEY0QPCAggQLhiABBixA8ICCxAuGIAEGLEDGIMBwgIIEAAYgAQYsQPCAgUQABiABMICCBAuGLEDGIAEwgIGEAAYFhgewgIIEAAYFhgeGArCAgsQABiABBiKBRiGA8ICBRAAGO8FwgIIEAAYgAQYogTCAgUQIRigAcICBRAhGKsCmAMAkgcCMzWgB7-sArIHAjM1uAefD8IHCDAuOS4yNS4xyAeaAYAIAQ&sclient=gws-wiz&sei=FHEqarPAJJrk5NoP1sTA6Qk\n[End of page]\n</browser_state>\n"
+    },
+    {
+      "model_output": {
+        "evaluation_previous_goal": "Google CAPTCHA is blocking the search. Need to use an alternative search engine.",
+        "memory": "Google CAPTCHA is blocking searches. Will use DuckDuckGo to search for Jerry Trainor's upcoming projects.",
+        "next_goal": "Search for Jerry Trainor's upcoming projects on DuckDuckGo.",
+        "action": [
+          {
+            "search": {
+              "query": "Jerry Trainor upcoming projects 2026",
+              "engine": "duckduckgo"
+            }
+          }
+        ]
+      },
+      "result": [
+        {
+          "is_done": false,
+          "error": "google_sorry",
+          "include_extracted_content_only_once": false,
+          "include_in_memory": false
+        }
+      ],
+      "state": {
+        "tabs": [
+          {
+            "url": "https://www.google.com/sorry/index?continue=https://www.google.com/search%3Fq%3DJerry%2BTrainor%2Bupcoming%2Bprojects%2B2026%26sca_esv%3D09fac29a4686d309%26source%3Dhp%26ei%3D9XAqaqjaG-GsiLMP27SdUQ%26iflsig%3DAFdpzrgAAAAAaip_BeNgL5HOKFWTMjE0tovzzhEBPsfq%26ved%3D0ahUKEwjoqPXQ4f6UAxVhFmIAHVtaJwoQ4dUDCA8%26uact%3D5%26oq%3DJerry%2BTrainor%2Bupcoming%2Bprojects%2B2026%26gs_lp%3DEgdnd3Mtd2l6IiRKZXJyeSBUcmFpbm9yIHVwY29taW5nIHByb2plY3RzIDIwMjZIgRtQAFiPCXAAeACQAQCYAU-gAfkNqgECMza4AQPIAQD4AQGYAiOgAp8PwgIOEC4YgAQYigUYsQMYgwHCAgsQABiABBixAxiDAcICDhAAGIAEGIoFGLEDGIMBwgIOEC4YgAQYsQMYxwEY0QPCAgsQLhiABBjHARjRA8ICBRAuGIAEwgIREC4YgAQYsQMYgwEYxwEY0QPCAggQLhiABBixA8ICCxAuGIAEGLEDGIMBwgIIEAAYgAQYsQPCAgUQABiABMICCBAuGLEDGIAEwgIGEAAYFhgewgIIEAAYFhgeGArCAgsQABiABBiKBRiGA8ICBRAAGO8FwgIIEAAYgAQYogTCAgUQIRigAcICBRAhGKsCmAMAkgcCMzWgB7-sArIHAjM1uAefD8IHCDAuOS4yNS4xyAeaAYAIAQ%26sclient%3Dgws-wiz%26sei%3DFHEqarPAJJrk5NoP1sTA6Qk&q=EgRrFUvuGJTiqdEGIjBZL1RcTnl2LUdUXxyD7fDGca4e1TX0SXs0Eu1XM_FqjdqCenMbzuqwPWrL_TMlZ7gyAVJaAUM",
+            "title": "https://www.google.com/search?q=Jerry+Trainor+upcoming+projects+2026&sca_esv=09fac29a4686d309&source=hp&ei=9XAqaqjaG-GsiLMP27SdUQ&iflsig=AFdpzrgAAAAAaip_BeNgL5HOKFWTMjE0tovzzhEBPsfq&ved=0ahUKEwjoqPXQ4f6UAxVhFmIAHVtaJwoQ4dUDCA8&uact=5&oq=Jerry+Trainor+upcoming+projects+2026&gs_lp=Egdnd3Mtd2l6IiRKZXJyeSBUcmFpbm9yIHVwY29taW5nIHByb2plY3RzIDIwMjZIgRtQAFiPCXAAeACQAQCYAU-gAfkNqgECMza4AQPIAQD4AQGYAiOgAp8PwgIOEC4YgAQYigUYsQMYgwHCAgsQABiABBixAxiDAcICDhAAGIAEGIoFGLEDGIMBwgIOEC4YgAQYsQMYxwEY0QPCAgsQLhiABBjHARjRA8ICBRAuGIAEwgIREC4YgAQYsQMYgwEYxwEY0QPCAggQLhiABBixA8ICCxAuGIAEGLEDGIMBwgIIEAAYgAQYsQPCAgUQABiABMICCBAuGLEDGIAEwgIGEAAYFhgewgIIEAAYFhgeGArCAgsQABiABBiKBRiGA8ICBRAAGO8FwgIIEAAYgAQYogTCAgUQIRigAcICBRAhGKsCmAMAkgcCMzWgB7-sArIHAjM1uAefD8IHCDAuOS4yNS4xyAeaAYAIAQ&sclient=gws-wiz&sei=FHEqarPAJJrk5NoP1sTA6Qk",
+            "target_id": "406D",
+            "parent_target_id": null
+          }
+        ],
+        "screenshot_path": "/tmp/browser_use_agent_06a2a70e-fe5a-7205-8000-01fb4cafc9fe_1781166319/screenshots/step_4.png",
+        "interacted_element": [
+          null
+        ],
+        "url": "https://www.google.com/sorry/index?continue=https://www.google.com/search%3Fq%3DJerry%2BTrainor%2Bupcoming%2Bprojects%2B2026%26sca_esv%3D09fac29a4686d309%26source%3Dhp%26ei%3D9XAqaqjaG-GsiLMP27SdUQ%26iflsig%3DAFdpzrgAAAAAaip_BeNgL5HOKFWTMjE0tovzzhEBPsfq%26ved%3D0ahUKEwjoqPXQ4f6UAxVhFmIAHVtaJwoQ4dUDCA8%26uact%3D5%26oq%3DJerry%2BTrainor%2Bupcoming%2Bprojects%2B2026%26gs_lp%3DEgdnd3Mtd2l6IiRKZXJyeSBUcmFpbm9yIHVwY29taW5nIHByb2plY3RzIDIwMjZIgRtQAFiPCXAAeACQAQCYAU-gAfkNqgECMza4AQPIAQD4AQGYAiOgAp8PwgIOEC4YgAQYigUYsQMYgwHCAgsQABiABBixAxiDAcICDhAAGIAEGIoFGLEDGIMBwgIOEC4YgAQYsQMYxwEY0QPCAgsQLhiABBjHARjRA8ICBRAuGIAEwgIREC4YgAQYsQMYgwEYxwEY0QPCAggQLhiABBixA8ICCxAuGIAEGLEDGIMBwgIIEAAYgAQYsQPCAgUQABiABMICCBAuGLEDGIAEwgIGEAAYFhgewgIIEAAYFhgeGArCAgsQABiABBiKBRiGA8ICBRAAGO8FwgIIEAAYgAQYogTCAgUQIRigAcICBRAhGKsCmAMAkgcCMzWgB7-sArIHAjM1uAefD8IHCDAuOS4yNS4xyAeaAYAIAQ%26sclient%3Dgws-wiz%26sei%3DFHEqarPAJJrk5NoP1sTA6Qk&q=EgRrFUvuGJTiqdEGIjBZL1RcTnl2LUdUXxyD7fDGca4e1TX0SXs0Eu1XM_FqjdqCenMbzuqwPWrL_TMlZ7gyAVJaAUM",
+        "title": "https://www.google.com/search?q=Jerry+Trainor+upcoming+projects+2026&sca_esv=09fac29a4686d309&source=hp&ei=9XAqaqjaG-GsiLMP27SdUQ&iflsig=AFdpzrgAAAAAaip_BeNgL5HOKFWTMjE0tovzzhEBPsfq&ved=0ahUKEwjoqPXQ4f6UAxVhFmIAHVtaJwoQ4dUDCA8&uact=5&oq=Jerry+Trainor+upcoming+projects+2026&gs_lp=Egdnd3Mtd2l6IiRKZXJyeSBUcmFpbm9yIHVwY29taW5nIHByb2plY3RzIDIwMjZIgRtQAFiPCXAAeACQAQCYAU-gAfkNqgECMza4AQPIAQD4AQGYAiOgAp8PwgIOEC4YgAQYigUYsQMYgwHCAgsQABiABBixAxiDAcICDhAAGIAEGIoFGLEDGIMBwgIOEC4YgAQYsQMYxwEY0QPCAgsQLhiABBjHARjRA8ICBRAuGIAEwgIREC4YgAQYsQMYgwEYxwEY0QPCAggQLhiABBixA8ICCxAuGIAEGLEDGIMBwgIIEAAYgAQYsQPCAgUQABiABMICCBAuGLEDGIAEwgIGEAAYFhgewgIIEAAYFhgeGArCAgsQABiABBiKBRiGA8ICBRAAGO8FwgIIEAAYgAQYogTCAgUQIRigAcICBRAhGKsCmAMAkgcCMzWgB7-sArIHAjM1uAefD8IHCDAuOS4yNS4xyAeaAYAIAQ&sclient=gws-wiz&sei=FHEqarPAJJrk5NoP1sTA6Qk"
+      },
+      "metadata": {
+        "step_start_time": 1781166371.1361127,
+        "step_end_time": 1781166374.982885,
+        "step_number": 4,
+        "step_interval": 9.172725200653076
+      },
+      "state_message": "<agent_history>\nAgent initialized\n<step>\nResult\nFound initial url and automatically loaded it. Navigated to https://www.google.com/\n<step>\nSuccessfully loaded Google homepage. Verdict: Success\nStarting task: Search for Jerry Trainor's upcoming projects on Google.\nSearch for Jerry Trainor's upcoming projects on Google.\nResult\nTyped 'Jerry Trainor upcoming projects 2026'\n💡 This is an autocomplete field. Wait for suggestions to appear, then click the correct suggestion instead of pressing Enter.\nSent keys: Enter\n<step>\nGoogle triggered a CAPTCHA/bot detection page. Need to handle this.\nGoogle is showing a CAPTCHA. Need to wait for it to be solved automatically or try an alternative approach like searching via DuckDuckGo.\nTry searching for Jerry Trainor's upcoming projects using DuckDuckGo instead to avoid the Google CAPTCHA.\nResult\ngoogle_sorry\n<step>\nGoogle CAPTCHA appeared blocking the search. Need to use an alternative search engine.\nGoogle CAPTCHA blocked the search. Will use DuckDuckGo to search for Jerry Trainor's upcoming projects.\nSearch for Jerry Trainor's upcoming projects on DuckDuckGo.\nResult\ngoogle_sorry\n</agent_history>\n\n<agent_state>\n<user_request>\nWhat are Jerry Trainor's upcoming projects? on https://www.google.com/\n</user_request>\n<file_system>\n\n</file_system>\n<todo_contents>\n[empty todo.md, fill it when applicable]\n</todo_contents>\n<step_info>Step4 maximum:30\nToday:2026-06-11</step_info>\n</agent_state>\n<browser_state>\n<page_stats>1 links, 7 interactive, 1 iframes, 54 total elements</page_stats>\nCurrent tab: 406D\nAvailable tabs:\nTab 406D: https://www.google.com/sorry/index?continue=https://www.google.com/search%3Fq%3DJerry%2BTrainor%2Bupcoming%2Bprojects%2B2026%26sca_esv%3D09fac29a4686d309%26source%3Dhp%26ei%3D9XAqaqjaG-GsiLMP27SdUQ%26iflsig%3DAFdpzrgAAAAAaip_BeNgL5HOKFWTMjE0tovzzhEBPsfq%26ved%3D0ahUKEwjoqPXQ4f6UAxVhFmIAHVtaJwoQ4dUDCA8%26uact%3D5%26oq%3DJerry%2BTrainor%2Bupcoming%2Bprojects%2B2026%26gs_lp%3DEgdnd3Mtd2l6IiRKZXJyeSBUcmFpbm9yIHVwY29taW5nIHByb2plY3RzIDIwMjZIgRtQAFiPCXAAeACQAQCYAU-gAfkNqgECMza4AQPIAQD4AQGYAiOgAp8PwgIOEC4YgAQYigUYsQMYgwHCAgsQABiABBixAxiDAcICDhAAGIAEGIoFGLEDGIMBwgIOEC4YgAQYsQMYxwEY0QPCAgsQLhiABBjHARjRA8ICBRAuGIAEwgIREC4YgAQYsQMYgwEYxwEY0QPCAggQLhiABBixA8ICCxAuGIAEGLEDGIMBwgIIEAAYgAQYsQPCAgUQABiABMICCBAuGLEDGIAEwgIGEAAYFhgewgIIEAAYFhgeGArCAgsQABiABBiKBRiGA8ICBRAAGO8FwgIIEAAYgAQYogTCAgUQIRigAcICBRAhGKsCmAMAkgcCMzWgB7-sArIHAjM1uAefD8IHCDAuOS4yNS4xyAeaAYAIAQ%26sclient%3Dgws-wiz%26sei%3DFHEqarPAJJrk5NoP1sTA6Qk&q=EgRrFUvuGJTiqdEGIjBZL1RcTnl2LUdUXxyD7fDGca4e1TX0SXs0Eu1XM_FqjdqCenMbzuqwPWrL_TMlZ7gyAVJaAUM - https://www.google.com/search?\n\n<page_info>0.0 pages above, 0.0 pages below</page_info>\n\nInteractive elements:\n[Start of page]\n[2111]<hr />\n|scroll element|<iframe title=reCAPTCHA role=presentation name=a-dneqo4gwdd91 /> (scroll)\n\t[2208]<div role=presentation />\n\t[2210]<div />\n\t[2096]<div role=presentation />\n\tI'm not a robot\n\t[2094]<div />\n\treCAPTCHA\n[2089]<hr />\nAbout this page\nOur systems have detected unusual traffic from your computer network.  This page checks to see if it's really you sending the requests, and not a robot.\n[2098]<a />\n\tWhy did this happen?\nIP address: 107.21.75.238\nTime: 2026-06-11T08:25:57Z\nURL: https://www.google.com/search?q=Jerry+Trainor+upcoming+projects+2026&sca_esv=09fac29a4686d309&source=hp&ei=9XAqaqjaG-GsiLMP27SdUQ&iflsig=AFdpzrgAAAAAaip_BeNgL5HOKFWTMjE0tovzzhEBPsfq&ved=0ahUKEwjoqPXQ4f6UAxVhFmIAHVtaJwoQ4dUDCA8&uact=5&oq=Jerry+Trainor+upcoming+projects+2026&gs_lp=Egdnd3Mtd2l6IiRKZXJyeSBUcmFpbm9yIHVwY29taW5nIHByb2plY3RzIDIwMjZIgRtQAFiPCXAAeACQAQCYAU-gAfkNqgECMza4AQPIAQD4AQGYAiOgAp8PwgIOEC4YgAQYigUYsQMYgwHCAgsQABiABBixAxiDAcICDhAAGIAEGIoFGLEDGIMBwgIOEC4YgAQYsQMYxwEY0QPCAgsQLhiABBjHARjRA8ICBRAuGIAEwgIREC4YgAQYsQMYgwEYxwEY0QPCAggQLhiABBixA8ICCxAuGIAEGLEDGIMBwgIIEAAYgAQYsQPCAgUQABiABMICCBAuGLEDGIAEwgIGEAAYFhgewgIIEAAYFhgeGArCAgsQABiABBiKBRiGA8ICBRAAGO8FwgIIEAAYgAQYogTCAgUQIRigAcICBRAhGKsCmAMAkgcCMzWgB7-sArIHAjM1uAefD8IHCDAuOS4yNS4xyAeaAYAIAQ&sclient=gws-wiz&sei=FHEqarPAJJrk5NoP1sTA6Qk\n[End of page]\n</browser_state>\n"
+    },
+    {
+      "model_output": {
+        "evaluation_previous_goal": "Google CAPTCHA is blocking all search attempts. Unable to retrieve search results.",
+        "memory": "Attempted to search for Jerry Trainor's upcoming projects on Google but was blocked by a CAPTCHA. Attempts to use alternative approaches also failed due to the CAPTCHA blocking the session.",
+        "next_goal": "Call done since no other tools are available.",
+        "action": [
+          {
+            "done": {
+              "text": "I was unable to retrieve information about Jerry Trainor's upcoming projects from Google. The search was blocked by a Google CAPTCHA/bot detection system, and I was unable to bypass it or use alternative search engines within this session.\n\nBased on my training knowledge (not from live search results): Jerry Trainor is best known for playing Spencer Shay on iCarly. As of my knowledge cutoff, he has been involved in various acting and voice acting projects. However, I cannot provide verified, up-to-date information about his upcoming projects as of June 2026 since the live search was blocked.\n\nTo find the most current information about Jerry Trainor's upcoming projects, I recommend:\n1. Searching directly on Google, IMDb (imdb.com/name/nm1488418), or his social media profiles\n2. Checking entertainment news sites like Deadline, Variety, or The Hollywood Reporter",
+              "success": false,
+              "files_to_display": []
+            }
+          }
+        ]
+      },
+      "result": [
+        {
+          "is_done": false,
+          "error": "google_sorry",
+          "include_extracted_content_only_once": false,
+          "include_in_memory": false
+        }
+      ],
+      "state": {
+        "tabs": [
+          {
+            "url": "https://www.google.com/sorry/index?continue=https://www.google.com/search%3Fq%3DJerry%2BTrainor%2Bupcoming%2Bprojects%2B2026%26sca_esv%3D09fac29a4686d309%26source%3Dhp%26ei%3D9XAqaqjaG-GsiLMP27SdUQ%26iflsig%3DAFdpzrgAAAAAaip_BeNgL5HOKFWTMjE0tovzzhEBPsfq%26ved%3D0ahUKEwjoqPXQ4f6UAxVhFmIAHVtaJwoQ4dUDCA8%26uact%3D5%26oq%3DJerry%2BTrainor%2Bupcoming%2Bprojects%2B2026%26gs_lp%3DEgdnd3Mtd2l6IiRKZXJyeSBUcmFpbm9yIHVwY29taW5nIHByb2plY3RzIDIwMjZIgRtQAFiPCXAAeACQAQCYAU-gAfkNqgECMza4AQPIAQD4AQGYAiOgAp8PwgIOEC4YgAQYigUYsQMYgwHCAgsQABiABBixAxiDAcICDhAAGIAEGIoFGLEDGIMBwgIOEC4YgAQYsQMYxwEY0QPCAgsQLhiABBjHARjRA8ICBRAuGIAEwgIREC4YgAQYsQMYgwEYxwEY0QPCAggQLhiABBixA8ICCxAuGIAEGLEDGIMBwgIIEAAYgAQYsQPCAgUQABiABMICCBAuGLEDGIAEwgIGEAAYFhgewgIIEAAYFhgeGArCAgsQABiABBiKBRiGA8ICBRAAGO8FwgIIEAAYgAQYogTCAgUQIRigAcICBRAhGKsCmAMAkgcCMzWgB7-sArIHAjM1uAefD8IHCDAuOS4yNS4xyAeaAYAIAQ%26sclient%3Dgws-wiz%26sei%3DFHEqarPAJJrk5NoP1sTA6Qk&q=EgRrFUvuGJTiqdEGIjBZL1RcTnl2LUdUXxyD7fDGca4e1TX0SXs0Eu1XM_FqjdqCenMbzuqwPWrL_TMlZ7gyAVJaAUM",
+            "title": "https://www.google.com/search?q=Jerry+Trainor+upcoming+projects+2026&sca_esv=09fac29a4686d309&source=hp&ei=9XAqaqjaG-GsiLMP27SdUQ&iflsig=AFdpzrgAAAAAaip_BeNgL5HOKFWTMjE0tovzzhEBPsfq&ved=0ahUKEwjoqPXQ4f6UAxVhFmIAHVtaJwoQ4dUDCA8&uact=5&oq=Jerry+Trainor+upcoming+projects+2026&gs_lp=Egdnd3Mtd2l6IiRKZXJyeSBUcmFpbm9yIHVwY29taW5nIHByb2plY3RzIDIwMjZIgRtQAFiPCXAAeACQAQCYAU-gAfkNqgECMza4AQPIAQD4AQGYAiOgAp8PwgIOEC4YgAQYigUYsQMYgwHCAgsQABiABBixAxiDAcICDhAAGIAEGIoFGLEDGIMBwgIOEC4YgAQYsQMYxwEY0QPCAgsQLhiABBjHARjRA8ICBRAuGIAEwgIREC4YgAQYsQMYgwEYxwEY0QPCAggQLhiABBixA8ICCxAuGIAEGLEDGIMBwgIIEAAYgAQYsQPCAgUQABiABMICCBAuGLEDGIAEwgIGEAAYFhgewgIIEAAYFhgeGArCAgsQABiABBiKBRiGA8ICBRAAGO8FwgIIEAAYgAQYogTCAgUQIRigAcICBRAhGKsCmAMAkgcCMzWgB7-sArIHAjM1uAefD8IHCDAuOS4yNS4xyAeaAYAIAQ&sclient=gws-wiz&sei=FHEqarPAJJrk5NoP1sTA6Qk",
+            "target_id": "406D",
+            "parent_target_id": null
+          }
+        ],
+        "screenshot_path": "/tmp/browser_use_agent_06a2a70e-fe5a-7205-8000-01fb4cafc9fe_1781166319/screenshots/step_5.png",
+        "interacted_element": [
+          null
+        ],
+        "url": "https://www.google.com/sorry/index?continue=https://www.google.com/search%3Fq%3DJerry%2BTrainor%2Bupcoming%2Bprojects%2B2026%26sca_esv%3D09fac29a4686d309%26source%3Dhp%26ei%3D9XAqaqjaG-GsiLMP27SdUQ%26iflsig%3DAFdpzrgAAAAAaip_BeNgL5HOKFWTMjE0tovzzhEBPsfq%26ved%3D0ahUKEwjoqPXQ4f6UAxVhFmIAHVtaJwoQ4dUDCA8%26uact%3D5%26oq%3DJerry%2BTrainor%2Bupcoming%2Bprojects%2B2026%26gs_lp%3DEgdnd3Mtd2l6IiRKZXJyeSBUcmFpbm9yIHVwY29taW5nIHByb2plY3RzIDIwMjZIgRtQAFiPCXAAeACQAQCYAU-gAfkNqgECMza4AQPIAQD4AQGYAiOgAp8PwgIOEC4YgAQYigUYsQMYgwHCAgsQABiABBixAxiDAcICDhAAGIAEGIoFGLEDGIMBwgIOEC4YgAQYsQMYxwEY0QPCAgsQLhiABBjHARjRA8ICBRAuGIAEwgIREC4YgAQYsQMYgwEYxwEY0QPCAggQLhiABBixA8ICCxAuGIAEGLEDGIMBwgIIEAAYgAQYsQPCAgUQABiABMICCBAuGLEDGIAEwgIGEAAYFhgewgIIEAAYFhgeGArCAgsQABiABBiKBRiGA8ICBRAAGO8FwgIIEAAYgAQYogTCAgUQIRigAcICBRAhGKsCmAMAkgcCMzWgB7-sArIHAjM1uAefD8IHCDAuOS4yNS4xyAeaAYAIAQ%26sclient%3Dgws-wiz%26sei%3DFHEqarPAJJrk5NoP1sTA6Qk&q=EgRrFUvuGJTiqdEGIjBZL1RcTnl2LUdUXxyD7fDGca4e1TX0SXs0Eu1XM_FqjdqCenMbzuqwPWrL_TMlZ7gyAVJaAUM",
+        "title": "https://www.google.com/search?q=Jerry+Trainor+upcoming+projects+2026&sca_esv=09fac29a4686d309&source=hp&ei=9XAqaqjaG-GsiLMP27SdUQ&iflsig=AFdpzrgAAAAAaip_BeNgL5HOKFWTMjE0tovzzhEBPsfq&ved=0ahUKEwjoqPXQ4f6UAxVhFmIAHVtaJwoQ4dUDCA8&uact=5&oq=Jerry+Trainor+upcoming+projects+2026&gs_lp=Egdnd3Mtd2l6IiRKZXJyeSBUcmFpbm9yIHVwY29taW5nIHByb2plY3RzIDIwMjZIgRtQAFiPCXAAeACQAQCYAU-gAfkNqgECMza4AQPIAQD4AQGYAiOgAp8PwgIOEC4YgAQYigUYsQMYgwHCAgsQABiABBixAxiDAcICDhAAGIAEGIoFGLEDGIMBwgIOEC4YgAQYsQMYxwEY0QPCAgsQLhiABBjHARjRA8ICBRAuGIAEwgIREC4YgAQYsQMYgwEYxwEY0QPCAggQLhiABBixA8ICCxAuGIAEGLEDGIMBwgIIEAAYgAQYsQPCAgUQABiABMICCBAuGLEDGIAEwgIGEAAYFhgewgIIEAAYFhgeGArCAgsQABiABBiKBRiGA8ICBRAAGO8FwgIIEAAYgAQYogTCAgUQIRigAcICBRAhGKsCmAMAkgcCMzWgB7-sArIHAjM1uAefD8IHCDAuOS4yNS4xyAeaAYAIAQ&sclient=gws-wiz&sei=FHEqarPAJJrk5NoP1sTA6Qk"
+      },
+      "metadata": {
+        "step_start_time": 1781166374.98637,
+        "step_end_time": 1781166391.775721,
+        "step_number": 5,
+        "step_interval": 3.8467721939086914
+      },
+      "state_message": "<agent_history>\nAgent initialized\n<step>\nResult\nFound initial url and automatically loaded it. Navigated to https://www.google.com/\n<step>\nSuccessfully loaded Google homepage. Verdict: Success\nStarting task: Search for Jerry Trainor's upcoming projects on Google.\nSearch for Jerry Trainor's upcoming projects on Google.\nResult\nTyped 'Jerry Trainor upcoming projects 2026'\n💡 This is an autocomplete field. Wait for suggestions to appear, then click the correct suggestion instead of pressing Enter.\nSent keys: Enter\n<step>\nGoogle triggered a CAPTCHA/bot detection page. Need to handle this.\nGoogle is showing a CAPTCHA. Need to wait for it to be solved automatically or try an alternative approach like searching via DuckDuckGo.\nTry searching for Jerry Trainor's upcoming projects using DuckDuckGo instead to avoid the Google CAPTCHA.\nResult\ngoogle_sorry\n<step>\nGoogle CAPTCHA appeared blocking the search. Need to use an alternative search engine.\nGoogle CAPTCHA blocked the search. Will use DuckDuckGo to search for Jerry Trainor's upcoming projects.\nSearch for Jerry Trainor's upcoming projects on DuckDuckGo.\nResult\ngoogle_sorry\n<step>\nGoogle CAPTCHA is blocking the search. Need to use an alternative search engine.\nGoogle CAPTCHA is blocking searches. Will use DuckDuckGo to search for Jerry Trainor's upcoming projects.\nSearch for Jerry Trainor's upcoming projects on DuckDuckGo.\nResult\ngoogle_sorry\n</agent_history>\n\n<agent_state>\n<user_request>\nWhat are Jerry Trainor's upcoming projects? on https://www.google.com/\n</user_request>\n<file_system>\n\n</file_system>\n<todo_contents>\n[empty todo.md, fill it when applicable]\n</todo_contents>\n<step_info>Step5 maximum:30\nToday:2026-06-11</step_info>\n</agent_state>\n<browser_state>\n<page_stats>1 links, 7 interactive, 1 iframes, 54 total elements</page_stats>\nCurrent tab: 406D\nAvailable tabs:\nTab 406D: https://www.google.com/sorry/index?continue=https://www.google.com/search%3Fq%3DJerry%2BTrainor%2Bupcoming%2Bprojects%2B2026%26sca_esv%3D09fac29a4686d309%26source%3Dhp%26ei%3D9XAqaqjaG-GsiLMP27SdUQ%26iflsig%3DAFdpzrgAAAAAaip_BeNgL5HOKFWTMjE0tovzzhEBPsfq%26ved%3D0ahUKEwjoqPXQ4f6UAxVhFmIAHVtaJwoQ4dUDCA8%26uact%3D5%26oq%3DJerry%2BTrainor%2Bupcoming%2Bprojects%2B2026%26gs_lp%3DEgdnd3Mtd2l6IiRKZXJyeSBUcmFpbm9yIHVwY29taW5nIHByb2plY3RzIDIwMjZIgRtQAFiPCXAAeACQAQCYAU-gAfkNqgECMza4AQPIAQD4AQGYAiOgAp8PwgIOEC4YgAQYigUYsQMYgwHCAgsQABiABBixAxiDAcICDhAAGIAEGIoFGLEDGIMBwgIOEC4YgAQYsQMYxwEY0QPCAgsQLhiABBjHARjRA8ICBRAuGIAEwgIREC4YgAQYsQMYgwEYxwEY0QPCAggQLhiABBixA8ICCxAuGIAEGLEDGIMBwgIIEAAYgAQYsQPCAgUQABiABMICCBAuGLEDGIAEwgIGEAAYFhgewgIIEAAYFhgeGArCAgsQABiABBiKBRiGA8ICBRAAGO8FwgIIEAAYgAQYogTCAgUQIRigAcICBRAhGKsCmAMAkgcCMzWgB7-sArIHAjM1uAefD8IHCDAuOS4yNS4xyAeaAYAIAQ%26sclient%3Dgws-wiz%26sei%3DFHEqarPAJJrk5NoP1sTA6Qk&q=EgRrFUvuGJTiqdEGIjBZL1RcTnl2LUdUXxyD7fDGca4e1TX0SXs0Eu1XM_FqjdqCenMbzuqwPWrL_TMlZ7gyAVJaAUM - https://www.google.com/search?\n\n<page_info>0.0 pages above, 0.0 pages below</page_info>\n\nInteractive elements:\n[Start of page]\n[2111]<hr />\n|scroll element|<iframe title=reCAPTCHA role=presentation name=a-dneqo4gwdd91 /> (scroll)\n\t[2208]<div role=presentation />\n\t[2210]<div />\n\t[2096]<div role=presentation />\n\tI'm not a robot\n\t[2094]<div />\n\treCAPTCHA\n[2089]<hr />\nAbout this page\nOur systems have detected unusual traffic from your computer network.  This page checks to see if it's really you sending the requests, and not a robot.\n[2098]<a />\n\tWhy did this happen?\nIP address: 107.21.75.238\nTime: 2026-06-11T08:25:57Z\nURL: https://www.google.com/search?q=Jerry+Trainor+upcoming+projects+2026&sca_esv=09fac29a4686d309&source=hp&ei=9XAqaqjaG-GsiLMP27SdUQ&iflsig=AFdpzrgAAAAAaip_BeNgL5HOKFWTMjE0tovzzhEBPsfq&ved=0ahUKEwjoqPXQ4f6UAxVhFmIAHVtaJwoQ4dUDCA8&uact=5&oq=Jerry+Trainor+upcoming+projects+2026&gs_lp=Egdnd3Mtd2l6IiRKZXJyeSBUcmFpbm9yIHVwY29taW5nIHByb2plY3RzIDIwMjZIgRtQAFiPCXAAeACQAQCYAU-gAfkNqgECMza4AQPIAQD4AQGYAiOgAp8PwgIOEC4YgAQYigUYsQMYgwHCAgsQABiABBixAxiDAcICDhAAGIAEGIoFGLEDGIMBwgIOEC4YgAQYsQMYxwEY0QPCAgsQLhiABBjHARjRA8ICBRAuGIAEwgIREC4YgAQYsQMYgwEYxwEY0QPCAggQLhiABBixA8ICCxAuGIAEGLEDGIMBwgIIEAAYgAQYsQPCAgUQABiABMICCBAuGLEDGIAEwgIGEAAYFhgewgIIEAAYFhgeGArCAgsQABiABBiKBRiGA8ICBRAAGO8FwgIIEAAYgAQYogTCAgUQIRigAcICBRAhGKsCmAMAkgcCMzWgB7-sArIHAjM1uAefD8IHCDAuOS4yNS4xyAeaAYAIAQ&sclient=gws-wiz&sei=FHEqarPAJJrk5NoP1sTA6Qk\n[End of page]\n</browser_state>\n"
+    }
+  ]
+}

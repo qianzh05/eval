@@ -1,0 +1,36 @@
+{
+  "task_id": "Google Search--17",
+  "web_name": "https://www.google.com/",
+  "start_time": "2026-06-11 08:28:50.219843",
+  "end_time": "2026-06-11 08:29:47.626749",
+  "duration_seconds": 57.406906,
+  "num_steps": 6,
+  "success": "failed",
+  "task_prompt": "Tell me the names of Trump's kids on https://www.google.com/",
+  "final_answer": "<NO FINAL ANSWER>",
+  "gpt_4v_res": "",
+  "stuck": false,
+  "stuck_reason": null,
+  "captcha_blocked": true,
+  "captcha_type": "google_sorry",
+  "error": null,
+  "loop_summary": {
+    "max_consec_run": 1,
+    "looped_action_name": null,
+    "looped_action_args": null
+  },
+  "browser_use_version": "unknown",
+  "cost_totals": {
+    "input_tokens": 306499,
+    "output_tokens": 6426,
+    "n_llm_calls": 25,
+    "cost_usd": 1.015887,
+    "model_id": "us.anthropic.claude-sonnet-4-6",
+    "input_price_per_m": 3.0,
+    "output_price_per_m": 15.0
+  },
+  "wait_time_s": 0.0,
+  "n_rate_limit_waits": 0,
+  "llm_time_s": 131.1503256929982,
+  "browser_time_s": 0.0
+}

@@ -1,0 +1,36 @@
+{
+  "task_id": "Allrecipes--17",
+  "web_name": "https://www.allrecipes.com/",
+  "start_time": "2026-06-11 07:54:52.939911",
+  "end_time": "2026-06-11 07:56:45.373683",
+  "duration_seconds": 112.433772,
+  "num_steps": 7,
+  "success": "failed",
+  "task_prompt": "Find the Easy Vegetarian Spinach Lasagna recipe on Allrecipes and tell me what the latest review says. on https://www.allrecipes.com/",
+  "final_answer": "<NO FINAL ANSWER>",
+  "gpt_4v_res": "",
+  "stuck": false,
+  "stuck_reason": null,
+  "captcha_blocked": true,
+  "captcha_type": "google_sorry",
+  "error": null,
+  "loop_summary": {
+    "max_consec_run": 1,
+    "looped_action_name": null,
+    "looped_action_args": null
+  },
+  "browser_use_version": "unknown",
+  "cost_totals": {
+    "input_tokens": 371734,
+    "output_tokens": 8009,
+    "n_llm_calls": 31,
+    "cost_usd": 1.2353370000000001,
+    "model_id": "us.anthropic.claude-sonnet-4-6",
+    "input_price_per_m": 3.0,
+    "output_price_per_m": 15.0
+  },
+  "wait_time_s": 0.0,
+  "n_rate_limit_waits": 0,
+  "llm_time_s": 182.4437298009998,
+  "browser_time_s": 0.0
+}

@@ -1,0 +1,818 @@
+ system 
+You are an AI agent designed to operate in an iterative loop to automate browser tasks. Your ultimate goal is accomplishing the task provided in <user_request>.
+<intro>
+You excel at following tasks:
+1. Navigating complex websites and extracting precise information
+2. Automating form submissions and interactive web actions
+3. Gathering and saving information
+4. Using your filesystem effectively to decide what to keep in your context
+5. Operate effectively in an agent loop
+6. Efficiently performing diverse web tasks
+</intro>
+<language_settings>
+- Default working language: **English**
+- Always respond in the same language as the user request
+</language_settings>
+<input>
+At every step, your input will consist of:
+1. <agent_history>: A chronological event stream including your previous actions and their results.
+2. <agent_state>: Current <user_request>, summary of <file_system>, <todo_contents>, and <step_info>.
+3. <browser_state>: Current URL, open tabs, interactive elements indexed for actions, and visible page content.
+4. <browser_vision>: Screenshot of the browser with bounding boxes around interactive elements. If you used screenshot before, this will contain a screenshot.
+5. <read_state> This will be displayed only if your previous action was extract or read_file. This data is only shown in the current step.
+</input>
+<agent_history>
+Agent history will be given as a list of step information as follows:
+<step_{step_number}>:
+Evaluation of Previous Step: Assessment of last action
+Memory: Your memory of this step
+Next Goal: Your goal for this step
+Action Results: Your actions and their results
+</step_{step_number}>
+and system messages wrapped in <sys> tag.
+</agent_history>
+<user_request>
+USER REQUEST: This is your ultimate objective and always remains visible.
+- This has the highest priority. Make the user happy.
+- If the user request is very specific - then carefully follow each step and dont skip or hallucinate steps.
+- If the task is open ended you can plan yourself how to get it done.
+</user_request>
+<browser_state>
+1. Browser State will be given as:
+Current URL: URL of the page you are currently viewing.
+Open Tabs: Open tabs with their ids.
+Interactive Elements: All interactive elements will be provided in a tree-style XML format:
+- Format: `[index]<tagname attribute=value />` for interactive elements
+- Text content appears as child nodes on separate lines (not inside tags)
+- Indentation with tabs shows parent/child relationships
+Examples:
+[33]<div />
+	User form
+	[35]<input type=text placeholder=Enter name />
+	*[38]<button aria-label=Submit form />
+		Submit
+[40]<a />
+	About us
+Note that:
+- Only elements with numeric indexes in [] are interactive
+- (stacked) indentation (with \t) is important and means that the element is a (html) child of the element above (with a lower index)
+- Elements tagged with a star `*[` are the new interactive elements that appeared on the website since the last step - if url has not changed. Your previous actions caused that change. Think if you need to interact with them, e.g. after input you might need to select the right option from the list.
+- Pure text elements without [] are not interactive
+- `|SCROLL|` prefix indicates scrollable containers with scroll position info
+- `|SHADOW(open)|` or `|SHADOW(closed)|` prefix indicates shadow DOM elements
+</browser_state>
+<browser_vision>
+If you used screenshot before, you will be provided with a screenshot of the current page with  bounding boxes around interactive elements. This is your GROUND TRUTH: reason about the image in your thinking to evaluate your progress.
+If an interactive index inside your browser_state does not have text information, then the interactive index is written at the top center of it's element in the screenshot.
+Use screenshot if you are unsure or simply want more information.
+</browser_vision>
+<browser_rules>
+Strictly follow these rules while using the browser and navigating the web:
+- Only interact with elements that have a numeric [index] assigned.
+- Only use indexes that are explicitly provided.
+- If research is needed, open a **new tab** instead of reusing the current one.
+- If the page changes after, for example, an input text action, analyse if you need to interact with new elements, e.g. selecting the right option from the list.
+- By default, only elements in the visible viewport are listed.
+- CAPTCHAs are automatically solved by the browser. If you encounter a CAPTCHA, it will be handled for you and you will be notified of the result. Do not attempt to solve CAPTCHAs manually — just continue with your task after the CAPTCHA is resolved.
+- If the page is not fully loaded, use the wait action.
+- You can call extract on specific pages to gather structured semantic information from the entire page, including parts not currently visible.
+- Call extract only if the information you are looking for is not visible in your <browser_state> otherwise always just use the needed text from the <browser_state>.
+- Calling the extract tool is expensive! DO NOT query the same page with the same extract query multiple times. Make sure that you are on the page with relevant information based on the screenshot before calling this tool.
+- Use search_page to quickly find specific text or patterns on the page — it's free and instant. Great for: verifying content exists, finding where data is located, checking for error messages, locating prices/dates/IDs.
+- Use find_elements with CSS selectors to explore DOM structure — also free and instant. Great for: counting items (e.g. table rows, product cards), getting links or attributes, understanding page layout before extracting.
+- Prefer search_page over scrolling when looking for specific text content not visible in browser_state. Use find_elements when you need to understand element structure or extract attributes.
+- If you fill an input field and your action sequence is interrupted, most often something changed e.g. suggestions popped up under the field.
+- If the action sequence was interrupted in previous step due to page changes, make sure to complete any remaining actions that were not executed. For example, if you tried to input text and click a search button but the click was not executed because the page changed, you should retry the click action in your next step.
+- If the <user_request> includes specific page information such as product type, rating, price, location, etc., ALWAYS look for filter/sort options FIRST before browsing results. Apply all relevant filters before scrolling through results.
+- The <user_request> is the ultimate goal. If the user specifies explicit steps, they have always the highest priority.
+- If you input into a field, you might need to press enter, click the search button, or select from dropdown for completion.
+- For autocomplete/combobox fields (e.g. search boxes with suggestions, fields with role="combobox"): type your search text, then WAIT for the suggestions dropdown to appear in the next step. If suggestions appear (new elements marked with *[), click the correct one instead of pressing Enter. If no suggestions appear after one step, you may press Enter or submit normally.
+- Don't login into a page if you don't have to. Don't login if you don't have the credentials.
+- There are 2 types of tasks always first think which type of request you are dealing with:
+1. Very specific step by step instructions:
+- Follow them as very precise and don't skip steps. Try to complete everything as requested.
+2. Open ended tasks. Plan yourself, be creative in achieving them.
+- If you get stuck e.g. with logins in open-ended tasks you can re-evaluate the task and try alternative ways, e.g. sometimes accidentally login pops up, even though there some part of the page is accessible or you get some information via web search. CAPTCHAs are handled automatically.
+- If you reach a PDF viewer, the file is automatically downloaded and you can see its path in <available_file_paths>. You can either read the file or scroll in the page to see more.
+- Handle popups, modals, cookie banners, and overlays immediately before attempting other actions. Look for close buttons (X, Close, Dismiss, No thanks, Skip) or accept/reject options. If a popup blocks interaction with the main page, handle it first.
+- If you encounter access denied (403), bot detection, or rate limiting, do NOT repeatedly retry the same URL. Try alternative approaches or report the limitation.
+- Detect and break out of unproductive loops: if you are on the same URL for 3+ steps without meaningful progress, or the same action fails 2-3 times, try a different approach. Track what you have tried in memory to avoid repeating failed approaches.
+</browser_rules>
+<file_system>
+- You have access to a persistent file system which you can use to track progress, store results, and manage long tasks.
+- Your file system is initialized with a `todo.md`: Use this to keep a checklist for known subtasks. Use `replace_file` tool to update markers in `todo.md` as first action whenever you complete an item. This file should guide your step-by-step execution when you have a long running task.
+- If you are writing a `csv` file, make sure to use double quotes if cell elements contain commas.
+- If the file is too large, you are only given a preview of your file. Use `read_file` to see the full content if necessary.
+- If exists, <available_file_paths> includes files you have downloaded or uploaded by the user. You can only read or upload these files but you don't have write access.
+- If the task is really long, initialize a `results.md` file to accumulate your results.
+- DO NOT use the file system if the task is less than 10 steps!
+</file_system>
+<planning>
+Decide whether to plan based on task complexity:
+- Simple task (1-3 actions, e.g. "go to X and click Y"): Act directly. Do NOT output `plan_update`.
+- Complex but clear task (multi-step, known approach): Output `plan_update` immediately with 3-10 todo items.
+- Complex and unclear task (unfamiliar site, vague goal): Explore for a few steps first, then output `plan_update` once you understand the landscape.
+When a plan exists, `<plan>` in your input shows status markers: [x]=done, [>]=current, [ ]=pending, [-]=skipped.
+Output `current_plan_item` (0-indexed) to indicate which item you are working on.
+Output `plan_update` again only to revise the plan after unexpected obstacles or after exploration.
+Completing all plan items does NOT mean the task is done. Always verify against the original <user_request> before calling `done`.
+</planning>
+<task_completion_rules>
+You must call the `done` action in one of two cases:
+- When you have fully completed the USER REQUEST.
+- When you reach the final allowed step (`max_steps`), even if the task is incomplete.
+- If it is ABSOLUTELY IMPOSSIBLE to continue.
+The `done` action is your opportunity to terminate and share your findings with the user.
+- Set `success` to `true` only if the full USER REQUEST has been completed with no missing components.
+- If any part of the request is missing, incomplete, or uncertain, set `success` to `false`.
+- You can use the `text` field of the `done` action to communicate your findings and `files_to_display` to send file attachments to the user, e.g. `["results.md"]`.
+- Put ALL the relevant information you found so far in the `text` field when you call `done` action.
+- Combine `text` and `files_to_display` to provide a coherent reply to the user and fulfill the USER REQUEST.
+- You are ONLY ALLOWED to call `done` as a single action. Don't call it together with other actions.
+- If the user asks for specified format, such as "return JSON with following structure", "return a list of format...", MAKE sure to use the right format in your answer.
+- If the user asks for a structured output, your `done` action's schema will be modified. Take this schema into account when solving the task!
+- When you reach 75% of your step budget, critically evaluate whether you can complete the full task in the remaining steps.
+  If completion is unlikely, shift strategy: focus on the highest-value remaining items and consolidate your results (save progress to files if the file system is in use).
+  This ensures that when you do call `done` (at max_steps or earlier), you have meaningful partial results to deliver.
+- For large multi-item tasks (e.g. "search 50 items"), estimate the per-item cost from the first few items.
+  If the task will exceed your budget, prioritize the most important items and save results incrementally.
+<pre_done_verification>
+BEFORE calling `done` with `success=true`, you MUST perform this verification:
+1. **Re-read the USER REQUEST** — list every concrete requirement (items to find, actions to perform, format to use, filters to apply).
+2. **Check each requirement against your results:**
+   - Did you extract the CORRECT number of items? (e.g., "list 5 items" → count them)
+   - Did you apply ALL specified filters/criteria? (e.g., price range, date, location)
+   - Does your output match the requested format exactly?
+3. **Verify actions actually completed:**
+   - If you submitted a form, posted a comment, or saved a file — check the page state or screenshot to confirm it happened.
+   - If you took a screenshot or downloaded a file — verify it exists in your file system.
+4. **Verify data grounding:** Every URL, price, name, and value must appear verbatim in your tool outputs or browser_state. Do NOT use your training knowledge to fill gaps — if information was not found on the page during this session, say so explicitly. Never fabricate or invent values.
+5. **Blocking error check:** If you hit an unresolved blocker (payment declined, login failed without credentials, email/verification wall, required paywall, access denied not bypassed) → set `success=false`. Temporary obstacles you overcame (auto-solved CAPTCHAs, dismissed popups, retried errors) do NOT count.
+6. **If ANY requirement is unmet, uncertain, or unverifiable — set `success` to `false`.**
+   Partial results with `success=false` are more valuable than overclaiming success.
+</pre_done_verification>
+</task_completion_rules>
+<action_rules>
+- You are allowed to use a maximum of 5 actions per step.
+If you are allowed multiple actions, you can specify multiple actions in the list to be executed sequentially (one after another).
+- If the page changes after an action, the remaining actions are automatically skipped and you get the new state.
+Check the browser state each step to verify your previous action achieved its goal.
+</action_rules>
+<efficiency_guidelines>
+You can output multiple actions in one step. Try to be efficient where it makes sense. Do not predict actions which do not make sense for the current page.
+
+**Action categories:**
+- **Page-changing (always last):** `navigate`, `search`, `go_back`, `switch`, `evaluate` — these always change the page. Remaining actions after them are skipped automatically. Note: `evaluate` runs arbitrary JS that can modify the DOM, so it is never safe to chain other actions after it.
+- **Potentially page-changing:** `click` (on links/buttons that navigate) — monitored at runtime; if the page changes, remaining actions are skipped.
+- **Safe to chain:** `input`, `scroll`, `find_text`, `extract`, `search_page`, `find_elements`, file operations — these do not change the page and can be freely combined.
+
+**Shadow DOM:** Elements inside shadow DOM that have `[index]` markers are directly clickable with `click(index)`. Do NOT use `evaluate` to click them.
+
+**Recommended combinations:**
+- `input` + `input` + `input` + `click` → Fill multiple form fields then submit
+- `input` + `input` → Fill multiple form fields
+- `scroll` + `scroll` → Scroll further down the page
+- `click` + `click` → Navigate multi-step flows (only when clicks do not navigate)
+- File operations + browser actions
+
+Do not try multiple different paths in one step. Always have one clear goal per step.
+Place any page-changing action **last** in your action list, since actions after it will not run.
+</efficiency_guidelines>
+<reasoning_rules>
+You must reason explicitly and systematically at every step in your `thinking` block.
+Exhibit the following reasoning patterns to successfully achieve the <user_request>:
+- Reason about <agent_history> to track progress and context toward <user_request>.
+- Analyze the most recent "Next Goal" and "Action Result" in <agent_history> and clearly state what you previously tried to achieve.
+- Analyze all relevant items in <agent_history>, <browser_state>, <read_state>, <file_system>, <read_state> and the screenshot to understand your state.
+- Explicitly judge success/failure/uncertainty of the last action. Never assume an action succeeded just because it appears to be executed in your last step in <agent_history>. For example, you might have "Action 1/1: Input '2025-05-05' into element 3." in your history even though inputting text failed. Always verify using <browser_vision> (screenshot) as the primary ground truth. If a screenshot is unavailable, fall back to <browser_state>. If the expected change is missing, mark the last action as failed (or uncertain) and plan a recovery.
+- If todo.md is empty and the task is multi-step, generate a stepwise plan in todo.md using file tools.
+- Analyze `todo.md` to guide and track your progress.
+- If any todo.md items are finished, mark them as complete in the file.
+- Analyze whether you are stuck, e.g. when you repeat the same actions multiple times without any progress. Then consider alternative approaches.
+- Analyze the <read_state> where one-time information are displayed due to your previous action. Reason about whether you want to keep this information in memory and plan writing them into a file if applicable using the file tools.
+- If you see information relevant to <user_request>, plan saving the information into a file.
+- Before writing data into a file, analyze the <file_system> and check if the file already has some content to avoid overwriting.
+- Decide what concise, actionable context should be stored in memory to inform future reasoning.
+- When ready to finish, state you are preparing to call done and communicate completion/results to the user.
+- Before done, use read_file to verify file contents intended for user output.
+- Always reason about the <user_request>. Make sure to carefully analyze the specific steps and information required. E.g. specific filters, specific form fields, specific information to search. Make sure to always compare the current trajectory with the user request.
+</reasoning_rules>
+<examples>
+Here are examples of good output patterns. Use them as reference but never copy them directly.
+<todo_examples>
+  "write_file": {
+    "file_name": "todo.md",
+    "content": "# ArXiv CS.AI Recent Papers Collection Task\n\n## Goal: Collect metadata for 20 most recent papers\n\n## Tasks:\n- [ ] Navigate to https://arxiv.org/list/cs.AI/recent\n- [ ] Initialize papers.md file for storing paper data\n- [ ] Collect paper 1/20: The Automated LLM Speedrunning Benchmark\n- [x] Collect paper 2/20: AI Model Passport\n- [ ] Collect paper 3/20: Embodied AI Agents\n- [ ] Collect paper 4/20: Conceptual Topic Aggregation\n- [ ] Collect paper 5/20: Artificial Intelligent Disobedience\n- [ ] Continue collecting remaining papers from current page\n- [ ] Navigate through subsequent pages if needed\n- [ ] Continue until 20 papers are collected\n- [ ] Verify all 20 papers have complete metadata\n- [ ] Final review and completion"
+  }
+</todo_examples>
+<evaluation_examples>
+- Positive Examples:
+"evaluation_previous_goal": "Successfully navigated to the product page and found the target information. Verdict: Success"
+"evaluation_previous_goal": "Clicked the login button and user authentication form appeared. Verdict: Success"
+- Negative Examples:
+"evaluation_previous_goal": "Failed to input text into the search bar as I cannot see it in the image. Verdict: Failure"
+"evaluation_previous_goal": "Clicked the submit button with index 15 but the form was not submitted successfully. Verdict: Failure"
+</evaluation_examples>
+<memory_examples>
+"memory": "Visited 2 of 5 target websites. Collected pricing data from Amazon ($39.99) and eBay ($42.00). Still need to check Walmart, Target, and Best Buy for the laptop comparison."
+"memory": "Found many pending reports that need to be analyzed in the main page. Successfully processed the first 2 reports on quarterly sales data and moving on to inventory analysis and customer feedback reports."
+"memory": "Search returned results but no filter applied yet. User wants items under $50 with 4+ stars. Will apply price filter first, then rating filter."
+"memory": "Popup appeared blocking the page. Need to close it first before continuing with search."
+"memory": "Previous click on search button failed - page did not change. Will try pressing Enter in the search field instead."
+"memory": "Captcha appeared twice on this site. Will try alternative approach via search engine instead of direct navigation."
+"memory": "403 error on main product page. Will try searching for the product on a different site instead of retrying."
+</memory_examples>
+<next_goal_examples>
+"next_goal": "Click on the 'Add to Cart' button to proceed with the purchase flow."
+"next_goal": "Extract details from the first item on the page."
+"next_goal": "Close the popup that appeared blocking the main content."
+"next_goal": "Apply price filter to narrow results to items under $50."
+</next_goal_examples>
+</examples>
+<output>
+You must ALWAYS respond with a valid JSON in this exact format:
+{
+  "thinking": "A structured <think>-style reasoning block that applies the <reasoning_rules> provided above.",
+  "evaluation_previous_goal": "Concise one-sentence analysis of your last action. Clearly state success, failure, or uncertain.",
+  "memory": "1-3 sentences of specific memory of this step and overall progress. You should put here everything that will help you track progress in future steps. Like counting pages visited, items found, etc.",
+  "next_goal": "State the next immediate goal and action to achieve it, in one clear sentence.",
+  "current_plan_item": 0,
+  "plan_update": ["Todo item 1", "Todo item 2", "Todo item 3"],
+  "action":[{"navigate": { "url": "url_value"}}, // ... more actions in sequence]
+}
+Action list should NEVER be empty.
+`current_plan_item` and `plan_update` are optional. See <planning> for details.
+</output>
+<critical_reminders>
+1. ALWAYS verify action success using the screenshot before proceeding
+2. ALWAYS handle popups/modals/cookie banners before other actions
+3. ALWAYS apply filters when user specifies criteria (price, rating, location, etc.)
+4. NEVER repeat the same failing action more than 2-3 times - try alternatives
+5. NEVER assume success - always verify from screenshot or browser state
+6. CAPTCHAs are solved automatically. If blocked by login/403, try alternative approaches rather than retrying
+7. Put ALL relevant findings in done action's text field
+8. Match user's requested output format exactly
+9. Track progress in memory to avoid loops
+10. When at max_steps, call done with whatever results you have
+11. Always compare current trajectory against the user's original request
+12. Be efficient - combine actions when possible but verify results between major steps
+</critical_reminders>
+<error_recovery>
+When encountering errors or unexpected states:
+1. First, verify the current state using screenshot as ground truth
+2. Check if a popup, modal, or overlay is blocking interaction
+3. If an element is not found, scroll to reveal more content
+4. If an action fails repeatedly (2-3 times), try an alternative approach
+5. If blocked by login/403, consider alternative sites or search engines. CAPTCHAs are solved automatically.
+6. If the page structure is different than expected, re-analyze and adapt
+7. If stuck in a loop, explicitly acknowledge it in memory and change strategy
+8. If max_steps is approaching, prioritize completing the most important parts of the task
+</error_recovery>
+
+
+ user 
+<agent_history>
+Agent initialized
+<step>
+Result
+Found initial url and automatically loaded it. Navigated to https://www.coursera.org/
+<step>
+Successfully loaded the Coursera homepage. Verdict: Success
+On Coursera homepage. Need to search for Astrophysics guided projects for advanced learners.
+Search for 'Astrophysics' in the Coursera search bar to find guided projects.
+Result
+Clicked div "​"
+Typed 'Astrophysics guided project'
+💡 This is an autocomplete field. Wait for suggestions to appear, then click the correct suggestion instead of pressing Enter.
+Sent keys: Enter
+<step>
+Search was executed and results are showing, but they show general courses, not specifically Guided Projects for advanced learners. Need to apply filters.
+On Coursera search results page for "Astrophysics guided project". Need to filter by Learning Product = Guided Project and Level = Advanced.
+Click on "Learning Product" filter to filter for Guided Projects specifically.
+Result
+Clicked button "Learning Product"
+<step>
+The Learning Product filter dropdown appeared with options. I can see "Guided Projects" option. Verdict: Success
+On Coursera search results for "Astrophysics guided project". Learning Product filter is open. Need to click "Guided Projects" checkbox and then apply the filter.
+Click on "Guided Projects" label to select it, then click View to apply the filter.
+Result
+Clicked label "Guided Projects
+(
+1,615
+)"
+<step>
+The "Guided Projects" checkbox was clicked and the filter panel is showing with "Guided Projects" selected. Now I need to click "View" to apply the filter, then also apply the "Advanced" level filter.
+On Coursera search results for "Astrophysics guided project". Guided Projects filter is selected. Need to click View to apply, then filter by Advanced level.
+Click the "View" button to apply the Guided Projects filter.
+Result
+Clicked button "View"
+<step>
+The "Guided Projects" filter was applied successfully. The results now show Guided Projects, but they are not specifically about Astrophysics - they appear to be general guided projects. I need to also apply the "Advanced" level filter and look for Astrophysics-specific content.
+Applied Guided Projects filter. Results show general guided projects (BigQuery, Azure IoT, etc.) - not Astrophysics specific. Need to also apply Level=Advanced filter. The current results don't show any Astrophysics guided projects yet. Need to scroll down or apply more filters.
+Apply the "Level" filter and select "Advanced" to narrow down results for advanced learners.
+Result
+Clicked button "Level"
+<step>
+The Level filter dropdown appeared with options including Advanced (24 results). Verdict: Success
+On Coursera search results for "Astrophysics guided project" with Guided Projects filter applied. Level filter is now open showing Advanced (24 results). Need to click Advanced and then View to apply.
+Click on "Advanced" label to select it, then click View to apply the filter.
+Result
+Clicked label "Advanced
+(
+24
+)"
+</agent_history>
+
+<agent_state>
+<user_request>
+Locate a Coursera Guided project related to 'Astrophysics' suitable for advanced learners. Mention the course duration, the institution offering it, and the main subjects covered in the course. on https://www.coursera.org/
+</user_request>
+<file_system>
+
+</file_system>
+<todo_contents>
+[empty todo.md, fill it when applicable]
+</todo_contents>
+<plan>
+[>] 0: Apply Level=Advanced filter to narrow results
+[ ] 1: Look for Astrophysics-specific guided project in results
+[ ] 2: Click on the Astrophysics guided project to view details
+[ ] 3: Extract course duration, institution, and main subjects covered
+[ ] 4: Report findings to user
+</plan>
+<step_info>Step7 maximum:30
+Today:2026-06-11</step_info>
+</agent_state>
+<browser_state>
+<page_stats>19 links, 317 interactive, 0 iframes, 1 shadow(open), 0 shadow(closed), 20 images, 697 total elements</page_stats>
+Current tab: 3EE7
+Available tabs:
+Tab 3EE7: https://www.coursera.org/search?query=Astrophysics%20gui...d4ab8d5 - Coursera | Online Courses From
+
+<page_info>0.0 pages above, 3.2 pages below — scroll down to reveal more content</page_info>
+
+Interactive elements:
+[Start of page]
+[3242]<div id=rendered-content />
+	[3530]<div />
+		Skip to main content
+		[3244]<a />
+			For
+			Individuals
+		[3245]<a />
+			For
+			Businesses
+		[3246]<a />
+			For
+			Universities
+		[3247]<a />
+			For
+			Governments
+		[3248]<a aria-label=Coursera data-testid=home-logo />
+			[3571]<svg role=img aria-label=Coursera /> <!-- SVG content collapsed -->
+		[3249]<button data-testid=megamenu-explore-button aria-expanded=false aria-label=Explore our catalog />
+			Explore
+		[3250]<a role=button data-testid=nav-link-grid-item-degrees />
+			Degrees
+		[3586]<div />
+			[3119]<form role=search />
+				[3587]<div />
+					[3251]<div />
+						|SHADOW(open)|[3120]<input name=query placeholder=What do you want to learn? type=text aria-label=Search catalog data-testid=search-autocomplete-input role=combobox aria-expanded=false value=Astrophysics guided project />
+						[3592]<div />
+							[3253]<button aria-label=Clear search />
+							[3254]<button type=submit aria-label=Search />
+						[3601]<fieldset />
+		[3255]<a role=button />
+			Log In
+		[3256]<a role=button />
+			Join for Free
+		[3628]<main data-testid=search-page id=main />
+			[3629]<div data-testid=search-page-content />
+				[3635]<section aria-label=Search Results Frame id=search-results-frame />
+					*[8010]<aside aria-label=AI Overview />
+						AI summary is now available. Navigate to the AI Overview section to read it.
+						*[8402]<span />
+							<svg /> <!-- SVG content collapsed -->
+						AI Overview
+						*[8459]<div role=button aria-label=Expand summary />
+							*[8407]<div />
+								*[8406]<div />
+									Explore foundational astrophysics concepts and relevant project skills
+									*[8405]<p />
+										To engage in an astrophysics guided project, start by building a solid understanding of key astrophysics principles and related physics or astronomy topics. Consider your current knowledge level and identify any prerequisite math or physics skills you may need to strengthen. Look for projects or courses that offer hands-on experience with data analysis, simulations, or observational techniques in astrophysics. This approach will help you gain practical skills and deepen your conceptual understanding, preparing you for more advanced research or study in the field.
+						*[8549]<button aria-expanded=false aria-label=Show more />
+							Show more
+						Top courses to get started:
+						*[8561]<a data-testid=ai-summary-product-card />
+							Coursera
+							Build a Full Website using WordPress
+							Best for:
+							advanced learners, short-duration projects, and web content creators seeking to build practical skills
+						*[8577]<a data-testid=ai-summary-product-card />
+							Coursera
+							Use Canva to Design Digital Course Collateral
+							Best for:
+							advanced designers, brief courses, and business professionals eager to enhance digital collateral design
+						*[8593]<a data-testid=ai-summary-product-card />
+							Coursera
+							Construct Stock Market Indices
+							Best for:
+							advanced data analysts, quick projects, and finance enthusiasts looking to master market data handling
+						*[8609]<a data-testid=ai-summary-product-card />
+							Coursera
+							Create and Design Digital Products using Canva
+							Best for:
+							advanced digital designers, short learning commitments, and creative professionals ready to develop digital products
+						You might follow up with...
+						|scroll element|<div /> (horizontal 0%)
+							*[8463]<button data-testid=chip-button-inactive />
+								astrophysics in physical science and engineering
+							*[8465]<button data-testid=chip-button-inactive />
+								astrophysics general science and research
+							*[8467]<button data-testid=chip-button-inactive />
+								astrophysics scientific methods
+							*[8469]<button data-testid=chip-button-inactive />
+								astronomy and astrophysics
+							*[8471]<button data-testid=chip-button-inactive />
+								computational astrophysics
+					[3763]<div id=search-results-header-wrapper />
+						*[8011]<div />
+							All Results
+					[3276]<button data-testid=filter-and-sort-button />
+						Filter & Sort
+					[3277]<button data-testid=filter-dropdown-topic />
+						Topic
+					[3278]<button data-testid=filter-dropdown-productDuration />
+						Duration
+					[3279]<button data-testid=filter-dropdown-productTypeDescription />
+						Guided Projects
+					[3280]<button data-testid=filter-dropdown-language />
+						Language
+					[3281]<button data-testid=filter-dropdown-productDifficultyLevel />
+						Advanced
+					Clear all
+					[3212]<div role=region aria-label=Search Results id=searchResults />
+						*[7493]<div />
+							*[7492]<div />
+								*[7491]<div />
+									*[7489]<div />
+										*[7458]<div />
+											*[7454]<div />
+												*[7453]<div />
+													*[8243]<img />
+										*[7459]<div />
+											*[7457]<span data-testid=tag-root />
+												*[7455]<div data-testid=visually-hidden />
+													Status: Free
+												*[7456]<span />
+													Free
+									*[7490]<div />
+										*[7486]<div />
+											*[7469]<div id=cds-react-aria995150525-:r60:-product-card-partner-info />
+												*[7466]<div />
+													*[7465]<div title=Coursera />
+														*[7463]<div />
+															*[7462]<div />
+																*[8318]<img />
+														*[7464]<p />
+															Coursera
+											*[8319]<div />
+												*[8293]<a id=cds-react-aria995150525-:r60:-product-card-title aria-label=Build a Full Website using WordPress, offered by Coursera, GUIDED PROJECT />
+													Build a Full Website using WordPress
+										*[7487]<div />
+											*[7473]<div />
+												*[7472]<p />
+													*[7471]<strong />
+														Skills you'll gain
+													WordPress, Content Management Systems, Web Content, Web Design and Development, Web Design, Web Presence, Web Development, Editing, Social Media, Content Management, Embeddings, Marketing, Design, Computer Science
+										*[7488]<div />
+											*[7483]<div />
+											*[7484]<div />
+												*[7481]<div id=cds-react-aria995150525-:r61: />
+													*[7478]<div aria-label=4.4 out of 5 stars id=cds-react-aria995150525-:r61:-meter role=img />
+														*[7475]<svg id=cds-react-aria995150525-:r62: /> <!-- SVG content collapsed -->
+														*[7476]<span />
+															4.4
+														*[7477]<div data-testid=visually-hidden id=cds-react-aria995150525-:r61:-aria-describedby-label />
+															Rating, 4.4 out of 5 stars
+													*[7479]<span />
+													*[7480]<div />
+														4.3K reviews
+											*[7485]<div />
+												*[7482]<p />
+													Advanced · Guided Project · Less Than 2 Hours
+						*[7535]<div />
+							*[7534]<div />
+								*[7533]<div />
+									*[7531]<div />
+										*[7500]<div />
+											*[7496]<img />
+										Status: Free
+										Free
+									*[7532]<div />
+										*[7528]<div />
+											*[7511]<div id=cds-react-aria995150525-:r64:-product-card-partner-info />
+												*[7508]<div />
+													*[7507]<div title=Coursera />
+														*[7505]<div />
+															*[7504]<div />
+																*[8320]<img />
+														*[7506]<p />
+															Coursera
+											*[8321]<div />
+												*[8295]<a id=cds-react-aria995150525-:r64:-product-card-title aria-label=Use Canva to Design Digital Course Collateral, offered by Coursera, GUIDED PROJECT />
+													Use Canva to Design Digital Course Collateral
+										*[7529]<div />
+											*[7515]<div />
+												*[7514]<p />
+													*[7513]<strong />
+														Skills you'll gain
+													Canva (Software), Color Theory, Color Matching, Developing Training Materials, Course Development, Design, Digital Design, Design Elements And Principles, Graphic Design, Creative Design, Graphic and Visual Design Software, Marketing, Social Media
+										*[7530]<div />
+											*[7525]<div />
+											*[7526]<div />
+												*[7523]<div id=cds-react-aria995150525-:r65: />
+													*[7520]<div aria-label=4.6 out of 5 stars id=cds-react-aria995150525-:r65:-meter role=img />
+														*[7517]<svg id=cds-react-aria995150525-:r66: /> <!-- SVG content collapsed -->
+														*[7518]<span />
+															4.6
+														*[7519]<div data-testid=visually-hidden id=cds-react-aria995150525-:r65:-aria-describedby-label />
+															Rating, 4.6 out of 5 stars
+													*[7521]<span />
+													*[7522]<div />
+														1.7K reviews
+											*[7527]<div />
+												*[7524]<p />
+													Advanced · Guided Project · Less Than 2 Hours
+						*[7577]<div />
+							*[7576]<div />
+								*[7575]<div />
+									*[7573]<div />
+										*[7542]<div />
+											*[7538]<img />
+										*[7543]<div />
+											*[7541]<span data-testid=tag-root />
+												*[7539]<div data-testid=visually-hidden />
+													Status: Free
+												*[7540]<span />
+													Free
+									*[7574]<div />
+										*[7570]<div />
+											*[7553]<div id=cds-react-aria995150525-:r68:-product-card-partner-info />
+												*[7550]<div />
+													*[7549]<div title=Coursera />
+														*[7547]<div />
+															*[7546]<div />
+																*[8322]<img />
+														*[7548]<p />
+															Coursera
+											*[8323]<div />
+												*[8297]<a id=cds-react-aria995150525-:r68:-product-card-title aria-label=Construct Stock Market Indices, offered by Coursera, GUIDED PROJECT />
+													Construct Stock Market Indices
+										*[7571]<div />
+											*[7557]<div />
+												*[7556]<p />
+													*[7555]<strong />
+														Skills you'll gain
+													Market Data, Google Sheets, Data Import/Export, Equities, Financial Modeling, Financial Analysis, Financial Market
+										*[7572]<div />
+											*[7567]<div />
+											*[7568]<div />
+												*[7565]<div id=cds-react-aria995150525-:r69: />
+													*[7562]<div aria-label=4.5 out of 5 stars id=cds-react-aria995150525-:r69:-meter role=img />
+														*[7559]<svg id=cds-react-aria995150525-:r6a: /> <!-- SVG content collapsed -->
+														*[7560]<span />
+															4.5
+														*[7561]<div data-testid=visually-hidden id=cds-react-aria995150525-:r69:-aria-describedby-label />
+															Rating, 4.5 out of 5 stars
+													*[7563]<span />
+													*[7564]<div />
+														213 reviews
+											*[7569]<div />
+												*[7566]<p />
+													Advanced · Guided Project · Less Than 2 Hours
+						*[7619]<div />
+							*[7618]<div />
+								*[7617]<div />
+									*[7615]<div />
+										*[7584]<div />
+											*[7580]<img />
+										*[7585]<div />
+											*[7583]<span data-testid=tag-root />
+												*[7581]<div data-testid=visually-hidden />
+													Status: Free
+												*[7582]<span />
+													Free
+									*[7616]<div />
+										*[7612]<div />
+											*[7595]<div id=cds-react-aria995150525-:r6c:-product-card-partner-info />
+												*[7592]<div />
+													*[7591]<div title=Coursera />
+														*[7589]<div />
+															*[7588]<div />
+																*[8324]<img />
+														*[7590]<p />
+															Coursera
+											*[8325]<div />
+												*[8299]<a id=cds-react-aria995150525-:r6c:-product-card-title aria-label=Create and Design Digital Products using Canva, offered by Coursera, GUIDED PROJECT />
+													Create and Design Digital Products using Canva
+										*[7613]<div />
+											*[7599]<div />
+												*[7598]<p />
+													*[7597]<strong />
+														Skills you'll gain
+													Canva (Software), Digital Design, Design Elements And Principles, Product Design, Design Software, Graphic and Visual Design Software, Creative Design, Color Theory, Graphic Design, Intellectual Property, Product Promotion, Digital Marketing Tools, E-Commerce, Direct Selling, Color Matching, Digital Publishing, Digital Content, Digital Assets, Marketing
+										*[7614]<div />
+											*[7609]<div />
+											*[7610]<div />
+												*[7607]<div id=cds-react-aria995150525-:r6d: />
+													*[7604]<div aria-label=4.4 out of 5 stars id=cds-react-aria995150525-:r6d:-meter role=img />
+														*[7601]<svg id=cds-react-aria995150525-:r6e: /> <!-- SVG content collapsed -->
+														*[7602]<span />
+															4.4
+														*[7603]<div data-testid=visually-hidden id=cds-react-aria995150525-:r6d:-aria-describedby-label />
+															Rating, 4.4 out of 5 stars
+													*[7605]<span />
+													*[7606]<div />
+														1.4K reviews
+											*[7611]<div />
+												*[7608]<p />
+													Advanced · Guided Project · Less Than 2 Hours
+						*[7661]<div />
+							*[7660]<div />
+								*[7659]<div />
+									*[7657]<div />
+										*[7626]<div />
+											*[7622]<img />
+										*[7627]<div />
+											*[7625]<span data-testid=tag-root />
+												*[7623]<div data-testid=visually-hidden />
+													Status: Free
+												*[7624]<span />
+													Free
+									*[7658]<div />
+										*[7654]<div />
+											*[7637]<div id=cds-react-aria995150525-:r6g:-product-card-partner-info />
+												*[7634]<div />
+													*[7633]<div title=Coursera />
+														*[7631]<div />
+															*[7630]<div />
+																*[8326]<img />
+														*[7632]<p />
+															Coursera
+											*[8327]<div />
+												*[8301]<a id=cds-react-aria995150525-:r6g:-product-card-title aria-label=Deep Learning with PyTorch : Siamese Network, offered by Coursera, GUIDED PROJECT />
+													Deep Learning with PyTorch : Siamese Network
+										*[7655]<div />
+											*[7641]<div />
+												*[7640]<p />
+													*[7639]<strong />
+														Skills you'll gain
+													Embeddings, PyTorch (Machine Learning Library), Feature Engineering, Artificial Neural Networks, Image Analysis, Deep Learning, Convolutional Neural Networks, Network Model, Model Training, Computer Vision
+										*[7656]<div />
+											*[7651]<div />
+											*[7652]<div />
+												*[7649]<div id=cds-react-aria995150525-:r6h: />
+													*[7646]<div aria-label=4.7 out of 5 stars id=cds-react-aria995150525-:r6h:-meter role=img />
+														*[7643]<svg id=cds-react-aria995150525-:r6i: /> <!-- SVG content collapsed -->
+														*[7644]<span />
+															4.7
+														*[7645]<div data-testid=visually-hidden id=cds-react-aria995150525-:r6h:-aria-describedby-label />
+															Rating, 4.7 out of 5 stars
+													*[7647]<span />
+													*[7648]<div />
+														49 reviews
+											*[7653]<div />
+												*[7650]<p />
+													Advanced · Guided Project · Less Than 2 Hours
+						*[7703]<div />
+							*[7702]<div />
+								*[7701]<div />
+									*[7699]<div />
+										*[7668]<div />
+											*[7664]<img />
+										*[7669]<div />
+											*[7667]<span data-testid=tag-root />
+												*[7665]<div data-testid=visually-hidden />
+													Status: Free
+												*[7666]<span />
+													Free
+									*[7700]<div />
+										*[7696]<div />
+											*[7679]<div id=cds-react-aria995150525-:r6k:-product-card-partner-info />
+												*[7676]<div />
+													*[7675]<div title=Coursera />
+														*[7673]<div />
+															*[7672]<div />
+																*[8328]<img />
+														*[7674]<p />
+															Coursera
+											*[8329]<div />
+												*[8303]<a id=cds-react-aria995150525-:r6k:-product-card-title aria-label=Semantic Segmentation with Amazon Sagemaker, offered by Coursera, GUIDED PROJECT />
+													Semantic Segmentation with Amazon Sagemaker
+										*[7697]<div />
+											*[7683]<div />
+												*[7682]<p />
+													*[7681]<strong />
+														Skills you'll gain
+													AWS SageMaker, Amazon Web Services, Model Deployment, Image Analysis, Applied Machine Learning, Model Training, Machine Learning Algorithms, Data Preprocessing, Computer Vision, Deep Learning, Machine Learning
+										*[7698]<div />
+											*[7693]<div />
+											*[7694]<div />
+												*[7691]<div id=cds-react-aria995150525-:r6l: />
+													*[7688]<div aria-label=4.5 out of 5 stars id=cds-react-aria995150525-:r6l:-meter role=img />
+														*[7685]<svg id=cds-react-aria995150525-:r6m: /> <!-- SVG content collapsed -->
+														*[7686]<span />
+															4.5
+														*[7687]<div data-testid=visually-hidden id=cds-react-aria995150525-:r6l:-aria-describedby-label />
+															Rating, 4.5 out of 5 stars
+													*[7689]<span />
+													*[7690]<div />
+														95 reviews
+											*[7695]<div />
+												*[7692]<p />
+													Advanced · Guided Project · Less Than 2 Hours
+						What brings you to Coursera today?
+						*[7716]<span />
+							<svg /> <!-- SVG content collapsed -->
+						*[7717]<button id=hiddenRadio-LEARNING_GOAL_LAND_NEW_JOB value=LEARNING_GOAL_LAND_NEW_JOB aria-label=Start my career />
+						Start my career
+						*[7722]<span />
+							<svg /> <!-- SVG content collapsed -->
+						*[7723]<button id=hiddenRadio-LEARNING_GOAL_CHANGE_CAREER value=LEARNING_GOAL_CHANGE_CAREER aria-label=Change my career />
+						Change my career
+						*[7728]<span />
+							<svg /> <!-- SVG content collapsed -->
+						*[7729]<button id=hiddenRadio-LEARNING_GOAL_IMPROVE_SKILLS value=LEARNING_GOAL_IMPROVE_SKILLS aria-label=Grow in my current role />
+						Grow in my current role
+						*[7734]<span />
+							<svg /> <!-- SVG content collapsed -->
+						*[7735]<button id=hiddenRadio-LEARNING_GOAL_PERSONAL_INTEREST value=LEARNING_GOAL_PERSONAL_INTEREST aria-label=Explore topics outside of work />
+						Explore topics outside of work
+[6959]<div />
+[6960]<div />
+[6961]<div />
+	Level
+	[6955]<div />
+		[6944]<div data-testid=search-filter-group-Level />
+			[6927]<label />
+				[6925]<span />
+					[6921]<span />
+						*[8317]<svg id=cds-react-aria995150525-:r7g: /> <!-- SVG content collapsed -->
+				[6926]<div />
+					[6924]<span id=cds-react-aria995150525-:r5i:-label-text />
+						[6923]<span />
+							Advanced
+							[6922]<span />
+								24
+			[6907]<label />
+				[6905]<span />
+					[6901]<span />
+						[6900]<svg id=cds-react-aria995150525-:r5d: /> <!-- SVG content collapsed -->
+				[6906]<div />
+					[6904]<span id=cds-react-aria995150525-:r5c:-label-text />
+						[6903]<span />
+							Beginner
+							[6902]<span />
+								1,013
+			[6917]<label />
+				[6915]<span />
+					[6911]<span />
+						[6910]<svg id=cds-react-aria995150525-:r5g: /> <!-- SVG content collapsed -->
+				[6916]<div />
+					[6914]<span id=cds-react-aria995150525-:r5f:-label-text />
+						[6913]<span />
+							Intermediate
+							[6912]<span />
+								577
+			[6937]<label />
+				[6935]<span />
+					[6931]<span />
+						[6930]<svg id=cds-react-aria995150525-:r5m: /> <!-- SVG content collapsed -->
+				[6936]<div />
+					[6934]<span id=cds-react-aria995150525-:r5l:-label-text />
+						[6933]<span />
+							Mixed
+							[6932]<span />
+	[6947]<button data-testid=filter-view-button />
+		View
+	[6949]<button />
+		Clear All
+[6962]<div />
+</browser_state>
+
+
+{
+  "evaluation_previous_goal": "The \"Advanced\" level filter checkbox was clicked and is now selected (shown with a checkmark). Need to click \"View\" to apply the filter. Verdict: Success",
+  "memory": "On Coursera search results for \"Astrophysics guided project\" with Guided Projects filter applied. Advanced level filter is selected. Need to click View to apply it. Current results show general guided projects (WordPress, Canva, etc.) - not Astrophysics specific. After applying Advanced filter, need to scroll through 24 results to find Astrophysics-related content.",
+  "next_goal": "Click the \"View\" button to apply the Advanced level filter, then look for Astrophysics-related guided projects.",
+  "current_plan_item": 0,
+  "action": [
+    {
+      "click": {
+        "index": 6947
+      }
+    }
+  ]
+}

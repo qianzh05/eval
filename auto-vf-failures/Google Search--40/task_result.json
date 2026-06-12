@@ -1,0 +1,36 @@
+{
+  "task_id": "Google Search--40",
+  "web_name": "https://www.google.com/",
+  "start_time": "2026-06-11 08:46:17.779460",
+  "end_time": "2026-06-11 08:47:53.509912",
+  "duration_seconds": 95.730452,
+  "num_steps": 6,
+  "success": "failed",
+  "task_prompt": "Look up the elevation of Mount Kilimanjaro on Google Search. on https://www.google.com/",
+  "final_answer": "<NO FINAL ANSWER>",
+  "gpt_4v_res": "",
+  "stuck": false,
+  "stuck_reason": null,
+  "captcha_blocked": true,
+  "captcha_type": "google_sorry",
+  "error": null,
+  "loop_summary": {
+    "max_consec_run": 1,
+    "looped_action_name": null,
+    "looped_action_args": null
+  },
+  "browser_use_version": "unknown",
+  "cost_totals": {
+    "input_tokens": 297730,
+    "output_tokens": 6327,
+    "n_llm_calls": 24,
+    "cost_usd": 0.988095,
+    "model_id": "us.anthropic.claude-sonnet-4-6",
+    "input_price_per_m": 3.0,
+    "output_price_per_m": 15.0
+  },
+  "wait_time_s": 0.0,
+  "n_rate_limit_waits": 0,
+  "llm_time_s": 158.09627059800096,
+  "browser_time_s": 0.0
+}

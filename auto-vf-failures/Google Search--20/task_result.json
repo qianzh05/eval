@@ -1,0 +1,36 @@
+{
+  "task_id": "Google Search--20",
+  "web_name": "https://www.google.com/",
+  "start_time": "2026-06-11 08:31:21.695684",
+  "end_time": "2026-06-11 08:32:40.704489",
+  "duration_seconds": 79.008805,
+  "num_steps": 6,
+  "success": "failed",
+  "task_prompt": "Find the release date for the latest \"Fast & Furious\" movie. on https://www.google.com/",
+  "final_answer": "<NO FINAL ANSWER>",
+  "gpt_4v_res": "",
+  "stuck": false,
+  "stuck_reason": null,
+  "captcha_blocked": true,
+  "captcha_type": "google_sorry",
+  "error": null,
+  "loop_summary": {
+    "max_consec_run": 1,
+    "looped_action_name": null,
+    "looped_action_args": null
+  },
+  "browser_use_version": "unknown",
+  "cost_totals": {
+    "input_tokens": 293116,
+    "output_tokens": 7429,
+    "n_llm_calls": 23,
+    "cost_usd": 0.990783,
+    "model_id": "us.anthropic.claude-sonnet-4-6",
+    "input_price_per_m": 3.0,
+    "output_price_per_m": 15.0
+  },
+  "wait_time_s": 0.0,
+  "n_rate_limit_waits": 0,
+  "llm_time_s": 172.2167404549964,
+  "browser_time_s": 0.0
+}

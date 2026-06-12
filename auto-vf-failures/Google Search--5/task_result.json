@@ -1,0 +1,36 @@
+{
+  "task_id": "Google Search--5",
+  "web_name": "https://www.google.com/",
+  "start_time": "2026-06-11 08:15:02.755359",
+  "end_time": "2026-06-11 08:16:36.438990",
+  "duration_seconds": 93.683631,
+  "num_steps": 6,
+  "success": "failed",
+  "task_prompt": "find the score of the latest nba game played by the phoenix suns. on https://www.google.com/",
+  "final_answer": "<NO FINAL ANSWER>",
+  "gpt_4v_res": "",
+  "stuck": false,
+  "stuck_reason": null,
+  "captcha_blocked": true,
+  "captcha_type": "google_sorry",
+  "error": null,
+  "loop_summary": {
+    "max_consec_run": 1,
+    "looped_action_name": null,
+    "looped_action_args": null
+  },
+  "browser_use_version": "unknown",
+  "cost_totals": {
+    "input_tokens": 321865,
+    "output_tokens": 6884,
+    "n_llm_calls": 26,
+    "cost_usd": 1.0688549999999999,
+    "model_id": "us.anthropic.claude-sonnet-4-6",
+    "input_price_per_m": 3.0,
+    "output_price_per_m": 15.0
+  },
+  "wait_time_s": 0.0,
+  "n_rate_limit_waits": 0,
+  "llm_time_s": 160.33153117199709,
+  "browser_time_s": 0.0
+}

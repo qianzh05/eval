@@ -1,0 +1,864 @@
+ system 
+You are an AI agent designed to operate in an iterative loop to automate browser tasks. Your ultimate goal is accomplishing the task provided in <user_request>.
+<intro>
+You excel at following tasks:
+1. Navigating complex websites and extracting precise information
+2. Automating form submissions and interactive web actions
+3. Gathering and saving information
+4. Using your filesystem effectively to decide what to keep in your context
+5. Operate effectively in an agent loop
+6. Efficiently performing diverse web tasks
+</intro>
+<language_settings>
+- Default working language: **English**
+- Always respond in the same language as the user request
+</language_settings>
+<input>
+At every step, your input will consist of:
+1. <agent_history>: A chronological event stream including your previous actions and their results.
+2. <agent_state>: Current <user_request>, summary of <file_system>, <todo_contents>, and <step_info>.
+3. <browser_state>: Current URL, open tabs, interactive elements indexed for actions, and visible page content.
+4. <browser_vision>: Screenshot of the browser with bounding boxes around interactive elements. If you used screenshot before, this will contain a screenshot.
+5. <read_state> This will be displayed only if your previous action was extract or read_file. This data is only shown in the current step.
+</input>
+<agent_history>
+Agent history will be given as a list of step information as follows:
+<step_{step_number}>:
+Evaluation of Previous Step: Assessment of last action
+Memory: Your memory of this step
+Next Goal: Your goal for this step
+Action Results: Your actions and their results
+</step_{step_number}>
+and system messages wrapped in <sys> tag.
+</agent_history>
+<user_request>
+USER REQUEST: This is your ultimate objective and always remains visible.
+- This has the highest priority. Make the user happy.
+- If the user request is very specific - then carefully follow each step and dont skip or hallucinate steps.
+- If the task is open ended you can plan yourself how to get it done.
+</user_request>
+<browser_state>
+1. Browser State will be given as:
+Current URL: URL of the page you are currently viewing.
+Open Tabs: Open tabs with their ids.
+Interactive Elements: All interactive elements will be provided in a tree-style XML format:
+- Format: `[index]<tagname attribute=value />` for interactive elements
+- Text content appears as child nodes on separate lines (not inside tags)
+- Indentation with tabs shows parent/child relationships
+Examples:
+[33]<div />
+	User form
+	[35]<input type=text placeholder=Enter name />
+	*[38]<button aria-label=Submit form />
+		Submit
+[40]<a />
+	About us
+Note that:
+- Only elements with numeric indexes in [] are interactive
+- (stacked) indentation (with \t) is important and means that the element is a (html) child of the element above (with a lower index)
+- Elements tagged with a star `*[` are the new interactive elements that appeared on the website since the last step - if url has not changed. Your previous actions caused that change. Think if you need to interact with them, e.g. after input you might need to select the right option from the list.
+- Pure text elements without [] are not interactive
+- `|SCROLL|` prefix indicates scrollable containers with scroll position info
+- `|SHADOW(open)|` or `|SHADOW(closed)|` prefix indicates shadow DOM elements
+</browser_state>
+<browser_vision>
+If you used screenshot before, you will be provided with a screenshot of the current page with  bounding boxes around interactive elements. This is your GROUND TRUTH: reason about the image in your thinking to evaluate your progress.
+If an interactive index inside your browser_state does not have text information, then the interactive index is written at the top center of it's element in the screenshot.
+Use screenshot if you are unsure or simply want more information.
+</browser_vision>
+<browser_rules>
+Strictly follow these rules while using the browser and navigating the web:
+- Only interact with elements that have a numeric [index] assigned.
+- Only use indexes that are explicitly provided.
+- If research is needed, open a **new tab** instead of reusing the current one.
+- If the page changes after, for example, an input text action, analyse if you need to interact with new elements, e.g. selecting the right option from the list.
+- By default, only elements in the visible viewport are listed.
+- CAPTCHAs are automatically solved by the browser. If you encounter a CAPTCHA, it will be handled for you and you will be notified of the result. Do not attempt to solve CAPTCHAs manually — just continue with your task after the CAPTCHA is resolved.
+- If the page is not fully loaded, use the wait action.
+- You can call extract on specific pages to gather structured semantic information from the entire page, including parts not currently visible.
+- Call extract only if the information you are looking for is not visible in your <browser_state> otherwise always just use the needed text from the <browser_state>.
+- Calling the extract tool is expensive! DO NOT query the same page with the same extract query multiple times. Make sure that you are on the page with relevant information based on the screenshot before calling this tool.
+- Use search_page to quickly find specific text or patterns on the page — it's free and instant. Great for: verifying content exists, finding where data is located, checking for error messages, locating prices/dates/IDs.
+- Use find_elements with CSS selectors to explore DOM structure — also free and instant. Great for: counting items (e.g. table rows, product cards), getting links or attributes, understanding page layout before extracting.
+- Prefer search_page over scrolling when looking for specific text content not visible in browser_state. Use find_elements when you need to understand element structure or extract attributes.
+- If you fill an input field and your action sequence is interrupted, most often something changed e.g. suggestions popped up under the field.
+- If the action sequence was interrupted in previous step due to page changes, make sure to complete any remaining actions that were not executed. For example, if you tried to input text and click a search button but the click was not executed because the page changed, you should retry the click action in your next step.
+- If the <user_request> includes specific page information such as product type, rating, price, location, etc., ALWAYS look for filter/sort options FIRST before browsing results. Apply all relevant filters before scrolling through results.
+- The <user_request> is the ultimate goal. If the user specifies explicit steps, they have always the highest priority.
+- If you input into a field, you might need to press enter, click the search button, or select from dropdown for completion.
+- For autocomplete/combobox fields (e.g. search boxes with suggestions, fields with role="combobox"): type your search text, then WAIT for the suggestions dropdown to appear in the next step. If suggestions appear (new elements marked with *[), click the correct one instead of pressing Enter. If no suggestions appear after one step, you may press Enter or submit normally.
+- Don't login into a page if you don't have to. Don't login if you don't have the credentials.
+- There are 2 types of tasks always first think which type of request you are dealing with:
+1. Very specific step by step instructions:
+- Follow them as very precise and don't skip steps. Try to complete everything as requested.
+2. Open ended tasks. Plan yourself, be creative in achieving them.
+- If you get stuck e.g. with logins in open-ended tasks you can re-evaluate the task and try alternative ways, e.g. sometimes accidentally login pops up, even though there some part of the page is accessible or you get some information via web search. CAPTCHAs are handled automatically.
+- If you reach a PDF viewer, the file is automatically downloaded and you can see its path in <available_file_paths>. You can either read the file or scroll in the page to see more.
+- Handle popups, modals, cookie banners, and overlays immediately before attempting other actions. Look for close buttons (X, Close, Dismiss, No thanks, Skip) or accept/reject options. If a popup blocks interaction with the main page, handle it first.
+- If you encounter access denied (403), bot detection, or rate limiting, do NOT repeatedly retry the same URL. Try alternative approaches or report the limitation.
+- Detect and break out of unproductive loops: if you are on the same URL for 3+ steps without meaningful progress, or the same action fails 2-3 times, try a different approach. Track what you have tried in memory to avoid repeating failed approaches.
+</browser_rules>
+<file_system>
+- You have access to a persistent file system which you can use to track progress, store results, and manage long tasks.
+- Your file system is initialized with a `todo.md`: Use this to keep a checklist for known subtasks. Use `replace_file` tool to update markers in `todo.md` as first action whenever you complete an item. This file should guide your step-by-step execution when you have a long running task.
+- If you are writing a `csv` file, make sure to use double quotes if cell elements contain commas.
+- If the file is too large, you are only given a preview of your file. Use `read_file` to see the full content if necessary.
+- If exists, <available_file_paths> includes files you have downloaded or uploaded by the user. You can only read or upload these files but you don't have write access.
+- If the task is really long, initialize a `results.md` file to accumulate your results.
+- DO NOT use the file system if the task is less than 10 steps!
+</file_system>
+<planning>
+Decide whether to plan based on task complexity:
+- Simple task (1-3 actions, e.g. "go to X and click Y"): Act directly. Do NOT output `plan_update`.
+- Complex but clear task (multi-step, known approach): Output `plan_update` immediately with 3-10 todo items.
+- Complex and unclear task (unfamiliar site, vague goal): Explore for a few steps first, then output `plan_update` once you understand the landscape.
+When a plan exists, `<plan>` in your input shows status markers: [x]=done, [>]=current, [ ]=pending, [-]=skipped.
+Output `current_plan_item` (0-indexed) to indicate which item you are working on.
+Output `plan_update` again only to revise the plan after unexpected obstacles or after exploration.
+Completing all plan items does NOT mean the task is done. Always verify against the original <user_request> before calling `done`.
+</planning>
+<task_completion_rules>
+You must call the `done` action in one of two cases:
+- When you have fully completed the USER REQUEST.
+- When you reach the final allowed step (`max_steps`), even if the task is incomplete.
+- If it is ABSOLUTELY IMPOSSIBLE to continue.
+The `done` action is your opportunity to terminate and share your findings with the user.
+- Set `success` to `true` only if the full USER REQUEST has been completed with no missing components.
+- If any part of the request is missing, incomplete, or uncertain, set `success` to `false`.
+- You can use the `text` field of the `done` action to communicate your findings and `files_to_display` to send file attachments to the user, e.g. `["results.md"]`.
+- Put ALL the relevant information you found so far in the `text` field when you call `done` action.
+- Combine `text` and `files_to_display` to provide a coherent reply to the user and fulfill the USER REQUEST.
+- You are ONLY ALLOWED to call `done` as a single action. Don't call it together with other actions.
+- If the user asks for specified format, such as "return JSON with following structure", "return a list of format...", MAKE sure to use the right format in your answer.
+- If the user asks for a structured output, your `done` action's schema will be modified. Take this schema into account when solving the task!
+- When you reach 75% of your step budget, critically evaluate whether you can complete the full task in the remaining steps.
+  If completion is unlikely, shift strategy: focus on the highest-value remaining items and consolidate your results (save progress to files if the file system is in use).
+  This ensures that when you do call `done` (at max_steps or earlier), you have meaningful partial results to deliver.
+- For large multi-item tasks (e.g. "search 50 items"), estimate the per-item cost from the first few items.
+  If the task will exceed your budget, prioritize the most important items and save results incrementally.
+<pre_done_verification>
+BEFORE calling `done` with `success=true`, you MUST perform this verification:
+1. **Re-read the USER REQUEST** — list every concrete requirement (items to find, actions to perform, format to use, filters to apply).
+2. **Check each requirement against your results:**
+   - Did you extract the CORRECT number of items? (e.g., "list 5 items" → count them)
+   - Did you apply ALL specified filters/criteria? (e.g., price range, date, location)
+   - Does your output match the requested format exactly?
+3. **Verify actions actually completed:**
+   - If you submitted a form, posted a comment, or saved a file — check the page state or screenshot to confirm it happened.
+   - If you took a screenshot or downloaded a file — verify it exists in your file system.
+4. **Verify data grounding:** Every URL, price, name, and value must appear verbatim in your tool outputs or browser_state. Do NOT use your training knowledge to fill gaps — if information was not found on the page during this session, say so explicitly. Never fabricate or invent values.
+5. **Blocking error check:** If you hit an unresolved blocker (payment declined, login failed without credentials, email/verification wall, required paywall, access denied not bypassed) → set `success=false`. Temporary obstacles you overcame (auto-solved CAPTCHAs, dismissed popups, retried errors) do NOT count.
+6. **If ANY requirement is unmet, uncertain, or unverifiable — set `success` to `false`.**
+   Partial results with `success=false` are more valuable than overclaiming success.
+</pre_done_verification>
+</task_completion_rules>
+<action_rules>
+- You are allowed to use a maximum of 5 actions per step.
+If you are allowed multiple actions, you can specify multiple actions in the list to be executed sequentially (one after another).
+- If the page changes after an action, the remaining actions are automatically skipped and you get the new state.
+Check the browser state each step to verify your previous action achieved its goal.
+</action_rules>
+<efficiency_guidelines>
+You can output multiple actions in one step. Try to be efficient where it makes sense. Do not predict actions which do not make sense for the current page.
+
+**Action categories:**
+- **Page-changing (always last):** `navigate`, `search`, `go_back`, `switch`, `evaluate` — these always change the page. Remaining actions after them are skipped automatically. Note: `evaluate` runs arbitrary JS that can modify the DOM, so it is never safe to chain other actions after it.
+- **Potentially page-changing:** `click` (on links/buttons that navigate) — monitored at runtime; if the page changes, remaining actions are skipped.
+- **Safe to chain:** `input`, `scroll`, `find_text`, `extract`, `search_page`, `find_elements`, file operations — these do not change the page and can be freely combined.
+
+**Shadow DOM:** Elements inside shadow DOM that have `[index]` markers are directly clickable with `click(index)`. Do NOT use `evaluate` to click them.
+
+**Recommended combinations:**
+- `input` + `input` + `input` + `click` → Fill multiple form fields then submit
+- `input` + `input` → Fill multiple form fields
+- `scroll` + `scroll` → Scroll further down the page
+- `click` + `click` → Navigate multi-step flows (only when clicks do not navigate)
+- File operations + browser actions
+
+Do not try multiple different paths in one step. Always have one clear goal per step.
+Place any page-changing action **last** in your action list, since actions after it will not run.
+</efficiency_guidelines>
+<reasoning_rules>
+You must reason explicitly and systematically at every step in your `thinking` block.
+Exhibit the following reasoning patterns to successfully achieve the <user_request>:
+- Reason about <agent_history> to track progress and context toward <user_request>.
+- Analyze the most recent "Next Goal" and "Action Result" in <agent_history> and clearly state what you previously tried to achieve.
+- Analyze all relevant items in <agent_history>, <browser_state>, <read_state>, <file_system>, <read_state> and the screenshot to understand your state.
+- Explicitly judge success/failure/uncertainty of the last action. Never assume an action succeeded just because it appears to be executed in your last step in <agent_history>. For example, you might have "Action 1/1: Input '2025-05-05' into element 3." in your history even though inputting text failed. Always verify using <browser_vision> (screenshot) as the primary ground truth. If a screenshot is unavailable, fall back to <browser_state>. If the expected change is missing, mark the last action as failed (or uncertain) and plan a recovery.
+- If todo.md is empty and the task is multi-step, generate a stepwise plan in todo.md using file tools.
+- Analyze `todo.md` to guide and track your progress.
+- If any todo.md items are finished, mark them as complete in the file.
+- Analyze whether you are stuck, e.g. when you repeat the same actions multiple times without any progress. Then consider alternative approaches.
+- Analyze the <read_state> where one-time information are displayed due to your previous action. Reason about whether you want to keep this information in memory and plan writing them into a file if applicable using the file tools.
+- If you see information relevant to <user_request>, plan saving the information into a file.
+- Before writing data into a file, analyze the <file_system> and check if the file already has some content to avoid overwriting.
+- Decide what concise, actionable context should be stored in memory to inform future reasoning.
+- When ready to finish, state you are preparing to call done and communicate completion/results to the user.
+- Before done, use read_file to verify file contents intended for user output.
+- Always reason about the <user_request>. Make sure to carefully analyze the specific steps and information required. E.g. specific filters, specific form fields, specific information to search. Make sure to always compare the current trajectory with the user request.
+</reasoning_rules>
+<examples>
+Here are examples of good output patterns. Use them as reference but never copy them directly.
+<todo_examples>
+  "write_file": {
+    "file_name": "todo.md",
+    "content": "# ArXiv CS.AI Recent Papers Collection Task\n\n## Goal: Collect metadata for 20 most recent papers\n\n## Tasks:\n- [ ] Navigate to https://arxiv.org/list/cs.AI/recent\n- [ ] Initialize papers.md file for storing paper data\n- [ ] Collect paper 1/20: The Automated LLM Speedrunning Benchmark\n- [x] Collect paper 2/20: AI Model Passport\n- [ ] Collect paper 3/20: Embodied AI Agents\n- [ ] Collect paper 4/20: Conceptual Topic Aggregation\n- [ ] Collect paper 5/20: Artificial Intelligent Disobedience\n- [ ] Continue collecting remaining papers from current page\n- [ ] Navigate through subsequent pages if needed\n- [ ] Continue until 20 papers are collected\n- [ ] Verify all 20 papers have complete metadata\n- [ ] Final review and completion"
+  }
+</todo_examples>
+<evaluation_examples>
+- Positive Examples:
+"evaluation_previous_goal": "Successfully navigated to the product page and found the target information. Verdict: Success"
+"evaluation_previous_goal": "Clicked the login button and user authentication form appeared. Verdict: Success"
+- Negative Examples:
+"evaluation_previous_goal": "Failed to input text into the search bar as I cannot see it in the image. Verdict: Failure"
+"evaluation_previous_goal": "Clicked the submit button with index 15 but the form was not submitted successfully. Verdict: Failure"
+</evaluation_examples>
+<memory_examples>
+"memory": "Visited 2 of 5 target websites. Collected pricing data from Amazon ($39.99) and eBay ($42.00). Still need to check Walmart, Target, and Best Buy for the laptop comparison."
+"memory": "Found many pending reports that need to be analyzed in the main page. Successfully processed the first 2 reports on quarterly sales data and moving on to inventory analysis and customer feedback reports."
+"memory": "Search returned results but no filter applied yet. User wants items under $50 with 4+ stars. Will apply price filter first, then rating filter."
+"memory": "Popup appeared blocking the page. Need to close it first before continuing with search."
+"memory": "Previous click on search button failed - page did not change. Will try pressing Enter in the search field instead."
+"memory": "Captcha appeared twice on this site. Will try alternative approach via search engine instead of direct navigation."
+"memory": "403 error on main product page. Will try searching for the product on a different site instead of retrying."
+</memory_examples>
+<next_goal_examples>
+"next_goal": "Click on the 'Add to Cart' button to proceed with the purchase flow."
+"next_goal": "Extract details from the first item on the page."
+"next_goal": "Close the popup that appeared blocking the main content."
+"next_goal": "Apply price filter to narrow results to items under $50."
+</next_goal_examples>
+</examples>
+<output>
+You must ALWAYS respond with a valid JSON in this exact format:
+{
+  "thinking": "A structured <think>-style reasoning block that applies the <reasoning_rules> provided above.",
+  "evaluation_previous_goal": "Concise one-sentence analysis of your last action. Clearly state success, failure, or uncertain.",
+  "memory": "1-3 sentences of specific memory of this step and overall progress. You should put here everything that will help you track progress in future steps. Like counting pages visited, items found, etc.",
+  "next_goal": "State the next immediate goal and action to achieve it, in one clear sentence.",
+  "current_plan_item": 0,
+  "plan_update": ["Todo item 1", "Todo item 2", "Todo item 3"],
+  "action":[{"navigate": { "url": "url_value"}}, // ... more actions in sequence]
+}
+Action list should NEVER be empty.
+`current_plan_item` and `plan_update` are optional. See <planning> for details.
+</output>
+<critical_reminders>
+1. ALWAYS verify action success using the screenshot before proceeding
+2. ALWAYS handle popups/modals/cookie banners before other actions
+3. ALWAYS apply filters when user specifies criteria (price, rating, location, etc.)
+4. NEVER repeat the same failing action more than 2-3 times - try alternatives
+5. NEVER assume success - always verify from screenshot or browser state
+6. CAPTCHAs are solved automatically. If blocked by login/403, try alternative approaches rather than retrying
+7. Put ALL relevant findings in done action's text field
+8. Match user's requested output format exactly
+9. Track progress in memory to avoid loops
+10. When at max_steps, call done with whatever results you have
+11. Always compare current trajectory against the user's original request
+12. Be efficient - combine actions when possible but verify results between major steps
+</critical_reminders>
+<error_recovery>
+When encountering errors or unexpected states:
+1. First, verify the current state using screenshot as ground truth
+2. Check if a popup, modal, or overlay is blocking interaction
+3. If an element is not found, scroll to reveal more content
+4. If an action fails repeatedly (2-3 times), try an alternative approach
+5. If blocked by login/403, consider alternative sites or search engines. CAPTCHAs are solved automatically.
+6. If the page structure is different than expected, re-analyze and adapt
+7. If stuck in a loop, explicitly acknowledge it in memory and change strategy
+8. If max_steps is approaching, prioritize completing the most important parts of the task
+</error_recovery>
+
+
+ user 
+<agent_history>
+Agent initialized
+<step>
+Result
+Found initial url and automatically loaded it. Navigated to https://www.booking.com/
+<step>
+Navigated to booking.com successfully. Verdict: Success
+On booking.com homepage. Need to search for Mexico hotels for December 25-26.
+Click on the destination/search field and type Mexico, then set dates for December 25-26.
+Result
+Found 2 elements matching "input[placeholder*='destination'], input[name='ss'], input[data-testid='destination-container'] input, [data-testid='destination-container']".
+<step>
+Found the booking.com page loaded. Need to interact with the search form to enter Mexico as destination.
+On booking.com homepage. Need to search for Mexico hotels for December 25-26. The search form is visible but I need to find and click the destination input field.
+Click on the destination search field and type Mexico.
+Result
+Found 1 element matching "input[name='ss'], input[placeholder*='destination'], input[placeholder*='Where'], [data-testid='destination-container'] input".
+<step>
+The page has loaded but I need to find and interact with the search form. The destination input field is not visible in the interactive elements - I need to look for it.
+On booking.com homepage. Need to search for Mexico hotels for December 25-26. The search form elements aren't clearly indexed in the current view.
+Find and click the destination search input field to type Mexico.
+Result
+Found 1 element matching "input[name='ss'], input[placeholder*='Where'], input[placeholder*='destination'], [data-testid='destination-container'] input".
+<step>
+The find_elements actions found the destination input but didn't interact with it. Need to directly click on the search field using its index from the browser state.
+On booking.com homepage. The search form is visible but the destination input field doesn't have a visible index in the current browser state. Need to scroll up or find the search input field to type Mexico.
+Click on the destination search field (the search form area) to open it and type Mexico.
+Result
+found and clicked: Where are you going?
+<step>
+Successfully clicked the destination search field. Verdict: Success
+On booking.com homepage. Clicked the destination field. Need to type Mexico, set dates Dec 25-26, and search for hotels with deals.
+Type Mexico in the destination field that should now be active/open.
+Result
+Found 1 element matching "input[name='ss'], input[placeholder*='Where'], input[data-testid='destination-container'] input, input[class*='search']".
+<step>
+The find_elements action found the destination input but didn't actually type in it. The page shows the booking.com homepage but the search field doesn't appear to be active with typed text. Verdict: Uncertain - need to directly interact with the input field.
+On booking.com homepage. Need to search for Mexico hotels for December 25-26. The destination field was clicked but Mexico hasn't been typed yet. Need to find the input field index and type Mexico.
+Find the destination input field index and type Mexico in it.
+Result
+Found 1 element matching "input[name='ss']".
+<step>
+Multiple attempts to find and interact with the destination input field have not resulted in typing Mexico. The page content hasn't changed across 5 consecutive actions. Verdict: Failure - need a different approach.
+On booking.com homepage. Multiple attempts to find and type in the destination field have failed. The search form is visible but the input field interaction isn't working. Need to try a different approach - perhaps clicking directly on the search area using coordinates or finding the correct element index.
+Take a screenshot to see the current state and find the correct element to interact with.
+Result
+Requested screenshot for next observation
+<step>
+Screenshot shows the booking.com homepage with a "Sign in, save money" modal popup blocking the search form. Need to dismiss this popup first. Verdict: The popup is blocking interaction.
+On booking.com homepage. There's a "Sign in, save money" modal popup blocking the search form. Need to dismiss it first, then interact with the search form to enter Mexico and dates Dec 25-26.
+Close the "Sign in, save money" popup by clicking the X button, then interact with the search form.
+Result
+Clicked button aria-label=Dismiss sign-in info
+<step>
+Successfully dismissed the sign-in popup. The search form is now visible with the destination input at index 487. Verdict: Success
+On booking.com homepage. Popup dismissed. Search form visible. Destination input at index 487. Need to type Mexico, set dates Dec 25-26, and search for hotels with deals.
+Type Mexico in the destination search field (index 487).
+Result
+Typed 'Mexico'
+💡 This is an autocomplete field. Wait for suggestions to appear, then click the correct suggestion instead of pressing Enter.
+<step>
+Successfully typed Mexico in the destination field and autocomplete suggestions appeared. Verdict: Success
+On booking.com homepage. Typed Mexico in destination field. Autocomplete suggestions visible - first option is "Mexico" (the country) at index 6684. Need to click it, then set dates Dec 25-26.
+Click on "Mexico" (the country) from the autocomplete suggestions dropdown.
+Result
+Clicked li role=option "Mexico" id=autocomplete-result-
+<step>
+Successfully selected Mexico as destination. The date picker is now open showing June 2026 and July 2026. Need to navigate to December 2026.
+Mexico selected as destination. Date picker is open showing June and July 2026. Need to click "Next month" multiple times to reach December 2026, then select Dec 25 as check-in and Dec 26 as check-out.
+Click "Next month" button to navigate forward to December 2026 (need to click it multiple times).
+Result
+Clicked button aria-label=Next month
+</agent_history>
+
+<agent_state>
+<user_request>
+Find a Mexico hotel with deals for December 25-26. on https://www.booking.com/
+</user_request>
+<file_system>
+
+</file_system>
+<todo_contents>
+[empty todo.md, fill it when applicable]
+</todo_contents>
+<plan>
+[x] 0: Type Mexico in destination field and select from suggestions
+[>] 1: Set check-in date to December 25
+[ ] 2: Set check-out date to December 26
+[ ] 3: Click Search button
+[ ] 4: Look for deals/filter by deals on results page
+[ ] 5: Extract hotel deal information
+</plan>
+<step_info>Step12 maximum:30
+Today:2026-06-11</step_info>
+</agent_state>
+<browser_state>
+<page_stats>Page appears to show skeleton/placeholder content (still loading?) - 25 links, 342 interactive, 0 iframes, 1 shadow(open), 0 shadow(closed), 22 images, 857 total elements</page_stats>
+Current tab: D1A5
+Available tabs:
+Tab D1A5: https://www.booking.com/ - Booking.com | Official site | 
+
+<page_info>0.0 pages above, 4.5 pages below — scroll down to reveal more content</page_info>
+
+Interactive elements:
+[Start of page]
+[315]<div />
+	[316]<a />
+		Skip to main content
+[327]<div data-testid=tracking-wrapper />
+	[330]<div data-testid=tracking-wrapper />
+		[338]<a data-testid=header-booking-logo aria-label=Booking.com />
+		[343]<button data-testid=header-currency-picker-trigger aria-label=Prices in U.S. Dollar />
+			USD
+		[347]<span />
+			[348]<button data-testid=header-language-picker-trigger aria-label=Language: English (US) />
+		[354]<span />
+			[355]<a aria-label=Customer support data-testid=header-help-center />
+		[361]<a data-testid=header-custom-action-button />
+			List your property
+		[365]<a data-testid=header-sign-up-button aria-label=Register an account />
+			Register
+		[370]<a data-testid=header-sign-in-button aria-label=Sign in />
+			Sign in
+		[376]<ul role=menubar />
+			[379]<a id=accommodations role=menuitem />
+				Stays
+			[390]<a id=flights role=menuitem />
+				Flights
+			[400]<a id=packages role=menuitem />
+				Flight + Hotel
+			[410]<a id=cars role=menuitem />
+				Car rental
+			[420]<a id=cruises role=menuitem />
+				Cruises
+			[430]<a id=attractions role=menuitem />
+				Attractions
+			[440]<a id=airport_taxis role=menuitem />
+				Airport taxis
+[456]<div data-testid=tracking-wrapper />
+	Find deals for any season
+	From cozy bed & breakfasts to luxury hotels
+	[471]<div data-testid=tracking-wrapper />
+		[475]<div data-testid=searchbox-layout-wide />
+			[483]<div />
+				[484]<span />
+					<svg /> <!-- SVG content collapsed -->
+			|SHADOW(open)|[487]<input name=ss placeholder=Where are you going? aria-label=Where are you going? aria-expanded=false role=combobox id=:R55amr5: value=Mexico />
+			[6715]<div />
+				[6713]<button />
+					[6712]<span role=img aria-label=Clear />
+			[491]<button data-testid=searchbox-dates-container />
+				Check-in date
+				Check-out date
+			[7062]<div data-testid=searchbox-datepicker />
+				[6749]<ul role=tablist />
+					[6742]<button id=calendar-searchboxdatepicker-tab-trigger role=tab />
+						Calendar
+					[6746]<button id=flexible-searchboxdatepicker-tab-trigger role=tab />
+						I'm flexible
+				[7058]<div role=tabpanel id=calendar-searchboxdatepicker />
+					[7054]<div data-testid=searchbox-datepicker-calendar />
+						*[7348]<button aria-label=Previous month />
+						[6996]<button aria-label=Next month />
+						July 2026
+						[6880]<th />
+							[6873]<div />
+								Su
+						[6881]<th />
+							[6874]<div />
+								Mo
+						[6882]<th />
+							[6875]<div />
+								Tu
+						[6883]<th />
+							[6876]<div />
+								We
+						[6884]<th />
+							[6877]<div />
+								Th
+						[6885]<th />
+							[6878]<div />
+								Fr
+						[6886]<th />
+							[6879]<div />
+								Sa
+						[6985]<tr />
+							[6896]<td />
+							[6897]<td />
+							[6898]<td />
+							[6899]<td role=gridcell />
+								[6889]<span role=checkbox aria-label=We 1 July 2026 />
+									[6888]<span />
+							[6900]<td role=gridcell />
+								[6891]<span role=checkbox aria-label=Th 2 July 2026 />
+									[6890]<span />
+							[6901]<td role=gridcell />
+								[6893]<span role=checkbox aria-label=Fr 3 July 2026 />
+									[6892]<span />
+							[6902]<td role=gridcell />
+								[6895]<span role=checkbox aria-label=Sa 4 July 2026 />
+									[6894]<span />
+						[6986]<tr />
+							[6917]<td role=gridcell />
+								[6904]<span role=checkbox aria-label=Su 5 July 2026 />
+									[6903]<span />
+							[6918]<td role=gridcell />
+								[6906]<span role=checkbox aria-label=Mo 6 July 2026 />
+									[6905]<span />
+							[6919]<td role=gridcell />
+								[6908]<span role=checkbox aria-label=Tu 7 July 2026 />
+									[6907]<span />
+							[6920]<td role=gridcell />
+								[6910]<span role=checkbox aria-label=We 8 July 2026 />
+									[6909]<span />
+							[6921]<td role=gridcell />
+								[6912]<span role=checkbox aria-label=Th 9 July 2026 />
+									[6911]<span />
+							[6922]<td role=gridcell />
+								[6914]<span role=checkbox aria-label=Fr 10 July 2026 />
+									[6913]<span />
+										10
+							[6923]<td role=gridcell />
+								[6916]<span role=checkbox aria-label=Sa 11 July 2026 />
+									[6915]<span />
+										11
+						[6987]<tr />
+							[6938]<td role=gridcell />
+								[6925]<span role=checkbox aria-label=Su 12 July 2026 />
+									[6924]<span />
+										12
+							[6939]<td role=gridcell />
+								[6927]<span role=checkbox aria-label=Mo 13 July 2026 />
+									[6926]<span />
+										13
+							[6940]<td role=gridcell />
+								[6929]<span role=checkbox aria-label=Tu 14 July 2026 />
+									[6928]<span />
+										14
+							[6941]<td role=gridcell />
+								[6931]<span role=checkbox aria-label=We 15 July 2026 />
+									[6930]<span />
+										15
+							[6942]<td role=gridcell />
+								[6933]<span role=checkbox aria-label=Th 16 July 2026 />
+									[6932]<span />
+										16
+							[6943]<td role=gridcell />
+								[6935]<span role=checkbox aria-label=Fr 17 July 2026 />
+									[6934]<span />
+										17
+							[6944]<td role=gridcell />
+								[6937]<span role=checkbox aria-label=Sa 18 July 2026 />
+									[6936]<span />
+										18
+						[6988]<tr />
+							[6959]<td role=gridcell />
+								[6946]<span role=checkbox aria-label=Su 19 July 2026 />
+									[6945]<span />
+										19
+							[6960]<td role=gridcell />
+								[6948]<span role=checkbox aria-label=Mo 20 July 2026 />
+									[6947]<span />
+										20
+							[6961]<td role=gridcell />
+								[6950]<span role=checkbox aria-label=Tu 21 July 2026 />
+									[6949]<span />
+										21
+							[6962]<td role=gridcell />
+								[6952]<span role=checkbox aria-label=We 22 July 2026 />
+									[6951]<span />
+										22
+							[6963]<td role=gridcell />
+								[6954]<span role=checkbox aria-label=Th 23 July 2026 />
+									[6953]<span />
+										23
+							[6964]<td role=gridcell />
+								[6956]<span role=checkbox aria-label=Fr 24 July 2026 />
+									[6955]<span />
+										24
+							[6965]<td role=gridcell />
+								[6958]<span role=checkbox aria-label=Sa 25 July 2026 />
+									[6957]<span />
+										25
+						[6989]<tr />
+							[6978]<td role=gridcell />
+								[6967]<span role=checkbox aria-label=Su 26 July 2026 />
+									[6966]<span />
+										26
+							[6979]<td role=gridcell />
+								[6969]<span role=checkbox aria-label=Mo 27 July 2026 />
+									[6968]<span />
+										27
+							[6980]<td role=gridcell />
+								[6971]<span role=checkbox aria-label=Tu 28 July 2026 />
+									[6970]<span />
+										28
+							[6981]<td role=gridcell />
+								[6973]<span role=checkbox aria-label=We 29 July 2026 />
+									[6972]<span />
+										29
+							[6982]<td role=gridcell />
+								[6975]<span role=checkbox aria-label=Th 30 July 2026 />
+									[6974]<span />
+										30
+							[6983]<td role=gridcell />
+								[6977]<span role=checkbox aria-label=Fr 31 July 2026 />
+									[6976]<span />
+										31
+							[6984]<td />
+						August 2026
+						*[7226]<th />
+							*[7219]<div />
+								Su
+						*[7227]<th />
+							*[7220]<div />
+								Mo
+						*[7228]<th />
+							*[7221]<div />
+								Tu
+						*[7229]<th />
+							*[7222]<div />
+								We
+						*[7230]<th />
+							*[7223]<div />
+								Th
+						*[7231]<th />
+							*[7224]<div />
+								Fr
+						*[7232]<th />
+							*[7225]<div />
+								Sa
+						*[7338]<tr />
+							*[7236]<td />
+							*[7237]<td />
+							*[7238]<td />
+							*[7239]<td />
+							*[7240]<td />
+							*[7241]<td />
+							*[7242]<td role=gridcell />
+								*[7235]<span role=checkbox aria-label=Sa 1 August 2026 />
+									*[7234]<span />
+						*[7339]<tr />
+							*[7257]<td role=gridcell />
+								*[7244]<span role=checkbox aria-label=Su 2 August 2026 />
+									*[7243]<span />
+							*[7258]<td role=gridcell />
+								*[7246]<span role=checkbox aria-label=Mo 3 August 2026 />
+									*[7245]<span />
+							*[7259]<td role=gridcell />
+								*[7248]<span role=checkbox aria-label=Tu 4 August 2026 />
+									*[7247]<span />
+							*[7260]<td role=gridcell />
+								*[7250]<span role=checkbox aria-label=We 5 August 2026 />
+									*[7249]<span />
+							*[7261]<td role=gridcell />
+								*[7252]<span role=checkbox aria-label=Th 6 August 2026 />
+									*[7251]<span />
+							*[7262]<td role=gridcell />
+								*[7254]<span role=checkbox aria-label=Fr 7 August 2026 />
+									*[7253]<span />
+							*[7263]<td role=gridcell />
+								*[7256]<span role=checkbox aria-label=Sa 8 August 2026 />
+									*[7255]<span />
+						*[7340]<tr />
+							*[7278]<td role=gridcell />
+								*[7265]<span role=checkbox aria-label=Su 9 August 2026 />
+									*[7264]<span />
+							*[7279]<td role=gridcell />
+								*[7267]<span role=checkbox aria-label=Mo 10 August 2026 />
+									*[7266]<span />
+										10
+							*[7280]<td role=gridcell />
+								*[7269]<span role=checkbox aria-label=Tu 11 August 2026 />
+									*[7268]<span />
+										11
+							*[7281]<td role=gridcell />
+								*[7271]<span role=checkbox aria-label=We 12 August 2026 />
+									*[7270]<span />
+										12
+							*[7282]<td role=gridcell />
+								*[7273]<span role=checkbox aria-label=Th 13 August 2026 />
+									*[7272]<span />
+										13
+							*[7283]<td role=gridcell />
+								*[7275]<span role=checkbox aria-label=Fr 14 August 2026 />
+									*[7274]<span />
+										14
+							*[7284]<td role=gridcell />
+								*[7277]<span role=checkbox aria-label=Sa 15 August 2026 />
+									*[7276]<span />
+										15
+						*[7341]<tr />
+							*[7299]<td role=gridcell />
+								*[7286]<span role=checkbox aria-label=Su 16 August 2026 />
+									*[7285]<span />
+										16
+							*[7300]<td role=gridcell />
+								*[7288]<span role=checkbox aria-label=Mo 17 August 2026 />
+									*[7287]<span />
+										17
+							*[7301]<td role=gridcell />
+								*[7290]<span role=checkbox aria-label=Tu 18 August 2026 />
+									*[7289]<span />
+										18
+							*[7302]<td role=gridcell />
+								*[7292]<span role=checkbox aria-label=We 19 August 2026 />
+									*[7291]<span />
+										19
+							*[7303]<td role=gridcell />
+								*[7294]<span role=checkbox aria-label=Th 20 August 2026 />
+									*[7293]<span />
+										20
+							*[7304]<td role=gridcell />
+								*[7296]<span role=checkbox aria-label=Fr 21 August 2026 />
+									*[7295]<span />
+										21
+							*[7305]<td role=gridcell />
+								*[7298]<span role=checkbox aria-label=Sa 22 August 2026 />
+									*[7297]<span />
+										22
+						*[7342]<tr />
+							*[7320]<td role=gridcell />
+								*[7307]<span role=checkbox aria-label=Su 23 August 2026 />
+									*[7306]<span />
+										23
+							*[7321]<td role=gridcell />
+								*[7309]<span role=checkbox aria-label=Mo 24 August 2026 />
+									*[7308]<span />
+										24
+							*[7322]<td role=gridcell />
+								*[7311]<span role=checkbox aria-label=Tu 25 August 2026 />
+									*[7310]<span />
+										25
+							*[7323]<td role=gridcell />
+								*[7313]<span role=checkbox aria-label=We 26 August 2026 />
+									*[7312]<span />
+										26
+							*[7324]<td role=gridcell />
+								*[7315]<span role=checkbox aria-label=Th 27 August 2026 />
+									*[7314]<span />
+										27
+							*[7325]<td role=gridcell />
+								*[7317]<span role=checkbox aria-label=Fr 28 August 2026 />
+									*[7316]<span />
+										28
+							*[7326]<td role=gridcell />
+								*[7319]<span role=checkbox aria-label=Sa 29 August 2026 />
+									*[7318]<span />
+										29
+						*[7343]<tr />
+							*[7331]<td role=gridcell />
+								*[7328]<span role=checkbox aria-label=Su 30 August 2026 />
+									*[7327]<span />
+										30
+							*[7332]<td role=gridcell />
+								*[7330]<span role=checkbox aria-label=Mo 31 August 2026 />
+									*[7329]<span />
+										31
+							*[7333]<td />
+							*[7334]<td />
+							*[7335]<td />
+							*[7336]<td />
+							*[7337]<td />
+					[7000]<span />
+						[6998]<span />
+							Exact dates
+					[7008]<span />
+						[7005]<span />
+							[7004]<span />
+								[7003]<svg /> <!-- SVG content collapsed -->
+						[7006]<span />
+							1 day
+					[7016]<span />
+						[7013]<span />
+							[7012]<span />
+								[7011]<svg /> <!-- SVG content collapsed -->
+						[7014]<span />
+							2 days
+					[7024]<span />
+						[7021]<span />
+							[7020]<span />
+								[7019]<svg /> <!-- SVG content collapsed -->
+						[7022]<span />
+							3 days
+					[7032]<span />
+						[7029]<span />
+							[7028]<span />
+								[7027]<svg /> <!-- SVG content collapsed -->
+						[7030]<span />
+							7 days
+			[503]<div />
+				[504]<button data-testid=occupancy-config aria-expanded=false aria-label=Number of travelers and rooms. Currently selected: 2 adults · 0 children · 1 room />
+					2 adults · 0 children · 1 room
+			[514]<button type=submit />
+				[516]<span />
+					[517]<span />
+				Search
+		[520]<fieldset data-testid=searchbox-footer />
+			[525]<span />
+				[527]<svg /> <!-- SVG content collapsed -->
+			[529]<span />
+				[530]<div />
+					Add flights to my search
+[538]<div data-testid=tracking-wrapper />
+[545]<div data-testid=tracking-wrapper />
+	[548]<div data-testid=tracking-wrapper />
+		Why Booking.com?
+		[553]<div data-testid=usp-expanded-design />
+			Book now, pay at the property
+			FREE cancellation on most rooms
+		[560]<div data-testid=usp-expanded-design />
+			300M+ reviews from fellow travelers
+			Get trusted information from guests like you
+		2+ million properties worldwide
+		Hotels, guest houses, apartments, and more…
+		[574]<div data-testid=usp-expanded-design />
+			Trusted 24/7 customer service you can rely on
+			We're always here to help
+[582]<div data-testid=tracking-wrapper />
+[589]<div data-testid=tracking-wrapper />
+	[592]<div data-testid=tracking-wrapper />
+		Offers
+		Promotions, deals, and special offers for you
+		Earn 6% in Travel Credits on stays with the Genius Rewards Visa®
+		Plus get $150 in Credits after qualifying purchases on your card, an upgrade to Genius Level 3, and more. Terms apply.
+		[614]<a aria-label=Learn more data-testid=promotional-banner-content-cta />
+			Learn more
+		Earn a verified guest badge
+		Once you verify your identity with Booking.com, you’ll earn a verified guest badge.
+		[635]<a aria-label=Button data-testid=promotional-banner-content-cta />
+			Verify your identity
+	[677]<div data-testid=tracking-wrapper />
+[681]<div data-testid=tracking-wrapper />
+	[684]<div data-testid=tracking-wrapper />
+		Trending destinations
+		Most popular choices for travelers from the United States
+		[693]<a />
+			Las Vegas
+		[704]<a />
+			Orlando
+		[716]<a />
+			New York
+		[727]<a />
+			Tokyo
+		[738]<a />
+			Atlanta
+	[750]<div data-testid=tracking-wrapper />
+		Browse by property type
+		|scroll element|<div id=:r8: aria-label=Browse by property type role=region /> (horizontal 0%)
+			[3657]<a data-testid=web-core-stacked-card />
+			[3664]<a data-testid=web-core-stacked-card />
+			[3671]<a data-testid=web-core-stacked-card />
+			[3678]<a data-testid=web-core-stacked-card />
+			[3685]<a data-testid=web-core-stacked-card />
+	|scroll element[5301]<div id=:rd: aria-label=Stay at our top unique properties role=region /> (horizontal 0%)
+	|scroll element[3988]<div id=:r9: aria-label=Explore United States role=region /> (horizontal 0%)
+	|scroll element[5897]<div id=:r1a: aria-label=Deals for the weekend role=region /> (horizontal 0%)
+	|scroll element[4343]<div id=:ra: aria-label=Homes guests love role=region /> (horizontal 0%)
+	|scroll element[4615]<div /> (horizontal 0%)
+	|scroll element[4611]<div id=:rc: aria-label=Quick and easy trip planner role=region /> (horizontal 0%)
+</browser_state>
+
+
+{
+  "evaluation_previous_goal": "Successfully clicked \"Next month\" and the calendar now shows July 2026 and August 2026. Need to continue navigating to December 2026.",
+  "memory": "Mexico selected as destination. Date picker open showing July and August 2026. Need to click \"Next month\" 4 more times to reach December 2026. Then select Dec 25 as check-in and Dec 26 as check-out.",
+  "next_goal": "Click \"Next month\" button 4 more times to navigate to December 2026.",
+  "current_plan_item": 1,
+  "action": [
+    {
+      "click": {
+        "index": 6996
+      }
+    },
+    {
+      "click": {
+        "index": 6996
+      }
+    },
+    {
+      "click": {
+        "index": 6996
+      }
+    },
+    {
+      "click": {
+        "index": 6996
+      }
+    }
+  ]
+}

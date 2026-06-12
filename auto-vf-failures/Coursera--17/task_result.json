@@ -1,0 +1,36 @@
+{
+  "task_id": "Coursera--17",
+  "web_name": "https://www.coursera.org/",
+  "start_time": "2026-06-11 07:48:31.217804",
+  "end_time": "2026-06-11 07:53:45.339697",
+  "duration_seconds": 314.121893,
+  "num_steps": 14,
+  "success": "success",
+  "task_prompt": "How many results are there for a search on Coursera for Machine Learning, then filtered by Credit Eligible and 1-4 Years duration? on https://www.coursera.org/",
+  "final_answer": "After searching for 'Machine Learning' on Coursera and applying both filters:\n- **Credit Eligible** (shown as 'Degrees' in the Learning Product filter)\n- **1-4 Years** duration\n\nThe result is **24 results**.\n\nThis is confirmed by the 'View (24)' button in the filter panel, and the Learning Product section showing 'Degrees (24)'.",
+  "gpt_4v_res": "Looking at the screenshots and the response, I need to evaluate whether the task was completed correctly.\n\nThe task asked to:\n1. Search for \"Machine Learning\" on Coursera \u2713 (visible in the search bar)\n2. Filter by \"Credit Eligible\" \u2713 (the response explains this corresponds to \"Degrees\" in the Learning Product filter)\n3. Filter by \"1-4 Years\" duration \u2713 (visible in the Duration filter showing \"1-4 Years\")\n4. Report the number of results\n\nFrom the screenshots, I can clearly see:\n- The search bar shows \"Machine Learning\"\n- The Duration filter shows \"1-4 Years\" is applied\n- The Learning Product section shows \"Degrees (24)\" with the checkbox\n- The \"View (24)\" button is visible at the bottom of the filter panel\n- The filter tags at the bottom show \"1-4 Years\" and \"Learning Product\" are active\n\nThe response states there are **24 results**, which is confirmed by both the \"View (24)\" button and \"Degrees (24)\" shown in the screenshots.\n\nNote: The task mentions \"Credit Eligible\" filter, and the response explains this corresponds to \"Degrees\" in Coursera's interface. This is a reasonable interpretation as degree programs are typically credit-eligible.\n\nThe task has been successfully completed with 24 results found.\n\n**SUCCESS**",
+  "stuck": false,
+  "stuck_reason": null,
+  "captcha_blocked": false,
+  "captcha_type": null,
+  "error": null,
+  "loop_summary": {
+    "max_consec_run": 1,
+    "looped_action_name": null,
+    "looped_action_args": null
+  },
+  "browser_use_version": "unknown",
+  "cost_totals": {
+    "input_tokens": 1043193,
+    "output_tokens": 25291,
+    "n_llm_calls": 83,
+    "cost_usd": 3.508944,
+    "model_id": "us.anthropic.claude-sonnet-4-6",
+    "input_price_per_m": 3.0,
+    "output_price_per_m": 15.0
+  },
+  "wait_time_s": 0.0,
+  "n_rate_limit_waits": 0,
+  "llm_time_s": 693.1069414620001,
+  "browser_time_s": 0.0
+}

@@ -1,0 +1,36 @@
+{
+  "task_id": "ESPN--40",
+  "web_name": "https://www.espn.com/",
+  "start_time": "2026-06-11 08:04:43.327695",
+  "end_time": "2026-06-11 08:10:22.650378",
+  "duration_seconds": 339.322683,
+  "num_steps": 13,
+  "success": "failed",
+  "task_prompt": "Browse the ESPN+ page from ESPN for a brief summary of what ESPN+ Tools is used for. on https://www.espn.com/",
+  "final_answer": "<NO FINAL ANSWER>",
+  "gpt_4v_res": "",
+  "stuck": false,
+  "stuck_reason": null,
+  "captcha_blocked": true,
+  "captcha_type": "google_sorry",
+  "error": null,
+  "loop_summary": {
+    "max_consec_run": 2,
+    "looped_action_name": "navigate",
+    "looped_action_args": "{\"new_tab\": false, \"url\": \"https://www.espn.com/espnplus/\"}"
+  },
+  "browser_use_version": "unknown",
+  "cost_totals": {
+    "input_tokens": 845894,
+    "output_tokens": 19195,
+    "n_llm_calls": 70,
+    "cost_usd": 2.825607,
+    "model_id": "us.anthropic.claude-sonnet-4-6",
+    "input_price_per_m": 3.0,
+    "output_price_per_m": 15.0
+  },
+  "wait_time_s": 0.0,
+  "n_rate_limit_waits": 0,
+  "llm_time_s": 490.2216829589979,
+  "browser_time_s": 0.0
+}

@@ -1,0 +1,1537 @@
+ system 
+You are an AI agent designed to operate in an iterative loop to automate browser tasks. Your ultimate goal is accomplishing the task provided in <user_request>.
+<intro>
+You excel at following tasks:
+1. Navigating complex websites and extracting precise information
+2. Automating form submissions and interactive web actions
+3. Gathering and saving information
+4. Using your filesystem effectively to decide what to keep in your context
+5. Operate effectively in an agent loop
+6. Efficiently performing diverse web tasks
+</intro>
+<language_settings>
+- Default working language: **English**
+- Always respond in the same language as the user request
+</language_settings>
+<input>
+At every step, your input will consist of:
+1. <agent_history>: A chronological event stream including your previous actions and their results.
+2. <agent_state>: Current <user_request>, summary of <file_system>, <todo_contents>, and <step_info>.
+3. <browser_state>: Current URL, open tabs, interactive elements indexed for actions, and visible page content.
+4. <browser_vision>: Screenshot of the browser with bounding boxes around interactive elements. If you used screenshot before, this will contain a screenshot.
+5. <read_state> This will be displayed only if your previous action was extract or read_file. This data is only shown in the current step.
+</input>
+<agent_history>
+Agent history will be given as a list of step information as follows:
+<step_{step_number}>:
+Evaluation of Previous Step: Assessment of last action
+Memory: Your memory of this step
+Next Goal: Your goal for this step
+Action Results: Your actions and their results
+</step_{step_number}>
+and system messages wrapped in <sys> tag.
+</agent_history>
+<user_request>
+USER REQUEST: This is your ultimate objective and always remains visible.
+- This has the highest priority. Make the user happy.
+- If the user request is very specific - then carefully follow each step and dont skip or hallucinate steps.
+- If the task is open ended you can plan yourself how to get it done.
+</user_request>
+<browser_state>
+1. Browser State will be given as:
+Current URL: URL of the page you are currently viewing.
+Open Tabs: Open tabs with their ids.
+Interactive Elements: All interactive elements will be provided in a tree-style XML format:
+- Format: `[index]<tagname attribute=value />` for interactive elements
+- Text content appears as child nodes on separate lines (not inside tags)
+- Indentation with tabs shows parent/child relationships
+Examples:
+[33]<div />
+	User form
+	[35]<input type=text placeholder=Enter name />
+	*[38]<button aria-label=Submit form />
+		Submit
+[40]<a />
+	About us
+Note that:
+- Only elements with numeric indexes in [] are interactive
+- (stacked) indentation (with \t) is important and means that the element is a (html) child of the element above (with a lower index)
+- Elements tagged with a star `*[` are the new interactive elements that appeared on the website since the last step - if url has not changed. Your previous actions caused that change. Think if you need to interact with them, e.g. after input you might need to select the right option from the list.
+- Pure text elements without [] are not interactive
+- `|SCROLL|` prefix indicates scrollable containers with scroll position info
+- `|SHADOW(open)|` or `|SHADOW(closed)|` prefix indicates shadow DOM elements
+</browser_state>
+<browser_vision>
+If you used screenshot before, you will be provided with a screenshot of the current page with  bounding boxes around interactive elements. This is your GROUND TRUTH: reason about the image in your thinking to evaluate your progress.
+If an interactive index inside your browser_state does not have text information, then the interactive index is written at the top center of it's element in the screenshot.
+Use screenshot if you are unsure or simply want more information.
+</browser_vision>
+<browser_rules>
+Strictly follow these rules while using the browser and navigating the web:
+- Only interact with elements that have a numeric [index] assigned.
+- Only use indexes that are explicitly provided.
+- If research is needed, open a **new tab** instead of reusing the current one.
+- If the page changes after, for example, an input text action, analyse if you need to interact with new elements, e.g. selecting the right option from the list.
+- By default, only elements in the visible viewport are listed.
+- CAPTCHAs are automatically solved by the browser. If you encounter a CAPTCHA, it will be handled for you and you will be notified of the result. Do not attempt to solve CAPTCHAs manually — just continue with your task after the CAPTCHA is resolved.
+- If the page is not fully loaded, use the wait action.
+- You can call extract on specific pages to gather structured semantic information from the entire page, including parts not currently visible.
+- Call extract only if the information you are looking for is not visible in your <browser_state> otherwise always just use the needed text from the <browser_state>.
+- Calling the extract tool is expensive! DO NOT query the same page with the same extract query multiple times. Make sure that you are on the page with relevant information based on the screenshot before calling this tool.
+- Use search_page to quickly find specific text or patterns on the page — it's free and instant. Great for: verifying content exists, finding where data is located, checking for error messages, locating prices/dates/IDs.
+- Use find_elements with CSS selectors to explore DOM structure — also free and instant. Great for: counting items (e.g. table rows, product cards), getting links or attributes, understanding page layout before extracting.
+- Prefer search_page over scrolling when looking for specific text content not visible in browser_state. Use find_elements when you need to understand element structure or extract attributes.
+- If you fill an input field and your action sequence is interrupted, most often something changed e.g. suggestions popped up under the field.
+- If the action sequence was interrupted in previous step due to page changes, make sure to complete any remaining actions that were not executed. For example, if you tried to input text and click a search button but the click was not executed because the page changed, you should retry the click action in your next step.
+- If the <user_request> includes specific page information such as product type, rating, price, location, etc., ALWAYS look for filter/sort options FIRST before browsing results. Apply all relevant filters before scrolling through results.
+- The <user_request> is the ultimate goal. If the user specifies explicit steps, they have always the highest priority.
+- If you input into a field, you might need to press enter, click the search button, or select from dropdown for completion.
+- For autocomplete/combobox fields (e.g. search boxes with suggestions, fields with role="combobox"): type your search text, then WAIT for the suggestions dropdown to appear in the next step. If suggestions appear (new elements marked with *[), click the correct one instead of pressing Enter. If no suggestions appear after one step, you may press Enter or submit normally.
+- Don't login into a page if you don't have to. Don't login if you don't have the credentials.
+- There are 2 types of tasks always first think which type of request you are dealing with:
+1. Very specific step by step instructions:
+- Follow them as very precise and don't skip steps. Try to complete everything as requested.
+2. Open ended tasks. Plan yourself, be creative in achieving them.
+- If you get stuck e.g. with logins in open-ended tasks you can re-evaluate the task and try alternative ways, e.g. sometimes accidentally login pops up, even though there some part of the page is accessible or you get some information via web search. CAPTCHAs are handled automatically.
+- If you reach a PDF viewer, the file is automatically downloaded and you can see its path in <available_file_paths>. You can either read the file or scroll in the page to see more.
+- Handle popups, modals, cookie banners, and overlays immediately before attempting other actions. Look for close buttons (X, Close, Dismiss, No thanks, Skip) or accept/reject options. If a popup blocks interaction with the main page, handle it first.
+- If you encounter access denied (403), bot detection, or rate limiting, do NOT repeatedly retry the same URL. Try alternative approaches or report the limitation.
+- Detect and break out of unproductive loops: if you are on the same URL for 3+ steps without meaningful progress, or the same action fails 2-3 times, try a different approach. Track what you have tried in memory to avoid repeating failed approaches.
+</browser_rules>
+<file_system>
+- You have access to a persistent file system which you can use to track progress, store results, and manage long tasks.
+- Your file system is initialized with a `todo.md`: Use this to keep a checklist for known subtasks. Use `replace_file` tool to update markers in `todo.md` as first action whenever you complete an item. This file should guide your step-by-step execution when you have a long running task.
+- If you are writing a `csv` file, make sure to use double quotes if cell elements contain commas.
+- If the file is too large, you are only given a preview of your file. Use `read_file` to see the full content if necessary.
+- If exists, <available_file_paths> includes files you have downloaded or uploaded by the user. You can only read or upload these files but you don't have write access.
+- If the task is really long, initialize a `results.md` file to accumulate your results.
+- DO NOT use the file system if the task is less than 10 steps!
+</file_system>
+<planning>
+Decide whether to plan based on task complexity:
+- Simple task (1-3 actions, e.g. "go to X and click Y"): Act directly. Do NOT output `plan_update`.
+- Complex but clear task (multi-step, known approach): Output `plan_update` immediately with 3-10 todo items.
+- Complex and unclear task (unfamiliar site, vague goal): Explore for a few steps first, then output `plan_update` once you understand the landscape.
+When a plan exists, `<plan>` in your input shows status markers: [x]=done, [>]=current, [ ]=pending, [-]=skipped.
+Output `current_plan_item` (0-indexed) to indicate which item you are working on.
+Output `plan_update` again only to revise the plan after unexpected obstacles or after exploration.
+Completing all plan items does NOT mean the task is done. Always verify against the original <user_request> before calling `done`.
+</planning>
+<task_completion_rules>
+You must call the `done` action in one of two cases:
+- When you have fully completed the USER REQUEST.
+- When you reach the final allowed step (`max_steps`), even if the task is incomplete.
+- If it is ABSOLUTELY IMPOSSIBLE to continue.
+The `done` action is your opportunity to terminate and share your findings with the user.
+- Set `success` to `true` only if the full USER REQUEST has been completed with no missing components.
+- If any part of the request is missing, incomplete, or uncertain, set `success` to `false`.
+- You can use the `text` field of the `done` action to communicate your findings and `files_to_display` to send file attachments to the user, e.g. `["results.md"]`.
+- Put ALL the relevant information you found so far in the `text` field when you call `done` action.
+- Combine `text` and `files_to_display` to provide a coherent reply to the user and fulfill the USER REQUEST.
+- You are ONLY ALLOWED to call `done` as a single action. Don't call it together with other actions.
+- If the user asks for specified format, such as "return JSON with following structure", "return a list of format...", MAKE sure to use the right format in your answer.
+- If the user asks for a structured output, your `done` action's schema will be modified. Take this schema into account when solving the task!
+- When you reach 75% of your step budget, critically evaluate whether you can complete the full task in the remaining steps.
+  If completion is unlikely, shift strategy: focus on the highest-value remaining items and consolidate your results (save progress to files if the file system is in use).
+  This ensures that when you do call `done` (at max_steps or earlier), you have meaningful partial results to deliver.
+- For large multi-item tasks (e.g. "search 50 items"), estimate the per-item cost from the first few items.
+  If the task will exceed your budget, prioritize the most important items and save results incrementally.
+<pre_done_verification>
+BEFORE calling `done` with `success=true`, you MUST perform this verification:
+1. **Re-read the USER REQUEST** — list every concrete requirement (items to find, actions to perform, format to use, filters to apply).
+2. **Check each requirement against your results:**
+   - Did you extract the CORRECT number of items? (e.g., "list 5 items" → count them)
+   - Did you apply ALL specified filters/criteria? (e.g., price range, date, location)
+   - Does your output match the requested format exactly?
+3. **Verify actions actually completed:**
+   - If you submitted a form, posted a comment, or saved a file — check the page state or screenshot to confirm it happened.
+   - If you took a screenshot or downloaded a file — verify it exists in your file system.
+4. **Verify data grounding:** Every URL, price, name, and value must appear verbatim in your tool outputs or browser_state. Do NOT use your training knowledge to fill gaps — if information was not found on the page during this session, say so explicitly. Never fabricate or invent values.
+5. **Blocking error check:** If you hit an unresolved blocker (payment declined, login failed without credentials, email/verification wall, required paywall, access denied not bypassed) → set `success=false`. Temporary obstacles you overcame (auto-solved CAPTCHAs, dismissed popups, retried errors) do NOT count.
+6. **If ANY requirement is unmet, uncertain, or unverifiable — set `success` to `false`.**
+   Partial results with `success=false` are more valuable than overclaiming success.
+</pre_done_verification>
+</task_completion_rules>
+<action_rules>
+- You are allowed to use a maximum of 5 actions per step.
+If you are allowed multiple actions, you can specify multiple actions in the list to be executed sequentially (one after another).
+- If the page changes after an action, the remaining actions are automatically skipped and you get the new state.
+Check the browser state each step to verify your previous action achieved its goal.
+</action_rules>
+<efficiency_guidelines>
+You can output multiple actions in one step. Try to be efficient where it makes sense. Do not predict actions which do not make sense for the current page.
+
+**Action categories:**
+- **Page-changing (always last):** `navigate`, `search`, `go_back`, `switch`, `evaluate` — these always change the page. Remaining actions after them are skipped automatically. Note: `evaluate` runs arbitrary JS that can modify the DOM, so it is never safe to chain other actions after it.
+- **Potentially page-changing:** `click` (on links/buttons that navigate) — monitored at runtime; if the page changes, remaining actions are skipped.
+- **Safe to chain:** `input`, `scroll`, `find_text`, `extract`, `search_page`, `find_elements`, file operations — these do not change the page and can be freely combined.
+
+**Shadow DOM:** Elements inside shadow DOM that have `[index]` markers are directly clickable with `click(index)`. Do NOT use `evaluate` to click them.
+
+**Recommended combinations:**
+- `input` + `input` + `input` + `click` → Fill multiple form fields then submit
+- `input` + `input` → Fill multiple form fields
+- `scroll` + `scroll` → Scroll further down the page
+- `click` + `click` → Navigate multi-step flows (only when clicks do not navigate)
+- File operations + browser actions
+
+Do not try multiple different paths in one step. Always have one clear goal per step.
+Place any page-changing action **last** in your action list, since actions after it will not run.
+</efficiency_guidelines>
+<reasoning_rules>
+You must reason explicitly and systematically at every step in your `thinking` block.
+Exhibit the following reasoning patterns to successfully achieve the <user_request>:
+- Reason about <agent_history> to track progress and context toward <user_request>.
+- Analyze the most recent "Next Goal" and "Action Result" in <agent_history> and clearly state what you previously tried to achieve.
+- Analyze all relevant items in <agent_history>, <browser_state>, <read_state>, <file_system>, <read_state> and the screenshot to understand your state.
+- Explicitly judge success/failure/uncertainty of the last action. Never assume an action succeeded just because it appears to be executed in your last step in <agent_history>. For example, you might have "Action 1/1: Input '2025-05-05' into element 3." in your history even though inputting text failed. Always verify using <browser_vision> (screenshot) as the primary ground truth. If a screenshot is unavailable, fall back to <browser_state>. If the expected change is missing, mark the last action as failed (or uncertain) and plan a recovery.
+- If todo.md is empty and the task is multi-step, generate a stepwise plan in todo.md using file tools.
+- Analyze `todo.md` to guide and track your progress.
+- If any todo.md items are finished, mark them as complete in the file.
+- Analyze whether you are stuck, e.g. when you repeat the same actions multiple times without any progress. Then consider alternative approaches.
+- Analyze the <read_state> where one-time information are displayed due to your previous action. Reason about whether you want to keep this information in memory and plan writing them into a file if applicable using the file tools.
+- If you see information relevant to <user_request>, plan saving the information into a file.
+- Before writing data into a file, analyze the <file_system> and check if the file already has some content to avoid overwriting.
+- Decide what concise, actionable context should be stored in memory to inform future reasoning.
+- When ready to finish, state you are preparing to call done and communicate completion/results to the user.
+- Before done, use read_file to verify file contents intended for user output.
+- Always reason about the <user_request>. Make sure to carefully analyze the specific steps and information required. E.g. specific filters, specific form fields, specific information to search. Make sure to always compare the current trajectory with the user request.
+</reasoning_rules>
+<examples>
+Here are examples of good output patterns. Use them as reference but never copy them directly.
+<todo_examples>
+  "write_file": {
+    "file_name": "todo.md",
+    "content": "# ArXiv CS.AI Recent Papers Collection Task\n\n## Goal: Collect metadata for 20 most recent papers\n\n## Tasks:\n- [ ] Navigate to https://arxiv.org/list/cs.AI/recent\n- [ ] Initialize papers.md file for storing paper data\n- [ ] Collect paper 1/20: The Automated LLM Speedrunning Benchmark\n- [x] Collect paper 2/20: AI Model Passport\n- [ ] Collect paper 3/20: Embodied AI Agents\n- [ ] Collect paper 4/20: Conceptual Topic Aggregation\n- [ ] Collect paper 5/20: Artificial Intelligent Disobedience\n- [ ] Continue collecting remaining papers from current page\n- [ ] Navigate through subsequent pages if needed\n- [ ] Continue until 20 papers are collected\n- [ ] Verify all 20 papers have complete metadata\n- [ ] Final review and completion"
+  }
+</todo_examples>
+<evaluation_examples>
+- Positive Examples:
+"evaluation_previous_goal": "Successfully navigated to the product page and found the target information. Verdict: Success"
+"evaluation_previous_goal": "Clicked the login button and user authentication form appeared. Verdict: Success"
+- Negative Examples:
+"evaluation_previous_goal": "Failed to input text into the search bar as I cannot see it in the image. Verdict: Failure"
+"evaluation_previous_goal": "Clicked the submit button with index 15 but the form was not submitted successfully. Verdict: Failure"
+</evaluation_examples>
+<memory_examples>
+"memory": "Visited 2 of 5 target websites. Collected pricing data from Amazon ($39.99) and eBay ($42.00). Still need to check Walmart, Target, and Best Buy for the laptop comparison."
+"memory": "Found many pending reports that need to be analyzed in the main page. Successfully processed the first 2 reports on quarterly sales data and moving on to inventory analysis and customer feedback reports."
+"memory": "Search returned results but no filter applied yet. User wants items under $50 with 4+ stars. Will apply price filter first, then rating filter."
+"memory": "Popup appeared blocking the page. Need to close it first before continuing with search."
+"memory": "Previous click on search button failed - page did not change. Will try pressing Enter in the search field instead."
+"memory": "Captcha appeared twice on this site. Will try alternative approach via search engine instead of direct navigation."
+"memory": "403 error on main product page. Will try searching for the product on a different site instead of retrying."
+</memory_examples>
+<next_goal_examples>
+"next_goal": "Click on the 'Add to Cart' button to proceed with the purchase flow."
+"next_goal": "Extract details from the first item on the page."
+"next_goal": "Close the popup that appeared blocking the main content."
+"next_goal": "Apply price filter to narrow results to items under $50."
+</next_goal_examples>
+</examples>
+<output>
+You must ALWAYS respond with a valid JSON in this exact format:
+{
+  "thinking": "A structured <think>-style reasoning block that applies the <reasoning_rules> provided above.",
+  "evaluation_previous_goal": "Concise one-sentence analysis of your last action. Clearly state success, failure, or uncertain.",
+  "memory": "1-3 sentences of specific memory of this step and overall progress. You should put here everything that will help you track progress in future steps. Like counting pages visited, items found, etc.",
+  "next_goal": "State the next immediate goal and action to achieve it, in one clear sentence.",
+  "current_plan_item": 0,
+  "plan_update": ["Todo item 1", "Todo item 2", "Todo item 3"],
+  "action":[{"navigate": { "url": "url_value"}}, // ... more actions in sequence]
+}
+Action list should NEVER be empty.
+`current_plan_item` and `plan_update` are optional. See <planning> for details.
+</output>
+<critical_reminders>
+1. ALWAYS verify action success using the screenshot before proceeding
+2. ALWAYS handle popups/modals/cookie banners before other actions
+3. ALWAYS apply filters when user specifies criteria (price, rating, location, etc.)
+4. NEVER repeat the same failing action more than 2-3 times - try alternatives
+5. NEVER assume success - always verify from screenshot or browser state
+6. CAPTCHAs are solved automatically. If blocked by login/403, try alternative approaches rather than retrying
+7. Put ALL relevant findings in done action's text field
+8. Match user's requested output format exactly
+9. Track progress in memory to avoid loops
+10. When at max_steps, call done with whatever results you have
+11. Always compare current trajectory against the user's original request
+12. Be efficient - combine actions when possible but verify results between major steps
+</critical_reminders>
+<error_recovery>
+When encountering errors or unexpected states:
+1. First, verify the current state using screenshot as ground truth
+2. Check if a popup, modal, or overlay is blocking interaction
+3. If an element is not found, scroll to reveal more content
+4. If an action fails repeatedly (2-3 times), try an alternative approach
+5. If blocked by login/403, consider alternative sites or search engines. CAPTCHAs are solved automatically.
+6. If the page structure is different than expected, re-analyze and adapt
+7. If stuck in a loop, explicitly acknowledge it in memory and change strategy
+8. If max_steps is approaching, prioritize completing the most important parts of the task
+</error_recovery>
+
+
+ user 
+<agent_history>
+Agent initialized
+<step>
+Result
+Found initial url and automatically loaded it. Navigated to https://www.google.com/
+<step>
+Successfully loaded Google homepage. Verdict: Success
+On Google homepage. Need to search for trending topics in New York City this month (June 2026).
+Search for trending topics in New York City this month on Google Trends.
+Result
+Navigated to https://trends.google.com/trending?geo=US-NY&hours=168
+</agent_history>
+
+<agent_state>
+<user_request>
+Browse and list the top three trending topics this month in New York City. on https://www.google.com/
+</user_request>
+<file_system>
+
+</file_system>
+<todo_contents>
+[empty todo.md, fill it when applicable]
+</todo_contents>
+<step_info>Step2 maximum:30
+Today:2026-06-11</step_info>
+</agent_state>
+<browser_state>
+<page_stats>Page appears to show skeleton/placeholder content (still loading?) - 9 links, 927 interactive, 1 iframes, 1 images, 1567 total elements</page_stats>
+Current tab: 15A9
+Available tabs:
+Tab 15A9: https://trends.google.com/trending?geo=US-NY&hours=168 - Trending Now - Google Trends
+
+<page_info>0.0 pages above, 0.2 pages below</page_info>
+
+Interactive elements:
+[Start of page]
+|scroll element|<body id=yDmH0d /> (0.0 pages above, 0.2 pages below)
+	[816]<div aria-expanded=false aria-label=Main menu role=button />
+	[827]<a aria-label=Trends id=sdgBod />
+		[829]<span />
+			Trends
+	[837]<button />
+		Home
+	[851]<button />
+		Explore
+	[865]<button />
+		Trending now
+	[3844]<div />
+		[3845]<div id=gbwa />
+			[3846]<div />
+				[3847]<a aria-label=Google apps aria-expanded=false role=button />
+	[3853]<a aria-label=Sign in />
+		Sign in
+	Trending Now - Google Trends
+	[3951]<button aria-label=New York, select location aria-expanded=false />
+		[3955]<span />
+		location_on
+		New York
+	[572]<button aria-label=Past 7 days, select period aria-expanded=false />
+		[6021]<span />
+		calendar_month
+		Past 7 days
+	[581]<button aria-label=All categories, select category aria-expanded=false />
+		[6093]<span />
+		category
+		All categories
+	[590]<button aria-label=All trends, select trend status aria-expanded=false />
+		[6374]<span />
+		grid_3x3
+		All trends
+	[599]<button aria-label=Relevance, select sort criteria aria-expanded=false />
+		[6412]<span />
+		sort
+		By relevance
+	[608]<button aria-expanded=false />
+		[6565]<span />
+		ios_share
+		Export
+	|scroll element|<div /> (0.0 pages above, 1.1 pages below)
+		[6621]<td />
+			[6622]<div />
+		[6637]<button aria-label=Search trends />
+			search
+			[6645]<div />
+		[6648]<div />
+			[6650]<div />
+				[6651]<button aria-describedby=tt-c160 />
+					[6656]<span />
+					Trends
+		Updated Jun 11, 8:38 AM
+		[6673]<button aria-describedby=tt-c162 />
+			[6678]<span />
+			Search volume
+		[6689]<div />
+			[6690]<button aria-describedby=tt-c164 />
+				[6695]<span />
+				Started
+		[615]<span />
+			[616]<button aria-label=More info />
+				info
+				[6710]<div />
+		Trend breakdown
+		[618]<span />
+			[619]<button aria-label=More info />
+				info
+				[6752]<div />
+		Past 7 days
+		[6770]<tr role=row />
+			[6771]<td />
+				[6772]<div />
+					[6773]<div />
+						[6775]<div />
+							[6776]<svg /> <!-- SVG content collapsed -->
+						[6779]<span />
+			[6782]<td />
+				[6783]<div />
+					og anunoby
+			[6801]<td />
+				[6802]<div />
+					[6803]<div />
+						2M
+					[6806]<div />
+						[6807]<i />
+							arrow_upward
+						[6809]<div />
+							1,000%
+			[6811]<td />
+				[6812]<div role=button />
+					7 hours ago
+				[6814]<div />
+					[6815]<div />
+						[6816]<i />
+							trending_up
+						[6818]<div />
+							Active
+			[6820]<td />
+				[6821]<div />
+					[6822]<div />
+						[6823]<div />
+							[6824]<span />
+							[6825]<span />
+								[6826]<button aria-expanded=false />
+									knicks game 4
+					[6885]<div />
+						[6886]<div />
+							[6887]<span />
+							[6888]<span />
+								[6889]<button aria-expanded=false />
+									knicks vs spurs game 4
+					[6948]<span role=button aria-label=See 426 additional items />
+						+ 426 more
+			[6950]<td />
+				[6951]<svg role=img aria-label=Search interest graph /> <!-- SVG content collapsed -->
+		[7004]<tr role=row />
+			[7005]<td />
+				[7006]<div />
+					[7007]<div />
+						[7009]<div />
+							[7010]<svg /> <!-- SVG content collapsed -->
+						[7013]<span />
+			[7016]<td />
+				[7017]<div />
+					heat advisory
+			[7035]<td />
+				[7036]<div />
+					[7037]<div />
+						50K
+					[7040]<div />
+						[7041]<i />
+							arrow_upward
+						[7043]<div />
+							1,000%
+			[7045]<td />
+				[7046]<div role=button />
+					yesterday
+				[7048]<div />
+					[7049]<div />
+						[7050]<i />
+							trending_up
+						[7052]<div />
+							Active
+			[7054]<td />
+				[7055]<div />
+					[7056]<div />
+						[7057]<div />
+							[7058]<span />
+							[7059]<span />
+								[7060]<button aria-expanded=false />
+									nyc weather
+					[7119]<div />
+						[7120]<div />
+							[7121]<span />
+							[7122]<span />
+								[7123]<button aria-expanded=false />
+									weather nyc
+					[7182]<div />
+						[7183]<div />
+							[7184]<span />
+							[7185]<span />
+								[7186]<button aria-expanded=false />
+									weather new york
+					[7245]<span role=button aria-label=See 2 additional items />
+						+ 2 more
+			[7247]<td />
+				[7248]<svg role=img aria-label=Search interest graph /> <!-- SVG content collapsed -->
+		[7301]<tr role=row />
+			[7302]<td />
+				[7303]<div />
+					[7304]<div />
+						[7306]<div />
+							[7307]<svg /> <!-- SVG content collapsed -->
+						[7310]<span />
+			[7313]<td />
+				[7314]<div />
+					haim sisters
+			[7332]<td />
+				[7333]<div />
+					[7334]<div />
+						20K
+					[7337]<div />
+						[7338]<i />
+							arrow_upward
+						[7340]<div />
+							1,000%
+			[7342]<td />
+				[7343]<div role=button />
+					7 hours ago
+				[7345]<div />
+					[7346]<div />
+						[7347]<i />
+							trending_up
+						[7349]<div />
+							Active
+			[7351]<td />
+				[7352]<div />
+					[7353]<div />
+						[7354]<div />
+							[7355]<span />
+							[7356]<span />
+								[7357]<button aria-expanded=false />
+									alana haim
+					[7416]<div />
+						[7417]<div />
+							[7418]<span />
+							[7419]<span />
+								[7420]<button aria-expanded=false />
+									taylor swift
+					[7479]<div />
+						[7480]<div />
+							[7481]<span />
+							[7482]<span />
+								[7483]<button aria-expanded=false />
+									stevie nicks
+					[7542]<span role=button aria-label=See 20 additional items />
+						+ 20 more
+			[7544]<td />
+				[7545]<svg role=img aria-label=Search interest graph /> <!-- SVG content collapsed -->
+		[7598]<tr role=row />
+			[7599]<td />
+				[7600]<div />
+					[7601]<div />
+						[7603]<div />
+							[7604]<svg /> <!-- SVG content collapsed -->
+						[7607]<span />
+			[7610]<td />
+				[7611]<div />
+					simone biles
+			[7629]<td />
+				[7630]<div />
+					[7631]<div />
+						20K
+					[7634]<div />
+						[7635]<i />
+							arrow_upward
+						[7637]<div />
+							800%
+			[7639]<td />
+				[7640]<div role=button />
+					4 days ago
+				[7642]<div />
+					[7643]<div />
+						[7644]<i />
+							trending_up
+						[7646]<div />
+							Active
+			[7648]<td />
+				[7649]<div />
+					[7650]<div />
+						[7651]<div />
+							[7652]<span />
+							[7653]<span />
+								[7654]<button aria-expanded=false />
+									simone biles hospital
+					[7713]<div />
+						[7714]<div />
+							[7715]<span />
+							[7716]<span />
+								[7717]<button aria-expanded=false />
+									simone biles health scare
+					[7776]<span role=button aria-label=See 1 additional items />
+						+ 1 more
+			[7778]<td />
+				[7779]<svg role=img aria-label=Search interest graph /> <!-- SVG content collapsed -->
+		[7832]<tr role=row />
+			[7833]<td />
+				[7834]<div />
+					[7835]<div />
+						[7837]<div />
+							[7838]<svg /> <!-- SVG content collapsed -->
+						[7841]<span />
+			[7844]<td />
+				[7845]<div />
+					mexico vs south africa
+			[723]<td />
+				[7863]<div />
+					[7864]<div />
+						10K
+					[7867]<div />
+						[7868]<i />
+							arrow_upward
+						[7870]<div />
+							400%
+			[7872]<td />
+				[7873]<div role=button />
+					3 days ago
+				[7875]<div />
+					[7876]<div />
+						[7877]<i />
+							trending_up
+						[7879]<div />
+							Active
+			[7881]<td />
+				[7882]<div />
+					[7883]<div />
+						[7884]<div />
+							[7885]<span />
+							[7886]<span />
+								[7887]<button aria-expanded=false />
+									world cup fixtures
+					[7946]<span role=button aria-label=See 3 additional items />
+						+ 3 more
+			[7948]<td />
+				[7949]<svg role=img aria-label=Search interest graph /> <!-- SVG content collapsed -->
+		[8002]<tr role=row />
+			[8003]<td />
+				[8004]<div />
+					[8005]<div />
+						[8007]<div />
+							[8008]<svg /> <!-- SVG content collapsed -->
+						[8011]<span />
+			[8014]<td />
+				[8015]<div />
+					mariska hargitay
+			[8033]<td />
+				[8034]<div />
+					[8035]<div />
+						10K
+					[8038]<div />
+						[8039]<i />
+							arrow_upward
+						[8041]<div />
+							1,000%
+			[8043]<td />
+				[8044]<div role=button />
+					2 days ago
+				[8046]<div />
+					[8047]<div />
+						[8048]<i />
+							trending_up
+						[8050]<div />
+							Active
+			[8052]<td />
+				[8053]<div />
+					[8054]<div />
+						[8055]<div />
+							[8056]<span />
+							[8057]<span />
+								[8058]<button aria-expanded=false />
+									law and order
+			[8117]<td />
+				[8118]<svg role=img aria-label=Search interest graph /> <!-- SVG content collapsed -->
+		[8171]<tr role=row />
+			[8172]<td />
+				[8173]<div />
+					[8174]<div />
+						[8176]<div />
+							[8177]<svg /> <!-- SVG content collapsed -->
+						[8180]<span />
+			[8183]<td />
+				[8184]<div />
+					belfast
+			[8202]<td />
+				[8203]<div />
+					[8204]<div />
+						10K
+					[8207]<div />
+						[8208]<i />
+							arrow_upward
+						[8210]<div />
+							700%
+			[8212]<td />
+				[8213]<div role=button />
+					yesterday
+				[8215]<div />
+					[8216]<div />
+						[8217]<i />
+							trending_up
+						[8219]<div />
+							Active
+			[8221]<td />
+				[8222]<div />
+					[8223]<div />
+						[8224]<div />
+							[8225]<span />
+							[8226]<span />
+								[8227]<button aria-expanded=false />
+									belfast knife attack
+					[8286]<div />
+						[8287]<div />
+							[8288]<span />
+							[8289]<span />
+								[8290]<button aria-expanded=false />
+									ireland
+					[8349]<div />
+						[8350]<div />
+							[8351]<span />
+							[8352]<span />
+								[8353]<button aria-expanded=false />
+									belfast news
+					[8412]<span role=button aria-label=See 1 additional items />
+						+ 1 more
+			[8414]<td />
+				[8415]<svg role=img aria-label=Search interest graph /> <!-- SVG content collapsed -->
+		[8468]<tr role=row />
+			[8469]<td />
+				[8470]<div />
+					[8471]<div />
+						[8473]<div />
+							[8474]<svg /> <!-- SVG content collapsed -->
+						[8477]<span />
+			[8480]<td />
+				[8481]<div />
+					social security electronic benefits update
+			[8499]<td />
+				[8500]<div />
+					[8501]<div />
+						2K
+					[8504]<div />
+						[8505]<i />
+							arrow_upward
+						[8507]<div />
+							700%
+			[8509]<td />
+				[8510]<div role=button />
+					15 hours ago
+				[8512]<div />
+					[8513]<div />
+						[8514]<i />
+							trending_up
+						[8516]<div />
+							Active
+			[8518]<td />
+			[8519]<td />
+				[8520]<svg role=img aria-label=Search interest graph /> <!-- SVG content collapsed -->
+		[8573]<tr role=row />
+			[8574]<td />
+				[8575]<div />
+					[8576]<div />
+						[8578]<div />
+							[8579]<svg /> <!-- SVG content collapsed -->
+						[8582]<span />
+			[8585]<td />
+				[8586]<div />
+					world cup schedule
+			[8604]<td />
+				[8605]<div />
+					[8606]<div />
+						100K
+					[8609]<div />
+						[8610]<i />
+							arrow_upward
+						[8612]<div />
+							100%
+			[8614]<td />
+				[8615]<div role=button />
+					5 days ago
+				[8617]<div />
+					[8618]<div />
+						[8619]<i />
+							timelapse
+						[8621]<div />
+							Lasted 5 days 3 hr
+			[8623]<td />
+				[8624]<div />
+					[8625]<div />
+						[8626]<div />
+							[8627]<span />
+							[8628]<span />
+								[8629]<button aria-expanded=false />
+									world cup
+					[8688]<div />
+						[8689]<div />
+							[8690]<span />
+							[8691]<span />
+								[8692]<button aria-expanded=false />
+									world cup games
+					[8751]<div />
+						[8752]<div />
+							[8753]<span />
+							[8754]<span />
+								[8755]<button aria-expanded=false />
+									fifa world cup games
+					[8814]<span role=button aria-label=See 17 additional items />
+						+ 17 more
+			[8816]<td />
+				[8817]<svg role=img aria-label=Search interest graph /> <!-- SVG content collapsed -->
+		[8870]<tr role=row />
+			[8871]<td />
+				[8872]<div />
+					[8873]<div />
+						[8875]<div />
+							[8876]<svg /> <!-- SVG content collapsed -->
+						[8879]<span />
+			[8882]<td />
+				[8883]<div />
+					jalen brunson
+			[8901]<td />
+				[8902]<div />
+					[8903]<div />
+						100K
+					[8906]<div />
+						[8907]<i />
+							arrow_upward
+						[8909]<div />
+							1,000%
+			[8911]<td />
+				[8912]<div role=button />
+					5 hours ago
+				[8914]<div />
+					[8915]<div />
+						[8916]<i />
+							timelapse
+						[8918]<div />
+							Lasted 2 hr
+			[8920]<td />
+				[8921]<div />
+					[8922]<div />
+						[8923]<div />
+							[8924]<span />
+							[8925]<span />
+								[8926]<button aria-expanded=false />
+									wemby
+					[8985]<div />
+						[8986]<div />
+							[8987]<span />
+							[8988]<span />
+								[8989]<button aria-expanded=false />
+									knicks game 3
+					[9048]<div />
+						[9049]<div />
+							[9050]<span />
+							[9051]<span />
+								[9052]<button aria-expanded=false />
+									wemby suspension
+					[9111]<span role=button aria-label=See 23 additional items />
+						+ 23 more
+			[9113]<td />
+				[9114]<svg role=img aria-label=Search interest graph /> <!-- SVG content collapsed -->
+		[9167]<tr role=row />
+			[9168]<td />
+				[9169]<div />
+					[9170]<div />
+						[9172]<div />
+							[9173]<svg /> <!-- SVG content collapsed -->
+						[9176]<span />
+			[9179]<td />
+				[9180]<div />
+					carmelo anthony
+			[9198]<td />
+				[9199]<div />
+					[9200]<div />
+						50K
+					[9203]<div />
+						[9204]<i />
+							arrow_upward
+						[9206]<div />
+							500%
+			[9208]<td />
+				[9209]<div role=button />
+					yesterday
+				[9211]<div />
+					[9212]<div />
+						[9213]<i />
+							timelapse
+						[9215]<div />
+							Lasted 1 day 12 hr
+			[9217]<td />
+				[9218]<div />
+					[9219]<div />
+						[9220]<div />
+							[9221]<span />
+							[9222]<span />
+								[9223]<button aria-expanded=false />
+									karmelo anthony trial
+					[9282]<div />
+						[9283]<div />
+							[9284]<span />
+							[9285]<span />
+								[9286]<button aria-expanded=false />
+									austin metcalf
+					[9345]<span role=button aria-label=See 15 additional items />
+						+ 15 more
+			[9347]<td />
+				[9348]<svg role=img aria-label=Search interest graph /> <!-- SVG content collapsed -->
+		[9401]<tr role=row />
+			[9402]<td />
+				[9403]<div />
+					[9404]<div />
+						[9406]<div />
+							[9407]<svg /> <!-- SVG content collapsed -->
+						[9410]<span />
+			[9413]<td />
+				[9414]<div />
+					iman shumpert
+			[724]<td />
+				[9432]<div />
+					[9433]<div />
+						500
+					[9436]<div />
+						[9437]<i />
+							arrow_upward
+						[9439]<div />
+							600%
+			[9441]<td />
+				[9442]<div role=button />
+					6 hours ago
+				[9444]<div />
+					[9445]<div />
+						[9446]<i />
+							trending_up
+						[9448]<div />
+							Active
+			[9450]<td />
+			[9451]<td />
+				[9452]<svg role=img aria-label=Search interest graph /> <!-- SVG content collapsed -->
+		[9505]<tr role=row />
+			[9506]<td />
+				[9507]<div />
+					[9508]<div />
+						[9510]<div />
+							<svg /> <!-- SVG content collapsed -->
+						[9514]<span />
+			[9517]<td />
+				[9518]<div />
+					fifa world cup 2026
+			[9536]<td />
+				[9537]<div />
+					10K
+					[9541]<div />
+						[9542]<i />
+							arrow_upward
+						[9544]<div />
+							75%
+			[9546]<td />
+				yesterday
+				[9549]<div />
+					[9550]<div />
+						[9551]<i />
+							trending_up
+						[9553]<div />
+							Active
+			[9555]<td />
+				[9556]<div />
+					[9557]<div />
+						[9558]<div />
+							[9559]<span />
+							[9560]<span />
+								[9561]<button aria-expanded=false />
+									fifa world cup
+					[9620]<span role=button aria-label=See 4 additional items />
+						+ 4 more
+			[9622]<td />
+				[9623]<svg role=img aria-label=Search interest graph /> <!-- SVG content collapsed -->
+		[9676]<tr role=row />
+			[9677]<td />
+				[9678]<div />
+					[9679]<div />
+						[9681]<div />
+							[9682]<svg /> <!-- SVG content collapsed -->
+						[9685]<span />
+			[9688]<td />
+				[9689]<div />
+					yankees vs guardians
+			[9707]<td />
+				[9708]<div />
+					[9709]<div />
+						50K
+					[9712]<div />
+						[9713]<i />
+							arrow_upward
+						[9715]<div />
+							1,000%
+			[9717]<td />
+				[9718]<div role=button />
+					2 days ago
+				[9720]<div />
+					[9721]<div />
+						[9722]<i />
+							timelapse
+						[9724]<div />
+							Lasted 2 days 8 hr
+			[9726]<td />
+				[9727]<div />
+					[9728]<div />
+						[9729]<div />
+							[9730]<span />
+							[9731]<span />
+								[9732]<button aria-expanded=false />
+									yankees - guardians
+					[9791]<div />
+						[9792]<div />
+							[9793]<span />
+							[9794]<span />
+								[9795]<button aria-expanded=false />
+									jazz chisholm jr.
+			[9854]<td />
+				[9855]<svg role=img aria-label=Search interest graph /> <!-- SVG content collapsed -->
+		[9908]<tr role=row />
+			[9909]<td />
+				[9910]<div />
+					[9911]<div />
+						[9913]<div />
+							[9914]<svg /> <!-- SVG content collapsed -->
+						[9917]<span />
+			[9920]<td />
+				[9921]<div />
+					portugal vs nigeria
+			[9939]<td />
+				[9940]<div />
+					[9941]<div />
+						20K
+					[9944]<div />
+						[9945]<i />
+							arrow_upward
+						[9947]<div />
+							1,000%
+			[9949]<td />
+				[9950]<div role=button />
+					15 hours ago
+				[9952]<div />
+					[9953]<div />
+						[9954]<i />
+							timelapse
+						[9956]<div />
+							Lasted 14 hr
+			[9958]<td />
+				[9959]<div />
+					[9960]<div />
+						[9961]<div />
+							[9962]<span />
+							[9963]<span />
+								[9964]<button aria-expanded=false />
+									portugal - nigeria
+					[10023]<div />
+						[10024]<div />
+							[10025]<span />
+							[10026]<span />
+								[10027]<button aria-expanded=false />
+									cristiano ronaldo
+					[10086]<span role=button aria-label=See 4 additional items />
+						+ 4 more
+			[10088]<td />
+				[10089]<svg role=img aria-label=Search interest graph /> <!-- SVG content collapsed -->
+		[10142]<tr role=row />
+			[10143]<td />
+				[10144]<div />
+					[10145]<div />
+						[10147]<div />
+							[10148]<svg /> <!-- SVG content collapsed -->
+						[10151]<span />
+			[10154]<td />
+				[10155]<div />
+					aus vs ban
+			[10173]<td />
+				[10174]<div />
+					[10175]<div />
+						5K
+					[10178]<div />
+						[10179]<i />
+							arrow_upward
+						[10181]<div />
+							800%
+			[10183]<td />
+				[10184]<div role=button />
+					2 hours ago
+				[10186]<div />
+					[10187]<div />
+						[10188]<i />
+							trending_up
+						[10190]<div />
+							Active
+			[10192]<td />
+				[10193]<div />
+					[10194]<div />
+						[10195]<div />
+							[10196]<span />
+							[10197]<span />
+								[10198]<button aria-expanded=false />
+									australia vs bangladesh
+					[10257]<div />
+						[10258]<div />
+							[10259]<span />
+							[10260]<span />
+								[10261]<button aria-expanded=false />
+									ban vs aus
+					[10320]<span role=button aria-label=See 3 additional items />
+						+ 3 more
+			[10322]<td />
+				[10323]<svg role=img aria-label=Search interest graph /> <!-- SVG content collapsed -->
+		[10376]<tr role=row />
+			[10377]<td />
+				[10378]<div />
+					[10379]<div />
+						[10381]<div />
+							[10382]<svg /> <!-- SVG content collapsed -->
+						[10385]<span />
+			[10388]<td />
+				[10389]<div />
+					uconn
+			[10407]<td />
+				[10408]<div />
+					[10409]<div />
+						500
+					[10412]<div />
+						[10413]<i />
+							arrow_upward
+						[10415]<div />
+							800%
+			[10417]<td />
+				[10418]<div role=button />
+					3 hours ago
+				[10420]<div />
+					[10421]<div />
+						[10422]<i />
+							trending_up
+						[10424]<div />
+							Active
+			[10426]<td />
+			[10427]<td />
+				[10428]<svg role=img aria-label=Search interest graph /> <!-- SVG content collapsed -->
+		[10481]<tr role=row />
+			[10482]<td />
+				[10483]<div />
+					[10484]<div />
+						[10486]<div />
+							[10487]<svg /> <!-- SVG content collapsed -->
+						[10490]<span />
+			[10493]<td />
+				[10494]<div />
+					james dolan
+			[10512]<td />
+				[10513]<div />
+					[10514]<div />
+						20K
+					[10517]<div />
+						[10518]<i />
+							arrow_upward
+						[10520]<div />
+							500%
+			[10522]<td />
+				[10523]<div role=button />
+					10 hours ago
+				[10525]<div />
+					[10526]<div />
+						[10527]<i />
+							timelapse
+						[10529]<div />
+							Lasted 7 hr
+			[10531]<td />
+				[10532]<div />
+					[10533]<div />
+						[10534]<div />
+							[10535]<span />
+							[10536]<span />
+								[10537]<button aria-expanded=false />
+									knicks watch party game 4
+					[10596]<div />
+						[10597]<div />
+							[10598]<span />
+							[10599]<span />
+								[10600]<button aria-expanded=false />
+									msg watch party game 4
+					[10659]<span role=button aria-label=See 57 additional items />
+						+ 57 more
+			[10661]<td />
+				[10662]<svg role=img aria-label=Search interest graph /> <!-- SVG content collapsed -->
+		[10715]<tr role=row />
+			[10716]<td />
+				[10717]<div />
+					[10718]<div />
+						[10720]<div />
+							[10721]<svg /> <!-- SVG content collapsed -->
+						[10724]<span />
+			[10727]<td />
+				[10728]<div />
+					every year after
+			[10746]<td />
+				[10747]<div />
+					[10748]<div />
+						5K
+					[10751]<div />
+						[10752]<i />
+							arrow_upward
+						[10754]<div />
+							500%
+			[10756]<td />
+				[10757]<div role=button />
+					yesterday
+				[10759]<div />
+					[10760]<div />
+						[10761]<i />
+							timelapse
+						[10763]<div />
+							Lasted 1 day 9 hr
+			[10765]<td />
+				[10766]<div />
+					[10767]<div />
+						[10768]<div />
+							[10769]<span />
+							[10770]<span />
+								[10771]<button aria-expanded=false />
+									matt cornett
+					[10830]<div />
+						[10831]<div />
+							[10832]<span />
+							[10833]<span />
+								[10834]<button aria-expanded=false />
+									every year after cast
+					[10893]<span role=button aria-label=See 2 additional items />
+						+ 2 more
+			[10895]<td />
+				[10896]<svg role=img aria-label=Search interest graph /> <!-- SVG content collapsed -->
+		[10949]<tr role=row />
+			[10950]<td />
+				[10951]<div />
+					[10952]<div />
+						[10954]<div />
+							[10955]<svg /> <!-- SVG content collapsed -->
+						[10958]<span />
+			[10961]<td />
+				[10962]<div />
+					knicks
+			[10980]<td />
+				[10981]<div />
+					[10982]<div />
+						500K
+					[10985]<div />
+						[10986]<i />
+							arrow_upward
+						[10988]<div />
+							1,000%
+			[10990]<td />
+				[10991]<div role=button />
+					2 days ago
+				[10993]<div />
+					[10994]<div />
+						[10995]<i />
+							timelapse
+						[10997]<div />
+							Lasted 4 hr
+			[10999]<td />
+				[11000]<div />
+					[11001]<div />
+						[11002]<div />
+							[11003]<span />
+							[11004]<span />
+								[11005]<button aria-expanded=false />
+									trump knicks
+					[11064]<div />
+						[11065]<div />
+							[11066]<span />
+							[11067]<span />
+								[11068]<button aria-expanded=false />
+									stephen a smith
+					[11127]<div />
+						[11128]<div />
+							[11129]<span />
+							[11130]<span />
+								[11131]<button aria-expanded=false />
+									nba
+					[11190]<span role=button aria-label=See 89 additional items />
+						+ 89 more
+			[11192]<td />
+				[11193]<svg role=img aria-label=Search interest graph /> <!-- SVG content collapsed -->
+		[11246]<tr role=row />
+			[11247]<td />
+				[11248]<div />
+					[11249]<div />
+						[11251]<div />
+							[11252]<svg /> <!-- SVG content collapsed -->
+						[11255]<span />
+			[11258]<td />
+				[11259]<div />
+					james handy
+			[11277]<td />
+				[11278]<div />
+					[11279]<div />
+						50K
+					[11282]<div />
+						[11283]<i />
+							arrow_upward
+						[11285]<div />
+							1,000%
+			[11287]<td />
+				[11288]<div role=button />
+					6 days ago
+				[11290]<div />
+					[11291]<div />
+						[11292]<i />
+							timelapse
+						[11294]<div />
+							Lasted 6 days 5 hr
+			[11296]<td />
+				[11297]<div />
+					[11298]<div />
+						[11299]<div />
+							[11300]<span />
+							[11301]<span />
+								[11302]<button aria-expanded=false />
+									james handy top gun
+					[11361]<div />
+						[11362]<div />
+							[11363]<span />
+							[11364]<span />
+								[11365]<button aria-expanded=false />
+									michael gledhill
+					[11424]<span role=button aria-label=See 7 additional items />
+						+ 7 more
+			[11426]<td />
+				[11427]<svg role=img aria-label=Search interest graph /> <!-- SVG content collapsed -->
+		[11480]<tr role=row />
+			[11481]<td />
+				[11482]<div />
+					[11483]<div />
+						[11485]<div />
+							[11486]<svg /> <!-- SVG content collapsed -->
+						[11489]<span />
+			[11492]<td />
+				[11493]<div />
+					england vs costa rica
+			[11511]<td />
+				[11512]<div />
+					[11513]<div />
+						10K
+					[11516]<div />
+						[11517]<i />
+							arrow_upward
+						[11519]<div />
+							1,000%
+			[11521]<td />
+				[11522]<div role=button />
+					13 hours ago
+				[11524]<div />
+					[11525]<div />
+						[11526]<i />
+							timelapse
+						[11528]<div />
+							Lasted 12 hr
+			[11530]<td />
+				[11531]<div />
+					[11532]<div />
+						[11533]<div />
+							[11534]<span />
+							[11535]<span />
+								[11536]<button aria-expanded=false />
+									england
+					[11595]<div />
+						[11596]<div />
+							[11597]<span />
+							[11598]<span />
+								[11599]<button aria-expanded=false />
+									england football
+					[11658]<div />
+						[11659]<div />
+							[11660]<span />
+							[11661]<span />
+								[11662]<button aria-expanded=false />
+									england costa rica
+					[11721]<span role=button aria-label=See 4 additional items />
+						+ 4 more
+			[11723]<td />
+				[11724]<svg role=img aria-label=Search interest graph /> <!-- SVG content collapsed -->
+		[11777]<tr role=row />
+			[11778]<td />
+				[11779]<div />
+					[11780]<div />
+						[11782]<div />
+							[11783]<svg /> <!-- SVG content collapsed -->
+						[11786]<span />
+			[11789]<td />
+				[11790]<div />
+					de'aaron fox
+			[11808]<td />
+				[11809]<div />
+					[11810]<div />
+						2K
+					[11813]<div />
+						[11814]<i />
+							arrow_upward
+						[11816]<div />
+							1,000%
+			[11818]<td />
+				[11819]<div role=button />
+					5 hours ago
+				[11821]<div />
+					[11822]<div />
+						[11823]<i />
+							timelapse
+						[11825]<div />
+							Lasted 3 hr
+			[11827]<td />
+				[11828]<div />
+					[11829]<div />
+						[11830]<div />
+							[11831]<span />
+							[11832]<span />
+								[11833]<button aria-expanded=false />
+									deaaron fox
+					[11892]<div />
+						[11893]<div />
+							[11894]<span />
+							[11895]<span />
+								[11896]<button aria-expanded=false />
+									de aaron fox
+					[11955]<div />
+						[11956]<div />
+							[11957]<span />
+							[11958]<span />
+								[11959]<button aria-expanded=false />
+									is wemby playing tonight
+			[12018]<td />
+				[12019]<svg role=img aria-label=Search interest graph /> <!-- SVG content collapsed -->
+		[12072]<tr role=row />
+			[12073]<td />
+				[12074]<div />
+					[12075]<div />
+						[12077]<div />
+							[12078]<svg /> <!-- SVG content collapsed -->
+						[12081]<span />
+			[12084]<td />
+				[12085]<div />
+					espn
+			[12103]<td />
+				[12104]<div />
+					[12105]<div />
+						10K
+					[12108]<div />
+						[12109]<i />
+							arrow_upward
+						[12111]<div />
+							300%
+			[12113]<td />
+				[12114]<div role=button />
+					7 hours ago
+				[12116]<div />
+					[12117]<div />
+						[12118]<i />
+							timelapse
+						[12120]<div />
+							Lasted 4 hr
+			[12122]<td />
+				[12123]<div />
+					[12124]<div />
+						[12125]<div />
+							[12126]<span />
+							[12127]<span />
+								[12128]<button aria-expanded=false />
+									charles barkley
+					[12187]<div />
+						[12188]<div />
+							[12189]<span />
+							[12190]<span />
+								[12191]<button aria-expanded=false />
+									cardi b halftime
+					[12250]<span role=button aria-label=See 3 additional items />
+						+ 3 more
+			[12252]<td />
+				[12253]<svg role=img aria-label=Search interest graph /> <!-- SVG content collapsed -->
+		[12306]<tr role=row />
+			[12307]<td />
+				[12308]<div />
+					[12309]<div />
+						[12311]<div />
+							[12312]<svg /> <!-- SVG content collapsed -->
+						[12315]<span />
+			[12318]<td />
+				[12319]<div />
+					spike lee
+			[12337]<td />
+				[12338]<div />
+					[12339]<div />
+						10K
+					[12342]<div />
+						[12343]<i />
+							arrow_upward
+						[12345]<div />
+							1,000%
+			[12347]<td />
+				[12348]<div role=button />
+					7 hours ago
+				[12350]<div />
+					[12351]<div />
+						[12352]<i />
+							timelapse
+						[12354]<div />
+							Lasted 5 hr
+			[12356]<td />
+			[12357]<td />
+				[12358]<svg role=img aria-label=Search interest graph /> <!-- SVG content collapsed -->
+	Rows per page
+	[12418]<div role=combobox aria-expanded=false />
+		25
+	25
+	of
+	1237
+	[12492]<div />
+	[12505]<div />
+	[12509]<button aria-label=Go to next page />
+		[12518]<div />
+	[12522]<button aria-label=Go to last page />
+		[12531]<div />
+	Privacy
+	Terms
+	Send feedback
+	About
+	help
+	Help
+	[644]<div role=combobox aria-label=Select language aria-expanded=false />
+		language
+		English (United States)‎
+	This site uses cookies from Google to deliver and enhance the quality of its services and to analyze traffic
+	[13243]<div />
+		[13245]<span />
+		[13248]<span />
+			Learn more
+		[13251]<a aria-label=Learn more />
+	[13254]<button />
+		[13259]<span />
+		Got it
+	|scroll element|<iframe title=reCAPTCHA role=presentation name=a-xi3jokpg88ak /> (scroll)
+	... (more content below viewport - scroll to reveal)
+</browser_state>
+
+
+{
+  "action": [
+    {
+      "done": {
+        "text": "Here are the **top 3 trending topics this month in New York City** (based on Google Trends, past 7 days, as of June 11, 2026):\n\n1. **OG Anunoby** – Search volume: ~2 million (+1,000%) | Status: Active (started 7 hours ago)\n   - Related searches: knicks game 4, knicks vs spurs game 4\n\n2. **Heat Advisory** – Search volume: ~50K (+1,000%) | Status: Active (started yesterday)\n   - Related searches: nyc weather, weather nyc, weather new york\n\n3. **Haim Sisters** – Search volume: ~20K (+1,000%) | Status: Active (started 7 hours ago)\n   - Related searches: alana haim, taylor swift, stevie nicks\n\n*Source: Google Trends – Trending Now in New York (https://trends.google.com/trending?geo=US-NY&hours=168)*",
+        "success": true
+      }
+    }
+  ]
+}

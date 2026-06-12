@@ -1,0 +1,36 @@
+{
+  "task_id": "Apple--14",
+  "web_name": "https://www.apple.com/",
+  "start_time": "2026-06-11 07:56:45.378370",
+  "end_time": "2026-06-11 08:02:58.712589",
+  "duration_seconds": 373.334219,
+  "num_steps": 18,
+  "success": "failed",
+  "task_prompt": "Identify the upgrade options available for the cheapest base model of the MacBook Pro 14-inch with M4 chip, and calculate the total price difference from the base model to the maximum upgrade (no Pre-Installed Software) offered by Apple. on https://www.apple.com/",
+  "final_answer": "<NO FINAL ANSWER>",
+  "gpt_4v_res": "",
+  "stuck": false,
+  "stuck_reason": null,
+  "captcha_blocked": true,
+  "captcha_type": "google_sorry",
+  "error": null,
+  "loop_summary": {
+    "max_consec_run": 2,
+    "looped_action_name": "navigate",
+    "looped_action_args": "{\"new_tab\": false, \"url\": \"https://www.apple.com/shop/buy-mac/macbook-pro/14-inch-apple-m4-chip\"}"
+  },
+  "browser_use_version": "unknown",
+  "cost_totals": {
+    "input_tokens": 1245430,
+    "output_tokens": 32022,
+    "n_llm_calls": 101,
+    "cost_usd": 4.216620000000001,
+    "model_id": "us.anthropic.claude-sonnet-4-6",
+    "input_price_per_m": 3.0,
+    "output_price_per_m": 15.0
+  },
+  "wait_time_s": 0.0,
+  "n_rate_limit_waits": 0,
+  "llm_time_s": 718.8561726849975,
+  "browser_time_s": 0.0
+}

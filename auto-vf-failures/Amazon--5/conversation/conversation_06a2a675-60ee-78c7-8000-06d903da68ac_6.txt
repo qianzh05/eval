@@ -1,0 +1,1232 @@
+ system 
+You are an AI agent designed to operate in an iterative loop to automate browser tasks. Your ultimate goal is accomplishing the task provided in <user_request>.
+<intro>
+You excel at following tasks:
+1. Navigating complex websites and extracting precise information
+2. Automating form submissions and interactive web actions
+3. Gathering and saving information
+4. Using your filesystem effectively to decide what to keep in your context
+5. Operate effectively in an agent loop
+6. Efficiently performing diverse web tasks
+</intro>
+<language_settings>
+- Default working language: **English**
+- Always respond in the same language as the user request
+</language_settings>
+<input>
+At every step, your input will consist of:
+1. <agent_history>: A chronological event stream including your previous actions and their results.
+2. <agent_state>: Current <user_request>, summary of <file_system>, <todo_contents>, and <step_info>.
+3. <browser_state>: Current URL, open tabs, interactive elements indexed for actions, and visible page content.
+4. <browser_vision>: Screenshot of the browser with bounding boxes around interactive elements. If you used screenshot before, this will contain a screenshot.
+5. <read_state> This will be displayed only if your previous action was extract or read_file. This data is only shown in the current step.
+</input>
+<agent_history>
+Agent history will be given as a list of step information as follows:
+<step_{step_number}>:
+Evaluation of Previous Step: Assessment of last action
+Memory: Your memory of this step
+Next Goal: Your goal for this step
+Action Results: Your actions and their results
+</step_{step_number}>
+and system messages wrapped in <sys> tag.
+</agent_history>
+<user_request>
+USER REQUEST: This is your ultimate objective and always remains visible.
+- This has the highest priority. Make the user happy.
+- If the user request is very specific - then carefully follow each step and dont skip or hallucinate steps.
+- If the task is open ended you can plan yourself how to get it done.
+</user_request>
+<browser_state>
+1. Browser State will be given as:
+Current URL: URL of the page you are currently viewing.
+Open Tabs: Open tabs with their ids.
+Interactive Elements: All interactive elements will be provided in a tree-style XML format:
+- Format: `[index]<tagname attribute=value />` for interactive elements
+- Text content appears as child nodes on separate lines (not inside tags)
+- Indentation with tabs shows parent/child relationships
+Examples:
+[33]<div />
+	User form
+	[35]<input type=text placeholder=Enter name />
+	*[38]<button aria-label=Submit form />
+		Submit
+[40]<a />
+	About us
+Note that:
+- Only elements with numeric indexes in [] are interactive
+- (stacked) indentation (with \t) is important and means that the element is a (html) child of the element above (with a lower index)
+- Elements tagged with a star `*[` are the new interactive elements that appeared on the website since the last step - if url has not changed. Your previous actions caused that change. Think if you need to interact with them, e.g. after input you might need to select the right option from the list.
+- Pure text elements without [] are not interactive
+- `|SCROLL|` prefix indicates scrollable containers with scroll position info
+- `|SHADOW(open)|` or `|SHADOW(closed)|` prefix indicates shadow DOM elements
+</browser_state>
+<browser_vision>
+If you used screenshot before, you will be provided with a screenshot of the current page with  bounding boxes around interactive elements. This is your GROUND TRUTH: reason about the image in your thinking to evaluate your progress.
+If an interactive index inside your browser_state does not have text information, then the interactive index is written at the top center of it's element in the screenshot.
+Use screenshot if you are unsure or simply want more information.
+</browser_vision>
+<browser_rules>
+Strictly follow these rules while using the browser and navigating the web:
+- Only interact with elements that have a numeric [index] assigned.
+- Only use indexes that are explicitly provided.
+- If research is needed, open a **new tab** instead of reusing the current one.
+- If the page changes after, for example, an input text action, analyse if you need to interact with new elements, e.g. selecting the right option from the list.
+- By default, only elements in the visible viewport are listed.
+- CAPTCHAs are automatically solved by the browser. If you encounter a CAPTCHA, it will be handled for you and you will be notified of the result. Do not attempt to solve CAPTCHAs manually — just continue with your task after the CAPTCHA is resolved.
+- If the page is not fully loaded, use the wait action.
+- You can call extract on specific pages to gather structured semantic information from the entire page, including parts not currently visible.
+- Call extract only if the information you are looking for is not visible in your <browser_state> otherwise always just use the needed text from the <browser_state>.
+- Calling the extract tool is expensive! DO NOT query the same page with the same extract query multiple times. Make sure that you are on the page with relevant information based on the screenshot before calling this tool.
+- Use search_page to quickly find specific text or patterns on the page — it's free and instant. Great for: verifying content exists, finding where data is located, checking for error messages, locating prices/dates/IDs.
+- Use find_elements with CSS selectors to explore DOM structure — also free and instant. Great for: counting items (e.g. table rows, product cards), getting links or attributes, understanding page layout before extracting.
+- Prefer search_page over scrolling when looking for specific text content not visible in browser_state. Use find_elements when you need to understand element structure or extract attributes.
+- If you fill an input field and your action sequence is interrupted, most often something changed e.g. suggestions popped up under the field.
+- If the action sequence was interrupted in previous step due to page changes, make sure to complete any remaining actions that were not executed. For example, if you tried to input text and click a search button but the click was not executed because the page changed, you should retry the click action in your next step.
+- If the <user_request> includes specific page information such as product type, rating, price, location, etc., ALWAYS look for filter/sort options FIRST before browsing results. Apply all relevant filters before scrolling through results.
+- The <user_request> is the ultimate goal. If the user specifies explicit steps, they have always the highest priority.
+- If you input into a field, you might need to press enter, click the search button, or select from dropdown for completion.
+- For autocomplete/combobox fields (e.g. search boxes with suggestions, fields with role="combobox"): type your search text, then WAIT for the suggestions dropdown to appear in the next step. If suggestions appear (new elements marked with *[), click the correct one instead of pressing Enter. If no suggestions appear after one step, you may press Enter or submit normally.
+- Don't login into a page if you don't have to. Don't login if you don't have the credentials.
+- There are 2 types of tasks always first think which type of request you are dealing with:
+1. Very specific step by step instructions:
+- Follow them as very precise and don't skip steps. Try to complete everything as requested.
+2. Open ended tasks. Plan yourself, be creative in achieving them.
+- If you get stuck e.g. with logins in open-ended tasks you can re-evaluate the task and try alternative ways, e.g. sometimes accidentally login pops up, even though there some part of the page is accessible or you get some information via web search. CAPTCHAs are handled automatically.
+- If you reach a PDF viewer, the file is automatically downloaded and you can see its path in <available_file_paths>. You can either read the file or scroll in the page to see more.
+- Handle popups, modals, cookie banners, and overlays immediately before attempting other actions. Look for close buttons (X, Close, Dismiss, No thanks, Skip) or accept/reject options. If a popup blocks interaction with the main page, handle it first.
+- If you encounter access denied (403), bot detection, or rate limiting, do NOT repeatedly retry the same URL. Try alternative approaches or report the limitation.
+- Detect and break out of unproductive loops: if you are on the same URL for 3+ steps without meaningful progress, or the same action fails 2-3 times, try a different approach. Track what you have tried in memory to avoid repeating failed approaches.
+</browser_rules>
+<file_system>
+- You have access to a persistent file system which you can use to track progress, store results, and manage long tasks.
+- Your file system is initialized with a `todo.md`: Use this to keep a checklist for known subtasks. Use `replace_file` tool to update markers in `todo.md` as first action whenever you complete an item. This file should guide your step-by-step execution when you have a long running task.
+- If you are writing a `csv` file, make sure to use double quotes if cell elements contain commas.
+- If the file is too large, you are only given a preview of your file. Use `read_file` to see the full content if necessary.
+- If exists, <available_file_paths> includes files you have downloaded or uploaded by the user. You can only read or upload these files but you don't have write access.
+- If the task is really long, initialize a `results.md` file to accumulate your results.
+- DO NOT use the file system if the task is less than 10 steps!
+</file_system>
+<planning>
+Decide whether to plan based on task complexity:
+- Simple task (1-3 actions, e.g. "go to X and click Y"): Act directly. Do NOT output `plan_update`.
+- Complex but clear task (multi-step, known approach): Output `plan_update` immediately with 3-10 todo items.
+- Complex and unclear task (unfamiliar site, vague goal): Explore for a few steps first, then output `plan_update` once you understand the landscape.
+When a plan exists, `<plan>` in your input shows status markers: [x]=done, [>]=current, [ ]=pending, [-]=skipped.
+Output `current_plan_item` (0-indexed) to indicate which item you are working on.
+Output `plan_update` again only to revise the plan after unexpected obstacles or after exploration.
+Completing all plan items does NOT mean the task is done. Always verify against the original <user_request> before calling `done`.
+</planning>
+<task_completion_rules>
+You must call the `done` action in one of two cases:
+- When you have fully completed the USER REQUEST.
+- When you reach the final allowed step (`max_steps`), even if the task is incomplete.
+- If it is ABSOLUTELY IMPOSSIBLE to continue.
+The `done` action is your opportunity to terminate and share your findings with the user.
+- Set `success` to `true` only if the full USER REQUEST has been completed with no missing components.
+- If any part of the request is missing, incomplete, or uncertain, set `success` to `false`.
+- You can use the `text` field of the `done` action to communicate your findings and `files_to_display` to send file attachments to the user, e.g. `["results.md"]`.
+- Put ALL the relevant information you found so far in the `text` field when you call `done` action.
+- Combine `text` and `files_to_display` to provide a coherent reply to the user and fulfill the USER REQUEST.
+- You are ONLY ALLOWED to call `done` as a single action. Don't call it together with other actions.
+- If the user asks for specified format, such as "return JSON with following structure", "return a list of format...", MAKE sure to use the right format in your answer.
+- If the user asks for a structured output, your `done` action's schema will be modified. Take this schema into account when solving the task!
+- When you reach 75% of your step budget, critically evaluate whether you can complete the full task in the remaining steps.
+  If completion is unlikely, shift strategy: focus on the highest-value remaining items and consolidate your results (save progress to files if the file system is in use).
+  This ensures that when you do call `done` (at max_steps or earlier), you have meaningful partial results to deliver.
+- For large multi-item tasks (e.g. "search 50 items"), estimate the per-item cost from the first few items.
+  If the task will exceed your budget, prioritize the most important items and save results incrementally.
+<pre_done_verification>
+BEFORE calling `done` with `success=true`, you MUST perform this verification:
+1. **Re-read the USER REQUEST** — list every concrete requirement (items to find, actions to perform, format to use, filters to apply).
+2. **Check each requirement against your results:**
+   - Did you extract the CORRECT number of items? (e.g., "list 5 items" → count them)
+   - Did you apply ALL specified filters/criteria? (e.g., price range, date, location)
+   - Does your output match the requested format exactly?
+3. **Verify actions actually completed:**
+   - If you submitted a form, posted a comment, or saved a file — check the page state or screenshot to confirm it happened.
+   - If you took a screenshot or downloaded a file — verify it exists in your file system.
+4. **Verify data grounding:** Every URL, price, name, and value must appear verbatim in your tool outputs or browser_state. Do NOT use your training knowledge to fill gaps — if information was not found on the page during this session, say so explicitly. Never fabricate or invent values.
+5. **Blocking error check:** If you hit an unresolved blocker (payment declined, login failed without credentials, email/verification wall, required paywall, access denied not bypassed) → set `success=false`. Temporary obstacles you overcame (auto-solved CAPTCHAs, dismissed popups, retried errors) do NOT count.
+6. **If ANY requirement is unmet, uncertain, or unverifiable — set `success` to `false`.**
+   Partial results with `success=false` are more valuable than overclaiming success.
+</pre_done_verification>
+</task_completion_rules>
+<action_rules>
+- You are allowed to use a maximum of 5 actions per step.
+If you are allowed multiple actions, you can specify multiple actions in the list to be executed sequentially (one after another).
+- If the page changes after an action, the remaining actions are automatically skipped and you get the new state.
+Check the browser state each step to verify your previous action achieved its goal.
+</action_rules>
+<efficiency_guidelines>
+You can output multiple actions in one step. Try to be efficient where it makes sense. Do not predict actions which do not make sense for the current page.
+
+**Action categories:**
+- **Page-changing (always last):** `navigate`, `search`, `go_back`, `switch`, `evaluate` — these always change the page. Remaining actions after them are skipped automatically. Note: `evaluate` runs arbitrary JS that can modify the DOM, so it is never safe to chain other actions after it.
+- **Potentially page-changing:** `click` (on links/buttons that navigate) — monitored at runtime; if the page changes, remaining actions are skipped.
+- **Safe to chain:** `input`, `scroll`, `find_text`, `extract`, `search_page`, `find_elements`, file operations — these do not change the page and can be freely combined.
+
+**Shadow DOM:** Elements inside shadow DOM that have `[index]` markers are directly clickable with `click(index)`. Do NOT use `evaluate` to click them.
+
+**Recommended combinations:**
+- `input` + `input` + `input` + `click` → Fill multiple form fields then submit
+- `input` + `input` → Fill multiple form fields
+- `scroll` + `scroll` → Scroll further down the page
+- `click` + `click` → Navigate multi-step flows (only when clicks do not navigate)
+- File operations + browser actions
+
+Do not try multiple different paths in one step. Always have one clear goal per step.
+Place any page-changing action **last** in your action list, since actions after it will not run.
+</efficiency_guidelines>
+<reasoning_rules>
+You must reason explicitly and systematically at every step in your `thinking` block.
+Exhibit the following reasoning patterns to successfully achieve the <user_request>:
+- Reason about <agent_history> to track progress and context toward <user_request>.
+- Analyze the most recent "Next Goal" and "Action Result" in <agent_history> and clearly state what you previously tried to achieve.
+- Analyze all relevant items in <agent_history>, <browser_state>, <read_state>, <file_system>, <read_state> and the screenshot to understand your state.
+- Explicitly judge success/failure/uncertainty of the last action. Never assume an action succeeded just because it appears to be executed in your last step in <agent_history>. For example, you might have "Action 1/1: Input '2025-05-05' into element 3." in your history even though inputting text failed. Always verify using <browser_vision> (screenshot) as the primary ground truth. If a screenshot is unavailable, fall back to <browser_state>. If the expected change is missing, mark the last action as failed (or uncertain) and plan a recovery.
+- If todo.md is empty and the task is multi-step, generate a stepwise plan in todo.md using file tools.
+- Analyze `todo.md` to guide and track your progress.
+- If any todo.md items are finished, mark them as complete in the file.
+- Analyze whether you are stuck, e.g. when you repeat the same actions multiple times without any progress. Then consider alternative approaches.
+- Analyze the <read_state> where one-time information are displayed due to your previous action. Reason about whether you want to keep this information in memory and plan writing them into a file if applicable using the file tools.
+- If you see information relevant to <user_request>, plan saving the information into a file.
+- Before writing data into a file, analyze the <file_system> and check if the file already has some content to avoid overwriting.
+- Decide what concise, actionable context should be stored in memory to inform future reasoning.
+- When ready to finish, state you are preparing to call done and communicate completion/results to the user.
+- Before done, use read_file to verify file contents intended for user output.
+- Always reason about the <user_request>. Make sure to carefully analyze the specific steps and information required. E.g. specific filters, specific form fields, specific information to search. Make sure to always compare the current trajectory with the user request.
+</reasoning_rules>
+<examples>
+Here are examples of good output patterns. Use them as reference but never copy them directly.
+<todo_examples>
+  "write_file": {
+    "file_name": "todo.md",
+    "content": "# ArXiv CS.AI Recent Papers Collection Task\n\n## Goal: Collect metadata for 20 most recent papers\n\n## Tasks:\n- [ ] Navigate to https://arxiv.org/list/cs.AI/recent\n- [ ] Initialize papers.md file for storing paper data\n- [ ] Collect paper 1/20: The Automated LLM Speedrunning Benchmark\n- [x] Collect paper 2/20: AI Model Passport\n- [ ] Collect paper 3/20: Embodied AI Agents\n- [ ] Collect paper 4/20: Conceptual Topic Aggregation\n- [ ] Collect paper 5/20: Artificial Intelligent Disobedience\n- [ ] Continue collecting remaining papers from current page\n- [ ] Navigate through subsequent pages if needed\n- [ ] Continue until 20 papers are collected\n- [ ] Verify all 20 papers have complete metadata\n- [ ] Final review and completion"
+  }
+</todo_examples>
+<evaluation_examples>
+- Positive Examples:
+"evaluation_previous_goal": "Successfully navigated to the product page and found the target information. Verdict: Success"
+"evaluation_previous_goal": "Clicked the login button and user authentication form appeared. Verdict: Success"
+- Negative Examples:
+"evaluation_previous_goal": "Failed to input text into the search bar as I cannot see it in the image. Verdict: Failure"
+"evaluation_previous_goal": "Clicked the submit button with index 15 but the form was not submitted successfully. Verdict: Failure"
+</evaluation_examples>
+<memory_examples>
+"memory": "Visited 2 of 5 target websites. Collected pricing data from Amazon ($39.99) and eBay ($42.00). Still need to check Walmart, Target, and Best Buy for the laptop comparison."
+"memory": "Found many pending reports that need to be analyzed in the main page. Successfully processed the first 2 reports on quarterly sales data and moving on to inventory analysis and customer feedback reports."
+"memory": "Search returned results but no filter applied yet. User wants items under $50 with 4+ stars. Will apply price filter first, then rating filter."
+"memory": "Popup appeared blocking the page. Need to close it first before continuing with search."
+"memory": "Previous click on search button failed - page did not change. Will try pressing Enter in the search field instead."
+"memory": "Captcha appeared twice on this site. Will try alternative approach via search engine instead of direct navigation."
+"memory": "403 error on main product page. Will try searching for the product on a different site instead of retrying."
+</memory_examples>
+<next_goal_examples>
+"next_goal": "Click on the 'Add to Cart' button to proceed with the purchase flow."
+"next_goal": "Extract details from the first item on the page."
+"next_goal": "Close the popup that appeared blocking the main content."
+"next_goal": "Apply price filter to narrow results to items under $50."
+</next_goal_examples>
+</examples>
+<output>
+You must ALWAYS respond with a valid JSON in this exact format:
+{
+  "thinking": "A structured <think>-style reasoning block that applies the <reasoning_rules> provided above.",
+  "evaluation_previous_goal": "Concise one-sentence analysis of your last action. Clearly state success, failure, or uncertain.",
+  "memory": "1-3 sentences of specific memory of this step and overall progress. You should put here everything that will help you track progress in future steps. Like counting pages visited, items found, etc.",
+  "next_goal": "State the next immediate goal and action to achieve it, in one clear sentence.",
+  "current_plan_item": 0,
+  "plan_update": ["Todo item 1", "Todo item 2", "Todo item 3"],
+  "action":[{"navigate": { "url": "url_value"}}, // ... more actions in sequence]
+}
+Action list should NEVER be empty.
+`current_plan_item` and `plan_update` are optional. See <planning> for details.
+</output>
+<critical_reminders>
+1. ALWAYS verify action success using the screenshot before proceeding
+2. ALWAYS handle popups/modals/cookie banners before other actions
+3. ALWAYS apply filters when user specifies criteria (price, rating, location, etc.)
+4. NEVER repeat the same failing action more than 2-3 times - try alternatives
+5. NEVER assume success - always verify from screenshot or browser state
+6. CAPTCHAs are solved automatically. If blocked by login/403, try alternative approaches rather than retrying
+7. Put ALL relevant findings in done action's text field
+8. Match user's requested output format exactly
+9. Track progress in memory to avoid loops
+10. When at max_steps, call done with whatever results you have
+11. Always compare current trajectory against the user's original request
+12. Be efficient - combine actions when possible but verify results between major steps
+</critical_reminders>
+<error_recovery>
+When encountering errors or unexpected states:
+1. First, verify the current state using screenshot as ground truth
+2. Check if a popup, modal, or overlay is blocking interaction
+3. If an element is not found, scroll to reveal more content
+4. If an action fails repeatedly (2-3 times), try an alternative approach
+5. If blocked by login/403, consider alternative sites or search engines. CAPTCHAs are solved automatically.
+6. If the page structure is different than expected, re-analyze and adapt
+7. If stuck in a loop, explicitly acknowledge it in memory and change strategy
+8. If max_steps is approaching, prioritize completing the most important parts of the task
+</error_recovery>
+
+
+ user 
+<agent_history>
+Agent initialized
+<step>
+Result
+Found initial url and automatically loaded it. Navigated to https://www.amazon.com/
+<step>
+Successfully navigated to Amazon.com. Verdict: Success
+On Amazon homepage. Need to search for "iPhone 14 Pro 128GB Blue" and add it to cart.
+Search for "iPhone 14 Pro 128GB Blue" in the Amazon search bar.
+Result
+Typed 'iPhone 14 Pro 128GB Blue'
+💡 This is an autocomplete field. Wait for suggestions to appear, then click the correct suggestion instead of pressing Enter.
+Clicked input type=submit id=nav-search-submit-bu
+<step>
+Search for "iPhone 14 Pro 128GB Blue" was executed and results are showing. Verdict: Success
+On Amazon search results page for "iPhone 14 Pro 128GB Blue". I can see results but none show an iPhone 14 Pro in Blue specifically. I need to look for a Blue iPhone 14 Pro 128GB. I can see there's a Blue color filter on the left sidebar. Let me also check the results - the first result is Space Black, second is iPhone 14 (not Pro) in Blue. I should click the Blue color filter to narrow results.
+Click the Blue color filter to narrow results to blue iPhone 14 Pro 128GB options.
+Result
+Clicked a role=link aria-label=Apply Blue filter to
+<step>
+Blue color filter was applied successfully - results now show Blue iPhones. However, I see iPhone 14 (not Pro) and iPhone 13 Pro results. I need to scroll down to find an iPhone 14 Pro 128GB Blue specifically.
+On Amazon search results page with Blue filter applied. Results show iPhone 14 (not Pro) in Blue 128GB. Need to find iPhone 14 Pro specifically. The current results show iPhone 14, iPhone 13 Pro, iPhone 14 Plus - but not iPhone 14 Pro. Need to scroll down to check more results or look for iPhone 14 Pro specifically.
+Scroll down to find an iPhone 14 Pro 128GB Blue in the search results.
+Result
+Scrolled down 3.0 pages
+<step>
+Scrolled down 3 pages but I can see iPhone 12, 13, 14, 15 models but not specifically iPhone 14 Pro 128GB Blue. I need to scroll up to check if there were any iPhone 14 Pro results earlier, or scroll up to find the first result that appeared before scrolling.
+On Amazon search results page with Blue filter applied. Scrolled down 3 pages. Visible results include iPhone 12 Pro (Pacific Blue), iPhone 13 (Blue), iPhone 14 (Blue), iPhone 15 (Blue), iPhone 15 Plus (Blue), iPhone 13 Pro Max (Sierra Blue), iPhone 12 Pro Max (Pacific Blue), iPhone 12 (Blue) - but no iPhone 14 Pro specifically. Need to scroll up to check earlier results or look for iPhone 14 Pro 128GB Blue specifically.
+Scroll up to find iPhone 14 Pro 128GB Blue in the search results - it may have appeared earlier in the results.
+Result
+Scrolled up 3.0 pages
+<step>
+Scrolled back up to the top of search results. I can see results for "iPhone 14 Pro 128GB Blue" but the results show iPhone 14 (not Pro), iPhone 13 Pro, iPhone 14 Plus. I need to scroll down to find an iPhone 14 Pro specifically.
+On Amazon search results page with Blue filter applied. Results show 1-16 of 33 results. I can see iPhone 14 (not Pro), iPhone 13 Pro (Sierra Blue), iPhone 14 Plus - but no iPhone 14 Pro specifically in the visible results. Need to scroll down to find iPhone 14 Pro 128GB Blue.
+Scroll down to find an iPhone 14 Pro 128GB Blue in the search results.
+Result
+Scrolled down 3.0 pages
+</agent_history>
+
+<agent_state>
+<user_request>
+Find a Blue 14 Pro 128gb and add to cart. on https://www.amazon.com/
+</user_request>
+<file_system>
+
+</file_system>
+<todo_contents>
+[empty todo.md, fill it when applicable]
+</todo_contents>
+<step_info>Step6 maximum:30
+Today:2026-06-11</step_info>
+</agent_state>
+<browser_state>
+<page_stats>Page appears to show skeleton/placeholder content (still loading?) - 148 links, 603 interactive, 0 iframes, 3 shadow(open), 0 shadow(closed), 10 images, 1967 total elements</page_stats>
+Current tab: 4A23
+Available tabs:
+Tab 4A23: https://www.amazon.com/s?k=iPhone+14+Pro+128GB+Bl...6bb78b1 - Amazon.com: IPhone 14 Pro 128G
+
+<page_info>3.0 pages above, 3.0 pages below — scroll down to reveal more content</page_info>
+
+Interactive elements:
+[8787]<a id=nav-logo-sprites aria-label=Amazon />
+[8802]<span id=nav-global-location-data-modal-action />
+	[8804]<a id=nav-global-location-popover-link role=button />
+		Delivering to Ashburn 20149
+		Update location
+[8839]<div id=nav-fill-search />
+	[8844]<div id=nav-search />
+		[8176]<form id=nav-search-bar-form name=site-search role=search />
+			[8853]<div />
+				[8313]<div />
+					[8856]<span id=nav-search-label-id />
+						All
+			[9052]<div />
+				|SHADOW(open)|[8178]<input type=text id=twotabsearchtextbox value=iPhone 14 Pro 128GB Blue name=field-keywords placeholder=Search Amazon aria-label=Search Amazon role=searchbox aria-expanded=false />
+			[9063]<div />
+				[9065]<span id=nav-search-submit-text aria-label=Go />
+					|SHADOW(open)|[8314]<input id=nav-search-submit-button type=submit value=Go />
+			[9070]<span id=nav-search-submit-text-agent role=presentation />
+				|SHADOW(open)|[8315]<input id=nav-search-submit-button-agent type=submit value=Agent Search />
+[8015]<div id=icp-nav-flyout />
+	[9088]<a aria-label=Choose a language for shopping in Amazon United States. The current selection is English (EN). />
+		[8009]<span role=img aria-label=United States />
+		EN
+	[8316]<button aria-label=Expand to Change Language or Country />
+[8016]<div id=nav-link-accountList />
+	[9107]<a />
+		Hello, sign in
+		Account & Lists
+	[8317]<button aria-label=Expand Account and Lists />
+[9119]<a id=nav-orders />
+	Returns
+	& Orders
+[9129]<a aria-label=0 items in cart id=nav-cart />
+	[9140]<span />
+	Cart
+[9815]<div id=search />
+	[9937]<span />
+		[8024]<div />
+			[20185]<div role=listitem id=700be85d-78f8-46f8-b971-213984c311bc />
+				[20187]<div />
+					[20198]<a />
+					Only 3 left in stock - order soon.
+					*[20267]<span id=a-autoid-23 />
+						*[20268]<span />
+							*[20269]<a id=a-autoid-23-announce />
+								See options
+					*[20273]<div />
+						*[20275]<a aria-label=Blue role=link />
+							*[20276]<span />
+								*[20277]<span />
+					*[20278]<div />
+						*[20280]<a aria-label=Midnight role=link />
+							*[20281]<span />
+								*[20282]<span />
+					*[20283]<div />
+						*[20285]<a aria-label=Purple role=link />
+							*[20286]<span />
+								*[20287]<span />
+					*[20288]<div />
+						*[20290]<a aria-label=Red role=link />
+							*[20291]<span />
+								*[20292]<span />
+					*[20293]<div />
+						*[20295]<a aria-label=Starlight role=link />
+							*[20296]<span />
+								*[20297]<span />
+					*[20298]<div />
+						*[20300]<a aria-label=Yellow role=link />
+							*[20301]<span />
+								*[20302]<span />
+			*[20340]<div role=listitem id=ef06e47f-1d65-4358-8993-bcc3a596da48 />
+				*[20342]<div />
+					*[20353]<a />
+					*[20360]<a />
+						*[20361]<h2 aria-label=Apple iPhone 12 Pro, 128GB, Pacific Blue - Unlocked (Renewed) />
+							Apple iPhone 12 Pro, 128GB, Pacific Blue - Unlocked (Renewed)
+					*[20366]<div />
+						Options:
+					*[20367]<a aria-label=Options: 3 sizes role=link />
+						3 sizes
+					*[20373]<span />
+						4.1
+					*[20374]<span />
+						*[20375]<a aria-label=4.1 out of 5 stars, rating details role=button />
+							*[20378]<i />
+					*[20379]<span />
+						*[20380]<div />
+							*[20381]<a aria-label=15,378 ratings />
+								(15.3K)
+					400+ bought in past month
+					*[20392]<a aria-describedby=price-link />
+						*[20393]<span />
+							*[20395]<span />
+								*[20396]<span />
+								*[20397]<span />
+									263
+								*[20399]<span />
+									30
+					FREE delivery
+					Sat, Jun 13
+					Or fastest delivery
+					Tomorrow, Jun 12
+					Arrives before Father's Day
+					Only 3 left in stock - order soon.
+					*[20422]<span id=a-autoid-24 />
+						*[20423]<span />
+							*[20424]<a id=a-autoid-24-announce />
+								See options
+					More Buying Choices
+					$256.15
+					*[20432]<a />
+						(14+ used & new offers)
+					*[20441]<div />
+						*[20443]<a aria-label=Pacific Blue role=link />
+							*[20444]<span />
+								*[20445]<span />
+					*[20446]<div />
+						*[20448]<a aria-label=Gold role=link />
+							*[20449]<span />
+								*[20450]<span />
+					*[20451]<div />
+						*[20453]<a aria-label=Graphite role=link />
+							*[20454]<span />
+								*[20455]<span />
+					*[20456]<div />
+						*[20458]<a aria-label=Silver role=link />
+							*[20459]<span />
+								*[20460]<span />
+					Display Size
+					6.1 inches
+					Memory
+					*[20480]<span />
+						128 GB
+					*[20483]<span />
+						Color
+					Pacific Blue
+					*[20491]<span />
+						Brand
+					*[20496]<span />
+						Apple
+			*[20498]<div role=listitem id=43adeb25-5d4e-4721-952c-fcb4d1f72515 />
+				*[20500]<div />
+					*[20511]<a />
+					*[20518]<a />
+						*[20519]<h2 aria-label=Apple iPhone 14, 128GB, Blue for Boost Mobile (Renewed) />
+							Apple iPhone 14, 128GB, Blue for Boost Mobile (Renewed)
+					*[20523]<span />
+						4.5
+					*[20524]<span />
+						*[20525]<a aria-label=4.5 out of 5 stars, rating details role=button />
+							*[20528]<i />
+					*[20529]<span />
+						*[20530]<div />
+							*[20531]<a aria-label=16 ratings />
+								(16)
+					*[20540]<a aria-describedby=price-link />
+						*[20541]<span />
+							*[20543]<span />
+								*[20544]<span />
+								*[20545]<span />
+									359
+								*[20547]<span />
+									74
+					FREE delivery
+					Sat, Jun 13
+					Or fastest delivery
+					Tomorrow, Jun 12
+					Arrives before Father's Day
+					Only 16 left in stock - order soon.
+					*[20570]<span id=a-autoid-25 />
+						*[20571]<span />
+							*[20572]<a id=a-autoid-25-announce />
+								See options
+					More Buying Choices
+					$294.24
+					*[20580]<a />
+						(3+ used & new offers)
+					Display Size
+					Memory
+					*[20605]<span />
+						128 GB
+					*[20608]<span />
+						Color
+					*[20613]<span />
+						Blue
+					*[20616]<span />
+						Brand
+					*[20621]<span />
+						Apple
+			*[20623]<div role=listitem id=af3b542d-4cdd-4567-82d1-63f845760a67 />
+				*[20625]<div />
+					*[20636]<a />
+					*[20643]<a />
+						*[20644]<h2 aria-label=Apple iPhone 15, 128GB, Blue - Unlocked (Renewed Premium) />
+							Apple iPhone 15, 128GB, Blue - Unlocked (Renewed Premium)
+					*[20649]<div />
+						Options:
+					*[20650]<a aria-label=Options: 3 sizes role=link />
+						3 sizes
+					*[20656]<span />
+						4.0
+					*[20657]<span />
+						*[20658]<a aria-label=4.0 out of 5 stars, rating details role=button />
+							*[20661]<i />
+					*[20662]<span />
+						*[20663]<div />
+							*[20664]<a aria-label=5,857 ratings />
+								(5.8K)
+					50+ bought in past month
+					*[20675]<a aria-describedby=price-link />
+						*[20676]<span />
+							*[20678]<span />
+								*[20679]<span />
+								*[20680]<span />
+									512
+								*[20682]<span />
+									09
+					FREE delivery
+					Sat, Jun 13
+					Or fastest delivery
+					Tomorrow, Jun 12
+					Arrives before Father's Day
+					Only 2 left in stock - order soon.
+					See options
+					*[20711]<div />
+						*[20713]<a aria-label=Blue role=link />
+							*[20714]<span />
+								*[20715]<span />
+					*[20716]<div />
+						*[20718]<a aria-label=Black role=link />
+							*[20719]<span />
+								*[20720]<span />
+					*[20721]<div />
+						*[20723]<a aria-label=Green role=link />
+							*[20724]<span />
+								*[20725]<span />
+					*[20726]<div />
+						*[20728]<a aria-label=Pink role=link />
+							*[20729]<span />
+								*[20730]<span />
+					*[20731]<div />
+						*[20733]<a aria-label=Yellow role=link />
+							*[20734]<span />
+								*[20735]<span />
+					Display Size
+					6.1 inches
+					Memory
+					*[20755]<span />
+						128 GB
+					*[20758]<span />
+						Color
+					*[20763]<span />
+						Blue
+					*[20766]<span />
+						Brand
+					*[20771]<span />
+						Apple
+			*[20773]<div role=listitem id=dceb5fb2-35ee-45c7-8e9b-24e09d3623c7 />
+				*[20775]<div />
+					*[20784]<div id=amazonBadges-capsule-view />
+						Best Seller
+					*[20794]<a />
+					*[20801]<a />
+						*[20802]<h2 aria-label=Apple iPhone 13, 128GB, Blue - AT&T (Renewed) />
+							Apple iPhone 13, 128GB, Blue - AT&T (Renewed)
+					*[20807]<div />
+						Options:
+					*[20808]<a aria-label=Options: 3 sizes role=link />
+						3 sizes
+					*[20814]<span />
+						4.1
+					*[20815]<span />
+						*[20816]<a aria-label=4.1 out of 5 stars, rating details role=button />
+							*[20819]<i />
+					*[20820]<span />
+						*[20821]<div />
+							*[20822]<a aria-label=26,684 ratings />
+								(26.6K)
+					50+ bought in past month
+					*[20833]<a aria-describedby=price-link />
+						*[20834]<span />
+							*[20836]<span />
+								*[20837]<span />
+								*[20838]<span />
+									264
+								*[20840]<span />
+									95
+					FREE delivery
+					Sat, Jun 13
+					Or fastest delivery
+					Tomorrow, Jun 12
+					Arrives before Father's Day
+					Only 3 left in stock - order soon.
+					*[20863]<span id=a-autoid-27 />
+						*[20864]<span />
+							*[20865]<a id=a-autoid-27-announce />
+								See options
+					More Buying Choices
+					$234.95
+					*[20873]<a />
+						(13+ used & new offers)
+					*[20882]<div />
+						*[20884]<a aria-label=Blue role=link />
+							*[20885]<span />
+								*[20886]<span />
+					*[20887]<div />
+						*[20889]<a aria-label=(PRODUCT) RED role=link />
+							*[20890]<span />
+								*[20891]<span />
+					*[20892]<div />
+						*[20894]<a aria-label=Green role=link />
+							*[20895]<span />
+								*[20896]<span />
+					*[20897]<div />
+						*[20899]<a aria-label=Midnight role=link />
+							*[20900]<span />
+								*[20901]<span />
+					*[20902]<div />
+						*[20904]<a aria-label=Pink role=link />
+							*[20905]<span />
+								*[20906]<span />
+					*[20907]<div />
+						*[20909]<a aria-label=Starlight role=link />
+							*[20910]<span />
+								*[20911]<span />
+					Display Size
+					6.1 inches
+					Memory
+					*[20931]<span />
+						128 GB
+					*[20934]<span />
+						Color
+					*[20939]<span />
+						Blue
+					*[20942]<span />
+						Brand
+					*[20947]<span />
+						Apple
+			*[20949]<div role=listitem id=5b69f759-08b2-4fb8-8ee9-42b27410807e />
+				*[20951]<div />
+					*[20962]<a />
+					*[20969]<a />
+						*[20970]<h2 aria-label=Apple iPhone 15 Plus, 128GB, Blue - Unlocked (Renewed) />
+							Apple iPhone 15 Plus, 128GB, Blue - Unlocked (Renewed)
+					*[20975]<div />
+						Options:
+					*[20976]<a aria-label=Options: 3 sizes role=link />
+						3 sizes
+					*[20982]<span />
+						4.2
+					*[20983]<span />
+						*[20984]<a aria-label=4.2 out of 5 stars, rating details role=button />
+							*[20987]<i />
+					*[20988]<span />
+						*[20989]<div />
+							*[20990]<a aria-label=2,930 ratings />
+								(2.9K)
+					400+ bought in past month
+					*[21001]<a aria-describedby=price-link />
+						*[21002]<span />
+							*[21004]<span />
+								*[21005]<span />
+								*[21006]<span />
+									440
+								*[21008]<span />
+									38
+					FREE delivery
+					Sat, Jun 13
+					Or fastest delivery
+					Tomorrow, Jun 12
+					Arrives before Father's Day
+					Only 1 left in stock - order soon.
+					*[21031]<span id=a-autoid-28 />
+						*[21032]<span />
+							*[21033]<a id=a-autoid-28-announce />
+								See options
+					More Buying Choices
+					$409.99
+					*[21041]<a />
+						(19+ used & new offers)
+					*[21050]<div />
+						*[21052]<a aria-label=Blue role=link />
+							*[21053]<span />
+								*[21054]<span />
+					*[21055]<div />
+						*[21057]<a aria-label=Black role=link />
+							*[21058]<span />
+								*[21059]<span />
+					*[21060]<div />
+						*[21062]<a aria-label=Green role=link />
+							*[21063]<span />
+								*[21064]<span />
+					*[21065]<div />
+						*[21067]<a aria-label=Pink role=link />
+							*[21068]<span />
+								*[21069]<span />
+					*[21070]<div />
+						*[21072]<a aria-label=Yellow role=link />
+							*[21073]<span />
+								*[21074]<span />
+					Display Size
+					6.7 inches
+					Memory
+					*[21094]<span />
+						128 GB
+					*[21097]<span />
+						Color
+					*[21102]<span />
+						Blue
+					*[21105]<span />
+						Brand
+					*[21110]<span />
+						Apple
+			*[21112]<div role=listitem id=52567702-32e3-46c4-abe6-830c54c5e960 />
+				*[21114]<div />
+					*[21125]<a />
+					*[21132]<a />
+						*[21133]<h2 aria-label=Apple iPhone 13 Pro Max, 128GB, Sierra Blue - Unlocked (Renewed) />
+							Apple iPhone 13 Pro Max, 128GB, Sierra Blue - Unlocked (Renewed)
+					*[21138]<div />
+						Options:
+					*[21139]<a aria-label=Options: 4 sizes role=link />
+						4 sizes
+					*[21145]<span />
+						4.2
+					*[21146]<span />
+						*[21147]<a aria-label=4.2 out of 5 stars, rating details role=button />
+							*[21150]<i />
+					*[21151]<span />
+						*[21152]<div />
+							*[21153]<a aria-label=12,930 ratings />
+								(12.9K)
+					300+ bought in past month
+					*[21164]<a aria-describedby=price-link />
+						*[21165]<span />
+							*[21167]<span />
+								*[21168]<span />
+								*[21169]<span />
+									451
+								*[21171]<span />
+									99
+					FREE delivery
+					Sat, Jun 13
+					Or fastest delivery
+					Tomorrow, Jun 12
+					Arrives before Father's Day
+					Only 4 left in stock - order soon.
+					*[21194]<span id=a-autoid-29 />
+						*[21195]<span />
+							*[21196]<a id=a-autoid-29-announce />
+								See options
+					More Buying Choices
+					$387.91
+					*[21204]<a />
+						(16+ used & new offers)
+					*[21213]<div />
+						*[21215]<a aria-label=Sierra Blue role=link />
+							*[21216]<span />
+								*[21217]<span />
+					*[21218]<div />
+						*[21220]<a aria-label=Alpine Green role=link />
+							*[21221]<span />
+								*[21222]<span />
+					*[21223]<div />
+						*[21225]<a aria-label=Gold role=link />
+							*[21226]<span />
+								*[21227]<span />
+					*[21228]<div />
+						*[21230]<a aria-label=Graphite role=link />
+							*[21231]<span />
+								*[21232]<span />
+					*[21233]<div />
+						*[21235]<a aria-label=Silver role=link />
+							*[21236]<span />
+								*[21237]<span />
+					Display Size
+					6.7 inches
+					Memory
+					*[21257]<span />
+						128 GB
+					*[21260]<span />
+						Color
+					Sierra Blue
+					*[21268]<span />
+						Brand
+					*[21273]<span />
+						Apple
+			*[21275]<div role=listitem id=63bab2e0-ea86-4ca6-80b9-cf1bfae81080 />
+				*[21277]<div />
+					*[21288]<a />
+					*[21295]<a />
+						*[21296]<h2 aria-label=Apple iPhone 12 Pro, 128GB, Pacific Blue - Verizon (Renewed) />
+							Apple iPhone 12 Pro, 128GB, Pacific Blue - Verizon (Renewed)
+					*[21301]<div />
+						Options:
+					*[21302]<a aria-label=Options: 3 sizes role=link />
+						3 sizes
+					*[21308]<span />
+						4.1
+					*[21309]<span />
+						*[21310]<a aria-label=4.1 out of 5 stars, rating details role=button />
+							*[21313]<i />
+					*[21314]<span />
+						*[21315]<div />
+							*[21316]<a aria-label=15,378 ratings />
+								(15.3K)
+					*[21325]<a aria-describedby=price-link />
+						*[21326]<span />
+							*[21328]<span />
+								*[21329]<span />
+								*[21330]<span />
+									260
+								*[21332]<span />
+									95
+					FREE delivery
+					Jun 15 - 17
+					Or fastest delivery
+					Tomorrow, Jun 12
+					Arrives before Father's Day
+					Only 1 left in stock - order soon.
+					*[21355]<span id=a-autoid-30 />
+						*[21356]<span />
+							*[21357]<a id=a-autoid-30-announce />
+								See options
+					More Buying Choices
+					$257.74
+					*[21365]<a />
+						(3+ used & new offers)
+					*[21374]<div />
+						*[21376]<a aria-label=Pacific Blue role=link />
+							*[21377]<span />
+								*[21378]<span />
+					*[21379]<div />
+						*[21381]<a aria-label=Gold role=link />
+							*[21382]<span />
+								*[21383]<span />
+					*[21384]<div />
+						*[21386]<a aria-label=Graphite role=link />
+							*[21387]<span />
+								*[21388]<span />
+					*[21389]<div />
+						*[21391]<a aria-label=Silver role=link />
+							*[21392]<span />
+								*[21393]<span />
+					Display Size
+					Memory
+					*[21413]<span />
+						128 GB
+					*[21416]<span />
+						Color
+					Pacific Blue
+					*[21424]<span />
+						Brand
+					*[21429]<span />
+						Apple
+			*[22217]<div role=listitem id=91895d0b-43d2-49aa-aae9-20b109b0f98b />
+				*[22219]<div />
+					*[22230]<a />
+					*[22237]<a />
+						*[22238]<h2 aria-label=Apple iPhone 12 Pro Max, 128GB, Pacific Blue - Fully Unlocked (Renewed) />
+							Apple iPhone 12 Pro Max, 128GB, Pacific Blue - Fully Unlocked (Renewed)
+					*[22243]<div />
+						Options:
+					*[22244]<a aria-label=Options: 3 sizes role=link />
+						3 sizes
+					*[22250]<span />
+						4.2
+					*[22251]<span />
+						*[22252]<a aria-label=4.2 out of 5 stars, rating details role=button />
+							*[22255]<i />
+					*[22256]<span />
+						*[22257]<div />
+							*[22258]<a aria-label=12,537 ratings />
+								(12.5K)
+					500+ bought in past month
+					*[22269]<a aria-describedby=price-link />
+						*[22270]<span />
+							*[22272]<span />
+								*[22273]<span />
+								*[22274]<span />
+									349
+								*[22276]<span />
+									00
+					FREE delivery
+					Sat, Jun 13
+					Or fastest delivery
+					Tomorrow, Jun 12
+					Arrives before Father's Day
+					Only 14 left in stock - order soon.
+					*[22299]<span id=a-autoid-31 />
+						*[22300]<span />
+							*[22301]<a id=a-autoid-31-announce />
+								See options
+					More Buying Choices
+					$320.21
+					*[22309]<a />
+						(20+ used & new offers)
+					*[22318]<div />
+						*[22320]<a aria-label=Pacific Blue role=link />
+							*[22321]<span />
+								*[22322]<span />
+					*[22323]<div />
+						*[22325]<a aria-label=Gold role=link />
+							*[22326]<span />
+								*[22327]<span />
+					*[22328]<div />
+						*[22330]<a aria-label=Graphite role=link />
+							*[22331]<span />
+								*[22332]<span />
+					*[22333]<div />
+						*[22335]<a aria-label=Silver role=link />
+							*[22336]<span />
+								*[22337]<span />
+					Display Size
+					6.68 inches
+					Memory
+					*[22357]<span />
+						128 GB
+					*[22360]<span />
+						Color
+					Pacific Blue
+					*[22368]<span />
+						Brand
+					*[22373]<span />
+						Apple
+			*[22375]<div role=listitem id=c191c86e-3baa-4de0-b2ab-e6b5dbe30212 />
+				*[22377]<div />
+					*[22388]<a />
+					*[22395]<a />
+						*[22396]<h2 aria-label=Apple iPhone 12, 128GB, Blue - Unlocked (Renewed) />
+							Apple iPhone 12, 128GB, Blue - Unlocked (Renewed)
+					*[22400]<span />
+						4.1
+					*[22401]<span />
+						*[22402]<a aria-label=4.1 out of 5 stars, rating details role=button />
+							*[22405]<i />
+					*[22406]<span />
+						*[22407]<div />
+							*[22408]<a aria-label=35,375 ratings />
+								(35.3K)
+					500+ bought in past month
+					*[22419]<a aria-describedby=price-link />
+						*[22420]<span />
+							*[22422]<span />
+								*[22423]<span />
+								*[22424]<span />
+									218
+								*[22426]<span />
+									00
+					Display Size
+					*[22506]<span />
+						6.1
+					Memory
+					*[22514]<span />
+						128 GB
+					*[22517]<span />
+						Color
+					*[22522]<span />
+						Blue
+					*[22525]<span />
+						Brand
+					*[22530]<span />
+						Apple
+	*[23320]<a aria-label=Apply Lithium-Ion filter to narrow results role=link />
+		*[23321]<div />
+			*[23322]<label />
+				*[23324]<i />
+				*[23325]<span />
+		Lithium-Ion
+	*[23329]<span />
+		Width
+	*[23335]<a aria-label=Apply 2 to 2.9 in filter to narrow results role=link />
+		*[23336]<div />
+			*[23337]<label />
+				*[23339]<i />
+				*[23340]<span />
+		2 to 2.9 in
+	*[23345]<a aria-label=Apply 3 in & above filter to narrow results role=link />
+		*[23346]<div />
+			*[23347]<label />
+				*[23349]<i />
+				*[23350]<span />
+		3 in & above
+	*[23354]<span />
+		Length
+	*[23360]<a aria-label=Apply 5 to 5.9 in filter to narrow results role=link />
+		*[23361]<div />
+			*[23362]<label />
+				*[23364]<i />
+				*[23365]<span />
+		5 to 5.9 in
+	*[23370]<a aria-label=Apply 6 in & above filter to narrow results role=link />
+		*[23371]<div />
+			*[23372]<label />
+				*[23374]<i />
+				*[23375]<span />
+		6 in & above
+	Item Height
+	*[23385]<a aria-label=Apply Up to 1 in filter to narrow results role=link />
+		*[23386]<div />
+			*[23387]<label />
+				*[23389]<i />
+				*[23390]<span />
+		Up to 1 in
+	*[23395]<a aria-label=Apply 3 in & above filter to narrow results role=link />
+		*[23396]<div />
+			*[23397]<label />
+				*[23399]<i />
+				*[23400]<span />
+		3 in & above
+	Battery Capacity
+	*[23410]<a aria-label=Apply Up to 2,999 mAh filter to narrow results role=link />
+		*[23411]<div />
+			*[23412]<label />
+				*[23414]<i />
+				*[23415]<span />
+		Up to 2,999 mAh
+	*[23420]<a aria-label=Apply 3,000 to 3,999 mAh filter to narrow results role=link />
+		*[23421]<div />
+			*[23422]<label />
+				*[23424]<i />
+				*[23425]<span />
+		3,000 to 3,999 mAh
+	*[23430]<a aria-label=Apply 4,000 to 4,999 mAh filter to narrow results role=link />
+		*[23431]<div />
+			*[23432]<label />
+				*[23434]<i />
+				*[23435]<span />
+		4,000 to 4,999 mAh
+	Wireless Network Technology
+	*[23444]<span />
+		*[23445]<a aria-label=Apply GSM filter to narrow results role=link />
+			*[23446]<div />
+				*[23447]<label />
+					*[23449]<i />
+					*[23450]<span />
+			GSM
+	*[23454]<span />
+		*[23455]<a aria-label=Apply LTE filter to narrow results role=link />
+			*[23456]<div />
+				*[23457]<label />
+					*[23459]<i />
+					*[23460]<span />
+			LTE
+	*[23464]<span />
+		*[23465]<a aria-label=Apply CDMA filter to narrow results role=link />
+			*[23466]<div />
+				*[23467]<label />
+					*[23469]<i />
+					*[23470]<span />
+			CDMA
+	*[23474]<span />
+		*[23475]<a aria-label=Apply Wi-Fi filter to narrow results role=link />
+			*[23476]<div />
+				*[23477]<label />
+					*[23479]<i />
+					*[23480]<span />
+			Wi-Fi
+	Sim Card Size
+	*[23489]<span />
+		*[23490]<a aria-label=Apply eSIM filter to narrow results role=link />
+			*[23491]<div />
+				*[23492]<label />
+					*[23494]<i />
+					*[23495]<span />
+			eSIM
+	*[23499]<span />
+		*[23500]<a aria-label=Apply Nano filter to narrow results role=link />
+			*[23501]<div />
+				*[23502]<label />
+					*[23504]<i />
+					*[23505]<span />
+			Nano
+	Connector Type
+	*[23515]<a aria-label=Apply Lightning filter to narrow results role=link />
+		*[23516]<div />
+			*[23517]<label />
+				*[23519]<i />
+				*[23520]<span />
+		Lightning
+	*[23525]<a aria-label=Apply USB Type C filter to narrow results role=link />
+		*[23526]<div />
+			*[23527]<label />
+				*[23529]<i />
+				*[23530]<span />
+		USB Type C
+	RAM Size
+	*[23540]<a aria-label=Apply 4 to 5.9 GB filter to narrow results role=link />
+		*[23541]<div />
+			*[23542]<label />
+				*[23544]<i />
+				*[23545]<span />
+		4 to 5.9 GB
+	*[23550]<a aria-label=Apply 8 to 9.9 GB filter to narrow results role=link />
+		*[23551]<div />
+			*[23552]<label />
+				*[23554]<i />
+				*[23555]<span />
+		8 to 9.9 GB
+	*[23560]<a aria-label=Apply 10 GB & above filter to narrow results role=link />
+		*[23561]<div />
+			*[23562]<label />
+				*[23564]<i />
+				*[23565]<span />
+		10 GB & above
+	Water Resistance Level
+	*[23575]<a aria-label=Apply Not Water Resistant filter to narrow results role=link />
+		*[23576]<div />
+			*[23577]<label />
+				*[23579]<i />
+				*[23580]<span />
+		Not Water Resistant
+	*[23585]<a aria-label=Apply Water-Resistant filter to narrow results role=link />
+		*[23586]<div />
+			*[23587]<label />
+				*[23589]<i />
+				*[23590]<span />
+		Water-Resistant
+	Connectivity
+	Bluetooth
+	NFC
+	USB
+	*[23631]<div />
+		*[23632]<label />
+	Wi-Fi
+	Display Type
+	*[23644]<span />
+		*[23645]<a aria-label=Apply OLED filter to narrow results role=link />
+			*[23646]<div />
+				*[23647]<label />
+					*[23649]<i />
+					*[23650]<span />
+			OLED
+	GPS Navigation
+	*[23659]<span />
+		*[23660]<a aria-label=Apply True filter to narrow results role=link />
+			*[23661]<div />
+				*[23662]<label />
+					*[23664]<i />
+					*[23665]<span />
+			True
+	*[23669]<span />
+		Input
+	*[23675]<a aria-label=Apply Touchscreen filter to narrow results role=link />
+		*[23676]<div />
+			*[23677]<label />
+				*[23679]<i />
+				*[23680]<span />
+		Touchscreen
+	Included Components
+	*[23690]<a aria-label=Apply USB Cable filter to narrow results role=link />
+		*[23691]<div />
+			*[23692]<label />
+				*[23694]<i />
+				*[23695]<span />
+		USB Cable
+	*[23699]<span />
+		Flash
+	*[23704]<span />
+		*[23705]<a aria-label=Apply LED filter to narrow results role=link />
+			*[23706]<div />
+				*[23707]<label />
+					*[23709]<i />
+					*[23710]<span />
+			LED
+	Security Feature
+	*[23720]<a aria-label=Apply Face Recognition filter to narrow results role=link />
+		*[23721]<div />
+			*[23722]<label />
+				*[23724]<i />
+				*[23725]<span />
+		Face Recognition
+	*[23730]<a aria-label=Apply Fingerprint Recognition filter to narrow results role=link />
+		*[23731]<div />
+			*[23732]<label />
+				*[23734]<i />
+				*[23735]<span />
+		Fingerprint Recognition
+</browser_state>
+
+
+ user 
+PLANNING NUDGE: You have taken 6 steps without creating a plan. If the task is complex, output a `plan_update` with clear todo items now. If the task is already done or nearly done, call `done` instead.
+
+{
+  "thinking": "I've been scrolling through search results but haven't found an iPhone 14 Pro 128GB Blue specifically. The results show iPhone 14 (not Pro), iPhone 12 Pro, iPhone 13 Pro, iPhone 15, etc. but not iPhone 14 Pro.\n\nLet me scroll back up to the top to see the first results, or better yet, let me try a more specific search. I should search specifically for \"iPhone 14 Pro 128GB Deep Purple\" or \"iPhone 14 Pro 128GB Blue\" - wait, the iPhone 14 Pro colors were: Space Black, Silver, Gold, Deep Purple. There was no \"Blue\" for iPhone 14 Pro. The iPhone 14 (non-Pro) came in Blue.\n\nHowever, the user is asking for \"Blue 14 Pro 128GB\" - so I should look for what's available. Let me scroll up to see the top results first, and check if there's any iPhone 14 Pro in a blue-ish color (like Deep Purple or Sierra Blue).\n\nActually, let me scroll up to the top of the results to see the first items. The first result I saw earlier had \"See options\" with Blue color - let me check what that was. Let me scroll up to the top.",
+  "evaluation_previous_goal": "Scrolled down 3 pages but still no iPhone 14 Pro 128GB Blue found - results show iPhone 12, 13, 14 (non-Pro), 15 models. Verdict: The specific product may not be in these filtered results.",
+  "memory": "Searching for iPhone 14 Pro 128GB Blue on Amazon. Blue filter applied. Results show 33 items but none specifically labeled \"iPhone 14 Pro\" in Blue. The iPhone 14 Pro came in Space Black, Silver, Gold, Deep Purple - not Blue. Need to scroll up to check the first results or try a different search approach.",
+  "next_goal": "Scroll back to top to see the first results and find the closest match to iPhone 14 Pro 128GB Blue.",
+  "action": [
+    {
+      "scroll": {
+        "down": false,
+        "pages": 3.0
+      }
+    }
+  ]
+}

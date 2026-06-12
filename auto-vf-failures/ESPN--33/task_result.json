@@ -1,0 +1,36 @@
+{
+  "task_id": "ESPN--33",
+  "web_name": "https://www.espn.com/",
+  "start_time": "2026-06-11 07:49:12.652401",
+  "end_time": "2026-06-11 07:57:37.692456",
+  "duration_seconds": 505.040055,
+  "num_steps": 22,
+  "success": "failed",
+  "task_prompt": "Locate the latest ESPN articles discussing potential MVP candidates in the NFL for 2023 season. on https://www.espn.com/",
+  "final_answer": "<NO FINAL ANSWER>",
+  "gpt_4v_res": "",
+  "stuck": false,
+  "stuck_reason": null,
+  "captcha_blocked": true,
+  "captcha_type": "google_sorry",
+  "error": null,
+  "loop_summary": {
+    "max_consec_run": 1,
+    "looped_action_name": null,
+    "looped_action_args": null
+  },
+  "browser_use_version": "unknown",
+  "cost_totals": {
+    "input_tokens": 1821250,
+    "output_tokens": 44078,
+    "n_llm_calls": 145,
+    "cost_usd": 6.12492,
+    "model_id": "us.anthropic.claude-sonnet-4-6",
+    "input_price_per_m": 3.0,
+    "output_price_per_m": 15.0
+  },
+  "wait_time_s": 0.0,
+  "n_rate_limit_waits": 0,
+  "llm_time_s": 1141.4120259679994,
+  "browser_time_s": 0.0
+}

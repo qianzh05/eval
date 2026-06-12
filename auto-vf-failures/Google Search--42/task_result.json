@@ -1,0 +1,36 @@
+{
+  "task_id": "Google Search--42",
+  "web_name": "https://www.google.com/",
+  "start_time": "2026-06-11 08:49:24.197218",
+  "end_time": "2026-06-11 08:50:47.989542",
+  "duration_seconds": 83.792324,
+  "num_steps": 6,
+  "success": "failed",
+  "task_prompt": " Use Google Search to find an article that explains the major differences between American English and British English. on https://www.google.com/",
+  "final_answer": "<NO FINAL ANSWER>",
+  "gpt_4v_res": "",
+  "stuck": false,
+  "stuck_reason": null,
+  "captcha_blocked": true,
+  "captcha_type": "google_sorry",
+  "error": null,
+  "loop_summary": {
+    "max_consec_run": 1,
+    "looped_action_name": null,
+    "looped_action_args": null
+  },
+  "browser_use_version": "unknown",
+  "cost_totals": {
+    "input_tokens": 257617,
+    "output_tokens": 7668,
+    "n_llm_calls": 21,
+    "cost_usd": 0.887871,
+    "model_id": "us.anthropic.claude-sonnet-4-6",
+    "input_price_per_m": 3.0,
+    "output_price_per_m": 15.0
+  },
+  "wait_time_s": 0.0,
+  "n_rate_limit_waits": 0,
+  "llm_time_s": 168.03906471200025,
+  "browser_time_s": 0.0
+}

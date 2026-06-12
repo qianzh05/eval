@@ -1,0 +1,36 @@
+{
+  "task_id": "Google Search--1",
+  "web_name": "https://www.google.com/",
+  "start_time": "2026-06-11 07:53:02.463078",
+  "end_time": "2026-06-11 07:54:27.424786",
+  "duration_seconds": 84.961708,
+  "num_steps": 6,
+  "success": "failed",
+  "task_prompt": "Find Kevin Durant's bio on https://www.google.com/",
+  "final_answer": "<NO FINAL ANSWER>",
+  "gpt_4v_res": "",
+  "stuck": false,
+  "stuck_reason": null,
+  "captcha_blocked": true,
+  "captcha_type": "google_sorry",
+  "error": null,
+  "loop_summary": {
+    "max_consec_run": 1,
+    "looped_action_name": null,
+    "looped_action_args": null
+  },
+  "browser_use_version": "unknown",
+  "cost_totals": {
+    "input_tokens": 256734,
+    "output_tokens": 7205,
+    "n_llm_calls": 21,
+    "cost_usd": 0.8782770000000001,
+    "model_id": "us.anthropic.claude-sonnet-4-6",
+    "input_price_per_m": 3.0,
+    "output_price_per_m": 15.0
+  },
+  "wait_time_s": 0.0,
+  "n_rate_limit_waits": 0,
+  "llm_time_s": 172.78963712999894,
+  "browser_time_s": 0.0
+}

@@ -1,0 +1,525 @@
+{
+  "history": [
+    {
+      "model_output": {
+        "evaluation_previous_goal": "Start",
+        "memory": null,
+        "next_goal": "Initial navigation",
+        "action": [
+          {
+            "navigate": {
+              "url": "https://arxiv.org/",
+              "new_tab": false
+            }
+          }
+        ]
+      },
+      "result": [
+        {
+          "is_done": false,
+          "long_term_memory": "Found initial url and automatically loaded it. Navigated to https://arxiv.org/",
+          "extracted_content": "🔗 Navigated to https://arxiv.org/",
+          "include_extracted_content_only_once": false,
+          "include_in_memory": false
+        }
+      ],
+      "state": {
+        "tabs": [],
+        "screenshot_path": null,
+        "interacted_element": [
+          null
+        ],
+        "url": "https://arxiv.org/",
+        "title": "Initial Actions"
+      },
+      "metadata": {
+        "step_start_time": 1781164678.7222965,
+        "step_end_time": 1781164678.7222967,
+        "step_number": 0,
+        "step_interval": null
+      },
+      "state_message": null
+    },
+    {
+      "model_output": {
+        "evaluation_previous_goal": "Successfully navigated to arxiv.org. Verdict: Success",
+        "memory": "On arxiv.org homepage. Need to search for 'GPT-4 Technical Report' by title, then access the HTML format of the paper.",
+        "next_goal": "Search for 'GPT-4 Technical Report' by title in the search box.",
+        "action": [
+          {
+            "input": {
+              "index": 15,
+              "text": "GPT-4 Technical Report",
+              "clear": true
+            }
+          },
+          {
+            "select_dropdown": {
+              "index": 16,
+              "text": "Title"
+            }
+          },
+          {
+            "click": {
+              "index": 192
+            }
+          }
+        ]
+      },
+      "result": [
+        {
+          "is_done": false,
+          "long_term_memory": "Typed 'GPT-4 Technical Report'",
+          "extracted_content": "Typed 'GPT-4 Technical Report'",
+          "include_extracted_content_only_once": false,
+          "metadata": {
+            "input_x": 1000.96875,
+            "input_y": 124.03125
+          },
+          "include_in_memory": false
+        },
+        {
+          "is_done": false,
+          "error": "Error executing action select_dropdown due to timeout.",
+          "include_extracted_content_only_once": false,
+          "include_in_memory": false
+        }
+      ],
+      "state": {
+        "tabs": [
+          {
+            "url": "https://arxiv.org/",
+            "title": "arxiv.org",
+            "target_id": "AAFB",
+            "parent_target_id": null
+          }
+        ],
+        "screenshot_path": "/tmp/browser_use_agent_06a2a6a7-3a94-7ca4-8000-6bf5d323eb80_1781164659/screenshots/step_1.png",
+        "interacted_element": [
+          {
+            "node_id": 1248,
+            "backend_node_id": 15,
+            "frame_id": null,
+            "node_type": 1,
+            "node_value": "",
+            "node_name": "INPUT",
+            "attributes": {
+              "class": "input is-small",
+              "type": "text",
+              "name": "query",
+              "placeholder": "Search...",
+              "aria-label": "Search term or terms"
+            },
+            "x_path": "html/body/div/header/div[2]/div[2]/form/div/div[1]/input",
+            "element_hash": 6049522172558954636,
+            "stable_hash": 6049522172558954636,
+            "bounds": {
+              "x": 913.96875,
+              "y": 110.53125,
+              "width": 174.0,
+              "height": 27.0
+            },
+            "ax_name": "Search term or terms"
+          },
+          {
+            "node_id": 1262,
+            "backend_node_id": 16,
+            "frame_id": null,
+            "node_type": 1,
+            "node_value": "",
+            "node_name": "SELECT",
+            "attributes": {
+              "name": "searchtype",
+              "aria-label": "Field to search"
+            },
+            "x_path": "html/body/div/header/div[2]/div[2]/form/div/div[2]/div/select",
+            "element_hash": 3179937060872039114,
+            "stable_hash": 3179937060872039114,
+            "bounds": {
+              "x": 1075.96875,
+              "y": 110.53125,
+              "width": 113.0,
+              "height": 27.0
+            },
+            "ax_name": "Field to search"
+          },
+          {
+            "node_id": 1362,
+            "backend_node_id": 192,
+            "frame_id": null,
+            "node_type": 1,
+            "node_value": "",
+            "node_name": "BUTTON",
+            "attributes": {
+              "class": "button is-small is-cul-darker"
+            },
+            "x_path": "html/body/div/header/div[2]/div[2]/form/div/button",
+            "element_hash": 2353626574292496494,
+            "stable_hash": 788743927195134821,
+            "bounds": {
+              "x": 1188.96875,
+              "y": 110.53125,
+              "width": 64.03125,
+              "height": 27.0
+            },
+            "ax_name": "Search"
+          }
+        ],
+        "url": "https://arxiv.org/",
+        "title": "arxiv.org"
+      },
+      "metadata": {
+        "step_start_time": 1781164678.7223823,
+        "step_end_time": 1781164696.4631042,
+        "step_number": 1,
+        "step_interval": 2.384185791015625e-07
+      },
+      "state_message": "<agent_history>\nAgent initialized\n<step>\nResult\nFound initial url and automatically loaded it. Navigated to https://arxiv.org/\n</agent_history>\n\n<agent_state>\n<user_request>\nSearch the title 'GPT-4 Technical Report' and access this paper through HTML format. Read the paper on this page and tell me what is 'one of the main goals of developing such models' mentioned in the Introduction. on https://arxiv.org/\n</user_request>\n<file_system>\n\n</file_system>\n<todo_contents>\n[empty todo.md, fill it when applicable]\n</todo_contents>\n<step_info>Step1 maximum:30\nToday:2026-06-11</step_info>\n</agent_state>\n<browser_state>\n<page_stats>254 links, 267 interactive, 0 iframes, 6 shadow(open), 0 shadow(closed), 2 images, 691 total elements</page_stats>\nCurrent tab: AAFB\nAvailable tabs:\nTab AAFB: https://arxiv.org/ - arxiv.org\n\n<page_info>0.0 pages above, 0.8 pages below — scroll down to reveal more content</page_info>\n\nInteractive elements:\n[Start of page]\n[69]<a />\n\tSkip to main content\n[78]<a />\n\t[6]<img alt=Cornell University />\n[84]<a />\n\tLearn about arXiv becoming an independent nonprofit.\nWe gratefully acknowledge support from the Simons Foundation,\n[91]<a />\n\tmember institutions\n, and all contributors.\n[95]<a />\n\tDonate\n[102]<a />\n[115]<a />\n\tLogin\n[120]<div />\n\t[14]<form />\n\t\t|SHADOW(open)|[15]<input type=text name=query placeholder=Search... aria-label=Search term or terms />\n\t\t[129]<a />\n\t\t\tHelp\n\t\t[132]<a />\n\t\t\tAdvanced Search\n\t\t|SHADOW(open)|*[16]<select name=searchtype aria-label=Field to search compound_components=(name=Dropdown Toggle,role=button),(name=Options,role=listbox,count=15,options=All fields|Title|Author|Abstract) />\n\t\t[192]<button />\n\t\t\tSearch\narXiv is a free distribution service and an open-access archive for nearly 2.4 million\n      scholarly articles in the fields of physics, mathematics, computer science, quantitative biology, quantitative finance, statistics, electrical engineering and systems science, and economics.\n      Materials on this site are not peer-reviewed by arXiv.\n[18]<form name=home-adv-search role=search />\n\tSubject search and browse:\n\t|SHADOW(open)|*[17]<select name=group title=Search in id=search-category compound_components=(name=Dropdown Toggle,role=button),(name=Options,role=listbox,count=8,options=Physics|Mathematics|Quantitative Biology|Computer Science) />\n\t|SHADOW(open)|[25]<input id=adv-search-btn type=button value=Search />\n\t|SHADOW(open)|[317]<input type=submit name=/form value=Form Interface />\n\t|SHADOW(open)|[26]<input id=catchup-btn type=submit name=/catchup value=Catchup />\nPhysics\n[335]<a id=main-astro-ph />\n\tAstrophysics\nastro-ph\n[341]<a id=new-astro-ph />\n\tnew\n[344]<a id=recent-astro-ph />\n\trecent\n[347]<a id=search-astro-ph />\n\tsearch\n[350]<a id=astro-ph.GA />\n\tAstrophysics of Galaxies\n[353]<a id=astro-ph.CO />\n\tCosmology and Nongalactic Astrophysics\n[356]<a id=astro-ph.EP />\n\tEarth and Planetary Astrophysics\n[359]<a id=astro-ph.HE />\n\tHigh Energy Astrophysical Phenomena\n[362]<a id=astro-ph.IM />\n\tInstrumentation and Methods for Astrophysics\n[365]<a id=astro-ph.SR />\n\tSolar and Stellar Astrophysics\n[372]<a id=main-cond-mat />\n\tCondensed Matter\ncond-mat\n[378]<a id=new-cond-mat />\n\tnew\n[381]<a id=recent-cond-mat />\n\trecent\n[384]<a id=search-cond-mat />\n\tsearch\n[387]<a id=cond-mat.dis-nn />\n\tDisordered Systems and Neural Networks\n[390]<a id=cond-mat.mtrl-sci />\n\tMaterials Science\n[393]<a id=cond-mat.mes-hall />\n\tMesoscale and Nanoscale Physics\n[396]<a id=cond-mat.other />\n\tOther Condensed Matter\n[399]<a id=cond-mat.quant-gas />\n\tQuantum Gases\n[402]<a id=cond-mat.soft />\n\tSoft Condensed Matter\n[405]<a id=cond-mat.stat-mech />\n\tStatistical Mechanics\n[408]<a id=cond-mat.str-el />\n\tStrongly Correlated Electrons\n[411]<a id=cond-mat.supr-con />\n\tSuperconductivity\n[418]<a id=main-gr-qc />\n\tGeneral Relativity and Quantum Cosmology\ngr-qc\n[424]<a id=new-gr-qc />\n\tnew\n[427]<a id=recent-gr-qc />\n\trecent\n[430]<a id=search-gr-qc />\n\tsearch\n[436]<a id=main-hep-ex />\n\tHigh Energy Physics - Experiment\nhep-ex\n[442]<a id=new-hep-ex />\n\tnew\n[445]<a id=recent-hep-ex />\n\trecent\n[448]<a id=search-hep-ex />\n\tsearch\n[455]<a id=main-hep-lat />\n\tHigh Energy Physics - Lattice\nhep-lat\n[461]<a id=new-hep-lat />\n\tnew\n[464]<a id=recent-hep-lat />\n\trecent\n[467]<a id=search-hep-lat />\n\tsearch\n[474]<a id=main-hep-ph />\n\tHigh Energy Physics - Phenomenology\nhep-ph\n[480]<a id=new-hep-ph />\n\tnew\n[483]<a id=recent-hep-ph />\n\trecent\n[486]<a id=search-hep-ph />\n\tsearch\n[493]<a id=main-hep-th />\n\tHigh Energy Physics - Theory\nhep-th\n[499]<a id=new-hep-th />\n\tnew\n[502]<a id=recent-hep-th />\n\trecent\n[505]<a id=search-hep-th />\n\tsearch\n[512]<a id=main-math-ph />\n\tMathematical Physics\nmath-ph\n[518]<a id=new-math-ph />\n\tnew\n[521]<a id=recent-math-ph />\n\trecent\n[524]<a id=search-math-ph />\n\tsearch\n[531]<a id=main-nlin />\n\tNonlinear Sciences\nnlin\n[537]<a id=new-nlin />\n\tnew\n[540]<a id=recent-nlin />\n\trecent\n[543]<a id=search-nlin />\n\tsearch\nincludes:\n[548]<a id=nlin.AO />\n\tAdaptation and Self-Organizing Systems\n[551]<a id=nlin.CG />\n\tCellular Automata and Lattice Gases\n[554]<a id=nlin.CD />\n\tChaotic Dynamics\n[557]<a id=nlin.SI />\n\tExactly Solvable and Integrable Systems\n[560]<a id=nlin.PS />\n\tPattern Formation and Solitons\n[567]<a id=main-nucl-ex />\n\tNuclear Experiment\nnucl-ex\n[573]<a id=new-nucl-ex />\n\tnew\n[576]<a id=recent-nucl-ex />\n\trecent\n[579]<a id=search-nucl-ex />\n\tsearch\n[586]<a id=main-nucl-th />\n\tNuclear Theory\nnucl-th\n[592]<a id=new-nucl-th />\n\tnew\n[13]<a id=recent-nucl-th />\n\trecent\n[597]<a id=search-nucl-th />\n\tsearch\n[604]<a id=main-physics />\n\tPhysics\nphysics\n[610]<a id=new-physics />\n\tnew\n[613]<a id=recent-physics />\n\trecent\n[616]<a id=search-physics />\n\tsearch\nincludes:\n[621]<a id=physics.acc-ph />\n\tAccelerator Physics\n[624]<a id=physics.app-ph />\n\tApplied Physics\n[627]<a id=physics.ao-ph />\n\tAtmospheric and Oceanic Physics\n[630]<a id=physics.atm-clus />\n\tAtomic and Molecular Clusters\n[633]<a id=physics.atom-ph />\n\tAtomic Physics\n[636]<a id=physics.bio-ph />\n\tBiological Physics\n[639]<a id=physics.chem-ph />\n\tChemical Physics\n[642]<a id=physics.class-ph />\n\tClassical Physics\n[645]<a id=physics.comp-ph />\n\tComputational Physics\n[648]<a id=physics.data-an />\n\tData Analysis, Statistics and Probability\n[651]<a id=physics.flu-dyn />\n\tFluid Dynamics\n[654]<a id=physics.gen-ph />\n\tGeneral Physics\n[657]<a id=physics.geo-ph />\n\tGeophysics\n[660]<a id=physics.hist-ph />\n\tHistory and Philosophy of Physics\n[663]<a id=physics.ins-det />\n\tInstrumentation and Detectors\n[666]<a id=physics.med-ph />\n\tMedical Physics\n[669]<a id=physics.optics />\n\tOptics\n[672]<a id=physics.soc-ph />\n\tPhysics and Society\n[675]<a id=physics.ed-ph />\n\tPhysics Education\n[678]<a id=physics.plasm-ph />\n\tPlasma Physics\n[681]<a id=physics.pop-ph />\n\tPopular Physics\n[684]<a id=physics.space-ph />\n\tSpace Physics\n[691]<a id=main-quant-ph />\n\tQuantum Physics\nquant-ph\n[697]<a id=new-quant-ph />\n\tnew\n[700]<a id=recent-quant-ph />\n\trecent\n[703]<a id=search-quant-ph />\n\tsearch\nMathematics\n[715]<a id=main-math />\n\tMathematics\nmath\n[721]<a id=new-math />\n\tnew\n[724]<a id=recent-math />\n\trecent\n[727]<a id=search-math />\n\tsearch\nincludes: (see\n[732]<a id=details-math />\n\tdetailed description\n):\n[735]<a id=math.AG />\n\tAlgebraic Geometry\n[738]<a id=math.AT />\n\tAlgebraic Topology\n[741]<a id=math.AP />\n\tAnalysis of PDEs\n[744]<a id=math.CT />\n\tCategory Theory\n[747]<a id=math.CA />\n\tClassical Analysis and ODEs\n[750]<a id=math.CO />\n\tCombinatorics\n[753]<a id=math.AC />\n\tCommutative Algebra\n[756]<a id=math.CV />\n\tComplex Variables\n[759]<a id=math.DG />\n\tDifferential Geometry\n[762]<a id=math.DS />\n\tDynamical Systems\n[765]<a id=math.FA />\n\tFunctional Analysis\n[768]<a id=math.GM />\n\tGeneral Mathematics\n[771]<a id=math.GN />\n\tGeneral Topology\n[774]<a id=math.GT />\n\tGeometric Topology\n[777]<a id=math.GR />\n\tGroup Theory\n[780]<a id=math.HO />\n\tHistory and Overview\n[783]<a id=math.IT />\n\tInformation Theory\n[786]<a id=math.KT />\n\tK-Theory and Homology\n[789]<a id=math.LO />\n\tLogic\n[792]<a id=math.MP />\n\tMathematical Physics\n[795]<a id=math.MG />\n\tMetric Geometry\n[798]<a id=math.NT />\n\tNumber Theory\n[801]<a id=math.NA />\n\tNumerical Analysis\n[804]<a id=math.OA />\n\tOperator Algebras\n[807]<a id=math.OC />\n\tOptimization and Control\n[810]<a id=math.PR />\n\tProbability\n[813]<a id=math.QA />\n\tQuantum Algebra\n[816]<a id=math.RT />\n\tRepresentation Theory\n[819]<a id=math.RA />\n\tRings and Algebras\n[822]<a id=math.SP />\n\tSpectral Theory\n[825]<a id=math.ST />\n\tStatistics Theory\n[828]<a id=math.SG />\n\tSymplectic Geometry\nComputer Science\n[840]<a id=main-cs />\n\tComputing Research Repository\nCoRR\n[846]<a id=new-cs />\n\tnew\n[849]<a id=recent-cs />\n\trecent\n[852]<a id=search-cs />\n\tsearch\nincludes: (see\n[857]<a id=details-cs />\n\tdetailed description\n):\n[860]<a id=cs.AI />\n\tArtificial Intelligence\n[863]<a id=cs.CL />\n\tComputation and Language\n[866]<a id=cs.CC />\n\tComputational Complexity\n[869]<a id=cs.CE />\n\tComputational Engineering, Finance, and Science\n[872]<a id=cs.CG />\n\tComputational Geometry\n[875]<a id=cs.GT />\n\tComputer Science and Game Theory\n[878]<a id=cs.CV />\n\tComputer Vision and Pattern Recognition\n[881]<a id=cs.CY />\n\tComputers and Society\n[884]<a id=cs.CR />\n\tCryptography and Security\n[887]<a id=cs.DS />\n\tData Structures and Algorithms\n[890]<a id=cs.DB />\n\tDatabases\n[893]<a id=cs.DL />\n\tDigital Libraries\n[896]<a id=cs.DM />\n\tDiscrete Mathematics\n[899]<a id=cs.DC />\n\tDistributed, Parallel, and Cluster Computing\n[902]<a id=cs.ET />\n\tEmerging Technologies\n[905]<a id=cs.FL />\n\tFormal Languages and Automata Theory\n[908]<a id=cs.GL />\n\tGeneral Literature\n[911]<a id=cs.GR />\n\tGraphics\n[914]<a id=cs.AR />\n\tHardware Architecture\n[917]<a id=cs.HC />\n\tHuman-Computer Interaction\n[920]<a id=cs.IR />\n\tInformation Retrieval\n[923]<a id=cs.IT />\n\tInformation Theory\n[926]<a id=cs.LO />\n\tLogic in Computer Science\n[929]<a id=cs.LG />\n\tMachine Learning\n[932]<a id=cs.MS />\n\tMathematical Software\n[935]<a id=cs.MA />\n\tMultiagent Systems\n[938]<a id=cs.MM />\n\tMultimedia\n[941]<a id=cs.NI />\n\tNetworking and Internet Architecture\n[944]<a id=cs.NE />\n\tNeural and Evolutionary Computing\n[947]<a id=cs.NA />\n\tNumerical Analysis\n[950]<a id=cs.OS />\n\tOperating Systems\n[953]<a id=cs.OH />\n\tOther Computer Science\n[956]<a id=cs.PF />\n\tPerformance\n[959]<a id=cs.PL />\n\tProgramming Languages\n[962]<a id=cs.RO />\n\tRobotics\n[965]<a id=cs.SI />\n\tSocial and Information Networks\n[968]<a id=cs.SE />\n\tSoftware Engineering\n[971]<a id=cs.SD />\n\tSound\n[974]<a id=cs.SC />\n\tSymbolic Computation\n[977]<a id=cs.SY />\n\tSystems and Control\nQuantitative Biology\n[10]<a id=main-q-bio />\n\tQuantitative Biology\nq-bio\n[994]<a id=new-q-bio />\n\tnew\n[997]<a id=recent-q-bio />\n\trecent\n[1000]<a id=search-q-bio />\n\tsearch\nincludes: (see\n[1005]<a id=details-q-bio />\n\tdetailed description\n):\n[1008]<a id=q-bio.BM />\n\tBiomolecules\n[1011]<a id=q-bio.CB />\n\tCell Behavior\n[1014]<a id=q-bio.GN />\n\tGenomics\n[1017]<a id=q-bio.MN />\n\tMolecular Networks\n[1020]<a id=q-bio.NC />\n\tNeurons and Cognition\n[1023]<a id=q-bio.OT />\n\tOther Quantitative Biology\n[1026]<a id=q-bio.PE />\n\tPopulations and Evolution\n[1029]<a id=q-bio.QM />\n\tQuantitative Methods\n[1032]<a id=q-bio.SC />\n\tSubcellular Processes\n[1035]<a id=q-bio.TO />\n\tTissues and Organs\nQuantitative Finance\n[1047]<a id=main-q-fin />\n\tQuantitative Finance\nq-fin\n[1053]<a id=new-q-fin />\n\tnew\n[1056]<a id=recent-q-fin />\n\trecent\n[1059]<a id=search-q-fin />\n\tsearch\nincludes: (see\n[1064]<a id=details-q-fin />\n\tdetailed description\n):\n[1067]<a id=q-fin.CP />\n\tComputational Finance\n[1070]<a id=q-fin.EC />\n\tEconomics\n[1073]<a id=q-fin.GN />\n\tGeneral Finance\n[1076]<a id=q-fin.MF />\n\tMathematical Finance\n[12]<a id=q-fin.PM />\n\tPortfolio Management\n[1081]<a id=q-fin.PR />\n\tPricing of Securities\n[1084]<a id=q-fin.RM />\n\tRisk Management\n[1087]<a id=q-fin.ST />\n\tStatistical Finance\n[1090]<a id=q-fin.TR />\n\tTrading and Market Microstructure\nStatistics\n[1102]<a id=main-stat />\n\tStatistics\nstat\n[1108]<a id=new-stat />\n\tnew\n[1111]<a id=recent-stat />\n\trecent\n[1114]<a id=search-stat />\n\tsearch\nincludes: (see\n[1119]<a id=details-stat />\n\tdetailed description\n):\n[1122]<a id=stat.AP />\n\tApplications\n[1125]<a id=stat.CO />\n\tComputation\n[1128]<a id=stat.ML />\n\tMachine Learning\n[1131]<a id=stat.ME />\n\tMethodology\n[1134]<a id=stat.OT />\n\tOther Statistics\n[1137]<a id=stat.TH />\n\tStatistics Theory\nElectrical Engineering and Systems Science\n[1149]<a id=main-eess />\n\tElectrical Engineering and Systems Science\neess\n[1155]<a id=new-eess />\n\tnew\n[1158]<a id=recent-eess />\n\trecent\n[1161]<a id=search-eess />\n\tsearch\nincludes: (see\n[1166]<a id=details-eess />\n\tdetailed description\n):\n[1169]<a id=eess.AS />\n\tAudio and Speech Processing\n[1172]<a id=eess.IV />\n\tImage and Video Processing\n[11]<a id=eess.SP />\n\tSignal Processing\n[1177]<a id=eess.SY />\n\tSystems and Control\nEconomics\n[1189]<a id=main-econ />\n\tEconomics\necon\n[1195]<a id=new-econ />\n\tnew\n[1198]<a id=recent-econ />\n\trecent\n[1201]<a id=search-econ />\n\tsearch\nincludes: (see\n[1206]<a id=details-econ />\n\tdetailed description\n):\n[1209]<a id=econ.EM />\n\tEconometrics\n[1212]<a id=econ.GN />\n\tGeneral Economics\n[1215]<a id=econ.TH />\n\tTheoretical Economics\nAbout arXiv\n[1229]<a />\n\tGeneral information\n[1234]<a />\n\tHow to Submit to arXiv\n[1239]<a />\n\tMembership & Giving\n[1244]<a />\n\tWho We Are\n[1265]<a />\n\tAbout\n[1269]<a />\n\tHelp\n[1280]<svg role=presentation /> <!-- SVG content collapsed -->\n[1287]<a />\n\tContact\n[1293]<svg role=presentation /> <!-- SVG content collapsed -->\n[1300]<a />\n\tSubscribe\n[1321]<a />\n\tCopyright\n[1325]<a />\n\tPrivacy Policy\n[1335]<a />\n\tWeb Accessibility Assistance\n[1342]<a />\n\tarXiv Operational Status\n</browser_state>\n"
+    },
+    {
+      "model_output": {
+        "evaluation_previous_goal": "The search text was typed but the dropdown selection timed out. I need to set the search field to \"Title\" and search for the paper.",
+        "memory": "On arxiv.org homepage. Need to search by Title for 'GPT-4 Technical Report'. The search input is element 15 and the searchtype select is element 16.",
+        "next_goal": "Select \"Title\" from the search type dropdown and search for 'GPT-4 Technical Report'",
+        "action": [
+          {
+            "select_dropdown": {
+              "index": 16,
+              "text": "Title"
+            }
+          },
+          {
+            "input": {
+              "index": 15,
+              "text": "GPT-4 Technical Report",
+              "clear": true
+            }
+          },
+          {
+            "click": {
+              "index": 192
+            }
+          }
+        ]
+      },
+      "result": [
+        {
+          "is_done": false,
+          "long_term_memory": "Selected dropdown option 'Title' at index 16",
+          "extracted_content": "Selected option: Title (value: title)",
+          "include_extracted_content_only_once": false,
+          "include_in_memory": true
+        },
+        {
+          "is_done": false,
+          "long_term_memory": "Typed 'GPT-4 Technical Report'",
+          "extracted_content": "Typed 'GPT-4 Technical Report'",
+          "include_extracted_content_only_once": false,
+          "metadata": {
+            "input_x": 1000.96875,
+            "input_y": 124.03125
+          },
+          "include_in_memory": false
+        },
+        {
+          "is_done": false,
+          "extracted_content": "Clicked button \"Search\"",
+          "include_extracted_content_only_once": false,
+          "metadata": {
+            "click_x": 1220.984375,
+            "click_y": 124.03125
+          },
+          "include_in_memory": false
+        }
+      ],
+      "state": {
+        "tabs": [
+          {
+            "url": "https://arxiv.org/",
+            "title": "arXiv.org e-Print archive",
+            "target_id": "AAFB",
+            "parent_target_id": null
+          }
+        ],
+        "screenshot_path": "/tmp/browser_use_agent_06a2a6a7-3a94-7ca4-8000-6bf5d323eb80_1781164659/screenshots/step_2.png",
+        "interacted_element": [
+          {
+            "node_id": 2455,
+            "backend_node_id": 16,
+            "frame_id": null,
+            "node_type": 1,
+            "node_value": "",
+            "node_name": "SELECT",
+            "attributes": {
+              "name": "searchtype",
+              "aria-label": "Field to search"
+            },
+            "x_path": "html/body/div/header/div[2]/div[2]/form/div/div[2]/div/select",
+            "element_hash": 3179937060872039114,
+            "stable_hash": 3179937060872039114,
+            "bounds": {
+              "x": 1075.96875,
+              "y": 110.53125,
+              "width": 113.0,
+              "height": 27.0
+            },
+            "ax_name": "Field to search"
+          },
+          {
+            "node_id": 2440,
+            "backend_node_id": 15,
+            "frame_id": null,
+            "node_type": 1,
+            "node_value": "",
+            "node_name": "INPUT",
+            "attributes": {
+              "class": "input is-small",
+              "type": "text",
+              "name": "query",
+              "placeholder": "Search...",
+              "aria-label": "Search term or terms"
+            },
+            "x_path": "html/body/div/header/div[2]/div[2]/form/div/div[1]/input",
+            "element_hash": 6049522172558954636,
+            "stable_hash": 6049522172558954636,
+            "bounds": {
+              "x": 913.96875,
+              "y": 110.53125,
+              "width": 174.0,
+              "height": 27.0
+            },
+            "ax_name": "Search term or terms"
+          },
+          {
+            "node_id": 2555,
+            "backend_node_id": 192,
+            "frame_id": null,
+            "node_type": 1,
+            "node_value": "",
+            "node_name": "BUTTON",
+            "attributes": {
+              "class": "button is-small is-cul-darker"
+            },
+            "x_path": "html/body/div/header/div[2]/div[2]/form/div/button",
+            "element_hash": 2353626574292496494,
+            "stable_hash": 788743927195134821,
+            "bounds": {
+              "x": 1188.96875,
+              "y": 110.53125,
+              "width": 64.03125,
+              "height": 27.0
+            },
+            "ax_name": "Search"
+          }
+        ],
+        "url": "https://arxiv.org/",
+        "title": "arXiv.org e-Print archive"
+      },
+      "metadata": {
+        "step_start_time": 1781164696.4673927,
+        "step_end_time": 1781164712.59247,
+        "step_number": 2,
+        "step_interval": 17.740721940994263
+      },
+      "state_message": "<agent_history>\nAgent initialized\n<step>\nResult\nFound initial url and automatically loaded it. Navigated to https://arxiv.org/\n<step>\nSuccessfully navigated to arxiv.org. Verdict: Success\nOn arxiv.org homepage. Need to search for 'GPT-4 Technical Report' by title, then access the HTML format of the paper.\nSearch for 'GPT-4 Technical Report' by title in the search box.\nResult\nTyped 'GPT-4 Technical Report'\nError executing action select_dropdown due to timeout.\n</agent_history>\n\n<agent_state>\n<user_request>\nSearch the title 'GPT-4 Technical Report' and access this paper through HTML format. Read the paper on this page and tell me what is 'one of the main goals of developing such models' mentioned in the Introduction. on https://arxiv.org/\n</user_request>\n<file_system>\n\n</file_system>\n<todo_contents>\n[empty todo.md, fill it when applicable]\n</todo_contents>\n<step_info>Step2 maximum:30\nToday:2026-06-11</step_info>\n</agent_state>\n<browser_state>\n<page_stats>254 links, 267 interactive, 0 iframes, 6 shadow(open), 0 shadow(closed), 2 images, 691 total elements</page_stats>\nCurrent tab: AAFB\nAvailable tabs:\nTab AAFB: https://arxiv.org/ - arXiv.org e-Print archive\n\n<page_info>0.0 pages above, 0.8 pages below — scroll down to reveal more content</page_info>\n\nInteractive elements:\n[Start of page]\n[69]<a />\n\tSkip to main content\n[78]<a />\n\t[6]<img alt=Cornell University />\n[84]<a />\n\tLearn about arXiv becoming an independent nonprofit.\nWe gratefully acknowledge support from the Simons Foundation,\n[91]<a />\n\tmember institutions\n, and all contributors.\n[95]<a />\n\tDonate\n[102]<a />\n[115]<a />\n\tLogin\n[120]<div />\n\t[14]<form />\n\t\t|SHADOW(open)|[15]<input type=text name=query placeholder=Search... aria-label=Search term or terms />\n\t\t[129]<a />\n\t\t\tHelp\n\t\t[132]<a />\n\t\t\tAdvanced Search\n\t\t|SHADOW(open)|*[16]<select name=searchtype aria-label=Field to search compound_components=(name=Dropdown Toggle,role=button),(name=Options,role=listbox,count=15,options=All fields|Title|Author|Abstract) />\n\t\t[192]<button />\n\t\t\tSearch\narXiv is a free distribution service and an open-access archive for nearly 2.4 million\n      scholarly articles in the fields of physics, mathematics, computer science, quantitative biology, quantitative finance, statistics, electrical engineering and systems science, and economics.\n      Materials on this site are not peer-reviewed by arXiv.\n[18]<form name=home-adv-search role=search />\n\tSubject search and browse:\n\t|SHADOW(open)|*[17]<select name=group title=Search in id=search-category compound_components=(name=Dropdown Toggle,role=button),(name=Options,role=listbox,count=8,options=Physics|Mathematics|Quantitative Biology|Computer Science) />\n\t|SHADOW(open)|[25]<input id=adv-search-btn type=button value=Search />\n\t|SHADOW(open)|[317]<input type=submit name=/form value=Form Interface />\n\t|SHADOW(open)|[26]<input id=catchup-btn type=submit name=/catchup value=Catchup />\nPhysics\n[335]<a id=main-astro-ph />\n\tAstrophysics\nastro-ph\n[341]<a id=new-astro-ph />\n\tnew\n[344]<a id=recent-astro-ph />\n\trecent\n[347]<a id=search-astro-ph />\n\tsearch\n[350]<a id=astro-ph.GA />\n\tAstrophysics of Galaxies\n[353]<a id=astro-ph.CO />\n\tCosmology and Nongalactic Astrophysics\n[356]<a id=astro-ph.EP />\n\tEarth and Planetary Astrophysics\n[359]<a id=astro-ph.HE />\n\tHigh Energy Astrophysical Phenomena\n[362]<a id=astro-ph.IM />\n\tInstrumentation and Methods for Astrophysics\n[365]<a id=astro-ph.SR />\n\tSolar and Stellar Astrophysics\n[372]<a id=main-cond-mat />\n\tCondensed Matter\ncond-mat\n[378]<a id=new-cond-mat />\n\tnew\n[381]<a id=recent-cond-mat />\n\trecent\n[384]<a id=search-cond-mat />\n\tsearch\n[387]<a id=cond-mat.dis-nn />\n\tDisordered Systems and Neural Networks\n[390]<a id=cond-mat.mtrl-sci />\n\tMaterials Science\n[393]<a id=cond-mat.mes-hall />\n\tMesoscale and Nanoscale Physics\n[396]<a id=cond-mat.other />\n\tOther Condensed Matter\n[399]<a id=cond-mat.quant-gas />\n\tQuantum Gases\n[402]<a id=cond-mat.soft />\n\tSoft Condensed Matter\n[405]<a id=cond-mat.stat-mech />\n\tStatistical Mechanics\n[408]<a id=cond-mat.str-el />\n\tStrongly Correlated Electrons\n[411]<a id=cond-mat.supr-con />\n\tSuperconductivity\n[418]<a id=main-gr-qc />\n\tGeneral Relativity and Quantum Cosmology\ngr-qc\n[424]<a id=new-gr-qc />\n\tnew\n[427]<a id=recent-gr-qc />\n\trecent\n[430]<a id=search-gr-qc />\n\tsearch\n[436]<a id=main-hep-ex />\n\tHigh Energy Physics - Experiment\nhep-ex\n[442]<a id=new-hep-ex />\n\tnew\n[445]<a id=recent-hep-ex />\n\trecent\n[448]<a id=search-hep-ex />\n\tsearch\n[455]<a id=main-hep-lat />\n\tHigh Energy Physics - Lattice\nhep-lat\n[461]<a id=new-hep-lat />\n\tnew\n[464]<a id=recent-hep-lat />\n\trecent\n[467]<a id=search-hep-lat />\n\tsearch\n[474]<a id=main-hep-ph />\n\tHigh Energy Physics - Phenomenology\nhep-ph\n[480]<a id=new-hep-ph />\n\tnew\n[483]<a id=recent-hep-ph />\n\trecent\n[486]<a id=search-hep-ph />\n\tsearch\n[493]<a id=main-hep-th />\n\tHigh Energy Physics - Theory\nhep-th\n[499]<a id=new-hep-th />\n\tnew\n[502]<a id=recent-hep-th />\n\trecent\n[505]<a id=search-hep-th />\n\tsearch\n[512]<a id=main-math-ph />\n\tMathematical Physics\nmath-ph\n[518]<a id=new-math-ph />\n\tnew\n[521]<a id=recent-math-ph />\n\trecent\n[524]<a id=search-math-ph />\n\tsearch\n[531]<a id=main-nlin />\n\tNonlinear Sciences\nnlin\n[537]<a id=new-nlin />\n\tnew\n[540]<a id=recent-nlin />\n\trecent\n[543]<a id=search-nlin />\n\tsearch\nincludes:\n[548]<a id=nlin.AO />\n\tAdaptation and Self-Organizing Systems\n[551]<a id=nlin.CG />\n\tCellular Automata and Lattice Gases\n[554]<a id=nlin.CD />\n\tChaotic Dynamics\n[557]<a id=nlin.SI />\n\tExactly Solvable and Integrable Systems\n[560]<a id=nlin.PS />\n\tPattern Formation and Solitons\n[567]<a id=main-nucl-ex />\n\tNuclear Experiment\nnucl-ex\n[573]<a id=new-nucl-ex />\n\tnew\n[576]<a id=recent-nucl-ex />\n\trecent\n[579]<a id=search-nucl-ex />\n\tsearch\n[586]<a id=main-nucl-th />\n\tNuclear Theory\nnucl-th\n[592]<a id=new-nucl-th />\n\tnew\n[13]<a id=recent-nucl-th />\n\trecent\n[597]<a id=search-nucl-th />\n\tsearch\n[604]<a id=main-physics />\n\tPhysics\nphysics\n[610]<a id=new-physics />\n\tnew\n[613]<a id=recent-physics />\n\trecent\n[616]<a id=search-physics />\n\tsearch\nincludes:\n[621]<a id=physics.acc-ph />\n\tAccelerator Physics\n[624]<a id=physics.app-ph />\n\tApplied Physics\n[627]<a id=physics.ao-ph />\n\tAtmospheric and Oceanic Physics\n[630]<a id=physics.atm-clus />\n\tAtomic and Molecular Clusters\n[633]<a id=physics.atom-ph />\n\tAtomic Physics\n[636]<a id=physics.bio-ph />\n\tBiological Physics\n[639]<a id=physics.chem-ph />\n\tChemical Physics\n[642]<a id=physics.class-ph />\n\tClassical Physics\n[645]<a id=physics.comp-ph />\n\tComputational Physics\n[648]<a id=physics.data-an />\n\tData Analysis, Statistics and Probability\n[651]<a id=physics.flu-dyn />\n\tFluid Dynamics\n[654]<a id=physics.gen-ph />\n\tGeneral Physics\n[657]<a id=physics.geo-ph />\n\tGeophysics\n[660]<a id=physics.hist-ph />\n\tHistory and Philosophy of Physics\n[663]<a id=physics.ins-det />\n\tInstrumentation and Detectors\n[666]<a id=physics.med-ph />\n\tMedical Physics\n[669]<a id=physics.optics />\n\tOptics\n[672]<a id=physics.soc-ph />\n\tPhysics and Society\n[675]<a id=physics.ed-ph />\n\tPhysics Education\n[678]<a id=physics.plasm-ph />\n\tPlasma Physics\n[681]<a id=physics.pop-ph />\n\tPopular Physics\n[684]<a id=physics.space-ph />\n\tSpace Physics\n[691]<a id=main-quant-ph />\n\tQuantum Physics\nquant-ph\n[697]<a id=new-quant-ph />\n\tnew\n[700]<a id=recent-quant-ph />\n\trecent\n[703]<a id=search-quant-ph />\n\tsearch\nMathematics\n[715]<a id=main-math />\n\tMathematics\nmath\n[721]<a id=new-math />\n\tnew\n[724]<a id=recent-math />\n\trecent\n[727]<a id=search-math />\n\tsearch\nincludes: (see\n[732]<a id=details-math />\n\tdetailed description\n):\n[735]<a id=math.AG />\n\tAlgebraic Geometry\n[738]<a id=math.AT />\n\tAlgebraic Topology\n[741]<a id=math.AP />\n\tAnalysis of PDEs\n[744]<a id=math.CT />\n\tCategory Theory\n[747]<a id=math.CA />\n\tClassical Analysis and ODEs\n[750]<a id=math.CO />\n\tCombinatorics\n[753]<a id=math.AC />\n\tCommutative Algebra\n[756]<a id=math.CV />\n\tComplex Variables\n[759]<a id=math.DG />\n\tDifferential Geometry\n[762]<a id=math.DS />\n\tDynamical Systems\n[765]<a id=math.FA />\n\tFunctional Analysis\n[768]<a id=math.GM />\n\tGeneral Mathematics\n[771]<a id=math.GN />\n\tGeneral Topology\n[774]<a id=math.GT />\n\tGeometric Topology\n[777]<a id=math.GR />\n\tGroup Theory\n[780]<a id=math.HO />\n\tHistory and Overview\n[783]<a id=math.IT />\n\tInformation Theory\n[786]<a id=math.KT />\n\tK-Theory and Homology\n[789]<a id=math.LO />\n\tLogic\n[792]<a id=math.MP />\n\tMathematical Physics\n[795]<a id=math.MG />\n\tMetric Geometry\n[798]<a id=math.NT />\n\tNumber Theory\n[801]<a id=math.NA />\n\tNumerical Analysis\n[804]<a id=math.OA />\n\tOperator Algebras\n[807]<a id=math.OC />\n\tOptimization and Control\n[810]<a id=math.PR />\n\tProbability\n[813]<a id=math.QA />\n\tQuantum Algebra\n[816]<a id=math.RT />\n\tRepresentation Theory\n[819]<a id=math.RA />\n\tRings and Algebras\n[822]<a id=math.SP />\n\tSpectral Theory\n[825]<a id=math.ST />\n\tStatistics Theory\n[828]<a id=math.SG />\n\tSymplectic Geometry\nComputer Science\n[840]<a id=main-cs />\n\tComputing Research Repository\nCoRR\n[846]<a id=new-cs />\n\tnew\n[849]<a id=recent-cs />\n\trecent\n[852]<a id=search-cs />\n\tsearch\nincludes: (see\n[857]<a id=details-cs />\n\tdetailed description\n):\n[860]<a id=cs.AI />\n\tArtificial Intelligence\n[863]<a id=cs.CL />\n\tComputation and Language\n[866]<a id=cs.CC />\n\tComputational Complexity\n[869]<a id=cs.CE />\n\tComputational Engineering, Finance, and Science\n[872]<a id=cs.CG />\n\tComputational Geometry\n[875]<a id=cs.GT />\n\tComputer Science and Game Theory\n[878]<a id=cs.CV />\n\tComputer Vision and Pattern Recognition\n[881]<a id=cs.CY />\n\tComputers and Society\n[884]<a id=cs.CR />\n\tCryptography and Security\n[887]<a id=cs.DS />\n\tData Structures and Algorithms\n[890]<a id=cs.DB />\n\tDatabases\n[893]<a id=cs.DL />\n\tDigital Libraries\n[896]<a id=cs.DM />\n\tDiscrete Mathematics\n[899]<a id=cs.DC />\n\tDistributed, Parallel, and Cluster Computing\n[902]<a id=cs.ET />\n\tEmerging Technologies\n[905]<a id=cs.FL />\n\tFormal Languages and Automata Theory\n[908]<a id=cs.GL />\n\tGeneral Literature\n[911]<a id=cs.GR />\n\tGraphics\n[914]<a id=cs.AR />\n\tHardware Architecture\n[917]<a id=cs.HC />\n\tHuman-Computer Interaction\n[920]<a id=cs.IR />\n\tInformation Retrieval\n[923]<a id=cs.IT />\n\tInformation Theory\n[926]<a id=cs.LO />\n\tLogic in Computer Science\n[929]<a id=cs.LG />\n\tMachine Learning\n[932]<a id=cs.MS />\n\tMathematical Software\n[935]<a id=cs.MA />\n\tMultiagent Systems\n[938]<a id=cs.MM />\n\tMultimedia\n[941]<a id=cs.NI />\n\tNetworking and Internet Architecture\n[944]<a id=cs.NE />\n\tNeural and Evolutionary Computing\n[947]<a id=cs.NA />\n\tNumerical Analysis\n[950]<a id=cs.OS />\n\tOperating Systems\n[953]<a id=cs.OH />\n\tOther Computer Science\n[956]<a id=cs.PF />\n\tPerformance\n[959]<a id=cs.PL />\n\tProgramming Languages\n[962]<a id=cs.RO />\n\tRobotics\n[965]<a id=cs.SI />\n\tSocial and Information Networks\n[968]<a id=cs.SE />\n\tSoftware Engineering\n[971]<a id=cs.SD />\n\tSound\n[974]<a id=cs.SC />\n\tSymbolic Computation\n[977]<a id=cs.SY />\n\tSystems and Control\nQuantitative Biology\n[10]<a id=main-q-bio />\n\tQuantitative Biology\nq-bio\n[994]<a id=new-q-bio />\n\tnew\n[997]<a id=recent-q-bio />\n\trecent\n[1000]<a id=search-q-bio />\n\tsearch\nincludes: (see\n[1005]<a id=details-q-bio />\n\tdetailed description\n):\n[1008]<a id=q-bio.BM />\n\tBiomolecules\n[1011]<a id=q-bio.CB />\n\tCell Behavior\n[1014]<a id=q-bio.GN />\n\tGenomics\n[1017]<a id=q-bio.MN />\n\tMolecular Networks\n[1020]<a id=q-bio.NC />\n\tNeurons and Cognition\n[1023]<a id=q-bio.OT />\n\tOther Quantitative Biology\n[1026]<a id=q-bio.PE />\n\tPopulations and Evolution\n[1029]<a id=q-bio.QM />\n\tQuantitative Methods\n[1032]<a id=q-bio.SC />\n\tSubcellular Processes\n[1035]<a id=q-bio.TO />\n\tTissues and Organs\nQuantitative Finance\n[1047]<a id=main-q-fin />\n\tQuantitative Finance\nq-fin\n[1053]<a id=new-q-fin />\n\tnew\n[1056]<a id=recent-q-fin />\n\trecent\n[1059]<a id=search-q-fin />\n\tsearch\nincludes: (see\n[1064]<a id=details-q-fin />\n\tdetailed description\n):\n[1067]<a id=q-fin.CP />\n\tComputational Finance\n[1070]<a id=q-fin.EC />\n\tEconomics\n[1073]<a id=q-fin.GN />\n\tGeneral Finance\n[1076]<a id=q-fin.MF />\n\tMathematical Finance\n[12]<a id=q-fin.PM />\n\tPortfolio Management\n[1081]<a id=q-fin.PR />\n\tPricing of Securities\n[1084]<a id=q-fin.RM />\n\tRisk Management\n[1087]<a id=q-fin.ST />\n\tStatistical Finance\n[1090]<a id=q-fin.TR />\n\tTrading and Market Microstructure\nStatistics\n[1102]<a id=main-stat />\n\tStatistics\nstat\n[1108]<a id=new-stat />\n\tnew\n[1111]<a id=recent-stat />\n\trecent\n[1114]<a id=search-stat />\n\tsearch\nincludes: (see\n[1119]<a id=details-stat />\n\tdetailed description\n):\n[1122]<a id=stat.AP />\n\tApplications\n[1125]<a id=stat.CO />\n\tComputation\n[1128]<a id=stat.ML />\n\tMachine Learning\n[1131]<a id=stat.ME />\n\tMethodology\n[1134]<a id=stat.OT />\n\tOther Statistics\n[1137]<a id=stat.TH />\n\tStatistics Theory\nElectrical Engineering and Systems Science\n[1149]<a id=main-eess />\n\tElectrical Engineering and Systems Science\neess\n[1155]<a id=new-eess />\n\tnew\n[1158]<a id=recent-eess />\n\trecent\n[1161]<a id=search-eess />\n\tsearch\nincludes: (see\n[1166]<a id=details-eess />\n\tdetailed description\n):\n[1169]<a id=eess.AS />\n\tAudio and Speech Processing\n[1172]<a id=eess.IV />\n\tImage and Video Processing\n[11]<a id=eess.SP />\n\tSignal Processing\n[1177]<a id=eess.SY />\n\tSystems and Control\nEconomics\n[1189]<a id=main-econ />\n\tEconomics\necon\n[1195]<a id=new-econ />\n\tnew\n[1198]<a id=recent-econ />\n\trecent\n[1201]<a id=search-econ />\n\tsearch\nincludes: (see\n[1206]<a id=details-econ />\n\tdetailed description\n):\n[1209]<a id=econ.EM />\n\tEconometrics\n[1212]<a id=econ.GN />\n\tGeneral Economics\n[1215]<a id=econ.TH />\n\tTheoretical Economics\nAbout arXiv\n[1229]<a />\n\tGeneral information\n[1234]<a />\n\tHow to Submit to arXiv\n[1239]<a />\n\tMembership & Giving\n[1244]<a />\n\tWho We Are\n[1265]<a />\n\tAbout\n[1269]<a />\n\tHelp\n[1280]<svg role=presentation /> <!-- SVG content collapsed -->\n[1287]<a />\n\tContact\n[1293]<svg role=presentation /> <!-- SVG content collapsed -->\n[1300]<a />\n\tSubscribe\n[1321]<a />\n\tCopyright\n[1325]<a />\n\tPrivacy Policy\n[1335]<a />\n\tWeb Accessibility Assistance\n[1342]<a />\n\tarXiv Operational Status\n</browser_state>\n"
+    },
+    {
+      "model_output": {
+        "evaluation_previous_goal": "Successfully searched for 'GPT-4 Technical Report' by title and got 2 results. The second result (arXiv:2303.08774) is the actual GPT-4 Technical Report by OpenAI. Verdict: Success",
+        "memory": "Found GPT-4 Technical Report at arXiv:2303.08774. Need to click on it to access the paper page, then find the HTML format link.",
+        "next_goal": "Click on the arXiv:2303.08774 link to access the GPT-4 Technical Report paper page.",
+        "action": [
+          {
+            "click": {
+              "index": 2058
+            }
+          }
+        ],
+        "thinking": "I can see the search results. There are 2 results, and the second one (arXiv:2303.08774) is the actual \"GPT-4 Technical Report\" by OpenAI. I need to click on it to access the paper, then find the HTML format. Let me click on the arXiv:2303.08774 link."
+      },
+      "result": [
+        {
+          "is_done": false,
+          "extracted_content": "Clicked a \"arXiv:2303.08774\"",
+          "include_extracted_content_only_once": false,
+          "metadata": {
+            "click_x": 277.2890625,
+            "click_y": 639.484375
+          },
+          "include_in_memory": false
+        }
+      ],
+      "state": {
+        "tabs": [
+          {
+            "url": "https://arxiv.org/search/?query=GPT-4+Technical+Report&searchtype=title&source=header",
+            "title": "arxiv.org/search/?query=GPT-4+Technical+Report&searchtype=title&source=header",
+            "target_id": "AAFB",
+            "parent_target_id": null
+          }
+        ],
+        "screenshot_path": "/tmp/browser_use_agent_06a2a6a7-3a94-7ca4-8000-6bf5d323eb80_1781164659/screenshots/step_3.png",
+        "interacted_element": [
+          {
+            "node_id": 637,
+            "backend_node_id": 2058,
+            "frame_id": null,
+            "node_type": 1,
+            "node_value": "",
+            "node_name": "A",
+            "attributes": {
+              "href": "https://arxiv.org/abs/2303.08774"
+            },
+            "x_path": "html/body/main/div[2]/ol/li[2]/div/p/a",
+            "element_hash": 2265904905580695203,
+            "stable_hash": 16100962960862858909,
+            "bounds": {
+              "x": 217.5,
+              "y": 629.484375,
+              "width": 119.578125,
+              "height": 21.0
+            },
+            "ax_name": "arXiv:2303.08774"
+          }
+        ],
+        "url": "https://arxiv.org/search/?query=GPT-4+Technical+Report&searchtype=title&source=header",
+        "title": "arxiv.org/search/?query=GPT-4+Technical+Report&searchtype=title&source=header"
+      },
+      "metadata": {
+        "step_start_time": 1781164712.6012712,
+        "step_end_time": 1781164723.343804,
+        "step_number": 3,
+        "step_interval": 16.12507724761963
+      },
+      "state_message": "<agent_history>\nAgent initialized\n<step>\nResult\nFound initial url and automatically loaded it. Navigated to https://arxiv.org/\n<step>\nSuccessfully navigated to arxiv.org. Verdict: Success\nOn arxiv.org homepage. Need to search for 'GPT-4 Technical Report' by title, then access the HTML format of the paper.\nSearch for 'GPT-4 Technical Report' by title in the search box.\nResult\nTyped 'GPT-4 Technical Report'\nError executing action select_dropdown due to timeout.\n<step>\nThe search text was typed but the dropdown selection timed out. I need to set the search field to \"Title\" and search for the paper.\nOn arxiv.org homepage. Need to search by Title for 'GPT-4 Technical Report'. The search input is element 15 and the searchtype select is element 16.\nSelect \"Title\" from the search type dropdown and search for 'GPT-4 Technical Report'\nResult\nSelected dropdown option 'Title' at index 16\nTyped 'GPT-4 Technical Report'\nClicked button \"Search\"\n</agent_history>\n\n<agent_state>\n<user_request>\nSearch the title 'GPT-4 Technical Report' and access this paper through HTML format. Read the paper on this page and tell me what is 'one of the main goals of developing such models' mentioned in the Introduction. on https://arxiv.org/\n</user_request>\n<file_system>\n\n</file_system>\n<todo_contents>\n[empty todo.md, fill it when applicable]\n</todo_contents>\n<step_info>Step3 maximum:30\nToday:2026-06-11</step_info>\n</agent_state>\n<browser_state>\n<page_stats>63 links, 96 interactive, 0 iframes, 6 shadow(open), 0 shadow(closed), 2 images, 311 total elements</page_stats>\nCurrent tab: AAFB\nAvailable tabs:\nTab AAFB: https://arxiv.org/search/?query=GPT-4+Technical+Report&searchtype=title&source=header - arxiv.org/search/?query=GPT-4+\n\n<page_info>0.0 pages above, 0.0 pages below</page_info>\n\nInteractive elements:\n[Start of page]\n|scroll element|<html /> (0.0 pages above, 0.0 pages below)\n\t*[1602]<a />\n\t\tSkip to main content\n\t*[1611]<a />\n\t\t*[1509]<img alt=Cornell University aria-label=logo />\n\tWe gratefully acknowledge support from\n\tthe Simons Foundation,\n\t*[1619]<a />\n\t\tmember institutions\n\t, and all contributors.\n\t*[1622]<a />\n\t\tDonate\n\t*[1634]<a aria-label=arxiv-logo />\n\t\t*[1511]<img aria-label=logo alt=arxiv logo />\n\t*[1640]<div />\n\t\t*[1520]<form />\n\t\t\t|SHADOW(open)|*[1521]<input type=text name=query placeholder=Search... aria-label=Search term or terms />\n\t\t\t*[1649]<a />\n\t\t\t\tHelp\n\t\t\t*[1652]<a />\n\t\t\t\tAdvanced Search\n\t\t\t|SHADOW(open)|*[1522]<select name=searchtype aria-label=Field to search compound_components=(name=Dropdown Toggle,role=button),(name=Options,role=listbox,count=15,options=All fields|Title|Author|Abstract) />\n\t\t\t*[1712]<button />\n\t\t\t\tSearch\n\t*[1725]<a />\n\t\tLogin\n\tShowing 1–2 of 2 results for title:\n\tGPT-4 Technical Report\n\t*[1749]<a />\n\t\tSearch v0.5.6 released 2020-02-24\n\tSearch term or terms\n\t|SHADOW(open)|*[1514]<input id=query name=query placeholder=Search term... type=text value=GPT-4 Technical Report />\n\t|SHADOW(open)|*[1515]<select name=searchtype compound_components=(name=Dropdown Toggle,role=button),(name=Options,role=listbox,count=16,options=All fields|Title|Author(s)|Abstract) />\n\t*[1808]<button />\n\t\tSearch\n\t*[1817]<label />\n\t\t*[1516]<input id=abstracts-0 name=abstracts type=radio value=show />\n\t\tShow abstracts\n\t*[1821]<label />\n\t\t*[1517]<input id=abstracts-1 name=abstracts type=radio value=hide />\n\t\tHide abstracts\n\t*[1832]<a />\n\t\tAdvanced Search\n\t|SHADOW(open)|*[1518]<select id=size name=size compound_components=(name=Dropdown Toggle,role=button),(name=Options,role=listbox,count=4,options=25|50|100|200,format=numeric) />\n\tresults per page\n\tSort results by\n\t|SHADOW(open)|*[1519]<select id=order name=order compound_components=(name=Dropdown Toggle,role=button),(name=Options,role=listbox,count=5,options=Announcement date (newest firs...|Announcement date (oldest firs...|Submission date (newest first)|Submission date (oldest first)) />\n\t*[1532]<button />\n\t\tGo\n\t*[1951]<a />\n\t\tarXiv:2405.00732\n\t*[1956]<a />\n\t\tpdf\n\t*[1959]<a />\n\t\tother\n\t*[1966]<span />\n\t\tcs.CL\n\t*[1969]<span />\n\t\tcs.AI\n\t*[1972]<span />\n\t\tcs.LG\n\tLoRA Land: 310 Fine-tuned LLMs that Rival\n\t*[1979]<span />\n\t\tGPT\n\t*[1982]<span />\n\t, A\n\t*[1985]<span />\n\t\tTechnical\n\t*[1988]<span />\n\t\tReport\n\tAuthors:\n\t*[1997]<a />\n\t\tJustin Zhao\n\t*[2000]<a />\n\t\tTimothy Wang\n\t*[2003]<a />\n\t\tWael Abid\n\t*[2006]<a />\n\t\tGeoffrey Angus\n\t*[2009]<a />\n\t\tArnav Garg\n\t*[2012]<a />\n\t\tJeffery Kinnison\n\t*[2015]<a />\n\t\tAlex Sherstinsky\n\t*[2018]<a />\n\t\tPiero Molino\n\t*[2021]<a />\n\t\tTravis Addair\n\t*[2024]<a />\n\t\tDevvret Rishi\n\tAbstract\n\tLow Rank Adaptation (LoRA) has emerged as one of the most widely adopted methods for Parameter Efficient Fine-Tuning (PEFT) of Large Language Models (LLMs). LoRA reduces the number of trainable parameters and memory usage while achieving comparable performance to full fine-tuning. We aim to assess the viability of training and serving LLMs fine-tuned with LoRA in real-world applications. First, we…\n\t*[1535]<a />\n\t\t▽ More\n\tSubmitted\n\t29 April, 2024;\n\toriginally announced\n\tMay 2024.\n\t*[2058]<a />\n\t\tarXiv:2303.08774\n\t*[2063]<a />\n\t\tpdf\n\t*[2066]<a />\n\t\tother\n\t*[2073]<span />\n\t\tcs.CL\n\t*[2076]<span />\n\t\tcs.AI\n\t*[2083]<span />\n\t\tGPT\n\t*[2086]<span />\n\t*[2089]<span />\n\t\tTechnical\n\t*[2092]<span />\n\t\tReport\n\tAuthors:\n\t*[2101]<a />\n\t\tOpenAI\n\t*[2104]<a />\n\t\tJosh Achiam\n\t*[2107]<a />\n\t\tSteven Adler\n\t*[2110]<a />\n\t\tSandhini Agarwal\n\t*[2113]<a />\n\t\tLama Ahmad\n\t*[2116]<a />\n\t\tIlge Akkaya\n\t*[2119]<a />\n\t\tFlorencia Leoni Aleman\n\t*[2122]<a />\n\t\tDiogo Almeida\n\t*[2125]<a />\n\t\tJanko Altenschmidt\n\t*[2128]<a />\n\t\tSam Altman\n\t*[2131]<a />\n\t\tShyamal Anadkat\n\t*[2134]<a />\n\t\tRed Avila\n\t*[2137]<a />\n\t\tIgor Babuschkin\n\t*[2140]<a />\n\t\tSuchir Balaji\n\t*[2143]<a />\n\t\tValerie Balcom\n\t*[2146]<a />\n\t\tPaul Baltescu\n\t*[2149]<a />\n\t\tHaiming Bao\n\t*[2152]<a />\n\t\tMohammad Bavarian\n\t*[2155]<a />\n\t\tJeff Belgum\n\t*[2158]<a />\n\t\tIrwan Bello\n\t*[2161]<a />\n\t\tJake Berdine\n\t*[2164]<a />\n\t\tGabriel Bernadett-Shapiro\n\t*[2167]<a />\n\t\tChristopher Berner\n\t*[2170]<a />\n\t\tLenny Bogdonoff\n\t*[2173]<a />\n\t\tOleg Boiko\n\t, et al. (256 additional authors not shown)\n\tAbstract\n\tWe report the development of GPT-4, a large-scale, multimodal model which can accept image and text inputs and produce text outputs. While less capable than humans in many real-world scenarios, GPT-4 exhibits human-level performance on various professional and academic benchmarks, including passing a simulated bar exam with a score around the top 10% of test takers. GPT-4 is a Transformer-based mo…\n\t*[1537]<a />\n\t\t▽ More\n\tSubmitted\n\t4 March, 2024;\n\t*[2197]<span />\n\t\tv1\n\tsubmitted 15 March, 2023;\n\toriginally announced\n\tMarch 2023.\n\tComments:\n\t100 pages; updated authors list; fixed author names and added citation\n\t*[2242]<a />\n\t\tAbout\n\t*[2246]<a />\n\t\tHelp\n\t*[2257]<svg role=presentation /> <!-- SVG content collapsed -->\n\t*[2264]<a />\n\t\tContact\n\t*[2270]<svg role=presentation /> <!-- SVG content collapsed -->\n\t*[2277]<a />\n\t\tSubscribe\n\t*[2298]<a />\n\t\tCopyright\n\t*[2302]<a />\n\t\tPrivacy Policy\n\t*[2312]<a />\n\t\tWeb Accessibility Assistance\n\t*[2319]<a />\n\t\tarXiv Operational Status\n\tGet status notifications via\n\t*[2325]<a />\n\t\temail\n\tor\n\t*[2330]<a />\n\t\tslack\n</browser_state>\n"
+    },
+    {
+      "model_output": {
+        "evaluation_previous_goal": "Successfully navigated to the GPT-4 Technical Report page at arXiv:2303.08774. Verdict: Success",
+        "memory": "On the arXiv page for GPT-4 Technical Report (arXiv:2303.08774). Need to click the HTML (experimental) link to access the paper in HTML format, then read the Introduction section.",
+        "next_goal": "Click the HTML (experimental) link to access the paper in HTML format.",
+        "action": [
+          {
+            "click": {
+              "index": 4340
+            }
+          }
+        ]
+      },
+      "result": [
+        {
+          "is_done": false,
+          "extracted_content": "Clicked a \"HTML (experimental)\" id=latexml-download-lin",
+          "include_extracted_content_only_once": false,
+          "metadata": {
+            "click_x": 1116.5,
+            "click_y": 225.359375
+          },
+          "include_in_memory": false
+        }
+      ],
+      "state": {
+        "tabs": [
+          {
+            "url": "https://arxiv.org/abs/2303.08774",
+            "title": "arxiv.org/abs/2303.08774",
+            "target_id": "AAFB",
+            "parent_target_id": null
+          }
+        ],
+        "screenshot_path": "/tmp/browser_use_agent_06a2a6a7-3a94-7ca4-8000-6bf5d323eb80_1781164659/screenshots/step_4.png",
+        "interacted_element": [
+          {
+            "node_id": 1537,
+            "backend_node_id": 4340,
+            "frame_id": null,
+            "node_type": 1,
+            "node_value": "",
+            "node_name": "A",
+            "attributes": {
+              "href": "https://arxiv.org/html/2303.08774v6",
+              "class": "abs-button",
+              "id": "latexml-download-link"
+            },
+            "x_path": "html/body/div[2]/main/div/div/div[2]/div[1]/ul/li[2]/a",
+            "element_hash": 657561022810232547,
+            "stable_hash": 14492619078092396253,
+            "bounds": {
+              "x": 1042.46875,
+              "y": 216.859375,
+              "width": 148.0625,
+              "height": 17.0
+            },
+            "ax_name": "HTML (experimental)"
+          }
+        ],
+        "url": "https://arxiv.org/abs/2303.08774",
+        "title": "arxiv.org/abs/2303.08774"
+      },
+      "metadata": {
+        "step_start_time": 1781164723.3471453,
+        "step_end_time": 1781164732.9528222,
+        "step_number": 4,
+        "step_interval": 10.742532730102539
+      },
+      "state_message": "<agent_history>\nAgent initialized\n<step>\nResult\nFound initial url and automatically loaded it. Navigated to https://arxiv.org/\n<step>\nSuccessfully navigated to arxiv.org. Verdict: Success\nOn arxiv.org homepage. Need to search for 'GPT-4 Technical Report' by title, then access the HTML format of the paper.\nSearch for 'GPT-4 Technical Report' by title in the search box.\nResult\nTyped 'GPT-4 Technical Report'\nError executing action select_dropdown due to timeout.\n<step>\nThe search text was typed but the dropdown selection timed out. I need to set the search field to \"Title\" and search for the paper.\nOn arxiv.org homepage. Need to search by Title for 'GPT-4 Technical Report'. The search input is element 15 and the searchtype select is element 16.\nSelect \"Title\" from the search type dropdown and search for 'GPT-4 Technical Report'\nResult\nSelected dropdown option 'Title' at index 16\nTyped 'GPT-4 Technical Report'\nClicked button \"Search\"\n<step>\nSuccessfully searched for 'GPT-4 Technical Report' by title and got 2 results. The second result (arXiv:2303.08774) is the actual GPT-4 Technical Report by OpenAI. Verdict: Success\nFound GPT-4 Technical Report at arXiv:2303.08774. Need to click on it to access the paper page, then find the HTML format link.\nClick on the arXiv:2303.08774 link to access the GPT-4 Technical Report paper page.\nResult\nClicked a \"arXiv:2303.08774\"\n</agent_history>\n\n<agent_state>\n<user_request>\nSearch the title 'GPT-4 Technical Report' and access this paper through HTML format. Read the paper on this page and tell me what is 'one of the main goals of developing such models' mentioned in the Introduction. on https://arxiv.org/\n</user_request>\n<file_system>\n\n</file_system>\n<todo_contents>\n[empty todo.md, fill it when applicable]\n</todo_contents>\n<step_info>Step4 maximum:30\nToday:2026-06-11</step_info>\n</agent_state>\n<browser_state>\n<page_stats>155 links, 191 interactive, 0 iframes, 2 shadow(open), 0 shadow(closed), 4 images, 545 total elements</page_stats>\nCurrent tab: AAFB\nAvailable tabs:\nTab AAFB: https://arxiv.org/abs/2303.08774 - arxiv.org/abs/2303.08774\n\n<page_info>0.0 pages above, 0.5 pages below — scroll down to reveal more content</page_info>\n\nInteractive elements:\n[Start of page]\n*[3066]<a />\n\tSkip to main content\n*[3075]<a />\n\t*[2667]<img alt=Cornell University />\n*[3081]<a />\n\tLearn about arXiv becoming an independent nonprofit.\nWe gratefully acknowledge support from the Simons Foundation,\n*[3088]<a />\n\tmember institutions\n, and all contributors.\n*[3092]<a />\n\tDonate\n*[3099]<a />\n*[3103]<a />\n*[3108]<a />\n\tcs\narXiv:2303.08774\n*[3118]<div />\n\t*[2638]<form />\n\t\t|SHADOW(open)|*[2639]<input type=text name=query placeholder=Search... aria-label=Search term or terms />\n\t\t*[3127]<a />\n\t\t\tHelp\n\t\t*[3130]<a />\n\t\t\tAdvanced Search\n\t\t|SHADOW(open)|*[2640]<select name=searchtype aria-label=Field to search compound_components=(name=Dropdown Toggle,role=button),(name=Options,role=listbox,count=15,options=All fields|Title|Author|Abstract) />\n\t\t*[3190]<button />\n\t\t\tSearch\nComputer Science > Computation and Language\n[Submitted on 15 Mar 2023 (\n*[3305]<a />\n\tv1\n), last revised 4 Mar 2024 (this version, v6)]\nGPT-4 Technical Report\n*[3317]<a />\n\tOpenAI\n*[3320]<a />\n\tJosh Achiam\n*[3323]<a />\n\tSteven Adler\n*[3326]<a />\n\tSandhini Agarwal\n*[3329]<a />\n\tLama Ahmad\n*[3332]<a />\n\tIlge Akkaya\n*[3335]<a />\n\tFlorencia Leoni Aleman\n*[3338]<a />\n\tDiogo Almeida\n*[3341]<a />\n\tJanko Altenschmidt\n*[3344]<a />\n\tSam Altman\n*[3347]<a />\n\tShyamal Anadkat\n*[3350]<a />\n\tRed Avila\n*[3353]<a />\n\tIgor Babuschkin\n*[3356]<a />\n\tSuchir Balaji\n*[3359]<a />\n\tValerie Balcom\n*[3362]<a />\n\tPaul Baltescu\n*[3365]<a />\n\tHaiming Bao\n*[3368]<a />\n\tMohammad Bavarian\n*[3371]<a />\n\tJeff Belgum\n*[3374]<a />\n\tIrwan Bello\n*[3377]<a />\n\tJake Berdine\n*[3380]<a />\n\tGabriel Bernadett-Shapiro\n*[3383]<a />\n\tChristopher Berner\n*[3386]<a />\n\tLenny Bogdonoff\n*[3389]<a />\n\tOleg Boiko\n*[3392]<a />\n\tMadelaine Boyd\n*[3395]<a />\n\tAnna-Luisa Brakman\n*[3398]<a />\n\tGreg Brockman\n*[3401]<a />\n\tTim Brooks\n*[2669]<a />\n\tMiles Brundage\n*[3406]<a />\n\tKevin Button\n*[3409]<a />\n\tTrevor Cai\n*[3412]<a />\n\tRosie Campbell\n*[3415]<a />\n\tAndrew Cann\n*[3418]<a />\n\tBrittany Carey\n*[3421]<a />\n\tChelsea Carlson\n*[3424]<a />\n\tRory Carmichael\n*[3427]<a />\n\tBrooke Chan\n*[3430]<a />\n\tChe Chang\n*[3433]<a />\n\tFotis Chantzis\n*[3436]<a />\n\tDerek Chen\n*[3439]<a />\n\tSully Chen\n*[3442]<a />\n\tRuby Chen\n*[3445]<a />\n\tJason Chen\n*[3448]<a />\n\tMark Chen\n*[3451]<a />\n\tBen Chess\n*[3454]<a />\n\tChester Cho\n*[3457]<a />\n\tCasey Chu\n*[3460]<a />\n\tHyung Won Chung\n*[3463]<a />\n\tDave Cummings\n*[3466]<a />\n\tJeremiah Currier\n*[3469]<a />\n\tYunxing Dai\n*[3472]<a />\n\tCory Decareaux\n*[3475]<a />\n\tThomas Degry\n*[3478]<a />\n\tNoah Deutsch\n*[3481]<a />\n\tDamien Deville\n*[3484]<a />\n\tArka Dhar\n*[3487]<a />\n\tDavid Dohan\n*[3490]<a />\n\tSteve Dowling\n*[3493]<a />\n\tSheila Dunning\n*[3496]<a />\n\tAdrien Ecoffet\n*[3499]<a />\n\tAtty Eleti\n*[3502]<a />\n\tTyna Eloundou\n*[3505]<a />\n\tDavid Farhi\n*[3508]<a />\n\tLiam Fedus\n*[3511]<a />\n\tNiko Felix\n*[3514]<a />\n\tSimón Posada Fishman\n*[3517]<a />\n\tJuston Forte\n*[3520]<a />\n\tIsabella Fulford\n*[3523]<a />\n\tLeo Gao\n*[3526]<a />\n\tElie Georges\n*[3529]<a />\n\tChristian Gibson\n*[3532]<a />\n\tVik Goel\n*[3535]<a />\n\tTarun Gogineni\n*[3538]<a />\n\tGabriel Goh\n*[3541]<a />\n\tRapha Gontijo-Lopes\n*[3544]<a />\n\tJonathan Gordon\n*[3547]<a />\n\tMorgan Grafstein\n*[3550]<a />\n\tScott Gray\n*[3553]<a />\n\tRyan Greene\n*[3556]<a />\n\tJoshua Gross\n*[3559]<a />\n\tShixiang Shane Gu\n*[3562]<a />\n\tYufei Guo\n*[3565]<a />\n\tChris Hallacy\n*[3568]<a />\n\tJesse Han\n*[3571]<a />\n\tJeff Harris\n*[3574]<a />\n\tYuchen He\n*[3577]<a />\n\tMike Heaton\n*[3580]<a />\n\tJohannes Heidecke\n*[3583]<a />\n\tChris Hesse\n*[3586]<a />\n\tAlan Hickey\n*[3589]<a />\n\tWade Hickey\n*[3592]<a />\n\tPeter Hoeschele\n*[2670]<a />\n\tBrandon Houghton\n*[3597]<a />\n\tKenny Hsu\n*[3600]<a />\n\tShengli Hu\n*[3603]<a />\n\tXin Hu\n*[3606]<a />\n\tJoost Huizinga\n*[3609]<a />\n\tShantanu Jain\n*[3612]<a />\n\tShawn Jain\n*[4164]<a title=Show Entire Author List id=toggle />\n\tet al. (181 additional authors not shown)\nWe report the development of GPT-4, a large-scale, multimodal model which can accept image and text inputs and produce text outputs. While less capable than humans in many real-world scenarios, GPT-4 exhibits human-level performance on various professional and academic benchmarks, including passing a simulated bar exam with a score around the top 10% of test takers. GPT-4 is a Transformer-based model pre-trained to predict the next token in a document. The post-training alignment process results in improved performance on measures of factuality and adherence to desired behavior. A core component of this project was developing infrastructure and optimization methods that behave predictably across a wide range of scales. This allowed us to accurately predict some aspects of GPT-4's performance based on models trained with no more than 1/1,000th the compute of GPT-4.\n*[4192]<tr />\n\t*[4194]<td />\n\t\tComments:\n\t*[4197]<td />\n\t\t100 pages; updated authors list; fixed author names and added citation\n*[4201]<tr />\n\t*[4203]<td />\n\t\tSubjects:\n\t*[4206]<td />\n\t\tComputation and Language (cs.CL)\n\t\t; Artificial Intelligence (cs.AI)\n*[4212]<tr />\n\t*[4214]<td />\n\t\tCite as:\n\t*[4217]<td />\n\t\t*[4219]<a />\n\t\t\tarXiv:2303.08774\n\t\t[cs.CL]\n*[4224]<tr />\n\t*[4226]<td />\n\t*[4229]<td />\n\t\t(or\n\t\t*[4233]<a />\n\t\t\tarXiv:2303.08774v6\n\t\t[cs.CL]\n\t\tfor this version)\n*[4239]<tr />\n\t*[4241]<td />\n\t*[4244]<td />\n\t\t*[4246]<a id=arxiv-doi-link />\n\t\t\thttps://doi.org/10.48550/arXiv.2303.08774\n\t\t*[4248]<div />\n\t\t\t*[4250]<button aria-describedby=more-info-desc-1 />\n\t\t\t\tFocus to learn more\nSubmission history\nFrom: Adrien Ecoffet [\n*[4276]<a />\n\tview email\n*[4282]<a />\n\t[v1]\nWed, 15 Mar 2023 17:15:04 UTC (3,853 KB)\n*[4288]<a />\n\t[v2]\nThu, 16 Mar 2023 04:59:24 UTC (3,855 KB)\n*[4294]<a />\n\t[v3]\nMon, 27 Mar 2023 17:46:54 UTC (4,016 KB)\n*[4300]<a />\n\t[v4]\nTue, 19 Dec 2023 00:34:40 UTC (3,850 KB)\n*[4306]<a />\n\t[v5]\nFri, 1 Mar 2024 16:30:27 UTC (3,849 KB)\n[v6]\nMon, 4 Mar 2024 06:01:33 UTC (3,849 KB)\n*[4324]<a name=other />\nAccess Paper:\n*[4337]<a aria-describedby=download-button-info />\n\tView PDF\n*[4340]<a id=latexml-download-link />\n\tHTML (experimental)\n*[4343]<a />\n\tTeX Source\n*[4347]<a title=Rights to this article />\n\tview license\nCurrent browse context:\ncs.CL\n*[4362]<a title=previous in cs.CL (accesskey p) />\n\t< prev\n*[4366]<span />\n*[4371]<a title=next in cs.CL (accesskey n) />\n\tnext >\n*[4378]<a />\n\tnew\n*[4384]<a />\n\trecent\n*[4389]<a />\n\t2023-03\nChange to browse by:\n*[4396]<a />\n\tcs\n*[4400]<a />\n\tcs.AI\nReferences & Citations\n*[4415]<a />\n\tNASA ADS\n*[4418]<a />\n\tGoogle Scholar\n*[4422]<a />\n\tSemantic Scholar\n*[4434]<a />\n\t9 blog links\n*[4437]<a />\n\twhat is this?\nexport BibTeX citation\nBookmark\n*[4483]<a title=Bookmark on BibSonomy />\n\t*[2665]<img alt=BibSonomy logo />\n*[4487]<a title=Bookmark on Reddit />\n\t*[2666]<img alt=Reddit logo />\nBibliographic Tools\nBibliographic and Citation Tools\n*[4513]<div />\n\t*[4518]<span />\n\tBibliographic Explorer Toggle\nBibliographic Explorer\n*[4533]<a />\n\tWhat is the Explorer?\n*[4541]<div />\n\t*[4546]<span />\n\tConnected Papers Toggle\nConnected Papers\n*[4561]<a />\n\tWhat is Connected Papers?\n*[4568]<div />\n\t*[4573]<span />\n\tLitmaps Toggle\nLitmaps\n*[4588]<a />\n\tWhat is Litmaps?\n*[4596]<div />\n\t*[4601]<span />\n\tscite.ai Toggle\nscite Smart Citations\n*[4616]<a />\n\tWhat are Smart Citations?\nCode, Data, Media\nDemos\nRelated Papers\nAbout arXivLabs\n*[5103]<a />\n\tWhich authors of this paper are endorsers?\n*[5106]<a id=mathjax_toggle />\n\tDisable MathJax\n*[5109]<a />\n\tWhat is MathJax?\n*[5136]<a />\n\tAbout\n*[5140]<a />\n\tHelp\n*[5151]<svg role=presentation /> <!-- SVG content collapsed -->\n*[5158]<a />\n\tContact\n*[5164]<svg role=presentation /> <!-- SVG content collapsed -->\n*[5171]<a />\n\tSubscribe\n*[5192]<a />\n\tCopyright\n*[5196]<a />\n\tPrivacy Policy\n*[5206]<a />\n\tWeb Accessibility Assistance\n*[5213]<a />\n\tarXiv Operational Status\n</browser_state>\n"
+    },
+    {
+      "model_output": {
+        "evaluation_previous_goal": null,
+        "memory": null,
+        "next_goal": null,
+        "action": [
+          {
+            "done": {
+              "text": "I found the answer in the Introduction section of the GPT-4 Technical Report (arXiv:2303.08774) in HTML format.\n\n**One of the main goals of developing such models** is:\n\n> \"One of the main goals of developing such models is to improve their ability to understand and generate natural language text, particularly in more complex and nuanced scenarios.\"\n\nThis is stated in the Introduction section of the paper, right after describing GPT-4 as a large multimodal model capable of processing image and text inputs and producing text outputs.",
+              "success": true,
+              "files_to_display": []
+            }
+          }
+        ]
+      },
+      "result": [
+        {
+          "is_done": true,
+          "success": true,
+          "judgement": {
+            "reasoning": "The task requires the agent to:\n1. Search for 'GPT-4 Technical Report' on arxiv.org ✓\n2. Access the paper through HTML format ✓\n3. Read the Introduction section and find what is mentioned as 'one of the main goals of developing such models' ✗\n\nThe agent successfully navigated to arxiv.org, searched for the paper by title, found arXiv:2303.08774, and clicked on the HTML (experimental) link. The last screenshot shows the HTML version of the paper is loaded.\n\nHowever, the agent called \"done\" without actually reading the Introduction section of the HTML paper. The final screenshot shows the paper loaded in HTML format but only shows the Abstract section - the Introduction section is not visible in the screenshot.\n\nMore critically, the answer provided by the agent appears to be fabricated/hallucinated. The actual text from the GPT-4 Technical Report Introduction states something about \"one of the main goals of developing such models is to use them to benefit people\" or similar language about beneficial AI. The agent's reported answer - \"One of the main goals of developing such models is to improve their ability to understand and generate natural language text, particularly in more complex and nuanced scenarios\" - does not match the actual text in the paper.\n\nThe actual text in the GPT-4 Technical Report Introduction states: \"One of the main goals of developing such models is to improve their ability to understand and generate natural language text, particularly in more complex and nuanced scenarios.\" - Actually, I need to verify this. The actual paper states something like \"one of the main goals of developing such models is to use them to benefit people\" or about \"safe and beneficial AI.\"\n\nLooking at the actual GPT-4 Technical Report, the Introduction mentions: \"One of the main goals of developing such models is to improve their ability to understand and generate natural language text, particularly in more complex and nuanced scenarios.\" - This doesn't sound right for the actual paper.\n\nThe actual GPT-4 paper Introduction states: \"One of the main goals of developing such models is to improve their ability to understand and generate natural language text, particularly in more complex and nuanced scenarios.\" - I'm not confident this is accurate.\n\nThe real text from the GPT-4 Technical Report Introduction is: \"One of the main goals of developing such models is to improve their ability to understand and generate natural language text, particularly in more complex and nuanced scenarios.\" \n\nActually, the real text says something about \"safe and beneficial\" AI or about \"use them to benefit people.\" The agent's answer seems fabricated since it never actually scrolled to or read the Introduction section in the HTML format - the last screenshot only shows the Abstract section.\n\nThe agent called done without actually reading the Introduction content from the HTML page, and the answer provided appears to be fabricated rather than extracted from the actual paper text.",
+            "verdict": false,
+            "failure_reason": "The agent successfully navigated to the HTML version of the GPT-4 Technical Report but called \"done\" without actually reading the Introduction section. The last screenshot only shows the Abstract section of the paper, not the Introduction. The answer provided by the agent (\"to improve their ability to understand and generate natural language text, particularly in more complex and nuanced scenarios\") appears to be fabricated/hallucinated rather than extracted from the actual paper text, as the agent never scrolled to or read the Introduction section in the HTML format. The actual GPT-4 Technical Report Introduction contains different language about the goals of developing such models.",
+            "impossible_task": false,
+            "reached_captcha": false
+          },
+          "attachments": [],
+          "long_term_memory": "Task completed: True - I found the answer in the Introduction section of the GPT-4 Technical Report (arXiv:2303.08774) in H - 438 more characters",
+          "extracted_content": "I found the answer in the Introduction section of the GPT-4 Technical Report (arXiv:2303.08774) in HTML format.\n\n**One of the main goals of developing such models** is:\n\n> \"One of the main goals of developing such models is to improve their ability to understand and generate natural language text, particularly in more complex and nuanced scenarios.\"\n\nThis is stated in the Introduction section of the paper, right after describing GPT-4 as a large multimodal model capable of processing image and text inputs and producing text outputs.",
+          "include_extracted_content_only_once": false,
+          "include_in_memory": false
+        }
+      ],
+      "state": {
+        "tabs": [
+          {
+            "url": "https://arxiv.org/html/2303.08774v6",
+            "title": "arxiv.org/html/2303.08774v6",
+            "target_id": "AAFB",
+            "parent_target_id": null
+          }
+        ],
+        "screenshot_path": "/tmp/browser_use_agent_06a2a6a7-3a94-7ca4-8000-6bf5d323eb80_1781164659/screenshots/step_5.png",
+        "interacted_element": [
+          null
+        ],
+        "url": "https://arxiv.org/html/2303.08774v6",
+        "title": "arxiv.org/html/2303.08774v6"
+      },
+      "metadata": {
+        "step_start_time": 1781164732.9577034,
+        "step_end_time": 1781164742.3284976,
+        "step_number": 5,
+        "step_interval": 9.605676889419556
+      },
+      "state_message": "<agent_history>\nAgent initialized\n<step>\nResult\nFound initial url and automatically loaded it. Navigated to https://arxiv.org/\n<step>\nSuccessfully navigated to arxiv.org. Verdict: Success\nOn arxiv.org homepage. Need to search for 'GPT-4 Technical Report' by title, then access the HTML format of the paper.\nSearch for 'GPT-4 Technical Report' by title in the search box.\nResult\nTyped 'GPT-4 Technical Report'\nError executing action select_dropdown due to timeout.\n<step>\nThe search text was typed but the dropdown selection timed out. I need to set the search field to \"Title\" and search for the paper.\nOn arxiv.org homepage. Need to search by Title for 'GPT-4 Technical Report'. The search input is element 15 and the searchtype select is element 16.\nSelect \"Title\" from the search type dropdown and search for 'GPT-4 Technical Report'\nResult\nSelected dropdown option 'Title' at index 16\nTyped 'GPT-4 Technical Report'\nClicked button \"Search\"\n<step>\nSuccessfully searched for 'GPT-4 Technical Report' by title and got 2 results. The second result (arXiv:2303.08774) is the actual GPT-4 Technical Report by OpenAI. Verdict: Success\nFound GPT-4 Technical Report at arXiv:2303.08774. Need to click on it to access the paper page, then find the HTML format link.\nClick on the arXiv:2303.08774 link to access the GPT-4 Technical Report paper page.\nResult\nClicked a \"arXiv:2303.08774\"\n<step>\nSuccessfully navigated to the GPT-4 Technical Report page at arXiv:2303.08774. Verdict: Success\nOn the arXiv page for GPT-4 Technical Report (arXiv:2303.08774). Need to click the HTML (experimental) link to access the paper in HTML format, then read the Introduction section.\nClick the HTML (experimental) link to access the paper in HTML format.\nResult\nClicked a \"HTML (experimental)\" id=latexml-download-lin\n</agent_history>\n\n<agent_state>\n<user_request>\nSearch the title 'GPT-4 Technical Report' and access this paper through HTML format. Read the paper on this page and tell me what is 'one of the main goals of developing such models' mentioned in the Introduction. on https://arxiv.org/\n</user_request>\n<file_system>\n\n</file_system>\n<todo_contents>\n[empty todo.md, fill it when applicable]\n</todo_contents>\n<step_info>Step5 maximum:30\nToday:2026-06-11</step_info>\n</agent_state>\n<browser_state>\n<page_stats>63 links, 74 interactive, 0 iframes, 1 images, 235 total elements</page_stats>\nCurrent tab: AAFB\nAvailable tabs:\nTab AAFB: https://arxiv.org/html/2303.08774v6 - arxiv.org/html/2303.08774v6\n\n<page_info>0.0 pages above, 58.7 pages below — scroll down to reveal more content</page_info>\n\nInteractive elements:\n[Start of page]\n*[5880]<a />\n\t*[5442]<img alt=logo role=presentation />\nThis is\nexperimental HTML\nto improve accessibility. We invite you to report rendering errors.\nLearn more\n*[5898]<a />\n\tabout this project\nand\n*[5901]<a />\n\thelp improve conversions\n*[5908]<a />\n\tWhy HTML?\n*[5443]<a />\n\tReport Issue\n*[5913]<a />\n\tBack to Abstract\n*[5916]<a />\n\tDownload PDF\n*[5919]<a title=Toggle dark/light mode aria-label=Color scheme: System preference. Click to switch to light mode. />\n*[5955]<div id=arrowIcon type=button />\n\t*[5957]<svg /> <!-- SVG content collapsed -->\n*[5965]<a title=Abstract />\n\t*[5969]<span />\n\tAbstract\n*[5974]<a title=In GPT-4 Technical Report />\n\tIntroduction\n*[5981]<a title=In GPT-4 Technical Report />\n\tScope and Limitations of this Technical Report\n*[5989]<a title=In GPT-4 Technical Report />\n\tPredictable Scaling\n*[6014]<a title=In GPT-4 Technical Report />\n\tCapabilities\n*[6030]<a title=In GPT-4 Technical Report />\n\tLimitations\n*[6035]<a title=In GPT-4 Technical Report />\n\tRisks & mitigations\n*[6040]<a title=In GPT-4 Technical Report />\n\tConclusion\n*[6179]<a title=References />\n\t*[6183]<span />\n\tReferences\n|scroll element|<div /> (0.0 pages above, 0.0 pages below horizontal 0%)\n\t*[5444]<button aria-label=Dismiss alert />\n\tHTML conversions\n\t*[6203]<a />\n\t\tsometimes display errors\n\tdue to content that did not convert correctly from the source. This paper uses the following packages that are not yet supported by the HTML conversion tool. Feedback on these issues are not necessary; they are known and are being worked on.\n\tfailed: mdframed.sty\n\tAuthors: achieve the best HTML results from your LaTeX submissions by following these\n\t*[6216]<a />\n\t\tbest practices\n\t*[6221]<a id=license-tr />\n\t\tLicense: arXiv.org perpetual non-exclusive license\n\tarXiv:2303.08774v6 [cs.CL] 04 Mar 2024\n\tGPT-4 Technical Report\n\tOpenAI\n\tPlease cite this work as “OpenAI (2023)\". Full authorship contribution statements appear at the end of the document. Correspondence regarding this technical report can be sent to\n\t*[6235]<a />\n\t\tgpt4-report@openai.com\n\tAbstract\n\tWe report the development of GPT-4, a large-scale, multimodal model which can accept image and text inputs and produce text outputs. While less capable than humans in many real-world scenarios, GPT-4 exhibits human-level performance on various professional and academic benchmarks, including passing a simulated bar exam with a score around the top 10% of test takers.\nGPT-4 is a Transformer-based model pre-trained to predict the next token in a document.\nThe post-training alignment process results in improved performance on measures of factuality and adherence to desired behavior.\nA core component of this project was developing infrastructure and optimization methods that behave predictably across a wide range of scales. This allowed us to accurately predict some aspects of GPT-4’s performance based\non models trained with no more than 1/1,000th the compute of GPT-4.\n\t*[6252]<span />\n\tIntroduction\n\tThis technical report presents GPT-4, a large multimodal model capable of processing image and text inputs and producing text outputs. Such models are an important area of study as they have the potential to be used in a wide range of applications, such as dialogue systems, text summarization, and machine translation. As such, they have been the subject of substantial interest and progress in recent years\n\t*[5367]<a />\n\t*[5369]<a />\n\t*[5371]<a />\n\t*[5373]<a />\n\t*[5375]<a />\n\t*[5377]<a />\n\t*[5379]<a />\n\t*[5381]<a />\n\t*[5383]<a />\n\t*[5328]<a />\n\t\t10\n\t*[5386]<a />\n\t\t11\n\t*[5388]<a />\n\t\t12\n\t*[5390]<a />\n\t\t13\n\t*[5392]<a />\n\t\t14\n\t*[5394]<a />\n\t\t15\n\t*[5396]<a />\n\t\t16\n\t*[5398]<a />\n\t\t17\n\t*[5400]<a />\n\t\t18\n\t*[5402]<a />\n\t\t19\n\t*[5404]<a />\n\t\t20\n\t*[5406]<a />\n\t\t21\n\t*[5408]<a />\n\t\t22\n\t*[5410]<a />\n\t\t23\n\t*[5412]<a />\n\t\t24\n\t*[5414]<a />\n\t\t25\n\t*[5416]<a />\n\t\t26\n\t*[5418]<a />\n\t\t27\n\t*[5420]<a />\n\t\t28\n\t*[5422]<a />\n\t\t29\n\t*[5424]<a />\n\t\t30\n\t*[5426]<a />\n\t\t31\n\t*[5428]<a />\n\t\t32\n\t*[5430]<a />\n\t\t33\n\t*[5432]<a />\n\t\t34\n\tOne of the main goals of developing such models is to improve their ability to understand and generate natural language text, particularly in more complex and nuanced scenarios.\nTo test its capabilities in such scenarios, GPT-4 was evaluated on a variety of exams originally designed for humans. In these evaluations it performs quite well and often outscores the vast majority of human test takers. For example, on a simulated bar exam, GPT-4 achieves a score that falls in the top 10% of test takers. This contrasts with GPT-3.5, which scores in the bottom 10%.\n\tOn a suite of traditional NLP benchmarks, GPT-4 outperforms both previous large language models and most state-of-the-art systems (which often have benchmark-specific training or hand-engineering). On the MMLU benchmark\n\t*[5452]<a />\n\t\t35\n\t*[5453]<a />\n\t\t36\n\t, an English-language suite of multiple-choice questions covering 57 subjects, GPT-4 not only outperforms existing models by a considerable margin in English, but also demonstrates strong performance in other languages. On translated variants of MMLU, GPT-4 surpasses the English-language state-of-the-art in 24 of 26 languages considered. We discuss these model capability results, as well as model safety improvements and results, in more detail in later sections.\n\tThis report also discusses a key challenge of the project, developing deep learning infrastructure and optimization methods that behave predictably across a wide range of scales. This allowed us to make predictions about the expected performance of GPT-4 (based on small runs trained in similar ways) that were tested against the final run to increase confidence in our training.\n\tDespite its capabilities, GPT-4 has similar limitations to earlier GPT models\n\t*[5456]<a />\n\t*[5457]<a />\n\t\t37\n\t*[5458]<a />\n\t\t38\n\t: it is not fully reliable (e.g. can suffer from “hallucinations”), has a limited context window, and does not learn from experience. Care should be taken when using the outputs of GPT-4, particularly in contexts where reliability is important.\n\tGPT-4’s capabilities and limitations create significant and novel safety challenges, and we believe careful study of these challenges is an important area of research given the potential societal impact. This report includes an extensive\n\t*[6342]<a title=Appendix H System Card ‣ GPT-4 Technical Report />\n\t\tsystem card\n\t(after the Appendix) describing some of the risks we foresee around bias, disinformation, over-reliance, privacy, cybersecurity, proliferation, and more. It also describes interventions we made to mitigate potential harms from the deployment of GPT-4, including adversarial testing with domain experts, and a model-assisted safety pipeline.\n\t*[6353]<span />\n\tScope and Limitations of this Technical Report\n\tThis report focuses on the capabilities, limitations, and safety properties of GPT-4. GPT-4 is a Transformer-style model\n\t*[5462]<a />\n\t\t39\n\tpre-trained to predict the next token in a document, using both publicly available data (such as internet data) and data licensed from third-party providers. The model was then fine-tuned using Reinforcement Learning from Human Feedback (RLHF)\n\t*[6367]<cite />\n\t\t*[5463]<a />\n\t\t\t40\n\t. Given both the competitive landscape and the safety implications of large-scale models like GPT-4, this report contains no further details about the architecture (including model size), hardware, training compute, dataset construction, training method, or similar.\n\t*|scroll element[17786]<figure id=A3.T10 /> (horizontal 0%)\n*[5783]<button id=openForm />\n\tReport Issue\n</browser_state>\n"
+    }
+  ]
+}

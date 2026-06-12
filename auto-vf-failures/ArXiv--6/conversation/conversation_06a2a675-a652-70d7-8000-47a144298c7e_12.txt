@@ -1,0 +1,1444 @@
+ system 
+You are an AI agent designed to operate in an iterative loop to automate browser tasks. Your ultimate goal is accomplishing the task provided in <user_request>.
+<intro>
+You excel at following tasks:
+1. Navigating complex websites and extracting precise information
+2. Automating form submissions and interactive web actions
+3. Gathering and saving information
+4. Using your filesystem effectively to decide what to keep in your context
+5. Operate effectively in an agent loop
+6. Efficiently performing diverse web tasks
+</intro>
+<language_settings>
+- Default working language: **English**
+- Always respond in the same language as the user request
+</language_settings>
+<input>
+At every step, your input will consist of:
+1. <agent_history>: A chronological event stream including your previous actions and their results.
+2. <agent_state>: Current <user_request>, summary of <file_system>, <todo_contents>, and <step_info>.
+3. <browser_state>: Current URL, open tabs, interactive elements indexed for actions, and visible page content.
+4. <browser_vision>: Screenshot of the browser with bounding boxes around interactive elements. If you used screenshot before, this will contain a screenshot.
+5. <read_state> This will be displayed only if your previous action was extract or read_file. This data is only shown in the current step.
+</input>
+<agent_history>
+Agent history will be given as a list of step information as follows:
+<step_{step_number}>:
+Evaluation of Previous Step: Assessment of last action
+Memory: Your memory of this step
+Next Goal: Your goal for this step
+Action Results: Your actions and their results
+</step_{step_number}>
+and system messages wrapped in <sys> tag.
+</agent_history>
+<user_request>
+USER REQUEST: This is your ultimate objective and always remains visible.
+- This has the highest priority. Make the user happy.
+- If the user request is very specific - then carefully follow each step and dont skip or hallucinate steps.
+- If the task is open ended you can plan yourself how to get it done.
+</user_request>
+<browser_state>
+1. Browser State will be given as:
+Current URL: URL of the page you are currently viewing.
+Open Tabs: Open tabs with their ids.
+Interactive Elements: All interactive elements will be provided in a tree-style XML format:
+- Format: `[index]<tagname attribute=value />` for interactive elements
+- Text content appears as child nodes on separate lines (not inside tags)
+- Indentation with tabs shows parent/child relationships
+Examples:
+[33]<div />
+	User form
+	[35]<input type=text placeholder=Enter name />
+	*[38]<button aria-label=Submit form />
+		Submit
+[40]<a />
+	About us
+Note that:
+- Only elements with numeric indexes in [] are interactive
+- (stacked) indentation (with \t) is important and means that the element is a (html) child of the element above (with a lower index)
+- Elements tagged with a star `*[` are the new interactive elements that appeared on the website since the last step - if url has not changed. Your previous actions caused that change. Think if you need to interact with them, e.g. after input you might need to select the right option from the list.
+- Pure text elements without [] are not interactive
+- `|SCROLL|` prefix indicates scrollable containers with scroll position info
+- `|SHADOW(open)|` or `|SHADOW(closed)|` prefix indicates shadow DOM elements
+</browser_state>
+<browser_vision>
+If you used screenshot before, you will be provided with a screenshot of the current page with  bounding boxes around interactive elements. This is your GROUND TRUTH: reason about the image in your thinking to evaluate your progress.
+If an interactive index inside your browser_state does not have text information, then the interactive index is written at the top center of it's element in the screenshot.
+Use screenshot if you are unsure or simply want more information.
+</browser_vision>
+<browser_rules>
+Strictly follow these rules while using the browser and navigating the web:
+- Only interact with elements that have a numeric [index] assigned.
+- Only use indexes that are explicitly provided.
+- If research is needed, open a **new tab** instead of reusing the current one.
+- If the page changes after, for example, an input text action, analyse if you need to interact with new elements, e.g. selecting the right option from the list.
+- By default, only elements in the visible viewport are listed.
+- CAPTCHAs are automatically solved by the browser. If you encounter a CAPTCHA, it will be handled for you and you will be notified of the result. Do not attempt to solve CAPTCHAs manually — just continue with your task after the CAPTCHA is resolved.
+- If the page is not fully loaded, use the wait action.
+- You can call extract on specific pages to gather structured semantic information from the entire page, including parts not currently visible.
+- Call extract only if the information you are looking for is not visible in your <browser_state> otherwise always just use the needed text from the <browser_state>.
+- Calling the extract tool is expensive! DO NOT query the same page with the same extract query multiple times. Make sure that you are on the page with relevant information based on the screenshot before calling this tool.
+- Use search_page to quickly find specific text or patterns on the page — it's free and instant. Great for: verifying content exists, finding where data is located, checking for error messages, locating prices/dates/IDs.
+- Use find_elements with CSS selectors to explore DOM structure — also free and instant. Great for: counting items (e.g. table rows, product cards), getting links or attributes, understanding page layout before extracting.
+- Prefer search_page over scrolling when looking for specific text content not visible in browser_state. Use find_elements when you need to understand element structure or extract attributes.
+- If you fill an input field and your action sequence is interrupted, most often something changed e.g. suggestions popped up under the field.
+- If the action sequence was interrupted in previous step due to page changes, make sure to complete any remaining actions that were not executed. For example, if you tried to input text and click a search button but the click was not executed because the page changed, you should retry the click action in your next step.
+- If the <user_request> includes specific page information such as product type, rating, price, location, etc., ALWAYS look for filter/sort options FIRST before browsing results. Apply all relevant filters before scrolling through results.
+- The <user_request> is the ultimate goal. If the user specifies explicit steps, they have always the highest priority.
+- If you input into a field, you might need to press enter, click the search button, or select from dropdown for completion.
+- For autocomplete/combobox fields (e.g. search boxes with suggestions, fields with role="combobox"): type your search text, then WAIT for the suggestions dropdown to appear in the next step. If suggestions appear (new elements marked with *[), click the correct one instead of pressing Enter. If no suggestions appear after one step, you may press Enter or submit normally.
+- Don't login into a page if you don't have to. Don't login if you don't have the credentials.
+- There are 2 types of tasks always first think which type of request you are dealing with:
+1. Very specific step by step instructions:
+- Follow them as very precise and don't skip steps. Try to complete everything as requested.
+2. Open ended tasks. Plan yourself, be creative in achieving them.
+- If you get stuck e.g. with logins in open-ended tasks you can re-evaluate the task and try alternative ways, e.g. sometimes accidentally login pops up, even though there some part of the page is accessible or you get some information via web search. CAPTCHAs are handled automatically.
+- If you reach a PDF viewer, the file is automatically downloaded and you can see its path in <available_file_paths>. You can either read the file or scroll in the page to see more.
+- Handle popups, modals, cookie banners, and overlays immediately before attempting other actions. Look for close buttons (X, Close, Dismiss, No thanks, Skip) or accept/reject options. If a popup blocks interaction with the main page, handle it first.
+- If you encounter access denied (403), bot detection, or rate limiting, do NOT repeatedly retry the same URL. Try alternative approaches or report the limitation.
+- Detect and break out of unproductive loops: if you are on the same URL for 3+ steps without meaningful progress, or the same action fails 2-3 times, try a different approach. Track what you have tried in memory to avoid repeating failed approaches.
+</browser_rules>
+<file_system>
+- You have access to a persistent file system which you can use to track progress, store results, and manage long tasks.
+- Your file system is initialized with a `todo.md`: Use this to keep a checklist for known subtasks. Use `replace_file` tool to update markers in `todo.md` as first action whenever you complete an item. This file should guide your step-by-step execution when you have a long running task.
+- If you are writing a `csv` file, make sure to use double quotes if cell elements contain commas.
+- If the file is too large, you are only given a preview of your file. Use `read_file` to see the full content if necessary.
+- If exists, <available_file_paths> includes files you have downloaded or uploaded by the user. You can only read or upload these files but you don't have write access.
+- If the task is really long, initialize a `results.md` file to accumulate your results.
+- DO NOT use the file system if the task is less than 10 steps!
+</file_system>
+<planning>
+Decide whether to plan based on task complexity:
+- Simple task (1-3 actions, e.g. "go to X and click Y"): Act directly. Do NOT output `plan_update`.
+- Complex but clear task (multi-step, known approach): Output `plan_update` immediately with 3-10 todo items.
+- Complex and unclear task (unfamiliar site, vague goal): Explore for a few steps first, then output `plan_update` once you understand the landscape.
+When a plan exists, `<plan>` in your input shows status markers: [x]=done, [>]=current, [ ]=pending, [-]=skipped.
+Output `current_plan_item` (0-indexed) to indicate which item you are working on.
+Output `plan_update` again only to revise the plan after unexpected obstacles or after exploration.
+Completing all plan items does NOT mean the task is done. Always verify against the original <user_request> before calling `done`.
+</planning>
+<task_completion_rules>
+You must call the `done` action in one of two cases:
+- When you have fully completed the USER REQUEST.
+- When you reach the final allowed step (`max_steps`), even if the task is incomplete.
+- If it is ABSOLUTELY IMPOSSIBLE to continue.
+The `done` action is your opportunity to terminate and share your findings with the user.
+- Set `success` to `true` only if the full USER REQUEST has been completed with no missing components.
+- If any part of the request is missing, incomplete, or uncertain, set `success` to `false`.
+- You can use the `text` field of the `done` action to communicate your findings and `files_to_display` to send file attachments to the user, e.g. `["results.md"]`.
+- Put ALL the relevant information you found so far in the `text` field when you call `done` action.
+- Combine `text` and `files_to_display` to provide a coherent reply to the user and fulfill the USER REQUEST.
+- You are ONLY ALLOWED to call `done` as a single action. Don't call it together with other actions.
+- If the user asks for specified format, such as "return JSON with following structure", "return a list of format...", MAKE sure to use the right format in your answer.
+- If the user asks for a structured output, your `done` action's schema will be modified. Take this schema into account when solving the task!
+- When you reach 75% of your step budget, critically evaluate whether you can complete the full task in the remaining steps.
+  If completion is unlikely, shift strategy: focus on the highest-value remaining items and consolidate your results (save progress to files if the file system is in use).
+  This ensures that when you do call `done` (at max_steps or earlier), you have meaningful partial results to deliver.
+- For large multi-item tasks (e.g. "search 50 items"), estimate the per-item cost from the first few items.
+  If the task will exceed your budget, prioritize the most important items and save results incrementally.
+<pre_done_verification>
+BEFORE calling `done` with `success=true`, you MUST perform this verification:
+1. **Re-read the USER REQUEST** — list every concrete requirement (items to find, actions to perform, format to use, filters to apply).
+2. **Check each requirement against your results:**
+   - Did you extract the CORRECT number of items? (e.g., "list 5 items" → count them)
+   - Did you apply ALL specified filters/criteria? (e.g., price range, date, location)
+   - Does your output match the requested format exactly?
+3. **Verify actions actually completed:**
+   - If you submitted a form, posted a comment, or saved a file — check the page state or screenshot to confirm it happened.
+   - If you took a screenshot or downloaded a file — verify it exists in your file system.
+4. **Verify data grounding:** Every URL, price, name, and value must appear verbatim in your tool outputs or browser_state. Do NOT use your training knowledge to fill gaps — if information was not found on the page during this session, say so explicitly. Never fabricate or invent values.
+5. **Blocking error check:** If you hit an unresolved blocker (payment declined, login failed without credentials, email/verification wall, required paywall, access denied not bypassed) → set `success=false`. Temporary obstacles you overcame (auto-solved CAPTCHAs, dismissed popups, retried errors) do NOT count.
+6. **If ANY requirement is unmet, uncertain, or unverifiable — set `success` to `false`.**
+   Partial results with `success=false` are more valuable than overclaiming success.
+</pre_done_verification>
+</task_completion_rules>
+<action_rules>
+- You are allowed to use a maximum of 5 actions per step.
+If you are allowed multiple actions, you can specify multiple actions in the list to be executed sequentially (one after another).
+- If the page changes after an action, the remaining actions are automatically skipped and you get the new state.
+Check the browser state each step to verify your previous action achieved its goal.
+</action_rules>
+<efficiency_guidelines>
+You can output multiple actions in one step. Try to be efficient where it makes sense. Do not predict actions which do not make sense for the current page.
+
+**Action categories:**
+- **Page-changing (always last):** `navigate`, `search`, `go_back`, `switch`, `evaluate` — these always change the page. Remaining actions after them are skipped automatically. Note: `evaluate` runs arbitrary JS that can modify the DOM, so it is never safe to chain other actions after it.
+- **Potentially page-changing:** `click` (on links/buttons that navigate) — monitored at runtime; if the page changes, remaining actions are skipped.
+- **Safe to chain:** `input`, `scroll`, `find_text`, `extract`, `search_page`, `find_elements`, file operations — these do not change the page and can be freely combined.
+
+**Shadow DOM:** Elements inside shadow DOM that have `[index]` markers are directly clickable with `click(index)`. Do NOT use `evaluate` to click them.
+
+**Recommended combinations:**
+- `input` + `input` + `input` + `click` → Fill multiple form fields then submit
+- `input` + `input` → Fill multiple form fields
+- `scroll` + `scroll` → Scroll further down the page
+- `click` + `click` → Navigate multi-step flows (only when clicks do not navigate)
+- File operations + browser actions
+
+Do not try multiple different paths in one step. Always have one clear goal per step.
+Place any page-changing action **last** in your action list, since actions after it will not run.
+</efficiency_guidelines>
+<reasoning_rules>
+You must reason explicitly and systematically at every step in your `thinking` block.
+Exhibit the following reasoning patterns to successfully achieve the <user_request>:
+- Reason about <agent_history> to track progress and context toward <user_request>.
+- Analyze the most recent "Next Goal" and "Action Result" in <agent_history> and clearly state what you previously tried to achieve.
+- Analyze all relevant items in <agent_history>, <browser_state>, <read_state>, <file_system>, <read_state> and the screenshot to understand your state.
+- Explicitly judge success/failure/uncertainty of the last action. Never assume an action succeeded just because it appears to be executed in your last step in <agent_history>. For example, you might have "Action 1/1: Input '2025-05-05' into element 3." in your history even though inputting text failed. Always verify using <browser_vision> (screenshot) as the primary ground truth. If a screenshot is unavailable, fall back to <browser_state>. If the expected change is missing, mark the last action as failed (or uncertain) and plan a recovery.
+- If todo.md is empty and the task is multi-step, generate a stepwise plan in todo.md using file tools.
+- Analyze `todo.md` to guide and track your progress.
+- If any todo.md items are finished, mark them as complete in the file.
+- Analyze whether you are stuck, e.g. when you repeat the same actions multiple times without any progress. Then consider alternative approaches.
+- Analyze the <read_state> where one-time information are displayed due to your previous action. Reason about whether you want to keep this information in memory and plan writing them into a file if applicable using the file tools.
+- If you see information relevant to <user_request>, plan saving the information into a file.
+- Before writing data into a file, analyze the <file_system> and check if the file already has some content to avoid overwriting.
+- Decide what concise, actionable context should be stored in memory to inform future reasoning.
+- When ready to finish, state you are preparing to call done and communicate completion/results to the user.
+- Before done, use read_file to verify file contents intended for user output.
+- Always reason about the <user_request>. Make sure to carefully analyze the specific steps and information required. E.g. specific filters, specific form fields, specific information to search. Make sure to always compare the current trajectory with the user request.
+</reasoning_rules>
+<examples>
+Here are examples of good output patterns. Use them as reference but never copy them directly.
+<todo_examples>
+  "write_file": {
+    "file_name": "todo.md",
+    "content": "# ArXiv CS.AI Recent Papers Collection Task\n\n## Goal: Collect metadata for 20 most recent papers\n\n## Tasks:\n- [ ] Navigate to https://arxiv.org/list/cs.AI/recent\n- [ ] Initialize papers.md file for storing paper data\n- [ ] Collect paper 1/20: The Automated LLM Speedrunning Benchmark\n- [x] Collect paper 2/20: AI Model Passport\n- [ ] Collect paper 3/20: Embodied AI Agents\n- [ ] Collect paper 4/20: Conceptual Topic Aggregation\n- [ ] Collect paper 5/20: Artificial Intelligent Disobedience\n- [ ] Continue collecting remaining papers from current page\n- [ ] Navigate through subsequent pages if needed\n- [ ] Continue until 20 papers are collected\n- [ ] Verify all 20 papers have complete metadata\n- [ ] Final review and completion"
+  }
+</todo_examples>
+<evaluation_examples>
+- Positive Examples:
+"evaluation_previous_goal": "Successfully navigated to the product page and found the target information. Verdict: Success"
+"evaluation_previous_goal": "Clicked the login button and user authentication form appeared. Verdict: Success"
+- Negative Examples:
+"evaluation_previous_goal": "Failed to input text into the search bar as I cannot see it in the image. Verdict: Failure"
+"evaluation_previous_goal": "Clicked the submit button with index 15 but the form was not submitted successfully. Verdict: Failure"
+</evaluation_examples>
+<memory_examples>
+"memory": "Visited 2 of 5 target websites. Collected pricing data from Amazon ($39.99) and eBay ($42.00). Still need to check Walmart, Target, and Best Buy for the laptop comparison."
+"memory": "Found many pending reports that need to be analyzed in the main page. Successfully processed the first 2 reports on quarterly sales data and moving on to inventory analysis and customer feedback reports."
+"memory": "Search returned results but no filter applied yet. User wants items under $50 with 4+ stars. Will apply price filter first, then rating filter."
+"memory": "Popup appeared blocking the page. Need to close it first before continuing with search."
+"memory": "Previous click on search button failed - page did not change. Will try pressing Enter in the search field instead."
+"memory": "Captcha appeared twice on this site. Will try alternative approach via search engine instead of direct navigation."
+"memory": "403 error on main product page. Will try searching for the product on a different site instead of retrying."
+</memory_examples>
+<next_goal_examples>
+"next_goal": "Click on the 'Add to Cart' button to proceed with the purchase flow."
+"next_goal": "Extract details from the first item on the page."
+"next_goal": "Close the popup that appeared blocking the main content."
+"next_goal": "Apply price filter to narrow results to items under $50."
+</next_goal_examples>
+</examples>
+<output>
+You must ALWAYS respond with a valid JSON in this exact format:
+{
+  "thinking": "A structured <think>-style reasoning block that applies the <reasoning_rules> provided above.",
+  "evaluation_previous_goal": "Concise one-sentence analysis of your last action. Clearly state success, failure, or uncertain.",
+  "memory": "1-3 sentences of specific memory of this step and overall progress. You should put here everything that will help you track progress in future steps. Like counting pages visited, items found, etc.",
+  "next_goal": "State the next immediate goal and action to achieve it, in one clear sentence.",
+  "current_plan_item": 0,
+  "plan_update": ["Todo item 1", "Todo item 2", "Todo item 3"],
+  "action":[{"navigate": { "url": "url_value"}}, // ... more actions in sequence]
+}
+Action list should NEVER be empty.
+`current_plan_item` and `plan_update` are optional. See <planning> for details.
+</output>
+<critical_reminders>
+1. ALWAYS verify action success using the screenshot before proceeding
+2. ALWAYS handle popups/modals/cookie banners before other actions
+3. ALWAYS apply filters when user specifies criteria (price, rating, location, etc.)
+4. NEVER repeat the same failing action more than 2-3 times - try alternatives
+5. NEVER assume success - always verify from screenshot or browser state
+6. CAPTCHAs are solved automatically. If blocked by login/403, try alternative approaches rather than retrying
+7. Put ALL relevant findings in done action's text field
+8. Match user's requested output format exactly
+9. Track progress in memory to avoid loops
+10. When at max_steps, call done with whatever results you have
+11. Always compare current trajectory against the user's original request
+12. Be efficient - combine actions when possible but verify results between major steps
+</critical_reminders>
+<error_recovery>
+When encountering errors or unexpected states:
+1. First, verify the current state using screenshot as ground truth
+2. Check if a popup, modal, or overlay is blocking interaction
+3. If an element is not found, scroll to reveal more content
+4. If an action fails repeatedly (2-3 times), try an alternative approach
+5. If blocked by login/403, consider alternative sites or search engines. CAPTCHAs are solved automatically.
+6. If the page structure is different than expected, re-analyze and adapt
+7. If stuck in a loop, explicitly acknowledge it in memory and change strategy
+8. If max_steps is approaching, prioritize completing the most important parts of the task
+</error_recovery>
+
+
+ user 
+<agent_history>
+Agent initialized
+<step>
+Result
+Found initial url and automatically loaded it. Navigated to https://arxiv.org/
+<step>
+Successfully navigated to arxiv.org. Verdict: Success
+On arxiv.org homepage. Need to search for the paper "On the Sentence Embeddings from Pre-trained Language Models".
+Search for the paper "On the Sentence Embeddings from Pre-trained Language Models" on arxiv.org
+Result
+Typed 'On the Sentence Embeddings from Pre-trained Language Models'
+Clicked button "Search"
+<step>
+Search returned 196 results but the specific paper is not immediately visible. I need to navigate directly to the paper's arxiv page.
+Searching for "On the Sentence Embeddings from Pre-trained Language Models" on arxiv. The search returned many results but the exact paper wasn't in the first visible results. The paper is likely arxiv:2005.03652 (BERT-flow paper by Li et al., 2020).
+Navigate directly to the arxiv page for the paper "On the Sentence Embeddings from Pre-trained Language Models"
+Result
+Navigated to https://arxiv.org/abs/2005.03652
+<step>
+The navigation went to arxiv.org/abs/2005.03652, but this is the wrong paper - it's "Active Intent Disambiguation for Shared Control Robots", not "On the Sentence Embeddings from Pre-trained Language Models". Verdict: Failure
+Wrong paper loaded. Need to find the correct arxiv ID for "On the Sentence Embeddings from Pre-trained Language Models". This is likely the BERT-flow paper by Li et al. 2020. Need to search more carefully.
+Search for the correct paper "On the Sentence Embeddings from Pre-trained Language Models" on arxiv to find the right paper ID.
+Result
+Navigated to https://arxiv.org/search/?searchtype=all&query=On+...8ffcd8f
+<step>
+The search returned 196 results but the specific paper isn't in the first visible results. Need to navigate directly to the correct paper.
+Looking for "On the Sentence Embeddings from Pre-trained Language Models" - this is the BERT-flow paper. Need to find the correct arxiv ID. Let me try searching more specifically.
+Navigate directly to the correct arxiv paper - trying arxiv search with title field specifically
+Result
+Navigated to https://arxiv.org/abs/2005.03652v1
+<step>
+The page loaded is still the wrong paper - "Active Intent Disambiguation for Shared Control Robots" (arxiv:2005.03652), not "On the Sentence Embeddings from Pre-trained Language Models". Verdict: Failure
+The paper "On the Sentence Embeddings from Pre-trained Language Models" is NOT at arxiv:2005.03652. Need to search for the correct paper. This is the BERT-flow paper by Bohan Li et al. 2020. Let me search arxiv with title field.
+Search arxiv with title field specifically for "On the Sentence Embeddings from Pre-trained Language Models"
+Result
+Navigated to https://arxiv.org/search/?searchtype=ti&query=On+t...478d78a
+<step>
+Navigated to arxiv search with title field for the paper. The search form is loaded with the correct query. Verdict: Success
+Searching arxiv by title for "On the Sentence Embeddings from Pre-trained Language Models". Need to find the correct paper and count figures and tables.
+Click the Search button to execute the title search and find the correct paper.
+Result
+Clicked button "Search"
+<step>
+The search returned 196 results but these are general results, not specifically the target paper. The target paper "On the Sentence Embeddings from Pre-trained Language Models" is not visible in the current results. Verdict: Need to find the specific paper.
+Searching for "On the Sentence Embeddings from Pre-trained Language Models" on arxiv. The search returned 196 results but the specific paper isn't visible. This is the BERT-flow paper by Bohan Li et al. 2020. Need to navigate directly to the correct arxiv page. The correct arxiv ID should be 2005.03652 but that was wrong. Let me try searching by title specifically.
+Navigate directly to the arxiv search with title field to find the exact paper "On the Sentence Embeddings from Pre-trained Language Models"
+Result
+Navigated to https://arxiv.org/search/?searchtype=ti&query=On+t...478d78a
+<step>
+The search page loaded but shows no results - it seems the search didn't execute properly. The page shows the search form with the query filled in but no results visible. Verdict: Need to execute the search.
+Searching for "On the Sentence Embeddings from Pre-trained Language Models" on arxiv. The search form has the query filled in with title search. Need to click Search to get results. Previous attempts to navigate directly to arxiv:2005.03652 led to wrong paper.
+Click the Search button to execute the title search and find the correct paper.
+Result
+Clicked button "Search"
+<step>
+The search returned 196 results but the specific paper "On the Sentence Embeddings from Pre-trained Language Models" is not in the first visible results. The results are general matches, not the exact paper. Verdict: Need to find the specific paper.
+Searching for "On the Sentence Embeddings from Pre-trained Language Models" on arxiv. The search returns 196 results but the exact paper isn't visible. I need to navigate directly to the paper. This is the BERT-flow paper by Bohan Li et al. 2020. The correct arxiv ID should be around 2011.xxxxx. Let me try navigating directly to the paper with a title search.
+Navigate directly to the arxiv paper by trying the correct arxiv ID for "On the Sentence Embeddings from Pre-trained Language Models" by Bohan Li et al. 2020 - likely arxiv:2011.05864
+Result
+Navigated to https://arxiv.org/abs/2011.05864
+<step>
+Successfully found the correct paper "On the Sentence Embeddings from Pre-trained Language Models" at arxiv:2011.05864. Verdict: Success
+Found the correct paper at arxiv.org/abs/2011.05864. Now need to access the PDF to count figures and tables.
+Click "View PDF" to access the paper and count figures and tables.
+Result
+Clicked a "View PDF"
+<step>
+The PDF has been downloaded and is available at /tmp/browser-use-downloads-3ea250b7/2011.05864v1.pdf. Verdict: Success
+Found the correct paper "On the Sentence Embeddings from Pre-trained Language Models" at arxiv:2011.05864. PDF downloaded to /tmp/browser-use-downloads-3ea250b7/2011.05864v1.pdf. Need to read the PDF to count figures and tables.
+Read the downloaded PDF to count the number of figures and tables in the paper.
+Result
+Read from file /tmp/browser-use-downloads-3ea250b7/2011.05864v1.pdf (12 pages, 44,982 chars).
+<content>
+--- Page 1 ---
+On the Sentence Embeddings from Pre-trained Language Models
+Bohan Li†,‡∗, Hao Zhou†, Junxian He‡, Mingxuan Wang†, Yiming Yang‡, Lei Li†
+†ByteDance AI Lab
+‡Language Technologies Institute, Carnegie Mellon University
+{zhouhao.nlp,wangmingxuan.89,lileilab}@bytedance.com
+{bohanl1,junxianh,yiming}@cs.cmu.edu
+Abstract
+Pre-trained contextual representations like
+BERT have achieved great success in natu-
+ral language processing. However, the sen-
+tence embeddings from the pre-trained lan-
+guage models without ﬁne-tuning have been
+found to poorly capture semantic meaning of
+sentences. In this paper, we argue that the se-
+mantic information in the BERT embeddings
+is not fully exploited. We ﬁrst reveal the the-
+oretical connection between the masked lan-
+guage model pre-training objective and the se-
+mantic similarity task theoretically, and then
+998 more lines...
+</agent_history>
+
+<agent_state>
+<user_request>
+How many figures and tables are in the paper "On the Sentence Embeddings from Pre-trained Language Models"? on https://arxiv.org/
+</user_request>
+<file_system>
+
+</file_system>
+<todo_contents>
+[empty todo.md, fill it when applicable]
+</todo_contents>
+<step_info>Step12 maximum:30
+Today:2026-06-11</step_info>
+<available_file_paths>/tmp/browser-use-downloads-3ea250b7/2011.05864v1.pdf
+Use with absolute paths</available_file_paths>
+</agent_state>
+<browser_state>
+<page_stats>Page appears empty (SPA not loaded?) - 0 links, 1 interactive, 1 iframes, 0 shadow(open), 1 shadow(closed), 4 total elements</page_stats>
+Current tab: B1F2
+Available tabs:
+Tab B1F2: https://arxiv.org/pdf/2011.05864 - 2011.05864
+
+<page_info>0.0 pages above, 0.0 pages below</page_info>
+
+PDF viewer cannot be rendered. In this page, DO NOT use the extract action as PDF content cannot be rendered. Use the read_file action on the downloaded PDF in available_file_paths to read the full text content.
+
+Interactive elements:
+[Start of page]
+Closed Shadow
+	|scroll element[41098]<iframe name=69E60059BB9F0AF716A978419024F9B9 type=application/pdf /> (scroll)
+Shadow End
+[End of page]
+</browser_state>
+<read_state>
+<read_state_0>
+Read from file /tmp/browser-use-downloads-3ea250b7/2011.05864v1.pdf (12 pages, 44,982 chars).
+<content>
+--- Page 1 ---
+On the Sentence Embeddings from Pre-trained Language Models
+Bohan Li†,‡∗, Hao Zhou†, Junxian He‡, Mingxuan Wang†, Yiming Yang‡, Lei Li†
+†ByteDance AI Lab
+‡Language Technologies Institute, Carnegie Mellon University
+{zhouhao.nlp,wangmingxuan.89,lileilab}@bytedance.com
+{bohanl1,junxianh,yiming}@cs.cmu.edu
+Abstract
+Pre-trained contextual representations like
+BERT have achieved great success in natu-
+ral language processing. However, the sen-
+tence embeddings from the pre-trained lan-
+guage models without ﬁne-tuning have been
+found to poorly capture semantic meaning of
+sentences. In this paper, we argue that the se-
+mantic information in the BERT embeddings
+is not fully exploited. We ﬁrst reveal the the-
+oretical connection between the masked lan-
+guage model pre-training objective and the se-
+mantic similarity task theoretically, and then
+analyze the BERT sentence embeddings em-
+pirically. We ﬁnd that BERT always induces
+a non-smooth anisotropic semantic space of
+sentences, which harms its performance of
+semantic similarity. To address this issue,
+we propose to transform the anisotropic sen-
+tence embedding distribution to a smooth and
+isotropic Gaussian distribution through nor-
+malizing ﬂows that are learned with an un-
+supervised objective. Experimental results
+show that our proposed BERT-ﬂow method ob-
+tains signiﬁcant performance gains over the
+state-of-the-art sentence embeddings on a va-
+riety of semantic textual similarity tasks. The
+code is available at https://github.com/
+bohanli/BERT-flow.
+1 Introduction
+Recently, pre-trained language models and its vari-
+ants (Radford et al., 2019; Devlin et al., 2019; Yang
+et al., 2019; Liu et al., 2019) like BERT (Devlin
+et al., 2019) have been widely used as represen-
+tations of natural language. Despite their great
+success on many NLP tasks through ﬁne-tuning,
+the sentence embeddings from BERT without ﬁne-
+tuning are signiﬁcantly inferior in terms of se-
+mantic textual similarity (Reimers and Gurevych,
+∗ The work was done when BL was an intern at
+ByteDance.
+2019) – for example, they even underperform the
+GloVe (Pennington et al., 2014) embeddings which
+are not contextualized and trained with a much sim-
+pler model. Such issues hinder applying BERT
+sentence embeddings directly to many real-world
+scenarios where collecting labeled data is highly-
+costing or even intractable.
+In this paper, we aim to answer two major ques-
+tions: (1) why do the BERT-induced sentence em-
+beddings perform poorly to retrieve semantically
+similar sentences? Do they carry too little semantic
+information, or just because the semantic meanings
+in these embeddings are not exploited properly? (2)
+If the BERT embeddings capture enough semantic
+information that is hard to be directly utilized, how
+can we make it easier without external supervision?
+Towards this end, we ﬁrst study the connection
+between the BERT pretraining objective and the se-
+mantic similarity task. Our analysis reveals that the
+sentence embeddings of BERT should be able to
+intuitively reﬂect the semantic similarity between
+sentences, which contradicts with experimental ob-
+servations. Inspired by Gao et al. (2019) who ﬁnd
+that the language modeling performance can be
+limited by the learned anisotropic word embedding
+space where the word embeddings occupy a narrow
+cone, and Ethayarajh (2019) who ﬁnd that BERT
+word embeddings also suffer from anisotropy, we
+hypothesize that the sentence embeddings from
+BERT – as average of context embeddings from last
+layers1 – may suffer from similar issues. Through
+empirical probing over the embeddings, we further
+observe that the BERT sentence embedding space
+is semantically non-smoothing and poorly deﬁned
+in some areas, which makes it hard to be used di-
+rectly through simple similarity metrics such as dot
+1In this paper, we compute average of context embeddings
+from last one or two layers as our sentence embeddings since
+they are consistently better than the [CLS] vector as shown
+in (Reimers and Gurevych, 2019).
+arXiv:2011.05864v1  [cs.CL]  2 Nov 2020
+
+--- Page 2 ---
+product or cosine similarity.
+To address these issues, we propose to transform
+the BERT sentence embedding distribution into a
+smooth and isotropic Gaussian distribution through
+normalizing ﬂows (Dinh et al., 2015), which is
+an invertible function parameterized by neural net-
+works. Concretely, we learn a ﬂow-based genera-
+tive model to maximize the likelihood of generating
+BERT sentence embeddings from a standard Gaus-
+sian latent variable in a unsupervised fashion. Dur-
+ing training, only the ﬂow network is optimized
+while the BERT parameters remain unchanged.
+The learned ﬂow, an invertible mapping function
+between the BERT sentence embedding and Gaus-
+sian latent variable, is then used to transform the
+BERT sentence embedding to the Gaussian space.
+We name the proposed method as BERT-ﬂow.
+We perform extensive experiments on 7 stan-
+dard semantic textual similarity benchmarks with-
+out using any downstream supervision. Our empir-
+ical results demonstrate that the ﬂow transforma-
+tion is able to consistently improve BERT by up
+to 12.70 points with an average of 8.16 points in
+terms of Spearman correlation between cosine em-
+bedding similarity and human annotated similarity.
+When combined with external supervision from
+natural language inference tasks (Bowman et al.,
+2015; Williams et al., 2018), our method outper-
+forms the sentence-BERT embeddings (Reimers
+and Gurevych, 2019), leading to new state-of-the-
+art performance. In addition to semantic sim-
+ilarity tasks, we apply sentence embeddings to
+a question-answer entailment task, QNLI (Wang
+et al., 2019), directly without task-speciﬁc super-
+vision, and demonstrate the superiority of our ap-
+proach. Moreover, our further analysis implies that
+BERT-induced similarity can excessively correlate
+with lexical similarity compared to semantic sim-
+ilarity, and our proposed ﬂow-based method can
+effectively remedy this problem.
+2 Understanding the Sentence
+Embedding Space of BERT
+To encode a sentence into a ﬁxed-length vector with
+BERT, it is a convention to either compute an aver-
+age of context embeddings in the last few layers of
+BERT, or extract the BERT context embedding at
+the position of the [CLS] token. Note that there is
+no token masked when producing sentence embed-
+dings, which is different from pretraining.
+Reimers and Gurevych (2019) demonstrate that
+such BERT sentence embeddings lag behind the
+state-of-the-art sentence embeddings in terms of
+semantic similarity. On the STS-B dataset, BERT
+sentence embeddings are even less competitive to
+averaged GloVe (Pennington et al., 2014) embed-
+dings, which is a simple and non-contextualized
+baseline proposed several years ago. Nevertheless,
+this incompetence has not been well understood
+yet in existing literature.
+Note that as demonstrated by Reimers and
+Gurevych (2019), averaging context embeddings
+consistently outperforms the [CLS] embedding.
+Therefore, unless mentioned otherwise, we use av-
+erage of context embeddings as BERT sentence
+embeddings and do not distinguish them in the rest
+of the paper.
+2.1 The Connection between Semantic
+Similarity and BERT Pre-training
+We consider a sequence of tokens x1:T =
+(x1,...,x T ). Language modeling (LM) factor-
+izes the joint probabilityp(x1:T ) in an autoregres-
+sive way, namely logp(x1:T ) = ∑T
+t=1 logp(xt|ct)
+where the contextct =x1:t−1. To capture bidirec-
+tional context during pretraining, BERT proposes
+a masked language modeling (MLM) objective,
+which instead factorizes the probability of noisy
+reconstructionp(¯x|ˆx) = ∑T
+t=1mtp(xt|ct), where
+ˆx is a corrupted sequence, ¯x is the masked tokens,
+mt is equal to 1 whenxt is masked and 0 otherwise.
+The contextct = ˆx.
+Note that both LM and MLM can be reduced to
+modeling the conditional distribution of a tokenx
+given the contextc, which is typically formulated
+with a softmax function as,
+p(x|c) = exp h⊤
+c wx∑
+x′ exp h⊤c wx′
+. (1)
+Here the context embedding hc is a function of
+c, which is usually heavily parameterized by a deep
+neural network (e.g., a Transformer (Vaswani et al.,
+2017)); The word embedding wx is a function of
+x, which is parameterized by an embedding lookup
+table.
+The similarity between BERT sentence embed-
+dings can be reduced to the similarity between
+BERT context embeddings hT
+c hc′ 2. However, as
+2This is because we approximate BERT sentence embed-
+dings with context embeddings, and compute their dot product
+(or cosine similarity) as model-predicted sentence similarity.
+Dot product is equivalent to cosine similarity when the em-
+
+--- Page 3 ---
+shown in Equation 1, the pretraining of BERT does
+not explicitly involve the computation of hT
+c hc′.
+Therefore, we can hardly derive a mathematical
+formulation of what h⊤
+c hc′ exactly represents.
+Co-Occurrence Statistics as the Proxy for Se-
+mantic Similarity Instead of directly analyzing
+hT
+c h′
+c, we consider h⊤
+c wx, the dot product between
+a context embedding hc and a word embedding wx.
+According to Yang et al. (2018), in a well-trained
+language model, h⊤
+c wx can be approximately de-
+composed as follows,
+h⊤
+c wx≈ logp∗(x|c) +λc (2)
+= PMI(x,c ) + logp(x) +λc. (3)
+where PMI(x,c ) = log p(x,c)
+p(x)p(c) denotes the point-
+wise mutual information betweenx andc, logp(x)
+is a word-speciﬁc term, andλc is a context-speciﬁc
+term.
+PMI captures how frequently two events co-
+occur more than if they independently occur. Note
+that co-occurrence statistics is a typical tool to
+deal with “semantics” in a computational way —
+speciﬁcally, PMI is a common mathematical sur-
+rogate to approximate word-level semantic simi-
+larity (Levy and Goldberg, 2014; Ethayarajh et al.,
+2019). Therefore, roughly speaking, it is seman-
+tically meaningful to compute the dot product be-
+tween a context embedding and a word embedding.
+Higher-Order Co-Occurrence Statistics as
+Context-Context Semantic Similarity. During
+pretraining, the semantic relationship between two
+contextsc andc′ could be inferred and reinforced
+with their connections to words. To be speciﬁc,
+if both the contexts c and c′ co-occur with the
+same wordw, the two contexts are likely to share
+similar semantic meaning. During the training
+dynamics, when c andw occur at the same time,
+the embeddings hc andxw are encouraged to be
+closer to each other, meanwhile the embeddinghc
+andxw′ wherew′̸=w are encouraged to be away
+from each other due to normalization. A similar
+scenario applies to the contextc′. In this way, the
+similarity between hc and hc′ is also promoted.
+With all the words in the vocabulary acting as
+hubs, the context embeddings should be aware of
+its semantic relatedness to each other.
+beddings are normalized to unit hyper-sphere.
+Higher-order context-context co-occurrence
+could also be inferred and propagated during pre-
+training. The update of a context embedding hc
+could affect another context embeddinghc′ in the
+above way, and similarlyhc′ can further affect an-
+otherhc′′. Therefore, the context embeddings can
+form an implicit interaction among themselves via
+higher-order co-occurrence relations.
+2.2 Anisotropic Embedding Space Induces
+Poor Semantic Similarity
+As discussed in Section 2.1, the pretraining of
+BERT should have encouraged semantically mean-
+ingful context embeddings implicitly. Why BERT
+sentence embeddings without ﬁnetuning yield un-
+satisfactory performance?
+To investigate the underlying problem of the fail-
+ure, we use word embeddings as a surrogate be-
+cause words and contexts share the same embed-
+ding space. If the word embeddings exhibits some
+misleading properties, the context embeddings will
+also be problematic, and vice versa.
+Gao et al. (2019) and Wang et al. (2020) have
+pointed out that, for language modeling, the max-
+imum likelihood training with Equation 1 usually
+produces an anisotropic word embedding space.
+“Anisotropic” means word embeddings occupy a
+narrow cone in the vector space. This phenomenon
+is also observed in the pretrained Transformers like
+BERT, GPT-2, etc (Ethayarajh, 2019).
+In addition, we have two empirical observations
+over the learned anisotropic embedding space.
+Observation 1: Word Frequency Biases the
+Embedding Space We expect the embedding-
+induced similarity to be consistent to semantic sim-
+ilarity. If embeddings are distributed in different
+regions according to frequency statistics, the in-
+duced similarity is not useful any more.
+However, as discussed by Gao et al. (2019),
+anisotropy is highly relevant to the imbalance of
+word frequency. They prove that under some
+assumptions, the optimal embeddings of non-
+appeared tokens in Transformer language models
+can be extremely far away from the origin. They
+also try to roughly generalize this conclusion to
+rarely-appeared words.
+To verify this hypothesis in the context of BERT,
+we compute the mean ℓ2 distance between the
+BERT word embeddings and the origin (i.e., the
+meanℓ2-norm). In the upper half of Table 1, we
+observe that high-frequency words are all close to
+
+--- Page 4 ---
+Rank of word frequency (0,100) [100,500) [500,5K) [5 K,1K)
+Meanℓ2-norm 0.95 1.04 1.22 1.45
+Meank-NNℓ2-dist. (k = 3) 0.77 0.93 1.16 1.30
+Meank-NNℓ2-dist. (k = 5) 0.83 0.99 1.22 1.34
+Meank-NNℓ2-dist. (k = 7) 0.87 1.04 1.26 1.37
+Meank-NN dot-product. (k = 3) 0.73 0.92 1.20 1.63
+Meank-NN dot-product. (k = 5) 0.73 0.91 1.19 1.61
+Meank-NN dot-product. (k = 7) 0.72 0.90 1.17 1.60
+Table 1: The meanℓ2-norm, as well as their distance to theirk-nearest neighbors (among all the word embeddings)
+of the word embeddings of BERT, segmented by ranges of word frequency rank (counted based on Wikipedia
+dump; the smaller the more frequent).
+the origin, while low-frequency words are far away
+from the origin.
+This observation indicates that the word embed-
+dings can be biased to word frequency. This coin-
+cides with the second term in Equation 3, the log
+density of words. Because word embeddings play
+a role of connecting the context embeddings during
+training, context embeddings might be misled by
+the word frequency information accordingly and its
+preserved semantic information can be corrupted.
+Observation 2: Low-Frequency Words Dis-
+perse Sparsely We observe that, in the learned
+anisotropic embedding space, high-frequency
+words concentrates densely and low-frequency
+words disperse sparsely.
+This observation is achieved by computing the
+mean ℓ2 distance of word embeddings to their
+k-nearest neighbors. In the lower half of Ta-
+ble 1, we observe that the embeddings of low-
+frequency words tends to be farther to their k-
+NN neighbors compared to the embeddings of
+high-frequency words. This demonstrates that low-
+frequency words tends to disperse sparsely.
+Due to the sparsity, many “holes” could be
+formed around the low-frequency word embed-
+dings in the embedding space, where the semantic
+meaning can be poorly deﬁned. Note that BERT
+sentence embeddings are produced by averaging
+the context embeddings, which is a convexity-
+preserving operation. However, the holes violate
+the convexity of the embedding space. This is a
+common problem in the context of representation
+learining (Rezende and Viola, 2018; Li et al., 2019;
+Ghosh et al., 2020). Therefore, the resulted sen-
+tence embeddings can locate in the poorly-deﬁned
+areas, and the induced similarity can be problem-
+atic.
+Invertible mapping
+The BERT sentenceembedding spaceStandard Gaussian latent space (isotropic)
+! "
+Figure 1: An illustration of our proposed ﬂow-based
+calibration over the original sentence embedding space
+of BERT.
+3 Proposed Method: BERT-ﬂow
+To verify the hypotheses proposed in Section 2.2,
+and to circumvent the incompetence of the BERT
+sentence embeddings, we proposed a calibration
+method called BERT-ﬂow in which we take ad-
+vantage of an invertible mapping from the BERT
+embedding space to a standard Gaussian latent
+space. The invertibility condition assures that the
+mutual information between the embedding space
+and the data examples does not change.
+3.1 Motivation
+A standard Gaussian latent space may have favor-
+able properties which can help with our problem.
+Connection to Observation 1 First, standard
+Gaussian satisﬁes isotropy. The probabilistic den-
+sity in standard Gaussian distribution does not vary
+in terms of angle. If theℓ2 norm of samples from
+standard Gaussian are normalized to 1, these sam-
+ples can be regarded as uniformly distributed over
+a unit sphere.
+We can also understand the isotropy from a sin-
+gular spectrum perspective. As discussed above,
+the anisotropy of the embedding space stems from
+the imbalance of word frequency. In the literature
+of traditional word embeddings, Mu et al. (2017)
+
+--- Page 5 ---
+discovers that the dominating singular vectors can
+be highly correlated to word frequency, which mis-
+leads the embedding space. By ﬁtting a mapping
+to an isotropic distribution, the singular spectrum
+of the embedding space can be ﬂattened. In this
+way, the word frequency-related singular directions,
+which are the dominating ones, can be suppressed.
+Connection to Observation 2 Second, the prob-
+abilistic density of Gaussian is well deﬁned over
+the entire real space. This means there are no “hole”
+areas, which are poorly deﬁned in terms of proba-
+bility. The helpfulness of Gaussian prior for mit-
+igating the “hole” problem has been widely ob-
+served in existing literature of deep latent variable
+models (Rezende and Viola, 2018; Li et al., 2019;
+Ghosh et al., 2020).
+3.2 Flow-based Generative Model
+We instantiate the invertible mapping with ﬂows.
+A ﬂow-based generative model (Kobyzev et al.,
+2019) establishes an invertible transformation from
+the latent spaceZ to the observed spaceU. The
+generative story of the model is deﬁned as
+z∼pZ(z), u =fφ(z)
+where z∼ pZ(z) the prior distribution, and f :
+Z→U is an invertible transformation. With the
+change-of-variables theorem, the probabilistic den-
+sity function (PDF) of the observable x is given
+as,
+pU(u) =pZ(f−1
+φ (u))|det
+∂f−1
+φ (u)
+∂u |
+In our method, we learn a ﬂow-based generative
+model by maximizing the likelihood of generat-
+ing BERT sentence embeddings from a standard
+Gaussian latent latent variable. In other words, the
+base distributionpZ is a standard Gaussian and we
+consider the extracted BERT sentence embeddings
+as the observed spaceU. We maximize the like-
+lihood ofU’s marginal via Equation 4 in a fully
+unsupervised way.
+maxφ Eu=BERT(sentence),sentence∼D
+logpZ(f−1
+φ (u)) + log|det
+∂f−1
+φ (u)
+∂u |,
+(4)
+HereD denotes the dataset, in other words, the
+collection of sentences. Note that during training,
+only the ﬂow parameters are optimized while the
+BERT parameters remain unchanged. Eventually,
+we learn an invertible mapping functionf−1
+φ which
+can transform each BERT sentence embedding u
+into a latent Gaussian representation z without loss
+of information.
+The invertible mappingfφ is parameterized as
+a neural network, and the architectures are usu-
+ally carefully designed to guarantee the invertibil-
+ity (Dinh et al., 2015). Moreover, its determi-
+nant|det
+∂f−1
+φ (u)
+∂u | should also be easy to compute
+so as to make the maximum likelihood training
+tractable. In our experiments, we follows the de-
+sign of Glow (Kingma and Dhariwal, 2018). The
+Glow model is composed of a stack of multiple
+invertible transformations, namely actnorm, invert-
+ible 1× 1 convolution, and afﬁne coupling layer3.
+We simplify the model by replacing afﬁne coupling
+with additive coupling (Dinh et al., 2015) to reduce
+model complexity, and replacing the invertible1×1
+convolution with random permutation to avoid nu-
+merical errors. For the mathematical formula of
+the ﬂow model with additive coupling, please refer
+to Appendix A.
+4 Experiments
+To verify our hypotheses and demonstrate the effec-
+tiveness of our proposed method, in this section we
+present our experimental results for various tasks
+related to semantic textual similarity under multiple
+conﬁgurations. For the implementation details of
+our siamese BERT models and ﬂow-based models,
+please refer to Appendix B.
+4.1 Semantic Textual Similarity
+Datasets. We evaluate our approach extensively
+on the semantic textual similarity (STS) tasks.
+We report results on 7 datasets, namely the STS
+benchmark (STS-B) (Cer et al., 2017) the SICK-
+Relatedness (SICK-R) dataset (Marelli et al., 2014)
+and the STS tasks 2012 - 2016 (Agirre et al., 2012,
+2013, 2014, 2015, 2016). We obtain all these
+datasets via the SentEval toolkit (Conneau and
+Kiela, 2018). These datasets provide a ﬁne-grained
+gold standard semantic similarity between 0 and 5
+for each sentence pair.
+Evaluation Procedure. Following the procedure
+in previous work like Sentence-BERT (Reimers
+and Gurevych, 2019) for the STS task, the predic-
+3For concrete mathamatical formulations, please refer to
+Table 1 of Kingma and Dhariwal (2018)
+
+--- Page 6 ---
+Dataset STS-B SICK-R STS-12 STS-13 STS-14 STS-15 STS-16
+Published in (Reimers and Gurevych, 2019)
+Avg. GloVe embeddings 58.02 53.76 55.14 70.66 59.73 68.25 63.66
+Avg. BERT embeddings 46.35 58.40 38.78 57.98 57.98 63.15 61.06
+BERT CLS-vector 16.50 42.63 20.16 30.01 20.09 36.88 38.03
+Our Implementation
+BERTbase 47.29 58.21 49.07 55.92 54.75 62.75 65.19
+BERTbase-last2avg 59.04 63.75 57.84 61.95 62.48 70.95 69.81
+BERTbase-ﬂow (NLI∗) 58.56 ( ↓) 65.44 (↑) 59.54 (↑) 64.69 (↑) 64.66 (↑) 72.92 (↑) 71.84 (↑)
+BERTbase-ﬂow (target) 70.72 (↑) 63.11(↓) 63.48 (↑) 72.14 (↑) 68.42 (↑) 73.77 (↑) 75.37 (↑)
+BERTlarge 46.99 53.74 46.89 53.32 49.27 56.54 61.63
+BERTlarge-last2avg 59.56 60.22 57.68 61.37 61.02 68.04 70.32
+BERTlarge-ﬂow (NLI∗) 68.09 ( ↑) 64.62 (↑) 61.72 (↑) 66.05 (↑) 66.34 (↑) 74.87 (↑) 74.47 (↑)
+BERTlarge-ﬂow (target) 72.26 (↑) 62.50 (↑) 65.20 (↑) 73.39 (↑) 69.42 (↑) 74.92 (↑) 77.63 (↑)
+Table 2: Experimental results on semantic textual similarity without using NLI supervision. We report the Spear-
+man’s rank correlation between the cosine similarity of sentence embeddings and the gold labels on multiple
+datasets. Numbers are reported asρ× 100.↑ denotes outperformance over its BERT baseline and↓ denotes under-
+performance. Our proposed BERT-ﬂow method achieves the best scores. Note that our BERT-ﬂow use -last2avg
+as default setting. ∗: Use NLI corpus for the unsupervised training of ﬂow; supervision labels of NLI are NOT
+visible.
+tion of similarity consists of two steps: (1) ﬁrst, we
+obtain sentence embeddings for each sentence with
+a sentence encoder, and (2) then, we compute the
+cosine similarity between the two embeddings of
+the input sentence pair as our model-predicted sim-
+ilarity. The reported numbers are the Spearman’s
+correlation coefﬁcients between the predicted simi-
+larity and gold standard similarity scores, which is
+the same way as in (Reimers and Gurevych, 2019).
+Experimental Details. We consider both
+BERTbase and BERT large in our experiments.
+Speciﬁcally, we use an average pooling over BERT
+context embeddings in the last one or two layers
+as the sentence embedding which is found to
+outperform the [CLS] vector. Interestingly, our
+preliminary exploration shows that averaging the
+last two layers of BERT (denoted by -last2avg)
+consistently produce better results compared to
+only averaging the last one layer. Therefore, we
+choose -last2avg as our default conﬁguration when
+assessing our own approach.
+For the proposed method, the ﬂow-based objec-
+tive (Equation 4) is maximized only to update the
+invertible mapping while the BERT parameters re-
+mains unchanged. Our ﬂow models are by default
+learned over the full target dataset (train + valida-
+tion + test). We denote this conﬁguration as ﬂow
+(target). Note that although we use the sentences of
+the entire target dataset, learning ﬂow does not use
+any provided labels for training, thus it is a purely
+unsupervised calibration over the BERT sentence
+embedding space.
+We also test our ﬂow-based model learned on
+a concatenation of SNLI (Bowman et al., 2015)
+and MNLI (Williams et al., 2018) for comparison
+(ﬂow (NLI)). The concatenated NLI datasets com-
+prise of tremendously more sentence pairs (SNLI
+570K + MNLI 433K). Note that “ﬂow (NLI)” does
+not require any supervision label. When ﬁtting
+ﬂow on NLI corpora, we only use the raw sen-
+tences instead of the entailment labels. An intu-
+ition behind the ﬂow (NLI) setting is that, com-
+pared to Wikipedia sentences (on which BERT is
+pretrained), the raw sentences of both NLI and STS
+are simpler and shorter. This means the NLI-STS
+discrepancy could be relatively smaller than the
+Wikipedia-STS discrepancy.
+We run the experiments on two settings: (1)
+when external labeled data is unavailable. This
+is the natural setting where we learn ﬂow parame-
+ters with the unsupervised objective (Equation 4),
+meanwhile BERT parameters are unchanged. (2)
+we ﬁrst ﬁne-tune BERT on the SNLI+MNLI tex-
+tual entailment classiﬁcation task in a siamese fash-
+ion (Reimers and Gurevych, 2019). For BERT-
+ﬂow, we further learn the ﬂow parameters. This
+setting is to compare with the state-of-the-art re-
+sults which utilize NLI supervision (Reimers and
+Gurevych, 2019). We denote the two different mod-
+els as BERT-NLI and BERT-NLI-ﬂow respectively.
+Results w/o NLI Supervision. As shown in Ta-
+ble 2, the original BERT sentence embeddings
+(with both BERT base and BERTlarge) fail to out-
+perform the averaged GloVe embeddings. And
+
+--- Page 7 ---
+Dataset STS-B SICK-R STS-12 STS-13 STS-14 STS-15 STS-16
+Published in (Reimers and Gurevych, 2019)
+InferSent - Glove 68.03 65.65 52.86 66.75 62.15 72.77 66.86
+USE 74.92 76.69 64.49 67.80 64.61 76.83 73.18
+SBERTbase-NLI 77.03 72.91 70.97 76.53 73.19 79.09 74.30
+SBERTlarge-NLI 79.23 73.75 72.27 78.46 74.90 80.99 76.25
+SRoBERTabase-NLI 77.77 74.46 71.54 72.49 70.80 78.74 73.69
+SRoBERTalarge-NLI 79.10 74.29 74.53 77.00 73.18 81.85 76.82
+Our Implementation
+BERTbase-NLI 77.08 72.62 66.23 70.22 72.15 77.35 73.91
+BERTbase-NLI-last2avg 78.03 74.07 68.37 72.44 73.98 79.15 75.39
+BERTbase-NLI-ﬂow (NLI∗) 79.10 (↑) 78.03 (↑) 67.75 (↓) 76.73 (↑) 75.53 (↑) 80.63 (↑) 77.58 (↑)
+BERTbase-NLI-ﬂow (target) 81.03 (↑) 74.97 (↑) 68.95 (↑) 78.48 (↑) 77.62 (↑) 81.95 (↑) 78.94 (↑)
+BERTlarge-NLI 77.80 73.44 66.87 73.91 74.04 79.14 75.35
+BERTlarge-NLI-last2avg 78.45 74.93 68.69 75.63 75.55 80.35 76.81
+BERTlarge-NLI-ﬂow (NLI∗) 79.89 (↑) 77.73 (↑) 69.61 (↑) 79.45 (↑) 77.56 (↑) 82.48 (↑) 79.36 (↑)
+BERTlarge-NLI-ﬂow (target)81.18 (↑) 74.52 (↓) 70.19 (↑) 80.27 (↑) 78.85 (↑) 82.97 (↑) 80.57 (↑)
+Table 3: Experimental results on semantic textual similarity with NLI supervision. Note that our ﬂows are still
+learned in a unsupervised way. InferSent (Conneau et al., 2017) is a siamese LSTM train on NLI, Universal
+Sentence Encoder (USE) (Cer et al., 2018) replace the LSTM with a Transformer and SBERT (Reimers and
+Gurevych, 2019) further use BERT. We report the Spearman’s rank correlation between the cosine similarity of
+sentence embeddings and the gold labels on multiple datasets. Numbers are reported as ρ× 100. ↑ denotes
+outperformance over its BERT baseline and ↓ denotes underperformance. Our proposed BERT-ﬂow (i.e., the
+“BERT-NLI-ﬂow” in this table) method achieves the best scores. Note that our BERT-ﬂow use -last2avg as default
+setting.∗: Use NLI corpus for the unsupervised training of ﬂow; supervision labels of NLI are NOT visible.
+averaging the last-two layers of the BERT model
+can consistently improve the results. For BERTbase
+and BERTlarge, our proposed ﬂow-based method
+(BERT-ﬂow (target)) can further boost the perfor-
+mance by 5.88 and 8.16 points on average respec-
+tively. For most of the datasets, learning ﬂows
+on the target datasets leads to larger performance
+improvement than on NLI. The only exception is
+SICK-R where training ﬂows on NLI is better. We
+think this is because SICK-R is collected for both
+entailment and relatedness. Since SNLI and MNLI
+are also collected for textual entailment evaluation,
+the distribution discrepancy between SICK-R and
+NLI may be relatively small. Also due to the much
+larger size of the NLI datasets, it is not surpris-
+ing that learning ﬂows on NLI results in stronger
+performance.
+Results w/ NLI Supervision. Table 3 shows the
+results with NLI supervisions. Similar to the fully
+unsupervised results before, our isotropic embed-
+ding space from invertible transformation is able
+to consistently improve the SBERT baselines in
+most cases, and outperforms the state-of-the-art
+SBERT/SRoBERTa results by a large margin. Ro-
+bustness analysis with respect to random seeds are
+provided in Appendix C.
+4.2 Unsupervised Question-Answer
+Entailment
+In addition to the semantic textual similarity
+tasks, we examine the effectiveness of our
+method on unsupervised question-answer entail-
+ment. We use Question Natural Language Infer-
+ence (QNLI, Wang et al. (2019)), a dataset compris-
+ing 110K question-answer pairs (with 5K+ for test-
+ing). QNLI extracts the questions as well as their
+corresponding context sentences from SQUAD (Ra-
+jpurkar et al., 2016), and annotates each pair as ei-
+ther entailment or no entailment. In this paper, we
+further adapt QNLI as an unsupervised task. The
+similarity between a question and an answer can
+be predicted by computing the cosine similarity of
+their sentence embeddings. Then we regard entail-
+ment as 1 and no entailment as 0, and evaluate the
+performance of the methods with AUC.
+As shown in Table 4, our method consistently
+improves the AUC on the validation set of QNLI.
+Also, learning ﬂow on the target dataset can pro-
+duce superior results compared to learning ﬂows
+on NLI.
+
+--- Page 8 ---
+Method AUC
+BERTbase-NLI-last2avg 70.30
+BERTbase-NLI-ﬂow (NLI∗) 72.52 (↑)
+BERTbase-NLI-ﬂow (target) 76.17 (↑)
+BERTlarge-NLI-last2avg 70.41
+BERTlarge-NLI-ﬂow (NLI∗) 74.19 (↑)
+BERTlarge-NLI-ﬂow (target)77.09 (↑)
+Table 4: AUC on QNLI evaluated on the validation
+set. ∗: Use NLI corpus for the unsupervised training
+of ﬂow; supervision labels of NLI are NOT visible.
+Method Correlation
+BERTbase 47.29
++ SN 55.46
++ NATSV (k = 1) 51.79
++ NATSV (k = 10) 60.40
++ SN + NATSV (k = 1) 56.02
++ SN + NATSV (k = 6) 63.51
+BERTbase-ﬂow (target) 65.62
+Table 5: Comparing ﬂow-based method with baselines
+on STS-B.k is selected among1∼ 20 on the validation
+set. We report the Spearman’s rank correlation (×100).
+4.3 Comparison with Other Embedding
+Calibration Baselines
+In the literature of traditional word embeddings,
+Arora et al. (2017) and Mu et al. (2017) also dis-
+cover the anisotropy phenomenon of the embed-
+ding space, and they provide several methods to
+encourage isotropy:
+Standard Normalization (SN). In this idea, we
+conduct a simple post-processing over the embed-
+dings by computing the mean µ and standard devi-
+ation σ of the sentence embeddings u’s, and nor-
+malizing the embeddings by u−µ
+σ .
+Nulling Away Top-k Singular Vectors (NATSV).
+Mu et al. (2017) ﬁnd out that sentence embeddings
+computed by averaging traditional word embed-
+dings tend to have a fast-decaying singular spec-
+trum. They claim that, by nulling away the top-k
+singular vectors, the anisotropy of the embeddings
+can be circumvented and better semantic similarity
+performance can be achieved.
+We compare with these embedding calibration
+methods on STS-B dataset and the results are
+shown in Table 5. Standard normalization (SN)
+helps improve the performance but it falls behind
+nulling away top-k singular vectors (NATSV). This
+means standard normalization cannot fundamen-
+tally eliminate the anisotropy. By combining the
+two methods, and carefully tuningk over the vali-
+dation set, further improvements can be achieved.
+Similarity Edit distance Gold similarity
+Gold similarity -24.61 100.00
+BERT-induce similarity -50.49 59.30
+Flow-induce similarity -28.01 74.09
+Table 6: Spearman’s correlation ρ between various
+sentence similarities on the validation set of STS-B.
+We can observe that BERT-induced similarity is highly
+correlated to edit distance, while the correlation with
+edit distance is less evident for gold standard or ﬂow-
+induced similarity.
+Nevertheless, our method still produces much bet-
+ter results. We argue that NATSV can help elimi-
+nate anisotropy but it may also discard some useful
+information contained in the nulled vectors. On the
+contrary, our method directly learns an invertible
+mapping to isotropic latent space without discard-
+ing any information.
+4.4 Dicussion: Semantic Similarity Versus
+Lexical Similarity
+In addition to semantic similarity, we further study
+lexical similarity induced by different sentence em-
+beddings. Speciﬁcally, we use edit distance as the
+metric for lexical similarity between a pair of sen-
+tences, and focus on the correlations between the
+sentence similarity and edit distance. Concretely,
+we compute the cosine similarity in terms of BERT
+sentence embeddings as well as edit distance for
+each sentence pair. Within a dataset consisting of
+many sentence pairs, we compute the Spearman’s
+correlation coefﬁcientρ between the similarities
+and the edit distances, as well as between similari-
+ties from different models. We perform experiment
+on the STS-B dataset and include the human anno-
+tated gold similarity into this analysis.
+BERT-Induced Similarity Excessively Corre-
+lates with Lexical Similarity. Table 6 shows
+that the correlation between BERT-induced similar-
+ity and edit distance is very strong (ρ =−50.49),
+considering that gold standard labels maintain a
+much smaller correlation with edit distance (ρ =
+−24.61). This phenomenon can also be observed
+in Figure 2. Especially, for sentence pairs with
+edit distance≤ 4 (highlighted with green), BERT-
+induced similarity is extremely correlated to edit
+distance. However, it is not evident that gold stan-
+dard semantic similarity correlates with edit dis-
+tance. In other words, it is often the case where
+the semantics of a sentence can be dramatically
+
+--- Page 9 ---
+0 2 4
+Similarity
+0
+5
+10
+15
+20
+25Edit distance
+Gold standard
+0.50 0.75 1.00
+Similarity
+0
+5
+10
+15
+20
+25Edit distance
+BERT-induced
+0.0 0.5 1.0
+Similarity
+0
+5
+10
+15
+20
+25Edit distance
+Flow-induced
+Figure 2: A scatterplot of sentence pairs, where the horizontal axis represents similarity (either gold standard
+semantic similarity or embedding-induced similarity), the vertical axis represents edit distance. The sentence pairs
+with edit distance≤ 4 are highlighted with green, meanwhile the rest of the pairs are colored with blue. We can
+observed that lexically similar sentence pairs tends to be predicted to be similar by BERT embeddings, especially
+for the green pairs. Such correlation is less evident for gold standard labels or ﬂow-induced embeddings.
+changed by modifying a single word. For example,
+the sentences “I like this restaurant” and “I dislike
+this restaurant” only differ by one word, but convey
+opposite semantic meaning. BERT embeddings
+may fail in such cases. Therefore, we argue that the
+lexical proximity of BERT sentence embeddings
+is excessive, and can spoil their induced semantic
+similarity.
+Flow-Induced Similarity Exhibits Lower Cor-
+relation with Lexical Similarity. By transform-
+ing the original BERT sentence embeddings into
+the learned isotropic latent space with ﬂow, the
+embedding-induced similarity not only aligned bet-
+ter with the gold semantic semantic similarity, but
+also shows a lower correlation with lexical simi-
+larity, as presented in the last row of Table 6. The
+phenomenon is especially evident for the examples
+with edit distance≤ 4 (highlighted with green in
+Figure 2). This demonstrates that our proposed
+ﬂow-based method can effectively suppress the ex-
+cessive inﬂuence of lexical similarity over the em-
+bedding space.
+5 Conclusion and Future Work
+In this paper, we investigate the deﬁciency of the
+BERT sentence embeddings on semantic textual
+similarity, and propose a ﬂow-based calibration
+which can effectively improve the performance. In
+the future, we are looking forward to diving in
+representation learning with ﬂow-based generative
+models from a broader perspective.
+Acknowledgments
+The authors would like to thank Jiangtao Feng,
+Wenxian Shi, Yuxuan Song, and anonymous re-
+viewers for their helpful comments and suggestion
+on this paper.
+References
+Eneko Agirre, Carmen Banea, Claire Cardie, Daniel
+Cer, Mona Diab, Aitor Gonzalez-Agirre, Weiwei
+Guo, Inigo Lopez-Gazpio, Montse Maritxalar, Rada
+Mihalcea, et al. 2015. SemEval-2015 task 2: Se-
+mantic textual similarity, english, spanish and pilot
+on interpretability. In Proceedings of SemEval.
+Eneko Agirre, Carmen Banea, Claire Cardie, Daniel
+Cer, Mona Diab, Aitor Gonzalez-Agirre, Weiwei
+Guo, Rada Mihalcea, German Rigau, and Janyce
+Wiebe. 2014. SemEval-2014 task 10: Multilingual
+semantic textual similarity. In Proceedings of Se-
+mEval.
+Eneko Agirre, Carmen Banea, Daniel Cer, Mona
+Diab, Aitor Gonzalez Agirre, Rada Mihalcea, Ger-
+man Rigau Claramunt, and Janyce Wiebe. 2016.
+SemEval-2016 task 1: Semantic textual similarity,
+monolingual and cross-lingual evaluation. In Pro-
+ceedings of SemEval.
+Eneko Agirre, Daniel Cer, Mona Diab, and Aitor
+Gonzalez-Agirre. 2012. SemEval-2012 task 6: A
+pilot on semantic textual similarity. In Proceedings
+of SemEval.
+Eneko Agirre, Daniel Cer, Mona Diab, Aitor Gonzalez-
+Agirre, and Weiwei Guo. 2013. * SEM 2013 shared
+task: Semantic textual similarity. In Proceedings of
+SemEval.
+Sanjeev Arora, Yingyu Liang, and Tengyu Ma. 2017.
+A simple but tough-to-beat baseline for sentence em-
+beddings. In Proceedings of ICLR.
+Samuel R Bowman, Gabor Angeli, Christopher Potts,
+and Christopher D Manning. 2015. A large anno-
+tated corpus for learning natural language inference.
+In Proceedings of EMNLP.
+Daniel Cer, Mona Diab, Eneko Agirre, Inigo Lopez-
+Gazpio, and Lucia Specia. 2017. SemEval-2017
+task 1: Semantic textual similarity-multilingual and
+cross-lingual focused evaluation. arXiv preprint
+arXiv:1708.00055.
+
+--- Page 10 ---
+Daniel Cer, Yinfei Yang, Sheng-yi Kong, Nan Hua,
+Nicole Limtiaco, Rhomni St John, Noah Constant,
+Mario Guajardo-Cespedes, Steve Yuan, Chris Tar,
+et al. 2018. Universal sentence encoder. arXiv
+preprint arXiv:1803.11175.
+Alexis Conneau and Douwe Kiela. 2018. SentEval: An
+evaluation toolkit for universal sentence representa-
+tions. In Proceedings of LREC.
+Alexis Conneau, Douwe Kiela, Holger Schwenk, Loïc
+Barrault, and Antoine Bordes. 2017. Supervised
+learning of universal sentence representations from
+natural language inference data. In Proceedings of
+EMNLP.
+Jacob Devlin, Ming-Wei Chang, Kenton Lee, and
+Kristina Toutanova. 2019. BERT: Pre-training of
+deep bidirectional transformers for language under-
+standing. In Proceedings of NAACL.
+Laurent Dinh, David Krueger, and Yoshua Bengio.
+2015. NICE: Non-linear independent components
+estimation. In Proceedings of ICLR.
+Kawin Ethayarajh. 2019. How contextual are contextu-
+alized word representations? comparing the geome-
+try of bert, elmo, and gpt-2 embeddings. In Proceed-
+ings of EMNLP-IJCNLP.
+Kawin Ethayarajh, David Duvenaud, and Graeme Hirst.
+2019. Towards understanding linear word analogies.
+In Proceedings of ACL.
+Jun Gao, Di He, Xu Tan, Tao Qin, Liwei Wang, and Tie-
+Yan Liu. 2019. Representation degeneration prob-
+lem in training natural language generation models.
+In Proceedings of ICLR.
+Partha Ghosh, Mehdi SM Sajjadi, Antonio Vergari,
+Michael Black, and Bernhard Scholkopf. 2020.
+From variational to deterministic autoencoders. In
+Proceedings of ICLR.
+Durk P Kingma and Prafulla Dhariwal. 2018. Glow:
+Generative ﬂow with invertible 1x1 convolutions. In
+Proceedings of NeurIPS.
+Ivan Kobyzev, Simon Prince, and Marcus A Brubaker.
+2019. Normalizing ﬂows: Introduction and ideas.
+arXiv preprint arXiv:1908.09257.
+Omer Levy and Yoav Goldberg. 2014. Neural word
+embedding as implicit matrix factorization. In Pro-
+ceedings of NeurIPS.
+Bohan Li, Junxian He, Graham Neubig, Taylor Berg-
+Kirkpatrick, and Yiming Yang. 2019. A surprisingly
+effective ﬁx for deep latent variable modeling of text.
+In Proceedings of EMNLP-IJCNLP.
+Yinhan Liu, Myle Ott, Naman Goyal, Jingfei Du, Man-
+dar Joshi, Danqi Chen, Omer Levy, Mike Lewis,
+Luke Zettlemoyer, and Veselin Stoyanov. 2019.
+RoBERTa: A robustly optimized BERT pretraining
+approach. arXiv preprint arXiv:1907.11692.
+Marco Marelli, Stefano Menini, Marco Baroni, Luisa
+Bentivogli, Raffaella Bernardi, Roberto Zamparelli,
+et al. 2014. A SICK cure for the evaluation of com-
+positional distributional semantic models. In Pro-
+ceedings of LREC.
+Jiaqi Mu, Suma Bhat, and Pramod Viswanath. 2017.
+All-but-the-top: Simple and effective postprocessing
+for word representations. In Proceedings of ICLR.
+Jeffrey Pennington, Richard Socher, and Christopher D
+Manning. 2014. GloVe: Global vectors for word rep-
+resentation. In Proceedings of EMNLP.
+Alec Radford, Jeffrey Wu, Rewon Child, David Luan,
+Dario Amodei, and Ilya Sutskever. 2019. Language
+models are unsupervised multitask learners. OpenAI
+Blog, 1(8).
+Pranav Rajpurkar, Jian Zhang, Konstantin Lopyrev, and
+Percy Liang. 2016. SQuAD: 100,000+ questions for
+machine comprehension of text. In Proceedings of
+EMNLP.
+Nils Reimers and Iryna Gurevych. 2019. Sentence-
+BERT: Sentence embeddings using siamese BERT-
+networks. In Proceedings of EMNLP-IJCNLP.
+Danilo Jimenez Rezende and Fabio Viola. 2018. Tam-
+ing V AEs.arXiv preprint arXiv:1810.00597.
+Ashish Vaswani, Noam Shazeer, Niki Parmar, Jakob
+Uszkoreit, Llion Jones, Aidan N Gomez, Łukasz
+Kaiser, and Illia Polosukhin. 2017. Attention is all
+you need. In Proceedings of NeurIPS.
+Alex Wang, Amanpreet Singh, Julian Michael, Felix
+Hill, Omer Levy, and Samuel R Bowman. 2019.
+GLUE: A multi-task benchmark and analysis plat-
+form for natural language understanding. In Pro-
+ceedings of ICLR.
+Lingxiao Wang, Jing Huang, Kevin Huang, Ziniu Hu,
+Guangtao Wang, and Quanquan Gu. 2020. Improv-
+ing neural language generation with spectrum con-
+trol. In Proceedings of ICLR.
+Adina Williams, Nikita Nangia, and Samuel Bowman.
+2018. A broad-coverage challenge corpus for sen-
+tence understanding through inference. In Proceed-
+ings of ACL.
+Zhilin Yang, Zihang Dai, Ruslan Salakhutdinov, and
+William W Cohen. 2018. Breaking the softmax bot-
+tleneck: A high-rank rnn language model. In Pro-
+ceedings of ICLR.
+Zhilin Yang, Zihang Dai, Yiming Yang, Jaime Car-
+bonell, Russ R Salakhutdinov, and Quoc V Le.
+2019. XLNet: Generalized autoregressive pretrain-
+ing for language understanding. In Proceedings of
+NeurIPS.
+
+--- Page 11 ---
+A Mathematical Formula of the Invertible Mapping
+Generally, ﬂow-based model is a stacked sequence of many invertible transformation layers: f =
+f1◦f2◦... ◦fK. Speciﬁcally, in our approach, each transformationfi :x→y is an additive coupling
+layer, which can be mathematically formulated as follows.
+y1:d =x1:d (5)
+yd+1:D =xd+1:D +gψ(x1:d). (6)
+Heregψ can be parameterized with a deep neural network for the sake of expressiveness.
+Its inverse functionf−1
+i :y→x can be explicitly written as:
+x1:d =y1:d (7)
+xd+1:D =yd+1:D−gψ(y1:d). (8)
+B Implementation Details
+Throughout our experiment, we adopt the ofﬁcial Tensorﬂow code of BERT 4 as our codebase. Note
+that we clip the maximum sequence length to 64 to reduce the costing of GPU memory. For the NLI
+ﬁnetuning of siamese BERT, we folllow the settings in (Reimers and Gurevych, 2019) (epochs = 1,
+learning rate = 2e− 5, and batch size = 16). Our results may vary from their published one. The
+authors mentioned in https://github.com/UKPLab/sentence-transformers/issues/50 that this is
+a common phenonmenon and might be related the random seed. Note that their implementation relies on
+the Transformers repository of Huggingface5. This may also lead to discrepancy between the speciﬁc
+numbers.
+Our implementation of ﬂows is adapted from both the ofﬁcial repository of GLOW 6 as well as the
+implementation fo the Tensor2tensor library 7. The hyperparameters of our ﬂow models are given in
+Table 7. On the target datasets, we learn the ﬂow parameters for 1 epoch with learning rate 1e− 3. On
+NLI datasets, we learn the ﬂow parameters for 0.15 epoch with learning rate 2e− 5. The optimizer that
+we use is Adam.
+In our preliminary experiments on STS-B, we tune the hyperparameters on the dev set of STS-B.
+Empirically, the performance does not vary much with regard to the architectural hyperparameters
+compared to the learning schedule. Afterwards, we do not tune the hyperparameters any more when
+working on the other datasets. Empirically, we ﬁnd the hyperparameters of ﬂow are not sensitive across
+the datasets.
+Coupling architecture in 3-layer CNN with residual connection
+Coupling width 32
+#levels 2
+Depth 3
+Table 7: Flow hyperparameters.
+4https://github.com/google-research/bert
+5https://github.com/huggingface/transformers
+6https://github.com/openai/glow
+7https://github.com/tensorflow/tensor2tensor/blob/master/tensor2tensor/models/
+research/glow.py
+
+--- Page 12 ---
+C Results with Different Random Seeds
+We perform 5 runs with different random seeds in the NLI-supervised setting on STS-B. Results with
+standard deviation and median are demonstrated in Table 8. Although the variance of NLI ﬁnetuning is
+not negligible, our proposed ﬂow-based method consistently leads to improvement.
+Method Spearman’s ρ
+BERT-NLI-large 77.26 ± 1.76 (median: 78.19)
+BERT-NLI-large-last2avg 78.07 ± 1.50 (median: 78.68)
+BERT-NLI-large-last2avg + ﬂow-target 81.10 ± 0.55 (median: 81.35)
+Table 8: Results with different random seeds.
+</content>
+</read_state_0>
+</read_state>
+
+
+ user 
+PLANNING NUDGE: You have taken 12 steps without creating a plan. If the task is complex, output a `plan_update` with clear todo items now. If the task is already done or nearly done, call `done` instead.
+
+{
+  "evaluation_previous_goal": "Successfully read the PDF of the paper \"On the Sentence Embeddings from Pre-trained Language Models\". Now I can count the figures and tables. Verdict: Success",
+  "memory": "Read the full PDF of the paper \"On the Sentence Embeddings from Pre-trained Language Models\" (arxiv:2011.05864). Now counting figures and tables from the content.\n\nFigures found:\n- Figure 1: An illustration of the flow-based calibration (Page 4)\n- Figure 2: A scatterplot of sentence pairs (Page 9)\n\nTables found:\n- Table 1: Mean ℓ2-norm of word embeddings segmented by word frequency rank (Page 4)\n- Table 2: Experimental results on STS without NLI supervision (Page 6)\n- Table 3: Experimental results on STS with NLI supervision (Page 7)\n- Table 4: AUC on QNLI (Page 8)\n- Table 5: Comparing flow-based method with baselines on STS-B (Page 8)\n- Table 6: Spearman's correlation between various sentence similarities (Page 8)\n- Table 7: Flow hyperparameters (Page 11)\n- Table 8: Results with different random seeds (Page 12)\n\nTotal: 2 figures and 8 tables.",
+  "next_goal": "Call done with the final answer about figures and tables count.",
+  "action": [
+    {
+      "done": {
+        "text": "The paper \"On the Sentence Embeddings from Pre-trained Language Models\" (arxiv:2011.05864) by Bohan Li et al. contains:\n\n**2 Figures:**\n- Figure 1: An illustration of the proposed flow-based calibration over the original sentence embedding space of BERT (Page 4)\n- Figure 2: A scatterplot of sentence pairs showing similarity vs. edit distance for gold standard, BERT-induced, and flow-induced similarities (Page 9)\n\n**8 Tables:**\n- Table 1: Mean ℓ2-norm and k-NN distances of BERT word embeddings segmented by word frequency rank (Page 4)\n- Table 2: Experimental results on semantic textual similarity without NLI supervision (Page 6)\n- Table 3: Experimental results on semantic textual similarity with NLI supervision (Page 7)\n- Table 4: AUC on QNLI validation set (Page 8)\n- Table 5: Comparing flow-based method with embedding calibration baselines on STS-B (Page 8)\n- Table 6: Spearman's correlation between various sentence similarities on STS-B validation set (Page 8)\n- Table 7: Flow hyperparameters (Page 11)\n- Table 8: Results with different random seeds on STS-B (Page 12)\n\n**Total: 2 figures and 8 tables.**",
+        "success": true,
+        "files_to_display": []
+      }
+    }
+  ]
+}

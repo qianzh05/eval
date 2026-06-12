@@ -1,0 +1,36 @@
+{
+  "task_id": "Coursera--28",
+  "web_name": "https://www.coursera.org/",
+  "start_time": "2026-06-11 08:02:58.721306",
+  "end_time": "2026-06-11 08:11:56.221896",
+  "duration_seconds": 537.50059,
+  "num_steps": 22,
+  "success": "failed",
+  "task_prompt": "Locate a Coursera Guided project related to 'Astrophysics' suitable for advanced learners. Mention the course duration, the institution offering it, and the main subjects covered in the course. on https://www.coursera.org/",
+  "final_answer": "<NO FINAL ANSWER>",
+  "gpt_4v_res": "",
+  "stuck": false,
+  "stuck_reason": null,
+  "captcha_blocked": true,
+  "captcha_type": "google_sorry",
+  "error": null,
+  "loop_summary": {
+    "max_consec_run": 2,
+    "looped_action_name": "click",
+    "looped_action_args": "{\"coordinate_x\": null, \"coordinate_y\": null, \"index\": 5047}"
+  },
+  "browser_use_version": "unknown",
+  "cost_totals": {
+    "input_tokens": 1567909,
+    "output_tokens": 36667,
+    "n_llm_calls": 129,
+    "cost_usd": 5.253731999999999,
+    "model_id": "us.anthropic.claude-sonnet-4-6",
+    "input_price_per_m": 3.0,
+    "output_price_per_m": 15.0
+  },
+  "wait_time_s": 0.0,
+  "n_rate_limit_waits": 0,
+  "llm_time_s": 921.8720236549998,
+  "browser_time_s": 0.0
+}

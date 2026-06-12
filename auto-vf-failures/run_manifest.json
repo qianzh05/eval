@@ -1,0 +1,23 @@
+{
+  "started_at": "2026-06-11T07:44:13.861363",
+  "host": "71ebd7728fff",
+  "os": "Linux 6.17.0-1013-aws",
+  "python": "3.12.13",
+  "browser_use": "unknown",
+  "config": {
+    "use_vision": "auto",
+    "max_steps": 30,
+    "max_concurrent": 6,
+    "wallclock_cap_s": 900,
+    "stuck_consec": 8,
+    "rate_limit_s": 30.0,
+    "model_provider": "bedrock",
+    "bedrock_model_id": "us.anthropic.claude-sonnet-4-6",
+    "headless": true,
+    "stealth": false
+  },
+  "tasks_file": "failed_vf_tasks.jsonl",
+  "tasks_file_hash": "aad6fa6c64f177f2",
+  "task_order": "interleave_by_site",
+  "git_commit": "91599ce19c78e592778386ae37e1e6f8fb4f0707"
+}

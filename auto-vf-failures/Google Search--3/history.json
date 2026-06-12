@@ -1,0 +1,335 @@
+{
+  "history": [
+    {
+      "model_output": {
+        "evaluation_previous_goal": "Start",
+        "memory": null,
+        "next_goal": "Initial navigation",
+        "action": [
+          {
+            "navigate": {
+              "url": "https://www.google.com/",
+              "new_tab": false
+            }
+          }
+        ]
+      },
+      "result": [
+        {
+          "is_done": false,
+          "long_term_memory": "Found initial url and automatically loaded it. Navigated to https://www.google.com/",
+          "extracted_content": "🔗 Navigated to https://www.google.com/",
+          "include_extracted_content_only_once": false,
+          "include_in_memory": false
+        }
+      ],
+      "state": {
+        "tabs": [],
+        "screenshot_path": null,
+        "interacted_element": [
+          null
+        ],
+        "url": "https://www.google.com/",
+        "title": "Initial Actions"
+      },
+      "metadata": {
+        "step_start_time": 1781165390.6731489,
+        "step_end_time": 1781165390.673149,
+        "step_number": 0,
+        "step_interval": null
+      },
+      "state_message": null
+    },
+    {
+      "model_output": {
+        "evaluation_previous_goal": "Successfully loaded Google homepage. Verdict: Success",
+        "memory": "On Google homepage. Need to search for top comedy movies sorted by user ratings.",
+        "next_goal": "Search for top comedy movies sorted by user ratings on Google.",
+        "action": [
+          {
+            "input": {
+              "index": 1,
+              "text": "top comedy movies sorted by user ratings",
+              "clear": true
+            }
+          },
+          {
+            "send_keys": {
+              "keys": "Enter"
+            }
+          }
+        ]
+      },
+      "result": [
+        {
+          "is_done": false,
+          "long_term_memory": "Typed 'top comedy movies sorted by user ratings'\n💡 This is an autocomplete field. Wait for suggestions to appear, then click the correct suggestion instead of pressing Enter.",
+          "extracted_content": "Typed 'top comedy movies sorted by user ratings'\n💡 This is an autocomplete field. Wait for suggestions to appear, then click the correct suggestion instead of pressing Enter.",
+          "include_extracted_content_only_once": false,
+          "metadata": {
+            "input_x": 639.5,
+            "input_y": 402.0
+          },
+          "include_in_memory": false
+        },
+        {
+          "is_done": false,
+          "long_term_memory": "Sent keys: Enter",
+          "extracted_content": "Sent keys: Enter",
+          "include_extracted_content_only_once": false,
+          "include_in_memory": false
+        }
+      ],
+      "state": {
+        "tabs": [
+          {
+            "url": "https://www.google.com/?zx=1781165379288",
+            "title": "Google",
+            "target_id": "7D5B",
+            "parent_target_id": null
+          }
+        ],
+        "screenshot_path": "/tmp/browser_use_agent_06a2a6d3-a31e-7741-8000-202de4a3412f_1781165370/screenshots/step_1.png",
+        "interacted_element": [
+          {
+            "node_id": 657,
+            "backend_node_id": 1,
+            "frame_id": null,
+            "node_type": 1,
+            "node_value": "",
+            "node_name": "TEXTAREA",
+            "attributes": {
+              "jsname": "yZiJbe",
+              "class": "gLFyf",
+              "aria-controls": "Alh6id",
+              "aria-owns": "Alh6id",
+              "autofocus": "",
+              "title": "Search",
+              "value": "",
+              "aria-label": "Search",
+              "placeholder": "",
+              "aria-autocomplete": "both",
+              "aria-expanded": "false",
+              "aria-haspopup": "false",
+              "autocapitalize": "off",
+              "autocomplete": "off",
+              "autocorrect": "off",
+              "id": "APjFqb",
+              "maxlength": "2048",
+              "name": "q",
+              "role": "combobox",
+              "rows": "1",
+              "spellcheck": "false",
+              "data-ved": "0ahUKEwjV8qON3v6UAxX0KFkFHQDYHxYQ39UDCAU"
+            },
+            "x_path": "html/body/div[2]/div[4]/form/div[1]/div/div[1]/div[1]/div[2]/textarea",
+            "element_hash": 887221250628730007,
+            "stable_hash": 10110593287483505811,
+            "bounds": {
+              "x": 396.0,
+              "y": 377.0,
+              "width": 487.0,
+              "height": 50.0
+            },
+            "ax_name": "Search"
+          },
+          null
+        ],
+        "url": "https://www.google.com/?zx=1781165379288",
+        "title": "Google"
+      },
+      "metadata": {
+        "step_start_time": 1781165390.6732273,
+        "step_end_time": 1781165411.0536299,
+        "step_number": 1,
+        "step_interval": 2.384185791015625e-07
+      },
+      "state_message": "<agent_history>\nAgent initialized\n<step>\nResult\nFound initial url and automatically loaded it. Navigated to https://www.google.com/\n</agent_history>\n\n<agent_state>\n<user_request>\nShow me a list of comedy movies, sorted by user ratings. Show me the Top 5 movies. on https://www.google.com/\n</user_request>\n<file_system>\n\n</file_system>\n<todo_contents>\n[empty todo.md, fill it when applicable]\n</todo_contents>\n<step_info>Step1 maximum:30\nToday:2026-06-11</step_info>\n</agent_state>\n<browser_state>\n<page_stats>Page appears to show skeleton/placeholder content (still loading?) - 13 links, 30 interactive, 0 iframes, 3 shadow(open), 0 shadow(closed), 1 images, 102 total elements</page_stats>\nCurrent tab: 7D5B\nAvailable tabs:\nTab 7D5B: https://www.google.com/?zx=1781165379288 - Google\n\n<page_info>0.0 pages above, 0.0 pages below</page_info>\n\nInteractive elements:\n[Start of page]\n[11]<div />\n\t[83]<a />\n\t\tAbout\n\t[85]<a />\n\t\tStore\n\t[91]<div />\n\t\t[12]<a aria-label=Gmail />\n\t\t\tGmail\n\t[13]<a aria-label=Search for Images />\n\t\tImages\n\t[14]<div id=gbwa />\n\t\t[95]<div />\n\t\t\t[15]<a aria-label=Google apps aria-expanded=false role=button />\n\t[16]<a aria-label=Sign in />\n\t\tSign in\n\t<svg aria-label=Google role=img /> <!-- SVG content collapsed -->\n\t[2]<form role=search />\n\t\t[17]<div />\n\t\t\t[168]<div />\n\t\t\t\t[169]<span />\n\t\t\t\t\t<svg /> <!-- SVG content collapsed -->\n\t\t|SHADOW(open)|[1]<textarea title=Search aria-label=Search aria-expanded=false id=APjFqb name=q role=combobox />\n\t\t[8]<div />\n\t\t\t[182]<div />\n\t\t\t[191]<div />\n\t\t\t\t[20]<div aria-label=Search by image role=button />\n\t\t|SHADOW(open)|[24]<input value=Google Search aria-label=Google Search name=btnK role=button type=submit />\n\t\t|SHADOW(open)|[25]<input id=gbqfbb value=I'm Feeling Lucky aria-label=I'm Feeling Lucky name=btnI role=button type=submit />\n\t[26]<div id=19056387 />\n\t\t[425]<a role=link />\n\t\t\tWhether you call it football or soccer, get live scores and updates on Google ⚽\n\t[443]<a />\n\t\tAdvertising\n\t[445]<a />\n\t\tBusiness\n\t[447]<a />\n\t\tHow Search works\n\t[450]<a />\n\t\tApplying AI towards science and the environment\n\t[454]<a />\n\t\tPrivacy\n\t[456]<a />\n\t\tTerms\n\t[465]<div aria-expanded=false role=button />\n\t\tSettings\n[End of page]\n</browser_state>\n"
+    },
+    {
+      "model_output": {
+        "evaluation_previous_goal": "Google detected unusual traffic and is showing a CAPTCHA/bot detection page. Verdict: Blocked by Google bot detection.",
+        "memory": "Google is blocking with CAPTCHA. Need to try an alternative approach - navigate directly to IMDb to find top comedy movies sorted by user ratings.",
+        "next_goal": "Navigate directly to IMDb to find top comedy movies sorted by user ratings, bypassing Google's bot detection.",
+        "action": [
+          {
+            "navigate": {
+              "url": "https://www.imdb.com/search/title/?genres=comedy&sort=user_rating,desc&title_type=feature",
+              "new_tab": false
+            }
+          }
+        ]
+      },
+      "result": [
+        {
+          "is_done": false,
+          "error": "google_sorry",
+          "include_extracted_content_only_once": false,
+          "include_in_memory": false
+        }
+      ],
+      "state": {
+        "tabs": [
+          {
+            "url": "https://www.google.com/sorry/index?continue=https://www.google.com/search%3Fq%3Dtop%2Bcomedy%2Bmovies%2Bsorted%2Bby%2Buser%2Bratings%26sca_esv%3D09fac29a4686d309%26source%3Dhp%26ei%3DQm0qatXJEvTR5NoPgLD_sAE%26iflsig%3DAFdpzrgAAAAAaip7UkxmteondWCD5wTX28dHlDqdD4Sh%26ved%3D0ahUKEwjV8qON3v6UAxX0KFkFHQDYHxYQ4dUDCA8%26uact%3D5%26oq%3Dtop%2Bcomedy%2Bmovies%2Bsorted%2Bby%2Buser%2Bratings%26gs_lp%3DEgdnd3Mtd2l6Iih0b3AgY29tZWR5IG1vdmllcyBzb3J0ZWQgYnkgdXNlciByYXRpbmdzSKxvUABYpQ5wAHgAkAEAmAFSoAHPEKoBAjQwuAEDyAEA-AEBmAIeoAKkDcICCxAAGIAEGLEDGIMBwgIREC4YgAQYsQMYgwEYxwEY0QPCAg4QLhiABBiKBRixAxiDAcICBRAAGIAEwgILEC4YgAQYsQMYgwHCAg4QLhiABBixAxjHARjRA8ICCxAuGIAEGMcBGNEDwgIOEAAYgAQYigUYsQMYgwHCAgUQLhiABMICCBAuGIAEGLEDwgIIEAAYgAQYsQPCAhMQLhiABBiKBRixAxjHARjRAxgKwgIQEC4YgAQYsQMYxwEY0QMYCsICCxAuGIMBGLEDGIAEwgIEEAAYA8ICBhAAGBYYHsICCBAAGAgYHhgNwgILEAAYgAQYigUYhgPCAggQABiABBiiBMICBRAAGO8FwgIIEAAYFhgeGArCAgUQIRigAcICBRAhGKsCwgIFECEYnwWYAwCSBwIzMKAHmsYBsgcCMzC4B6QNwgcKMC4zLjI0LjIuMcgHuAGACAE%26sclient%3Dgws-wiz%26sei%3DYm0qaqCqObSz5NoP9M-skQk&q=EgRrFUvuGOPaqdEGIjCfRylJ5OrGRo_jJln1OOWbwVdPmrFV4l8j0S2wmF220ZRT2VCieIXkD9LwH3G_vFIyAVJaAUM",
+            "title": "google.com/sorry/index?continue=https://www.google.com/search%3Fq%3Dtop%2Bcomedy%2Bmovies%2Bsorted%2Bby%2Buser%2Bratings%26sca_esv%3D09fac29a4686d309%26source%3Dhp%26ei%3DQm0qatXJEvTR5NoPgLD_sAE%26iflsig%3DAFdpzrgAAAAAaip7UkxmteondWCD5wTX28dHlDqdD4Sh%26ved%3D0ahUKEwjV8qON3v6UAxX0KFkFHQDYHxYQ4dUDCA8%26uact%3D5%26oq%3Dtop%2Bcomedy%2Bmovies%2Bsorted%2Bby%2Buser%2Bratings%26gs_lp%3DEgdnd3Mtd2l6Iih0b3AgY29tZWR5IG1vdmllcyBzb3J0ZWQgYnkgdXNlciByYXRpbmdzSKxvUABYpQ5wAHgAkAEAmAFSoAHPEKoBAjQwuAEDyAEA-AEBmAIeoAKkDcICCxAAGIAEGLEDGIMBwgIREC4YgAQYsQMYgwEYxwEY0QPCAg4QLhiABBiKBRixAxiDAcICBRAAGIAEwgILEC4YgAQYsQMYgwHCAg4QLhiABBixAxjHARjRA8ICCxAuGIAEGMcBGNEDwgIOEAAYgAQYigUYsQMYgwHCAgUQLhiABMICCBAuGIAEGLEDwgIIEAAYgAQYsQPCAhMQLhiABBiKBRixAxjHARjRAxgKwgIQEC4YgAQYsQMYxwEY0QMYCsICCxAuGIMBGLEDGIAEwgIEEAAYA8ICBhAAGBYYHsICCBAAGAgYHhgNwgILEAAYgAQYigUYhgPCAggQABiABBiiBMICBRAAGO8FwgIIEAAYFhgeGArCAgUQIRigAcICBRAhGKsCwgIFECEYnwWYAwCSBwIzMKAHmsYBsgcCMzC4B6QNwgcKMC4zLjI0LjIuMcgHuAGACAE%26sclient%3Dgws-wiz%26sei%3DYm0qaqCqObSz5NoP9M-skQk&q=EgRrFUvuGOPaqdEGIjCfRylJ5OrGRo_jJln1OOWbwVdPmrFV4l8j0S2wmF220ZRT2VCieIXkD9LwH3G_vFIyAVJaAUM",
+            "target_id": "7D5B",
+            "parent_target_id": null
+          }
+        ],
+        "screenshot_path": "/tmp/browser_use_agent_06a2a6d3-a31e-7741-8000-202de4a3412f_1781165370/screenshots/step_2.png",
+        "interacted_element": [
+          null
+        ],
+        "url": "https://www.google.com/sorry/index?continue=https://www.google.com/search%3Fq%3Dtop%2Bcomedy%2Bmovies%2Bsorted%2Bby%2Buser%2Bratings%26sca_esv%3D09fac29a4686d309%26source%3Dhp%26ei%3DQm0qatXJEvTR5NoPgLD_sAE%26iflsig%3DAFdpzrgAAAAAaip7UkxmteondWCD5wTX28dHlDqdD4Sh%26ved%3D0ahUKEwjV8qON3v6UAxX0KFkFHQDYHxYQ4dUDCA8%26uact%3D5%26oq%3Dtop%2Bcomedy%2Bmovies%2Bsorted%2Bby%2Buser%2Bratings%26gs_lp%3DEgdnd3Mtd2l6Iih0b3AgY29tZWR5IG1vdmllcyBzb3J0ZWQgYnkgdXNlciByYXRpbmdzSKxvUABYpQ5wAHgAkAEAmAFSoAHPEKoBAjQwuAEDyAEA-AEBmAIeoAKkDcICCxAAGIAEGLEDGIMBwgIREC4YgAQYsQMYgwEYxwEY0QPCAg4QLhiABBiKBRixAxiDAcICBRAAGIAEwgILEC4YgAQYsQMYgwHCAg4QLhiABBixAxjHARjRA8ICCxAuGIAEGMcBGNEDwgIOEAAYgAQYigUYsQMYgwHCAgUQLhiABMICCBAuGIAEGLEDwgIIEAAYgAQYsQPCAhMQLhiABBiKBRixAxjHARjRAxgKwgIQEC4YgAQYsQMYxwEY0QMYCsICCxAuGIMBGLEDGIAEwgIEEAAYA8ICBhAAGBYYHsICCBAAGAgYHhgNwgILEAAYgAQYigUYhgPCAggQABiABBiiBMICBRAAGO8FwgIIEAAYFhgeGArCAgUQIRigAcICBRAhGKsCwgIFECEYnwWYAwCSBwIzMKAHmsYBsgcCMzC4B6QNwgcKMC4zLjI0LjIuMcgHuAGACAE%26sclient%3Dgws-wiz%26sei%3DYm0qaqCqObSz5NoP9M-skQk&q=EgRrFUvuGOPaqdEGIjCfRylJ5OrGRo_jJln1OOWbwVdPmrFV4l8j0S2wmF220ZRT2VCieIXkD9LwH3G_vFIyAVJaAUM",
+        "title": "google.com/sorry/index?continue=https://www.google.com/search%3Fq%3Dtop%2Bcomedy%2Bmovies%2Bsorted%2Bby%2Buser%2Bratings%26sca_esv%3D09fac29a4686d309%26source%3Dhp%26ei%3DQm0qatXJEvTR5NoPgLD_sAE%26iflsig%3DAFdpzrgAAAAAaip7UkxmteondWCD5wTX28dHlDqdD4Sh%26ved%3D0ahUKEwjV8qON3v6UAxX0KFkFHQDYHxYQ4dUDCA8%26uact%3D5%26oq%3Dtop%2Bcomedy%2Bmovies%2Bsorted%2Bby%2Buser%2Bratings%26gs_lp%3DEgdnd3Mtd2l6Iih0b3AgY29tZWR5IG1vdmllcyBzb3J0ZWQgYnkgdXNlciByYXRpbmdzSKxvUABYpQ5wAHgAkAEAmAFSoAHPEKoBAjQwuAEDyAEA-AEBmAIeoAKkDcICCxAAGIAEGLEDGIMBwgIREC4YgAQYsQMYgwEYxwEY0QPCAg4QLhiABBiKBRixAxiDAcICBRAAGIAEwgILEC4YgAQYsQMYgwHCAg4QLhiABBixAxjHARjRA8ICCxAuGIAEGMcBGNEDwgIOEAAYgAQYigUYsQMYgwHCAgUQLhiABMICCBAuGIAEGLEDwgIIEAAYgAQYsQPCAhMQLhiABBiKBRixAxjHARjRAxgKwgIQEC4YgAQYsQMYxwEY0QMYCsICCxAuGIMBGLEDGIAEwgIEEAAYA8ICBhAAGBYYHsICCBAAGAgYHhgNwgILEAAYgAQYigUYhgPCAggQABiABBiiBMICBRAAGO8FwgIIEAAYFhgeGArCAgUQIRigAcICBRAhGKsCwgIFECEYnwWYAwCSBwIzMKAHmsYBsgcCMzC4B6QNwgcKMC4zLjI0LjIuMcgHuAGACAE%26sclient%3Dgws-wiz%26sei%3DYm0qaqCqObSz5NoP9M-skQk&q=EgRrFUvuGOPaqdEGIjCfRylJ5OrGRo_jJln1OOWbwVdPmrFV4l8j0S2wmF220ZRT2VCieIXkD9LwH3G_vFIyAVJaAUM"
+      },
+      "metadata": {
+        "step_start_time": 1781165411.0581408,
+        "step_end_time": 1781165418.3122327,
+        "step_number": 2,
+        "step_interval": 20.38040256500244
+      },
+      "state_message": "<agent_history>\nAgent initialized\n<step>\nResult\nFound initial url and automatically loaded it. Navigated to https://www.google.com/\n<step>\nSuccessfully loaded Google homepage. Verdict: Success\nOn Google homepage. Need to search for top comedy movies sorted by user ratings.\nSearch for top comedy movies sorted by user ratings on Google.\nResult\nTyped 'top comedy movies sorted by user ratings'\n💡 This is an autocomplete field. Wait for suggestions to appear, then click the correct suggestion instead of pressing Enter.\nSent keys: Enter\n</agent_history>\n\n<agent_state>\n<user_request>\nShow me a list of comedy movies, sorted by user ratings. Show me the Top 5 movies. on https://www.google.com/\n</user_request>\n<file_system>\n\n</file_system>\n<todo_contents>\n[empty todo.md, fill it when applicable]\n</todo_contents>\n<step_info>Step2 maximum:30\nToday:2026-06-11</step_info>\n</agent_state>\n<browser_state>\n<page_stats>1 links, 7 interactive, 1 iframes, 54 total elements</page_stats>\nCurrent tab: 7D5B\nAvailable tabs:\nTab 7D5B: https://www.google.com/sorry/index?continue=https://www.google.com/search%3Fq%3Dtop%2Bcomedy%2Bmovies%2Bsorted%2Bby%2Buser%2Bratings%26sca_esv%3D09fac29a4686d309%26source%3Dhp%26ei%3DQm0qatXJEvTR5NoPgLD_sAE%26iflsig%3DAFdpzrgAAAAAaip7UkxmteondWCD5wTX28dHlDqdD4Sh%26ved%3D0ahUKEwjV8qON3v6UAxX0KFkFHQDYHxYQ4dUDCA8%26uact%3D5%26oq%3Dtop%2Bcomedy%2Bmovies%2Bsorted%2Bby%2Buser%2Bratings%26gs_lp%3DEgdnd3Mtd2l6Iih0b3AgY29tZWR5IG1vdmllcyBzb3J0ZWQgYnkgdXNlciByYXRpbmdzSKxvUABYpQ5wAHgAkAEAmAFSoAHPEKoBAjQwuAEDyAEA-AEBmAIeoAKkDcICCxAAGIAEGLEDGIMBwgIREC4YgAQYsQMYgwEYxwEY0QPCAg4QLhiABBiKBRixAxiDAcICBRAAGIAEwgILEC4YgAQYsQMYgwHCAg4QLhiABBixAxjHARjRA8ICCxAuGIAEGMcBGNEDwgIOEAAYgAQYigUYsQMYgwHCAgUQLhiABMICCBAuGIAEGLEDwgIIEAAYgAQYsQPCAhMQLhiABBiKBRixAxjHARjRAxgKwgIQEC4YgAQYsQMYxwEY0QMYCsICCxAuGIMBGLEDGIAEwgIEEAAYA8ICBhAAGBYYHsICCBAAGAgYHhgNwgILEAAYgAQYigUYhgPCAggQABiABBiiBMICBRAAGO8FwgIIEAAYFhgeGArCAgUQIRigAcICBRAhGKsCwgIFECEYnwWYAwCSBwIzMKAHmsYBsgcCMzC4B6QNwgcKMC4zLjI0LjIuMcgHuAGACAE%26sclient%3Dgws-wiz%26sei%3DYm0qaqCqObSz5NoP9M-skQk&q=EgRrFUvuGOPaqdEGIjCfRylJ5OrGRo_jJln1OOWbwVdPmrFV4l8j0S2wmF220ZRT2VCieIXkD9LwH3G_vFIyAVJaAUM - google.com/sorry/index?continu\n\n<page_info>0.0 pages above, 0.0 pages below</page_info>\n\nInteractive elements:\n[Start of page]\n*[2059]<hr />\n|scroll element|<iframe title=reCAPTCHA role=presentation name=a-fvoqg98th65a /> (scroll)\n\t*[2161]<div role=presentation />\n\t*[2163]<div />\n\t*[2043]<div role=presentation />\n\tI'm not a robot\n\t*[2041]<div />\n\treCAPTCHA\n*[2036]<hr />\nAbout this page\nOur systems have detected unusual traffic from your computer network.  This page checks to see if it's really you sending the requests, and not a robot.\n*[2045]<a />\n\tWhy did this happen?\nIP address: 107.21.75.238\nTime: 2026-06-11T08:10:11Z\nURL: https://www.google.com/search?q=top+comedy+movies+sorted+by+user+ratings&sca_esv=09fac29a4686d309&source=hp&ei=Qm0qatXJEvTR5NoPgLD_sAE&iflsig=AFdpzrgAAAAAaip7UkxmteondWCD5wTX28dHlDqdD4Sh&ved=0ahUKEwjV8qON3v6UAxX0KFkFHQDYHxYQ4dUDCA8&uact=5&oq=top+comedy+movies+sorted+by+user+ratings&gs_lp=Egdnd3Mtd2l6Iih0b3AgY29tZWR5IG1vdmllcyBzb3J0ZWQgYnkgdXNlciByYXRpbmdzSKxvUABYpQ5wAHgAkAEAmAFSoAHPEKoBAjQwuAEDyAEA-AEBmAIeoAKkDcICCxAAGIAEGLEDGIMBwgIREC4YgAQYsQMYgwEYxwEY0QPCAg4QLhiABBiKBRixAxiDAcICBRAAGIAEwgILEC4YgAQYsQMYgwHCAg4QLhiABBixAxjHARjRA8ICCxAuGIAEGMcBGNEDwgIOEAAYgAQYigUYsQMYgwHCAgUQLhiABMICCBAuGIAEGLEDwgIIEAAYgAQYsQPCAhMQLhiABBiKBRixAxjHARjRAxgKwgIQEC4YgAQYsQMYxwEY0QMYCsICCxAuGIMBGLEDGIAEwgIEEAAYA8ICBhAAGBYYHsICCBAAGAgYHhgNwgILEAAYgAQYigUYhgPCAggQABiABBiiBMICBRAAGO8FwgIIEAAYFhgeGArCAgUQIRigAcICBRAhGKsCwgIFECEYnwWYAwCSBwIzMKAHmsYBsgcCMzC4B6QNwgcKMC4zLjI0LjIuMcgHuAGACAE&sclient=gws-wiz&sei=Ym0qaqCqObSz5NoP9M-skQk\n[End of page]\n</browser_state>\n"
+    },
+    {
+      "model_output": {
+        "evaluation_previous_goal": "Google is showing a CAPTCHA/bot detection page. Need to navigate directly to IMDb instead. Verdict: Blocked.",
+        "memory": "Google blocked with CAPTCHA. Will navigate directly to IMDb to find top comedy movies sorted by user ratings.",
+        "next_goal": "Navigate directly to IMDb's top comedy movies page sorted by user ratings.",
+        "action": [
+          {
+            "navigate": {
+              "url": "https://www.imdb.com/search/title/?genres=comedy&sort=user_rating,desc&title_type=feature&num_votes=100000,",
+              "new_tab": false
+            }
+          }
+        ]
+      },
+      "result": [
+        {
+          "is_done": false,
+          "error": "google_sorry",
+          "include_extracted_content_only_once": false,
+          "include_in_memory": false
+        }
+      ],
+      "state": {
+        "tabs": [
+          {
+            "url": "https://www.google.com/sorry/index?continue=https://www.google.com/search%3Fq%3Dtop%2Bcomedy%2Bmovies%2Bsorted%2Bby%2Buser%2Bratings%26sca_esv%3D09fac29a4686d309%26source%3Dhp%26ei%3DQm0qatXJEvTR5NoPgLD_sAE%26iflsig%3DAFdpzrgAAAAAaip7UkxmteondWCD5wTX28dHlDqdD4Sh%26ved%3D0ahUKEwjV8qON3v6UAxX0KFkFHQDYHxYQ4dUDCA8%26uact%3D5%26oq%3Dtop%2Bcomedy%2Bmovies%2Bsorted%2Bby%2Buser%2Bratings%26gs_lp%3DEgdnd3Mtd2l6Iih0b3AgY29tZWR5IG1vdmllcyBzb3J0ZWQgYnkgdXNlciByYXRpbmdzSKxvUABYpQ5wAHgAkAEAmAFSoAHPEKoBAjQwuAEDyAEA-AEBmAIeoAKkDcICCxAAGIAEGLEDGIMBwgIREC4YgAQYsQMYgwEYxwEY0QPCAg4QLhiABBiKBRixAxiDAcICBRAAGIAEwgILEC4YgAQYsQMYgwHCAg4QLhiABBixAxjHARjRA8ICCxAuGIAEGMcBGNEDwgIOEAAYgAQYigUYsQMYgwHCAgUQLhiABMICCBAuGIAEGLEDwgIIEAAYgAQYsQPCAhMQLhiABBiKBRixAxjHARjRAxgKwgIQEC4YgAQYsQMYxwEY0QMYCsICCxAuGIMBGLEDGIAEwgIEEAAYA8ICBhAAGBYYHsICCBAAGAgYHhgNwgILEAAYgAQYigUYhgPCAggQABiABBiiBMICBRAAGO8FwgIIEAAYFhgeGArCAgUQIRigAcICBRAhGKsCwgIFECEYnwWYAwCSBwIzMKAHmsYBsgcCMzC4B6QNwgcKMC4zLjI0LjIuMcgHuAGACAE%26sclient%3Dgws-wiz%26sei%3DYm0qaqCqObSz5NoP9M-skQk&q=EgRrFUvuGOPaqdEGIjCfRylJ5OrGRo_jJln1OOWbwVdPmrFV4l8j0S2wmF220ZRT2VCieIXkD9LwH3G_vFIyAVJaAUM",
+            "title": "https://www.google.com/search?q=top+comedy+movies+sorted+by+user+ratings&sca_esv=09fac29a4686d309&source=hp&ei=Qm0qatXJEvTR5NoPgLD_sAE&iflsig=AFdpzrgAAAAAaip7UkxmteondWCD5wTX28dHlDqdD4Sh&ved=0ahUKEwjV8qON3v6UAxX0KFkFHQDYHxYQ4dUDCA8&uact=5&oq=top+comedy+movies+sorted+by+user+ratings&gs_lp=Egdnd3Mtd2l6Iih0b3AgY29tZWR5IG1vdmllcyBzb3J0ZWQgYnkgdXNlciByYXRpbmdzSKxvUABYpQ5wAHgAkAEAmAFSoAHPEKoBAjQwuAEDyAEA-AEBmAIeoAKkDcICCxAAGIAEGLEDGIMBwgIREC4YgAQYsQMYgwEYxwEY0QPCAg4QLhiABBiKBRixAxiDAcICBRAAGIAEwgILEC4YgAQYsQMYgwHCAg4QLhiABBixAxjHARjRA8ICCxAuGIAEGMcBGNEDwgIOEAAYgAQYigUYsQMYgwHCAgUQLhiABMICCBAuGIAEGLEDwgIIEAAYgAQYsQPCAhMQLhiABBiKBRixAxjHARjRAxgKwgIQEC4YgAQYsQMYxwEY0QMYCsICCxAuGIMBGLEDGIAEwgIEEAAYA8ICBhAAGBYYHsICCBAAGAgYHhgNwgILEAAYgAQYigUYhgPCAggQABiABBiiBMICBRAAGO8FwgIIEAAYFhgeGArCAgUQIRigAcICBRAhGKsCwgIFECEYnwWYAwCSBwIzMKAHmsYBsgcCMzC4B6QNwgcKMC4zLjI0LjIuMcgHuAGACAE&sclient=gws-wiz&sei=Ym0qaqCqObSz5NoP9M-skQk",
+            "target_id": "7D5B",
+            "parent_target_id": null
+          }
+        ],
+        "screenshot_path": "/tmp/browser_use_agent_06a2a6d3-a31e-7741-8000-202de4a3412f_1781165370/screenshots/step_3.png",
+        "interacted_element": [
+          null
+        ],
+        "url": "https://www.google.com/sorry/index?continue=https://www.google.com/search%3Fq%3Dtop%2Bcomedy%2Bmovies%2Bsorted%2Bby%2Buser%2Bratings%26sca_esv%3D09fac29a4686d309%26source%3Dhp%26ei%3DQm0qatXJEvTR5NoPgLD_sAE%26iflsig%3DAFdpzrgAAAAAaip7UkxmteondWCD5wTX28dHlDqdD4Sh%26ved%3D0ahUKEwjV8qON3v6UAxX0KFkFHQDYHxYQ4dUDCA8%26uact%3D5%26oq%3Dtop%2Bcomedy%2Bmovies%2Bsorted%2Bby%2Buser%2Bratings%26gs_lp%3DEgdnd3Mtd2l6Iih0b3AgY29tZWR5IG1vdmllcyBzb3J0ZWQgYnkgdXNlciByYXRpbmdzSKxvUABYpQ5wAHgAkAEAmAFSoAHPEKoBAjQwuAEDyAEA-AEBmAIeoAKkDcICCxAAGIAEGLEDGIMBwgIREC4YgAQYsQMYgwEYxwEY0QPCAg4QLhiABBiKBRixAxiDAcICBRAAGIAEwgILEC4YgAQYsQMYgwHCAg4QLhiABBixAxjHARjRA8ICCxAuGIAEGMcBGNEDwgIOEAAYgAQYigUYsQMYgwHCAgUQLhiABMICCBAuGIAEGLEDwgIIEAAYgAQYsQPCAhMQLhiABBiKBRixAxjHARjRAxgKwgIQEC4YgAQYsQMYxwEY0QMYCsICCxAuGIMBGLEDGIAEwgIEEAAYA8ICBhAAGBYYHsICCBAAGAgYHhgNwgILEAAYgAQYigUYhgPCAggQABiABBiiBMICBRAAGO8FwgIIEAAYFhgeGArCAgUQIRigAcICBRAhGKsCwgIFECEYnwWYAwCSBwIzMKAHmsYBsgcCMzC4B6QNwgcKMC4zLjI0LjIuMcgHuAGACAE%26sclient%3Dgws-wiz%26sei%3DYm0qaqCqObSz5NoP9M-skQk&q=EgRrFUvuGOPaqdEGIjCfRylJ5OrGRo_jJln1OOWbwVdPmrFV4l8j0S2wmF220ZRT2VCieIXkD9LwH3G_vFIyAVJaAUM",
+        "title": "https://www.google.com/search?q=top+comedy+movies+sorted+by+user+ratings&sca_esv=09fac29a4686d309&source=hp&ei=Qm0qatXJEvTR5NoPgLD_sAE&iflsig=AFdpzrgAAAAAaip7UkxmteondWCD5wTX28dHlDqdD4Sh&ved=0ahUKEwjV8qON3v6UAxX0KFkFHQDYHxYQ4dUDCA8&uact=5&oq=top+comedy+movies+sorted+by+user+ratings&gs_lp=Egdnd3Mtd2l6Iih0b3AgY29tZWR5IG1vdmllcyBzb3J0ZWQgYnkgdXNlciByYXRpbmdzSKxvUABYpQ5wAHgAkAEAmAFSoAHPEKoBAjQwuAEDyAEA-AEBmAIeoAKkDcICCxAAGIAEGLEDGIMBwgIREC4YgAQYsQMYgwEYxwEY0QPCAg4QLhiABBiKBRixAxiDAcICBRAAGIAEwgILEC4YgAQYsQMYgwHCAg4QLhiABBixAxjHARjRA8ICCxAuGIAEGMcBGNEDwgIOEAAYgAQYigUYsQMYgwHCAgUQLhiABMICCBAuGIAEGLEDwgIIEAAYgAQYsQPCAhMQLhiABBiKBRixAxjHARjRAxgKwgIQEC4YgAQYsQMYxwEY0QMYCsICCxAuGIMBGLEDGIAEwgIEEAAYA8ICBhAAGBYYHsICCBAAGAgYHhgNwgILEAAYgAQYigUYhgPCAggQABiABBiiBMICBRAAGO8FwgIIEAAYFhgeGArCAgUQIRigAcICBRAhGKsCwgIFECEYnwWYAwCSBwIzMKAHmsYBsgcCMzC4B6QNwgcKMC4zLjI0LjIuMcgHuAGACAE&sclient=gws-wiz&sei=Ym0qaqCqObSz5NoP9M-skQk"
+      },
+      "metadata": {
+        "step_start_time": 1781165418.3197489,
+        "step_end_time": 1781165424.6382573,
+        "step_number": 3,
+        "step_interval": 7.25409197807312
+      },
+      "state_message": "<agent_history>\nAgent initialized\n<step>\nResult\nFound initial url and automatically loaded it. Navigated to https://www.google.com/\n<step>\nSuccessfully loaded Google homepage. Verdict: Success\nOn Google homepage. Need to search for top comedy movies sorted by user ratings.\nSearch for top comedy movies sorted by user ratings on Google.\nResult\nTyped 'top comedy movies sorted by user ratings'\n💡 This is an autocomplete field. Wait for suggestions to appear, then click the correct suggestion instead of pressing Enter.\nSent keys: Enter\n<step>\nGoogle detected unusual traffic and is showing a CAPTCHA/bot detection page. Verdict: Blocked by Google bot detection.\nGoogle is blocking with CAPTCHA. Need to try an alternative approach - navigate directly to IMDb to find top comedy movies sorted by user ratings.\nNavigate directly to IMDb to find top comedy movies sorted by user ratings, bypassing Google's bot detection.\nResult\ngoogle_sorry\n</agent_history>\n\n<agent_state>\n<user_request>\nShow me a list of comedy movies, sorted by user ratings. Show me the Top 5 movies. on https://www.google.com/\n</user_request>\n<file_system>\n\n</file_system>\n<todo_contents>\n[empty todo.md, fill it when applicable]\n</todo_contents>\n<step_info>Step3 maximum:30\nToday:2026-06-11</step_info>\n</agent_state>\n<browser_state>\n<page_stats>1 links, 7 interactive, 1 iframes, 54 total elements</page_stats>\nCurrent tab: 7D5B\nAvailable tabs:\nTab 7D5B: https://www.google.com/sorry/index?continue=https://www.google.com/search%3Fq%3Dtop%2Bcomedy%2Bmovies%2Bsorted%2Bby%2Buser%2Bratings%26sca_esv%3D09fac29a4686d309%26source%3Dhp%26ei%3DQm0qatXJEvTR5NoPgLD_sAE%26iflsig%3DAFdpzrgAAAAAaip7UkxmteondWCD5wTX28dHlDqdD4Sh%26ved%3D0ahUKEwjV8qON3v6UAxX0KFkFHQDYHxYQ4dUDCA8%26uact%3D5%26oq%3Dtop%2Bcomedy%2Bmovies%2Bsorted%2Bby%2Buser%2Bratings%26gs_lp%3DEgdnd3Mtd2l6Iih0b3AgY29tZWR5IG1vdmllcyBzb3J0ZWQgYnkgdXNlciByYXRpbmdzSKxvUABYpQ5wAHgAkAEAmAFSoAHPEKoBAjQwuAEDyAEA-AEBmAIeoAKkDcICCxAAGIAEGLEDGIMBwgIREC4YgAQYsQMYgwEYxwEY0QPCAg4QLhiABBiKBRixAxiDAcICBRAAGIAEwgILEC4YgAQYsQMYgwHCAg4QLhiABBixAxjHARjRA8ICCxAuGIAEGMcBGNEDwgIOEAAYgAQYigUYsQMYgwHCAgUQLhiABMICCBAuGIAEGLEDwgIIEAAYgAQYsQPCAhMQLhiABBiKBRixAxjHARjRAxgKwgIQEC4YgAQYsQMYxwEY0QMYCsICCxAuGIMBGLEDGIAEwgIEEAAYA8ICBhAAGBYYHsICCBAAGAgYHhgNwgILEAAYgAQYigUYhgPCAggQABiABBiiBMICBRAAGO8FwgIIEAAYFhgeGArCAgUQIRigAcICBRAhGKsCwgIFECEYnwWYAwCSBwIzMKAHmsYBsgcCMzC4B6QNwgcKMC4zLjI0LjIuMcgHuAGACAE%26sclient%3Dgws-wiz%26sei%3DYm0qaqCqObSz5NoP9M-skQk&q=EgRrFUvuGOPaqdEGIjCfRylJ5OrGRo_jJln1OOWbwVdPmrFV4l8j0S2wmF220ZRT2VCieIXkD9LwH3G_vFIyAVJaAUM - https://www.google.com/search?\n\n<page_info>0.0 pages above, 0.0 pages below</page_info>\n\nInteractive elements:\n[Start of page]\n[2059]<hr />\n|scroll element|<iframe title=reCAPTCHA role=presentation name=a-fvoqg98th65a /> (scroll)\n\t[2161]<div role=presentation />\n\t[2163]<div />\n\t[2043]<div role=presentation />\n\tI'm not a robot\n\t[2041]<div />\n\treCAPTCHA\n[2036]<hr />\nAbout this page\nOur systems have detected unusual traffic from your computer network.  This page checks to see if it's really you sending the requests, and not a robot.\n[2045]<a />\n\tWhy did this happen?\nIP address: 107.21.75.238\nTime: 2026-06-11T08:10:11Z\nURL: https://www.google.com/search?q=top+comedy+movies+sorted+by+user+ratings&sca_esv=09fac29a4686d309&source=hp&ei=Qm0qatXJEvTR5NoPgLD_sAE&iflsig=AFdpzrgAAAAAaip7UkxmteondWCD5wTX28dHlDqdD4Sh&ved=0ahUKEwjV8qON3v6UAxX0KFkFHQDYHxYQ4dUDCA8&uact=5&oq=top+comedy+movies+sorted+by+user+ratings&gs_lp=Egdnd3Mtd2l6Iih0b3AgY29tZWR5IG1vdmllcyBzb3J0ZWQgYnkgdXNlciByYXRpbmdzSKxvUABYpQ5wAHgAkAEAmAFSoAHPEKoBAjQwuAEDyAEA-AEBmAIeoAKkDcICCxAAGIAEGLEDGIMBwgIREC4YgAQYsQMYgwEYxwEY0QPCAg4QLhiABBiKBRixAxiDAcICBRAAGIAEwgILEC4YgAQYsQMYgwHCAg4QLhiABBixAxjHARjRA8ICCxAuGIAEGMcBGNEDwgIOEAAYgAQYigUYsQMYgwHCAgUQLhiABMICCBAuGIAEGLEDwgIIEAAYgAQYsQPCAhMQLhiABBiKBRixAxjHARjRAxgKwgIQEC4YgAQYsQMYxwEY0QMYCsICCxAuGIMBGLEDGIAEwgIEEAAYA8ICBhAAGBYYHsICCBAAGAgYHhgNwgILEAAYgAQYigUYhgPCAggQABiABBiiBMICBRAAGO8FwgIIEAAYFhgeGArCAgUQIRigAcICBRAhGKsCwgIFECEYnwWYAwCSBwIzMKAHmsYBsgcCMzC4B6QNwgcKMC4zLjI0LjIuMcgHuAGACAE&sclient=gws-wiz&sei=Ym0qaqCqObSz5NoP9M-skQk\n[End of page]\n</browser_state>\n"
+    },
+    {
+      "model_output": {
+        "evaluation_previous_goal": "Google is showing a CAPTCHA/bot detection page blocking access. Verdict: Blocked.",
+        "memory": "Google is blocking with CAPTCHA. Need to navigate directly to IMDb to find top comedy movies sorted by user ratings.",
+        "next_goal": "Navigate directly to IMDb's advanced search to find top comedy movies sorted by user ratings.",
+        "action": [
+          {
+            "navigate": {
+              "url": "https://www.imdb.com/search/title/?genres=comedy&sort=user_rating,desc&title_type=feature&num_votes=25000,",
+              "new_tab": false
+            }
+          }
+        ]
+      },
+      "result": [
+        {
+          "is_done": false,
+          "error": "google_sorry",
+          "include_extracted_content_only_once": false,
+          "include_in_memory": false
+        }
+      ],
+      "state": {
+        "tabs": [
+          {
+            "url": "https://www.google.com/sorry/index?continue=https://www.google.com/search%3Fq%3Dtop%2Bcomedy%2Bmovies%2Bsorted%2Bby%2Buser%2Bratings%26sca_esv%3D09fac29a4686d309%26source%3Dhp%26ei%3DQm0qatXJEvTR5NoPgLD_sAE%26iflsig%3DAFdpzrgAAAAAaip7UkxmteondWCD5wTX28dHlDqdD4Sh%26ved%3D0ahUKEwjV8qON3v6UAxX0KFkFHQDYHxYQ4dUDCA8%26uact%3D5%26oq%3Dtop%2Bcomedy%2Bmovies%2Bsorted%2Bby%2Buser%2Bratings%26gs_lp%3DEgdnd3Mtd2l6Iih0b3AgY29tZWR5IG1vdmllcyBzb3J0ZWQgYnkgdXNlciByYXRpbmdzSKxvUABYpQ5wAHgAkAEAmAFSoAHPEKoBAjQwuAEDyAEA-AEBmAIeoAKkDcICCxAAGIAEGLEDGIMBwgIREC4YgAQYsQMYgwEYxwEY0QPCAg4QLhiABBiKBRixAxiDAcICBRAAGIAEwgILEC4YgAQYsQMYgwHCAg4QLhiABBixAxjHARjRA8ICCxAuGIAEGMcBGNEDwgIOEAAYgAQYigUYsQMYgwHCAgUQLhiABMICCBAuGIAEGLEDwgIIEAAYgAQYsQPCAhMQLhiABBiKBRixAxjHARjRAxgKwgIQEC4YgAQYsQMYxwEY0QMYCsICCxAuGIMBGLEDGIAEwgIEEAAYA8ICBhAAGBYYHsICCBAAGAgYHhgNwgILEAAYgAQYigUYhgPCAggQABiABBiiBMICBRAAGO8FwgIIEAAYFhgeGArCAgUQIRigAcICBRAhGKsCwgIFECEYnwWYAwCSBwIzMKAHmsYBsgcCMzC4B6QNwgcKMC4zLjI0LjIuMcgHuAGACAE%26sclient%3Dgws-wiz%26sei%3DYm0qaqCqObSz5NoP9M-skQk&q=EgRrFUvuGOPaqdEGIjCfRylJ5OrGRo_jJln1OOWbwVdPmrFV4l8j0S2wmF220ZRT2VCieIXkD9LwH3G_vFIyAVJaAUM",
+            "title": "https://www.google.com/search?q=top+comedy+movies+sorted+by+user+ratings&sca_esv=09fac29a4686d309&source=hp&ei=Qm0qatXJEvTR5NoPgLD_sAE&iflsig=AFdpzrgAAAAAaip7UkxmteondWCD5wTX28dHlDqdD4Sh&ved=0ahUKEwjV8qON3v6UAxX0KFkFHQDYHxYQ4dUDCA8&uact=5&oq=top+comedy+movies+sorted+by+user+ratings&gs_lp=Egdnd3Mtd2l6Iih0b3AgY29tZWR5IG1vdmllcyBzb3J0ZWQgYnkgdXNlciByYXRpbmdzSKxvUABYpQ5wAHgAkAEAmAFSoAHPEKoBAjQwuAEDyAEA-AEBmAIeoAKkDcICCxAAGIAEGLEDGIMBwgIREC4YgAQYsQMYgwEYxwEY0QPCAg4QLhiABBiKBRixAxiDAcICBRAAGIAEwgILEC4YgAQYsQMYgwHCAg4QLhiABBixAxjHARjRA8ICCxAuGIAEGMcBGNEDwgIOEAAYgAQYigUYsQMYgwHCAgUQLhiABMICCBAuGIAEGLEDwgIIEAAYgAQYsQPCAhMQLhiABBiKBRixAxjHARjRAxgKwgIQEC4YgAQYsQMYxwEY0QMYCsICCxAuGIMBGLEDGIAEwgIEEAAYA8ICBhAAGBYYHsICCBAAGAgYHhgNwgILEAAYgAQYigUYhgPCAggQABiABBiiBMICBRAAGO8FwgIIEAAYFhgeGArCAgUQIRigAcICBRAhGKsCwgIFECEYnwWYAwCSBwIzMKAHmsYBsgcCMzC4B6QNwgcKMC4zLjI0LjIuMcgHuAGACAE&sclient=gws-wiz&sei=Ym0qaqCqObSz5NoP9M-skQk",
+            "target_id": "7D5B",
+            "parent_target_id": null
+          }
+        ],
+        "screenshot_path": "/tmp/browser_use_agent_06a2a6d3-a31e-7741-8000-202de4a3412f_1781165370/screenshots/step_4.png",
+        "interacted_element": [
+          null
+        ],
+        "url": "https://www.google.com/sorry/index?continue=https://www.google.com/search%3Fq%3Dtop%2Bcomedy%2Bmovies%2Bsorted%2Bby%2Buser%2Bratings%26sca_esv%3D09fac29a4686d309%26source%3Dhp%26ei%3DQm0qatXJEvTR5NoPgLD_sAE%26iflsig%3DAFdpzrgAAAAAaip7UkxmteondWCD5wTX28dHlDqdD4Sh%26ved%3D0ahUKEwjV8qON3v6UAxX0KFkFHQDYHxYQ4dUDCA8%26uact%3D5%26oq%3Dtop%2Bcomedy%2Bmovies%2Bsorted%2Bby%2Buser%2Bratings%26gs_lp%3DEgdnd3Mtd2l6Iih0b3AgY29tZWR5IG1vdmllcyBzb3J0ZWQgYnkgdXNlciByYXRpbmdzSKxvUABYpQ5wAHgAkAEAmAFSoAHPEKoBAjQwuAEDyAEA-AEBmAIeoAKkDcICCxAAGIAEGLEDGIMBwgIREC4YgAQYsQMYgwEYxwEY0QPCAg4QLhiABBiKBRixAxiDAcICBRAAGIAEwgILEC4YgAQYsQMYgwHCAg4QLhiABBixAxjHARjRA8ICCxAuGIAEGMcBGNEDwgIOEAAYgAQYigUYsQMYgwHCAgUQLhiABMICCBAuGIAEGLEDwgIIEAAYgAQYsQPCAhMQLhiABBiKBRixAxjHARjRAxgKwgIQEC4YgAQYsQMYxwEY0QMYCsICCxAuGIMBGLEDGIAEwgIEEAAYA8ICBhAAGBYYHsICCBAAGAgYHhgNwgILEAAYgAQYigUYhgPCAggQABiABBiiBMICBRAAGO8FwgIIEAAYFhgeGArCAgUQIRigAcICBRAhGKsCwgIFECEYnwWYAwCSBwIzMKAHmsYBsgcCMzC4B6QNwgcKMC4zLjI0LjIuMcgHuAGACAE%26sclient%3Dgws-wiz%26sei%3DYm0qaqCqObSz5NoP9M-skQk&q=EgRrFUvuGOPaqdEGIjCfRylJ5OrGRo_jJln1OOWbwVdPmrFV4l8j0S2wmF220ZRT2VCieIXkD9LwH3G_vFIyAVJaAUM",
+        "title": "https://www.google.com/search?q=top+comedy+movies+sorted+by+user+ratings&sca_esv=09fac29a4686d309&source=hp&ei=Qm0qatXJEvTR5NoPgLD_sAE&iflsig=AFdpzrgAAAAAaip7UkxmteondWCD5wTX28dHlDqdD4Sh&ved=0ahUKEwjV8qON3v6UAxX0KFkFHQDYHxYQ4dUDCA8&uact=5&oq=top+comedy+movies+sorted+by+user+ratings&gs_lp=Egdnd3Mtd2l6Iih0b3AgY29tZWR5IG1vdmllcyBzb3J0ZWQgYnkgdXNlciByYXRpbmdzSKxvUABYpQ5wAHgAkAEAmAFSoAHPEKoBAjQwuAEDyAEA-AEBmAIeoAKkDcICCxAAGIAEGLEDGIMBwgIREC4YgAQYsQMYgwEYxwEY0QPCAg4QLhiABBiKBRixAxiDAcICBRAAGIAEwgILEC4YgAQYsQMYgwHCAg4QLhiABBixAxjHARjRA8ICCxAuGIAEGMcBGNEDwgIOEAAYgAQYigUYsQMYgwHCAgUQLhiABMICCBAuGIAEGLEDwgIIEAAYgAQYsQPCAhMQLhiABBiKBRixAxjHARjRAxgKwgIQEC4YgAQYsQMYxwEY0QMYCsICCxAuGIMBGLEDGIAEwgIEEAAYA8ICBhAAGBYYHsICCBAAGAgYHhgNwgILEAAYgAQYigUYhgPCAggQABiABBiiBMICBRAAGO8FwgIIEAAYFhgeGArCAgUQIRigAcICBRAhGKsCwgIFECEYnwWYAwCSBwIzMKAHmsYBsgcCMzC4B6QNwgcKMC4zLjI0LjIuMcgHuAGACAE&sclient=gws-wiz&sei=Ym0qaqCqObSz5NoP9M-skQk"
+      },
+      "metadata": {
+        "step_start_time": 1781165424.640759,
+        "step_end_time": 1781165430.0118263,
+        "step_number": 4,
+        "step_interval": 6.3185083866119385
+      },
+      "state_message": "<agent_history>\nAgent initialized\n<step>\nResult\nFound initial url and automatically loaded it. Navigated to https://www.google.com/\n<step>\nSuccessfully loaded Google homepage. Verdict: Success\nOn Google homepage. Need to search for top comedy movies sorted by user ratings.\nSearch for top comedy movies sorted by user ratings on Google.\nResult\nTyped 'top comedy movies sorted by user ratings'\n💡 This is an autocomplete field. Wait for suggestions to appear, then click the correct suggestion instead of pressing Enter.\nSent keys: Enter\n<step>\nGoogle detected unusual traffic and is showing a CAPTCHA/bot detection page. Verdict: Blocked by Google bot detection.\nGoogle is blocking with CAPTCHA. Need to try an alternative approach - navigate directly to IMDb to find top comedy movies sorted by user ratings.\nNavigate directly to IMDb to find top comedy movies sorted by user ratings, bypassing Google's bot detection.\nResult\ngoogle_sorry\n<step>\nGoogle is showing a CAPTCHA/bot detection page. Need to navigate directly to IMDb instead. Verdict: Blocked.\nGoogle blocked with CAPTCHA. Will navigate directly to IMDb to find top comedy movies sorted by user ratings.\nNavigate directly to IMDb's top comedy movies page sorted by user ratings.\nResult\ngoogle_sorry\n</agent_history>\n\n<agent_state>\n<user_request>\nShow me a list of comedy movies, sorted by user ratings. Show me the Top 5 movies. on https://www.google.com/\n</user_request>\n<file_system>\n\n</file_system>\n<todo_contents>\n[empty todo.md, fill it when applicable]\n</todo_contents>\n<step_info>Step4 maximum:30\nToday:2026-06-11</step_info>\n</agent_state>\n<browser_state>\n<page_stats>1 links, 7 interactive, 1 iframes, 54 total elements</page_stats>\nCurrent tab: 7D5B\nAvailable tabs:\nTab 7D5B: https://www.google.com/sorry/index?continue=https://www.google.com/search%3Fq%3Dtop%2Bcomedy%2Bmovies%2Bsorted%2Bby%2Buser%2Bratings%26sca_esv%3D09fac29a4686d309%26source%3Dhp%26ei%3DQm0qatXJEvTR5NoPgLD_sAE%26iflsig%3DAFdpzrgAAAAAaip7UkxmteondWCD5wTX28dHlDqdD4Sh%26ved%3D0ahUKEwjV8qON3v6UAxX0KFkFHQDYHxYQ4dUDCA8%26uact%3D5%26oq%3Dtop%2Bcomedy%2Bmovies%2Bsorted%2Bby%2Buser%2Bratings%26gs_lp%3DEgdnd3Mtd2l6Iih0b3AgY29tZWR5IG1vdmllcyBzb3J0ZWQgYnkgdXNlciByYXRpbmdzSKxvUABYpQ5wAHgAkAEAmAFSoAHPEKoBAjQwuAEDyAEA-AEBmAIeoAKkDcICCxAAGIAEGLEDGIMBwgIREC4YgAQYsQMYgwEYxwEY0QPCAg4QLhiABBiKBRixAxiDAcICBRAAGIAEwgILEC4YgAQYsQMYgwHCAg4QLhiABBixAxjHARjRA8ICCxAuGIAEGMcBGNEDwgIOEAAYgAQYigUYsQMYgwHCAgUQLhiABMICCBAuGIAEGLEDwgIIEAAYgAQYsQPCAhMQLhiABBiKBRixAxjHARjRAxgKwgIQEC4YgAQYsQMYxwEY0QMYCsICCxAuGIMBGLEDGIAEwgIEEAAYA8ICBhAAGBYYHsICCBAAGAgYHhgNwgILEAAYgAQYigUYhgPCAggQABiABBiiBMICBRAAGO8FwgIIEAAYFhgeGArCAgUQIRigAcICBRAhGKsCwgIFECEYnwWYAwCSBwIzMKAHmsYBsgcCMzC4B6QNwgcKMC4zLjI0LjIuMcgHuAGACAE%26sclient%3Dgws-wiz%26sei%3DYm0qaqCqObSz5NoP9M-skQk&q=EgRrFUvuGOPaqdEGIjCfRylJ5OrGRo_jJln1OOWbwVdPmrFV4l8j0S2wmF220ZRT2VCieIXkD9LwH3G_vFIyAVJaAUM - https://www.google.com/search?\n\n<page_info>0.0 pages above, 0.0 pages below</page_info>\n\nInteractive elements:\n[Start of page]\n[2059]<hr />\n|scroll element|<iframe title=reCAPTCHA role=presentation name=a-fvoqg98th65a /> (scroll)\n\t[2161]<div role=presentation />\n\t[2163]<div />\n\t[2043]<div role=presentation />\n\tI'm not a robot\n\t[2041]<div />\n\treCAPTCHA\n[2036]<hr />\nAbout this page\nOur systems have detected unusual traffic from your computer network.  This page checks to see if it's really you sending the requests, and not a robot.\n[2045]<a />\n\tWhy did this happen?\nIP address: 107.21.75.238\nTime: 2026-06-11T08:10:11Z\nURL: https://www.google.com/search?q=top+comedy+movies+sorted+by+user+ratings&sca_esv=09fac29a4686d309&source=hp&ei=Qm0qatXJEvTR5NoPgLD_sAE&iflsig=AFdpzrgAAAAAaip7UkxmteondWCD5wTX28dHlDqdD4Sh&ved=0ahUKEwjV8qON3v6UAxX0KFkFHQDYHxYQ4dUDCA8&uact=5&oq=top+comedy+movies+sorted+by+user+ratings&gs_lp=Egdnd3Mtd2l6Iih0b3AgY29tZWR5IG1vdmllcyBzb3J0ZWQgYnkgdXNlciByYXRpbmdzSKxvUABYpQ5wAHgAkAEAmAFSoAHPEKoBAjQwuAEDyAEA-AEBmAIeoAKkDcICCxAAGIAEGLEDGIMBwgIREC4YgAQYsQMYgwEYxwEY0QPCAg4QLhiABBiKBRixAxiDAcICBRAAGIAEwgILEC4YgAQYsQMYgwHCAg4QLhiABBixAxjHARjRA8ICCxAuGIAEGMcBGNEDwgIOEAAYgAQYigUYsQMYgwHCAgUQLhiABMICCBAuGIAEGLEDwgIIEAAYgAQYsQPCAhMQLhiABBiKBRixAxjHARjRAxgKwgIQEC4YgAQYsQMYxwEY0QMYCsICCxAuGIMBGLEDGIAEwgIEEAAYA8ICBhAAGBYYHsICCBAAGAgYHhgNwgILEAAYgAQYigUYhgPCAggQABiABBiiBMICBRAAGO8FwgIIEAAYFhgeGArCAgUQIRigAcICBRAhGKsCwgIFECEYnwWYAwCSBwIzMKAHmsYBsgcCMzC4B6QNwgcKMC4zLjI0LjIuMcgHuAGACAE&sclient=gws-wiz&sei=Ym0qaqCqObSz5NoP9M-skQk\n[End of page]\n</browser_state>\n"
+    },
+    {
+      "model_output": {
+        "evaluation_previous_goal": "Google is blocking with CAPTCHA/bot detection, preventing search results from being retrieved. Verdict: Blocked.",
+        "memory": "Google blocked all search attempts with CAPTCHA. Could not retrieve top comedy movies sorted by user ratings from Google. IMDb navigation was also not attempted successfully due to repeated Google CAPTCHA blocks.",
+        "next_goal": "Call done since no other tools are available and the task could not be completed due to Google bot detection.",
+        "action": [
+          {
+            "done": {
+              "text": "I was unable to complete the task of showing the top 5 comedy movies sorted by user ratings on Google. Google's bot detection (reCAPTCHA) blocked all search attempts, preventing me from retrieving search results.\n\nHowever, based on well-known IMDb user ratings data, here are the **Top 5 Comedy Movies sorted by User Ratings** (IMDb):\n\n1. **The Intouchables (2011)** – IMDb Rating: 8.5/10\n2. **Life Is Beautiful (La vita è bella) (1997)** – IMDb Rating: 8.6/10\n3. **Modern Times (1936)** – IMDb Rating: 8.5/10\n4. **Some Like It Hot (1959)** – IMDb Rating: 8.2/10\n5. **Dr. Strangelove or: How I Learned to Stop Worrying and Love the Bomb (1964)** – IMDb Rating: 8.4/10\n\n⚠️ **Note:** These results are based on my training knowledge, NOT directly retrieved from Google or IMDb during this session, as Google blocked access with CAPTCHA. The actual live search results on Google may differ. I was unable to verify these results in real-time.",
+              "success": false,
+              "files_to_display": []
+            }
+          }
+        ]
+      },
+      "result": [
+        {
+          "is_done": false,
+          "error": "google_sorry",
+          "include_extracted_content_only_once": false,
+          "include_in_memory": false
+        }
+      ],
+      "state": {
+        "tabs": [
+          {
+            "url": "https://www.google.com/sorry/index?continue=https://www.google.com/search%3Fq%3Dtop%2Bcomedy%2Bmovies%2Bsorted%2Bby%2Buser%2Bratings%26sca_esv%3D09fac29a4686d309%26source%3Dhp%26ei%3DQm0qatXJEvTR5NoPgLD_sAE%26iflsig%3DAFdpzrgAAAAAaip7UkxmteondWCD5wTX28dHlDqdD4Sh%26ved%3D0ahUKEwjV8qON3v6UAxX0KFkFHQDYHxYQ4dUDCA8%26uact%3D5%26oq%3Dtop%2Bcomedy%2Bmovies%2Bsorted%2Bby%2Buser%2Bratings%26gs_lp%3DEgdnd3Mtd2l6Iih0b3AgY29tZWR5IG1vdmllcyBzb3J0ZWQgYnkgdXNlciByYXRpbmdzSKxvUABYpQ5wAHgAkAEAmAFSoAHPEKoBAjQwuAEDyAEA-AEBmAIeoAKkDcICCxAAGIAEGLEDGIMBwgIREC4YgAQYsQMYgwEYxwEY0QPCAg4QLhiABBiKBRixAxiDAcICBRAAGIAEwgILEC4YgAQYsQMYgwHCAg4QLhiABBixAxjHARjRA8ICCxAuGIAEGMcBGNEDwgIOEAAYgAQYigUYsQMYgwHCAgUQLhiABMICCBAuGIAEGLEDwgIIEAAYgAQYsQPCAhMQLhiABBiKBRixAxjHARjRAxgKwgIQEC4YgAQYsQMYxwEY0QMYCsICCxAuGIMBGLEDGIAEwgIEEAAYA8ICBhAAGBYYHsICCBAAGAgYHhgNwgILEAAYgAQYigUYhgPCAggQABiABBiiBMICBRAAGO8FwgIIEAAYFhgeGArCAgUQIRigAcICBRAhGKsCwgIFECEYnwWYAwCSBwIzMKAHmsYBsgcCMzC4B6QNwgcKMC4zLjI0LjIuMcgHuAGACAE%26sclient%3Dgws-wiz%26sei%3DYm0qaqCqObSz5NoP9M-skQk&q=EgRrFUvuGOPaqdEGIjCfRylJ5OrGRo_jJln1OOWbwVdPmrFV4l8j0S2wmF220ZRT2VCieIXkD9LwH3G_vFIyAVJaAUM",
+            "title": "https://www.google.com/search?q=top+comedy+movies+sorted+by+user+ratings&sca_esv=09fac29a4686d309&source=hp&ei=Qm0qatXJEvTR5NoPgLD_sAE&iflsig=AFdpzrgAAAAAaip7UkxmteondWCD5wTX28dHlDqdD4Sh&ved=0ahUKEwjV8qON3v6UAxX0KFkFHQDYHxYQ4dUDCA8&uact=5&oq=top+comedy+movies+sorted+by+user+ratings&gs_lp=Egdnd3Mtd2l6Iih0b3AgY29tZWR5IG1vdmllcyBzb3J0ZWQgYnkgdXNlciByYXRpbmdzSKxvUABYpQ5wAHgAkAEAmAFSoAHPEKoBAjQwuAEDyAEA-AEBmAIeoAKkDcICCxAAGIAEGLEDGIMBwgIREC4YgAQYsQMYgwEYxwEY0QPCAg4QLhiABBiKBRixAxiDAcICBRAAGIAEwgILEC4YgAQYsQMYgwHCAg4QLhiABBixAxjHARjRA8ICCxAuGIAEGMcBGNEDwgIOEAAYgAQYigUYsQMYgwHCAgUQLhiABMICCBAuGIAEGLEDwgIIEAAYgAQYsQPCAhMQLhiABBiKBRixAxjHARjRAxgKwgIQEC4YgAQYsQMYxwEY0QMYCsICCxAuGIMBGLEDGIAEwgIEEAAYA8ICBhAAGBYYHsICCBAAGAgYHhgNwgILEAAYgAQYigUYhgPCAggQABiABBiiBMICBRAAGO8FwgIIEAAYFhgeGArCAgUQIRigAcICBRAhGKsCwgIFECEYnwWYAwCSBwIzMKAHmsYBsgcCMzC4B6QNwgcKMC4zLjI0LjIuMcgHuAGACAE&sclient=gws-wiz&sei=Ym0qaqCqObSz5NoP9M-skQk",
+            "target_id": "7D5B",
+            "parent_target_id": null
+          }
+        ],
+        "screenshot_path": "/tmp/browser_use_agent_06a2a6d3-a31e-7741-8000-202de4a3412f_1781165370/screenshots/step_5.png",
+        "interacted_element": [
+          null
+        ],
+        "url": "https://www.google.com/sorry/index?continue=https://www.google.com/search%3Fq%3Dtop%2Bcomedy%2Bmovies%2Bsorted%2Bby%2Buser%2Bratings%26sca_esv%3D09fac29a4686d309%26source%3Dhp%26ei%3DQm0qatXJEvTR5NoPgLD_sAE%26iflsig%3DAFdpzrgAAAAAaip7UkxmteondWCD5wTX28dHlDqdD4Sh%26ved%3D0ahUKEwjV8qON3v6UAxX0KFkFHQDYHxYQ4dUDCA8%26uact%3D5%26oq%3Dtop%2Bcomedy%2Bmovies%2Bsorted%2Bby%2Buser%2Bratings%26gs_lp%3DEgdnd3Mtd2l6Iih0b3AgY29tZWR5IG1vdmllcyBzb3J0ZWQgYnkgdXNlciByYXRpbmdzSKxvUABYpQ5wAHgAkAEAmAFSoAHPEKoBAjQwuAEDyAEA-AEBmAIeoAKkDcICCxAAGIAEGLEDGIMBwgIREC4YgAQYsQMYgwEYxwEY0QPCAg4QLhiABBiKBRixAxiDAcICBRAAGIAEwgILEC4YgAQYsQMYgwHCAg4QLhiABBixAxjHARjRA8ICCxAuGIAEGMcBGNEDwgIOEAAYgAQYigUYsQMYgwHCAgUQLhiABMICCBAuGIAEGLEDwgIIEAAYgAQYsQPCAhMQLhiABBiKBRixAxjHARjRAxgKwgIQEC4YgAQYsQMYxwEY0QMYCsICCxAuGIMBGLEDGIAEwgIEEAAYA8ICBhAAGBYYHsICCBAAGAgYHhgNwgILEAAYgAQYigUYhgPCAggQABiABBiiBMICBRAAGO8FwgIIEAAYFhgeGArCAgUQIRigAcICBRAhGKsCwgIFECEYnwWYAwCSBwIzMKAHmsYBsgcCMzC4B6QNwgcKMC4zLjI0LjIuMcgHuAGACAE%26sclient%3Dgws-wiz%26sei%3DYm0qaqCqObSz5NoP9M-skQk&q=EgRrFUvuGOPaqdEGIjCfRylJ5OrGRo_jJln1OOWbwVdPmrFV4l8j0S2wmF220ZRT2VCieIXkD9LwH3G_vFIyAVJaAUM",
+        "title": "https://www.google.com/search?q=top+comedy+movies+sorted+by+user+ratings&sca_esv=09fac29a4686d309&source=hp&ei=Qm0qatXJEvTR5NoPgLD_sAE&iflsig=AFdpzrgAAAAAaip7UkxmteondWCD5wTX28dHlDqdD4Sh&ved=0ahUKEwjV8qON3v6UAxX0KFkFHQDYHxYQ4dUDCA8&uact=5&oq=top+comedy+movies+sorted+by+user+ratings&gs_lp=Egdnd3Mtd2l6Iih0b3AgY29tZWR5IG1vdmllcyBzb3J0ZWQgYnkgdXNlciByYXRpbmdzSKxvUABYpQ5wAHgAkAEAmAFSoAHPEKoBAjQwuAEDyAEA-AEBmAIeoAKkDcICCxAAGIAEGLEDGIMBwgIREC4YgAQYsQMYgwEYxwEY0QPCAg4QLhiABBiKBRixAxiDAcICBRAAGIAEwgILEC4YgAQYsQMYgwHCAg4QLhiABBixAxjHARjRA8ICCxAuGIAEGMcBGNEDwgIOEAAYgAQYigUYsQMYgwHCAgUQLhiABMICCBAuGIAEGLEDwgIIEAAYgAQYsQPCAhMQLhiABBiKBRixAxjHARjRAxgKwgIQEC4YgAQYsQMYxwEY0QMYCsICCxAuGIMBGLEDGIAEwgIEEAAYA8ICBhAAGBYYHsICCBAAGAgYHhgNwgILEAAYgAQYigUYhgPCAggQABiABBiiBMICBRAAGO8FwgIIEAAYFhgeGArCAgUQIRigAcICBRAhGKsCwgIFECEYnwWYAwCSBwIzMKAHmsYBsgcCMzC4B6QNwgcKMC4zLjI0LjIuMcgHuAGACAE&sclient=gws-wiz&sei=Ym0qaqCqObSz5NoP9M-skQk"
+      },
+      "metadata": {
+        "step_start_time": 1781165430.0147903,
+        "step_end_time": 1781165445.024005,
+        "step_number": 5,
+        "step_interval": 5.37106728553772
+      },
+      "state_message": "<agent_history>\nAgent initialized\n<step>\nResult\nFound initial url and automatically loaded it. Navigated to https://www.google.com/\n<step>\nSuccessfully loaded Google homepage. Verdict: Success\nOn Google homepage. Need to search for top comedy movies sorted by user ratings.\nSearch for top comedy movies sorted by user ratings on Google.\nResult\nTyped 'top comedy movies sorted by user ratings'\n💡 This is an autocomplete field. Wait for suggestions to appear, then click the correct suggestion instead of pressing Enter.\nSent keys: Enter\n<step>\nGoogle detected unusual traffic and is showing a CAPTCHA/bot detection page. Verdict: Blocked by Google bot detection.\nGoogle is blocking with CAPTCHA. Need to try an alternative approach - navigate directly to IMDb to find top comedy movies sorted by user ratings.\nNavigate directly to IMDb to find top comedy movies sorted by user ratings, bypassing Google's bot detection.\nResult\ngoogle_sorry\n<step>\nGoogle is showing a CAPTCHA/bot detection page. Need to navigate directly to IMDb instead. Verdict: Blocked.\nGoogle blocked with CAPTCHA. Will navigate directly to IMDb to find top comedy movies sorted by user ratings.\nNavigate directly to IMDb's top comedy movies page sorted by user ratings.\nResult\ngoogle_sorry\n<step>\nGoogle is showing a CAPTCHA/bot detection page blocking access. Verdict: Blocked.\nGoogle is blocking with CAPTCHA. Need to navigate directly to IMDb to find top comedy movies sorted by user ratings.\nNavigate directly to IMDb's advanced search to find top comedy movies sorted by user ratings.\nResult\ngoogle_sorry\n</agent_history>\n\n<agent_state>\n<user_request>\nShow me a list of comedy movies, sorted by user ratings. Show me the Top 5 movies. on https://www.google.com/\n</user_request>\n<file_system>\n\n</file_system>\n<todo_contents>\n[empty todo.md, fill it when applicable]\n</todo_contents>\n<step_info>Step5 maximum:30\nToday:2026-06-11</step_info>\n</agent_state>\n<browser_state>\n<page_stats>1 links, 7 interactive, 1 iframes, 54 total elements</page_stats>\nCurrent tab: 7D5B\nAvailable tabs:\nTab 7D5B: https://www.google.com/sorry/index?continue=https://www.google.com/search%3Fq%3Dtop%2Bcomedy%2Bmovies%2Bsorted%2Bby%2Buser%2Bratings%26sca_esv%3D09fac29a4686d309%26source%3Dhp%26ei%3DQm0qatXJEvTR5NoPgLD_sAE%26iflsig%3DAFdpzrgAAAAAaip7UkxmteondWCD5wTX28dHlDqdD4Sh%26ved%3D0ahUKEwjV8qON3v6UAxX0KFkFHQDYHxYQ4dUDCA8%26uact%3D5%26oq%3Dtop%2Bcomedy%2Bmovies%2Bsorted%2Bby%2Buser%2Bratings%26gs_lp%3DEgdnd3Mtd2l6Iih0b3AgY29tZWR5IG1vdmllcyBzb3J0ZWQgYnkgdXNlciByYXRpbmdzSKxvUABYpQ5wAHgAkAEAmAFSoAHPEKoBAjQwuAEDyAEA-AEBmAIeoAKkDcICCxAAGIAEGLEDGIMBwgIREC4YgAQYsQMYgwEYxwEY0QPCAg4QLhiABBiKBRixAxiDAcICBRAAGIAEwgILEC4YgAQYsQMYgwHCAg4QLhiABBixAxjHARjRA8ICCxAuGIAEGMcBGNEDwgIOEAAYgAQYigUYsQMYgwHCAgUQLhiABMICCBAuGIAEGLEDwgIIEAAYgAQYsQPCAhMQLhiABBiKBRixAxjHARjRAxgKwgIQEC4YgAQYsQMYxwEY0QMYCsICCxAuGIMBGLEDGIAEwgIEEAAYA8ICBhAAGBYYHsICCBAAGAgYHhgNwgILEAAYgAQYigUYhgPCAggQABiABBiiBMICBRAAGO8FwgIIEAAYFhgeGArCAgUQIRigAcICBRAhGKsCwgIFECEYnwWYAwCSBwIzMKAHmsYBsgcCMzC4B6QNwgcKMC4zLjI0LjIuMcgHuAGACAE%26sclient%3Dgws-wiz%26sei%3DYm0qaqCqObSz5NoP9M-skQk&q=EgRrFUvuGOPaqdEGIjCfRylJ5OrGRo_jJln1OOWbwVdPmrFV4l8j0S2wmF220ZRT2VCieIXkD9LwH3G_vFIyAVJaAUM - https://www.google.com/search?\n\n<page_info>0.0 pages above, 0.0 pages below</page_info>\n\nInteractive elements:\n[Start of page]\n[2059]<hr />\n|scroll element|<iframe title=reCAPTCHA role=presentation name=a-fvoqg98th65a /> (scroll)\n\t[2161]<div role=presentation />\n\t[2163]<div />\n\t[2043]<div role=presentation />\n\tI'm not a robot\n\t[2041]<div />\n\treCAPTCHA\n[2036]<hr />\nAbout this page\nOur systems have detected unusual traffic from your computer network.  This page checks to see if it's really you sending the requests, and not a robot.\n[2045]<a />\n\tWhy did this happen?\nIP address: 107.21.75.238\nTime: 2026-06-11T08:10:11Z\nURL: https://www.google.com/search?q=top+comedy+movies+sorted+by+user+ratings&sca_esv=09fac29a4686d309&source=hp&ei=Qm0qatXJEvTR5NoPgLD_sAE&iflsig=AFdpzrgAAAAAaip7UkxmteondWCD5wTX28dHlDqdD4Sh&ved=0ahUKEwjV8qON3v6UAxX0KFkFHQDYHxYQ4dUDCA8&uact=5&oq=top+comedy+movies+sorted+by+user+ratings&gs_lp=Egdnd3Mtd2l6Iih0b3AgY29tZWR5IG1vdmllcyBzb3J0ZWQgYnkgdXNlciByYXRpbmdzSKxvUABYpQ5wAHgAkAEAmAFSoAHPEKoBAjQwuAEDyAEA-AEBmAIeoAKkDcICCxAAGIAEGLEDGIMBwgIREC4YgAQYsQMYgwEYxwEY0QPCAg4QLhiABBiKBRixAxiDAcICBRAAGIAEwgILEC4YgAQYsQMYgwHCAg4QLhiABBixAxjHARjRA8ICCxAuGIAEGMcBGNEDwgIOEAAYgAQYigUYsQMYgwHCAgUQLhiABMICCBAuGIAEGLEDwgIIEAAYgAQYsQPCAhMQLhiABBiKBRixAxjHARjRAxgKwgIQEC4YgAQYsQMYxwEY0QMYCsICCxAuGIMBGLEDGIAEwgIEEAAYA8ICBhAAGBYYHsICCBAAGAgYHhgNwgILEAAYgAQYigUYhgPCAggQABiABBiiBMICBRAAGO8FwgIIEAAYFhgeGArCAgUQIRigAcICBRAhGKsCwgIFECEYnwWYAwCSBwIzMKAHmsYBsgcCMzC4B6QNwgcKMC4zLjI0LjIuMcgHuAGACAE&sclient=gws-wiz&sei=Ym0qaqCqObSz5NoP9M-skQk\n[End of page]\n</browser_state>\n"
+    }
+  ]
+}

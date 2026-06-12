@@ -1,0 +1,36 @@
+{
+  "task_id": "Apple--20",
+  "web_name": "https://www.apple.com/",
+  "start_time": "2026-06-11 08:17:30.338884",
+  "end_time": "2026-06-11 08:26:01.892639",
+  "duration_seconds": 511.553755,
+  "num_steps": 26,
+  "success": "failed",
+  "task_prompt": "Check the price for an Apple iPhone 14 Plus with 256GB storage in Purple color. on https://www.apple.com/",
+  "final_answer": "<NO FINAL ANSWER>",
+  "gpt_4v_res": "",
+  "stuck": false,
+  "stuck_reason": null,
+  "captcha_blocked": true,
+  "captcha_type": "google_sorry",
+  "error": null,
+  "loop_summary": {
+    "max_consec_run": 1,
+    "looped_action_name": null,
+    "looped_action_args": null
+  },
+  "browser_use_version": "unknown",
+  "cost_totals": {
+    "input_tokens": 1962651,
+    "output_tokens": 41547,
+    "n_llm_calls": 156,
+    "cost_usd": 6.511158,
+    "model_id": "us.anthropic.claude-sonnet-4-6",
+    "input_price_per_m": 3.0,
+    "output_price_per_m": 15.0
+  },
+  "wait_time_s": 0.0,
+  "n_rate_limit_waits": 0,
+  "llm_time_s": 987.8602783829974,
+  "browser_time_s": 0.0
+}

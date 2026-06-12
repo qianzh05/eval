@@ -1,0 +1,72 @@
+{
+  "task_id": "Cambridge Dictionary--19",
+  "n_steps": 26,
+  "wall_clock_s": 467.31443762779236,
+  "phase_totals_s": {
+    "think": 1187.1415493040004,
+    "wait": 0.0,
+    "act": 0.0,
+    "step_total": 467.31444334983826
+  },
+  "per_step_stats": {
+    "think_s": {
+      "n": 26,
+      "sum": 1187.1415493040004,
+      "mean": 45.65929035784617,
+      "p50": 38.266784464999546,
+      "p90": 67.04517913000018,
+      "p95": 104.86801090600056,
+      "max": 112.06955286300035
+    },
+    "wait_s": {
+      "n": 26,
+      "sum": 0.0,
+      "mean": 0.0,
+      "p50": 0.0,
+      "p90": 0.0,
+      "p95": 0.0,
+      "max": 0.0
+    },
+    "act_s": {
+      "n": 26,
+      "sum": 0.0,
+      "mean": 0.0,
+      "p50": 0.0,
+      "p90": 0.0,
+      "p95": 0.0,
+      "max": 0.0
+    },
+    "step_total_s": {
+      "n": 26,
+      "sum": 467.31444334983826,
+      "mean": 17.97363243653224,
+      "p50": 13.101090669631958,
+      "p90": 29.36584973335266,
+      "p95": 40.05715250968933,
+      "max": 45.08379864692688
+    }
+  },
+  "n_actions_by_type": {
+    "click": 2,
+    "input": 1,
+    "wait": 2,
+    "screenshot": 3,
+    "search_page": 11,
+    "extract": 2,
+    "evaluate": 10,
+    "search": 2,
+    "navigate": 2,
+    "switch": 3,
+    "done": 1
+  },
+  "n_steps_with_captcha": 26,
+  "captcha_types": [
+    "cloudflare",
+    "recaptcha"
+  ],
+  "max_stuck_run": 1,
+  "tokens": {
+    "input_total": 1820085,
+    "output_total": 44819
+  }
+}

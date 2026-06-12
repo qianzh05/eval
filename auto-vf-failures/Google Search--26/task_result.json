@@ -1,0 +1,36 @@
+{
+  "task_id": "Google Search--26",
+  "web_name": "https://www.google.com/",
+  "start_time": "2026-06-11 08:38:28.089595",
+  "end_time": "2026-06-11 08:40:06.347628",
+  "duration_seconds": 98.258033,
+  "num_steps": 6,
+  "success": "failed",
+  "task_prompt": "Identify the hardware requirements for using the latest version of Adobe Photoshop on a Mac. on https://www.google.com/",
+  "final_answer": "<NO FINAL ANSWER>",
+  "gpt_4v_res": "",
+  "stuck": false,
+  "stuck_reason": null,
+  "captcha_blocked": true,
+  "captcha_type": "google_sorry",
+  "error": null,
+  "loop_summary": {
+    "max_consec_run": 1,
+    "looped_action_name": null,
+    "looped_action_args": null
+  },
+  "browser_use_version": "unknown",
+  "cost_totals": {
+    "input_tokens": 264433,
+    "output_tokens": 6039,
+    "n_llm_calls": 23,
+    "cost_usd": 0.883884,
+    "model_id": "us.anthropic.claude-sonnet-4-6",
+    "input_price_per_m": 3.0,
+    "output_price_per_m": 15.0
+  },
+  "wait_time_s": 0.0,
+  "n_rate_limit_waits": 0,
+  "llm_time_s": 127.78673685199647,
+  "browser_time_s": 0.0
+}

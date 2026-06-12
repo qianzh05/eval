@@ -1,0 +1,36 @@
+{
+  "task_id": "Huggingface--6",
+  "web_name": "https://huggingface.co/",
+  "start_time": "2026-06-11 08:15:29.457524",
+  "end_time": "2026-06-11 08:18:40.004213",
+  "duration_seconds": 190.546689,
+  "num_steps": 14,
+  "success": "failed",
+  "task_prompt": "Find the model sentence-transformers/all-MiniLM-L6-v2 and use the Inference API on the webpage to get the similarity of the following two sentences: 'Tomorrow is Sunday', 'Eat a burger on Sunday'. on https://huggingface.co/",
+  "final_answer": "<NO FINAL ANSWER>",
+  "gpt_4v_res": "",
+  "stuck": false,
+  "stuck_reason": null,
+  "captcha_blocked": true,
+  "captcha_type": "unknown_block",
+  "error": null,
+  "loop_summary": {
+    "max_consec_run": 1,
+    "looped_action_name": null,
+    "looped_action_args": null
+  },
+  "browser_use_version": "unknown",
+  "cost_totals": {
+    "input_tokens": 809446,
+    "output_tokens": 17656,
+    "n_llm_calls": 62,
+    "cost_usd": 2.693178,
+    "model_id": "us.anthropic.claude-sonnet-4-6",
+    "input_price_per_m": 3.0,
+    "output_price_per_m": 15.0
+  },
+  "wait_time_s": 0.0,
+  "n_rate_limit_waits": 0,
+  "llm_time_s": 423.73430250199726,
+  "browser_time_s": 0.0
+}

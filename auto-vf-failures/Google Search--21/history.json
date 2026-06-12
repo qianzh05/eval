@@ -1,0 +1,365 @@
+{
+  "history": [
+    {
+      "model_output": {
+        "evaluation_previous_goal": "Start",
+        "memory": null,
+        "next_goal": "Initial navigation",
+        "action": [
+          {
+            "navigate": {
+              "url": "https://www.google.com/",
+              "new_tab": false
+            }
+          }
+        ]
+      },
+      "result": [
+        {
+          "is_done": false,
+          "long_term_memory": "Found initial url and automatically loaded it. Navigated to https://www.google.com/",
+          "extracted_content": "🔗 Navigated to https://www.google.com/",
+          "include_extracted_content_only_once": false,
+          "include_in_memory": false
+        }
+      ],
+      "state": {
+        "tabs": [],
+        "screenshot_path": null,
+        "interacted_element": [
+          null
+        ],
+        "url": "https://www.google.com/",
+        "title": "Initial Actions"
+      },
+      "metadata": {
+        "step_start_time": 1781166796.5885227,
+        "step_end_time": 1781166796.5885227,
+        "step_number": 0,
+        "step_interval": null
+      },
+      "state_message": null
+    },
+    {
+      "model_output": {
+        "evaluation_previous_goal": "Successfully navigated to Google.com. Verdict: Success",
+        "memory": "On Google.com homepage. Need to search for top 5 highest-grossing animated movies sorted by box office earnings.",
+        "next_goal": "Search for \"top highest-grossing animated movies of all time box office\" on Google",
+        "action": [
+          {
+            "input": {
+              "index": 2,
+              "text": "top 5 highest-grossing animated movies of all time box office",
+              "clear": true
+            }
+          },
+          {
+            "click": {
+              "index": 23
+            }
+          }
+        ]
+      },
+      "result": [
+        {
+          "is_done": false,
+          "long_term_memory": "Typed 'top 5 highest-grossing animated movies of all time box office'\n💡 This is an autocomplete field. Wait for suggestions to appear, then click the correct suggestion instead of pressing Enter.",
+          "extracted_content": "Typed 'top 5 highest-grossing animated movies of all time box office'\n💡 This is an autocomplete field. Wait for suggestions to appear, then click the correct suggestion instead of pressing Enter.",
+          "include_extracted_content_only_once": false,
+          "metadata": {
+            "input_x": 639.5,
+            "input_y": 402.0
+          },
+          "include_in_memory": false
+        },
+        {
+          "is_done": false,
+          "extracted_content": "Clicked input type=submit role=button name=btnK aria-label=Google Search",
+          "include_extracted_content_only_once": false,
+          "metadata": {
+            "click_x": 562.796875,
+            "click_y": 475.0
+          },
+          "include_in_memory": false
+        }
+      ],
+      "state": {
+        "tabs": [
+          {
+            "url": "https://www.google.com/?zx=1781166790513",
+            "title": "Google",
+            "target_id": "1ECC",
+            "parent_target_id": null
+          }
+        ],
+        "screenshot_path": "/tmp/browser_use_agent_06a2a72a-d80d-7cac-8000-5a915ed1e4af_1781166765/screenshots/step_1.png",
+        "interacted_element": [
+          {
+            "node_id": 650,
+            "backend_node_id": 2,
+            "frame_id": null,
+            "node_type": 1,
+            "node_value": "",
+            "node_name": "TEXTAREA",
+            "attributes": {
+              "jsname": "yZiJbe",
+              "class": "gLFyf",
+              "aria-controls": "Alh6id",
+              "aria-owns": "Alh6id",
+              "autofocus": "",
+              "title": "Search",
+              "value": "",
+              "aria-label": "Search",
+              "placeholder": "",
+              "aria-autocomplete": "both",
+              "aria-expanded": "false",
+              "aria-haspopup": "false",
+              "autocapitalize": "off",
+              "autocomplete": "off",
+              "autocorrect": "off",
+              "id": "APjFqb",
+              "maxlength": "2048",
+              "name": "q",
+              "role": "combobox",
+              "rows": "1",
+              "spellcheck": "false",
+              "data-ved": "0ahUKEwjM9Kuu4_6UAxUUGVkFHQxREoEQ39UDCAU"
+            },
+            "x_path": "html/body/div[2]/div[4]/form/div[1]/div/div[1]/div[1]/div[2]/textarea",
+            "element_hash": 887221250628730007,
+            "stable_hash": 10110593287483505811,
+            "bounds": {
+              "x": 396.0,
+              "y": 377.0,
+              "width": 487.0,
+              "height": 50.0
+            },
+            "ax_name": "Search"
+          },
+          {
+            "node_id": 832,
+            "backend_node_id": 23,
+            "frame_id": null,
+            "node_type": 1,
+            "node_value": "",
+            "node_name": "INPUT",
+            "attributes": {
+              "class": "gNO89b",
+              "value": "Google Search",
+              "aria-label": "Google Search",
+              "name": "btnK",
+              "role": "button",
+              "tabindex": "0",
+              "type": "submit",
+              "data-ved": "0ahUKEwjM9Kuu4_6UAxUUGVkFHQxREoEQ4dUDCBE"
+            },
+            "x_path": "html/body/div[2]/div[4]/form/div[1]/div/div[3]/center/input[1]",
+            "element_hash": 869717218312185834,
+            "stable_hash": 17010618282808043491,
+            "bounds": {
+              "x": 499.09375,
+              "y": 457.0,
+              "width": 127.40625,
+              "height": 36.0
+            },
+            "ax_name": "Google Search"
+          }
+        ],
+        "url": "https://www.google.com/?zx=1781166790513",
+        "title": "Google"
+      },
+      "metadata": {
+        "step_start_time": 1781166796.5886362,
+        "step_end_time": 1781166815.995094,
+        "step_number": 1,
+        "step_interval": 0.0
+      },
+      "state_message": "<agent_history>\nAgent initialized\n<step>\nResult\nFound initial url and automatically loaded it. Navigated to https://www.google.com/\n</agent_history>\n\n<agent_state>\n<user_request>\nShow a list of the top 5 highest-grossing animated movies, sorted by box office earnings. on https://www.google.com/\n</user_request>\n<file_system>\n\n</file_system>\n<todo_contents>\n[empty todo.md, fill it when applicable]\n</todo_contents>\n<step_info>Step1 maximum:30\nToday:2026-06-11</step_info>\n</agent_state>\n<browser_state>\n<page_stats>Page appears to show skeleton/placeholder content (still loading?) - 13 links, 29 interactive, 0 iframes, 3 shadow(open), 0 shadow(closed), 1 images, 101 total elements</page_stats>\nCurrent tab: 1ECC\nAvailable tabs:\nTab 1ECC: https://www.google.com/?zx=1781166790513 - Google\n\n<page_info>0.0 pages above, 0.0 pages below</page_info>\n\nInteractive elements:\n[Start of page]\n[11]<div />\n\t[82]<a />\n\t\tAbout\n\t[84]<a />\n\t\tStore\n\t[90]<div />\n\t\t[12]<a aria-label=Gmail />\n\t\t\tGmail\n\t[13]<a aria-label=Search for Images />\n\t\tImages\n\t[14]<div id=gbwa />\n\t\t[94]<div />\n\t\t\t[15]<a aria-label=Google apps aria-expanded=false role=button />\n\t[16]<a aria-label=Sign in />\n\t\tSign in\n\t<svg aria-label=Google role=img /> <!-- SVG content collapsed -->\n\t[3]<form role=search />\n\t\t[17]<div />\n\t\t\t[167]<div />\n\t\t\t\t[168]<span />\n\t\t\t\t\t<svg /> <!-- SVG content collapsed -->\n\t\t|SHADOW(open)|[2]<textarea title=Search aria-label=Search aria-expanded=false id=APjFqb name=q role=combobox />\n\t\t[8]<div />\n\t\t\t[177]<div />\n\t\t\t\t[19]<div aria-label=Search by image role=button />\n\t\t|SHADOW(open)|[23]<input value=Google Search aria-label=Google Search name=btnK role=button type=submit />\n\t\t|SHADOW(open)|[24]<input id=gbqfbb value=I'm Feeling Lucky aria-label=I'm Feeling Lucky name=btnI role=button type=submit />\n\t[25]<div id=19056387 />\n\t\t[411]<a role=link />\n\t\t\tWhether you call it football or soccer, get live scores and updates on Google ⚽\n\t[429]<a />\n\t\tAdvertising\n\t[431]<a />\n\t\tBusiness\n\t[433]<a />\n\t\tHow Search works\n\t[436]<a />\n\t\tApplying AI towards science and the environment\n\t[440]<a />\n\t\tPrivacy\n\t[442]<a />\n\t\tTerms\n\t[451]<div aria-expanded=false role=button />\n\t\tSettings\n[End of page]\n</browser_state>\n"
+    },
+    {
+      "model_output": {
+        "evaluation_previous_goal": "Google detected unusual traffic and is showing a CAPTCHA/bot detection page. Verdict: Blocked by bot detection.",
+        "memory": "Google blocked the search with a CAPTCHA. Need to try an alternative approach - use a different search engine or navigate directly to a known source like Box Office Mojo or Wikipedia for top grossing animated movies.",
+        "next_goal": "Navigate to Box Office Mojo or Wikipedia to find the top 5 highest-grossing animated movies directly.",
+        "action": [
+          {
+            "navigate": {
+              "url": "https://en.wikipedia.org/wiki/List_of_highest-grossing_animated_films",
+              "new_tab": false
+            }
+          }
+        ]
+      },
+      "result": [
+        {
+          "is_done": false,
+          "error": "google_sorry",
+          "include_extracted_content_only_once": false,
+          "include_in_memory": false
+        }
+      ],
+      "state": {
+        "tabs": [
+          {
+            "url": "https://www.google.com/sorry/index?continue=https://www.google.com/search%3Fq%3Dtop%2B5%2Bhighest-grossing%2Banimated%2Bmovies%2Bof%2Ball%2Btime%2Bbox%2Boffice%26sca_esv%3D2a9cf1d07f23bfb1%26source%3Dhp%26ei%3DxXIqaoz-MZSy5NoPjKLJiAg%26iflsig%3DAFdpzrgAAAAAaiqA1disgRGsHaa-r_78x_sqqGdbgfWb%26ved%3D0ahUKEwjM9Kuu4_6UAxUUGVkFHQxREoEQ4dUDCBE%26oq%3Dtop%2B5%2Bhighest-grossing%2Banimated%2Bmovies%2Bof%2Ball%2Btime%2Bbox%2Boffice%26gs_lp%3DEgdnd3Mtd2l6Ij10b3AgNSBoaWdoZXN0LWdyb3NzaW5nIGFuaW1hdGVkIG1vdmllcyBvZiBhbGwgdGltZSBib3ggb2ZmaWNlSJxjUABYmRBwAHgAkAEAmAFjoAHeHKoBAjYxuAEMyAEA-AEBmAI8oAK5H8ICCxAAGIAEGLEDGIMBwgIREC4YgAQYsQMYgwEYxwEY0QPCAgUQABiABMICDhAuGIAEGIoFGLEDGIMBwgILEC4YgAQYsQMYgwHCAgsQLhiABBjHARjRA8ICDhAAGIAEGIoFGLEDGIMBwgIIEC4YgAQYsQPCAhMQLhiABBiKBRixAxjHARjRAxgKwgILEC4YgAQYxwEYrwHCAggQABiABBixA8ICEBAuGIAEGLEDGMcBGNEDGArCAgYQABgWGB7CAgYQABgeGA3CAgsQABiABBiKBRiGA8ICCBAAGIkFGKIEwgIIEAAYgAQYogTCAgUQIRigAcICBRAhGKsCmAMAkgcENTguMqAHw8oDsgcENTguMrgHuR_CBwg0LjQuNDkuM8gHmAKACAE%26sclient%3Dgws-wiz%26sei%3D33IqasTfFpar5NoPg9aPwQg&q=EgRrFUvuGN_lqdEGIjAsBdLWpUpBh5IpY-KWWBP68fT5hZpp0ltmhdHrgmN78Rtjc_C2NGHdjWNVmYMS0Z0yAVJaAUM",
+            "title": "google.com/sorry/index?continue=https://www.google.com/search%3Fq%3Dtop%2B5%2Bhighest-grossing%2Banimated%2Bmovies%2Bof%2Ball%2Btime%2Bbox%2Boffice%26sca_esv%3D2a9cf1d07f23bfb1%26source%3Dhp%26ei%3DxXIqaoz-MZSy5NoPjKLJiAg%26iflsig%3DAFdpzrgAAAAAaiqA1disgRGsHaa-r_78x_sqqGdbgfWb%26ved%3D0ahUKEwjM9Kuu4_6UAxUUGVkFHQxREoEQ4dUDCBE%26oq%3Dtop%2B5%2Bhighest-grossing%2Banimated%2Bmovies%2Bof%2Ball%2Btime%2Bbox%2Boffice%26gs_lp%3DEgdnd3Mtd2l6Ij10b3AgNSBoaWdoZXN0LWdyb3NzaW5nIGFuaW1hdGVkIG1vdmllcyBvZiBhbGwgdGltZSBib3ggb2ZmaWNlSJxjUABYmRBwAHgAkAEAmAFjoAHeHKoBAjYxuAEMyAEA-AEBmAI8oAK5H8ICCxAAGIAEGLEDGIMBwgIREC4YgAQYsQMYgwEYxwEY0QPCAgUQABiABMICDhAuGIAEGIoFGLEDGIMBwgILEC4YgAQYsQMYgwHCAgsQLhiABBjHARjRA8ICDhAAGIAEGIoFGLEDGIMBwgIIEC4YgAQYsQPCAhMQLhiABBiKBRixAxjHARjRAxgKwgILEC4YgAQYxwEYrwHCAggQABiABBixA8ICEBAuGIAEGLEDGMcBGNEDGArCAgYQABgWGB7CAgYQABgeGA3CAgsQABiABBiKBRiGA8ICCBAAGIkFGKIEwgIIEAAYgAQYogTCAgUQIRigAcICBRAhGKsCmAMAkgcENTguMqAHw8oDsgcENTguMrgHuR_CBwg0LjQuNDkuM8gHmAKACAE%26sclient%3Dgws-wiz%26sei%3D33IqasTfFpar5NoPg9aPwQg&q=EgRrFUvuGN_lqdEGIjAsBdLWpUpBh5IpY-KWWBP68fT5hZpp0ltmhdHrgmN78Rtjc_C2NGHdjWNVmYMS0Z0yAVJaAUM",
+            "target_id": "1ECC",
+            "parent_target_id": null
+          }
+        ],
+        "screenshot_path": "/tmp/browser_use_agent_06a2a72a-d80d-7cac-8000-5a915ed1e4af_1781166765/screenshots/step_2.png",
+        "interacted_element": [
+          null
+        ],
+        "url": "https://www.google.com/sorry/index?continue=https://www.google.com/search%3Fq%3Dtop%2B5%2Bhighest-grossing%2Banimated%2Bmovies%2Bof%2Ball%2Btime%2Bbox%2Boffice%26sca_esv%3D2a9cf1d07f23bfb1%26source%3Dhp%26ei%3DxXIqaoz-MZSy5NoPjKLJiAg%26iflsig%3DAFdpzrgAAAAAaiqA1disgRGsHaa-r_78x_sqqGdbgfWb%26ved%3D0ahUKEwjM9Kuu4_6UAxUUGVkFHQxREoEQ4dUDCBE%26oq%3Dtop%2B5%2Bhighest-grossing%2Banimated%2Bmovies%2Bof%2Ball%2Btime%2Bbox%2Boffice%26gs_lp%3DEgdnd3Mtd2l6Ij10b3AgNSBoaWdoZXN0LWdyb3NzaW5nIGFuaW1hdGVkIG1vdmllcyBvZiBhbGwgdGltZSBib3ggb2ZmaWNlSJxjUABYmRBwAHgAkAEAmAFjoAHeHKoBAjYxuAEMyAEA-AEBmAI8oAK5H8ICCxAAGIAEGLEDGIMBwgIREC4YgAQYsQMYgwEYxwEY0QPCAgUQABiABMICDhAuGIAEGIoFGLEDGIMBwgILEC4YgAQYsQMYgwHCAgsQLhiABBjHARjRA8ICDhAAGIAEGIoFGLEDGIMBwgIIEC4YgAQYsQPCAhMQLhiABBiKBRixAxjHARjRAxgKwgILEC4YgAQYxwEYrwHCAggQABiABBixA8ICEBAuGIAEGLEDGMcBGNEDGArCAgYQABgWGB7CAgYQABgeGA3CAgsQABiABBiKBRiGA8ICCBAAGIkFGKIEwgIIEAAYgAQYogTCAgUQIRigAcICBRAhGKsCmAMAkgcENTguMqAHw8oDsgcENTguMrgHuR_CBwg0LjQuNDkuM8gHmAKACAE%26sclient%3Dgws-wiz%26sei%3D33IqasTfFpar5NoPg9aPwQg&q=EgRrFUvuGN_lqdEGIjAsBdLWpUpBh5IpY-KWWBP68fT5hZpp0ltmhdHrgmN78Rtjc_C2NGHdjWNVmYMS0Z0yAVJaAUM",
+        "title": "google.com/sorry/index?continue=https://www.google.com/search%3Fq%3Dtop%2B5%2Bhighest-grossing%2Banimated%2Bmovies%2Bof%2Ball%2Btime%2Bbox%2Boffice%26sca_esv%3D2a9cf1d07f23bfb1%26source%3Dhp%26ei%3DxXIqaoz-MZSy5NoPjKLJiAg%26iflsig%3DAFdpzrgAAAAAaiqA1disgRGsHaa-r_78x_sqqGdbgfWb%26ved%3D0ahUKEwjM9Kuu4_6UAxUUGVkFHQxREoEQ4dUDCBE%26oq%3Dtop%2B5%2Bhighest-grossing%2Banimated%2Bmovies%2Bof%2Ball%2Btime%2Bbox%2Boffice%26gs_lp%3DEgdnd3Mtd2l6Ij10b3AgNSBoaWdoZXN0LWdyb3NzaW5nIGFuaW1hdGVkIG1vdmllcyBvZiBhbGwgdGltZSBib3ggb2ZmaWNlSJxjUABYmRBwAHgAkAEAmAFjoAHeHKoBAjYxuAEMyAEA-AEBmAI8oAK5H8ICCxAAGIAEGLEDGIMBwgIREC4YgAQYsQMYgwEYxwEY0QPCAgUQABiABMICDhAuGIAEGIoFGLEDGIMBwgILEC4YgAQYsQMYgwHCAgsQLhiABBjHARjRA8ICDhAAGIAEGIoFGLEDGIMBwgIIEC4YgAQYsQPCAhMQLhiABBiKBRixAxjHARjRAxgKwgILEC4YgAQYxwEYrwHCAggQABiABBixA8ICEBAuGIAEGLEDGMcBGNEDGArCAgYQABgWGB7CAgYQABgeGA3CAgsQABiABBiKBRiGA8ICCBAAGIkFGKIEwgIIEAAYgAQYogTCAgUQIRigAcICBRAhGKsCmAMAkgcENTguMqAHw8oDsgcENTguMrgHuR_CBwg0LjQuNDkuM8gHmAKACAE%26sclient%3Dgws-wiz%26sei%3D33IqasTfFpar5NoPg9aPwQg&q=EgRrFUvuGN_lqdEGIjAsBdLWpUpBh5IpY-KWWBP68fT5hZpp0ltmhdHrgmN78Rtjc_C2NGHdjWNVmYMS0Z0yAVJaAUM"
+      },
+      "metadata": {
+        "step_start_time": 1781166816.005847,
+        "step_end_time": 1781166821.0236242,
+        "step_number": 2,
+        "step_interval": 19.406457901000977
+      },
+      "state_message": "<agent_history>\nAgent initialized\n<step>\nResult\nFound initial url and automatically loaded it. Navigated to https://www.google.com/\n<step>\nSuccessfully navigated to Google.com. Verdict: Success\nOn Google.com homepage. Need to search for top 5 highest-grossing animated movies sorted by box office earnings.\nSearch for \"top highest-grossing animated movies of all time box office\" on Google\nResult\nTyped 'top 5 highest-grossing animated movies of all time box office'\n💡 This is an autocomplete field. Wait for suggestions to appear, then click the correct suggestion instead of pressing Enter.\nClicked input type=submit role=button name=btnK aria-label=Google Search\n</agent_history>\n\n<agent_state>\n<user_request>\nShow a list of the top 5 highest-grossing animated movies, sorted by box office earnings. on https://www.google.com/\n</user_request>\n<file_system>\n\n</file_system>\n<todo_contents>\n[empty todo.md, fill it when applicable]\n</todo_contents>\n<step_info>Step2 maximum:30\nToday:2026-06-11</step_info>\n</agent_state>\n<browser_state>\n<page_stats>1 links, 7 interactive, 1 iframes, 54 total elements</page_stats>\nCurrent tab: 1ECC\nAvailable tabs:\nTab 1ECC: https://www.google.com/sorry/index?continue=https://www.google.com/search%3Fq%3Dtop%2B5%2Bhighest-grossing%2Banimated%2Bmovies%2Bof%2Ball%2Btime%2Bbox%2Boffice%26sca_esv%3D2a9cf1d07f23bfb1%26source%3Dhp%26ei%3DxXIqaoz-MZSy5NoPjKLJiAg%26iflsig%3DAFdpzrgAAAAAaiqA1disgRGsHaa-r_78x_sqqGdbgfWb%26ved%3D0ahUKEwjM9Kuu4_6UAxUUGVkFHQxREoEQ4dUDCBE%26oq%3Dtop%2B5%2Bhighest-grossing%2Banimated%2Bmovies%2Bof%2Ball%2Btime%2Bbox%2Boffice%26gs_lp%3DEgdnd3Mtd2l6Ij10b3AgNSBoaWdoZXN0LWdyb3NzaW5nIGFuaW1hdGVkIG1vdmllcyBvZiBhbGwgdGltZSBib3ggb2ZmaWNlSJxjUABYmRBwAHgAkAEAmAFjoAHeHKoBAjYxuAEMyAEA-AEBmAI8oAK5H8ICCxAAGIAEGLEDGIMBwgIREC4YgAQYsQMYgwEYxwEY0QPCAgUQABiABMICDhAuGIAEGIoFGLEDGIMBwgILEC4YgAQYsQMYgwHCAgsQLhiABBjHARjRA8ICDhAAGIAEGIoFGLEDGIMBwgIIEC4YgAQYsQPCAhMQLhiABBiKBRixAxjHARjRAxgKwgILEC4YgAQYxwEYrwHCAggQABiABBixA8ICEBAuGIAEGLEDGMcBGNEDGArCAgYQABgWGB7CAgYQABgeGA3CAgsQABiABBiKBRiGA8ICCBAAGIkFGKIEwgIIEAAYgAQYogTCAgUQIRigAcICBRAhGKsCmAMAkgcENTguMqAHw8oDsgcENTguMrgHuR_CBwg0LjQuNDkuM8gHmAKACAE%26sclient%3Dgws-wiz%26sei%3D33IqasTfFpar5NoPg9aPwQg&q=EgRrFUvuGN_lqdEGIjAsBdLWpUpBh5IpY-KWWBP68fT5hZpp0ltmhdHrgmN78Rtjc_C2NGHdjWNVmYMS0Z0yAVJaAUM - google.com/sorry/index?continu\n\n<page_info>0.0 pages above, 0.0 pages below</page_info>\n\nInteractive elements:\n[Start of page]\n*[3845]<hr />\n|scroll element|<iframe title=reCAPTCHA role=presentation name=a-xi2htmtuvnpw /> (scroll)\n\t*[3942]<div role=presentation />\n\t*[3944]<div />\n\t*[3830]<div role=presentation />\n\tI'm not a robot\n\t*[3828]<div />\n\treCAPTCHA\n*[3824]<hr />\nAbout this page\nOur systems have detected unusual traffic from your computer network.  This page checks to see if it's really you sending the requests, and not a robot.\n*[3832]<a />\n\tWhy did this happen?\nIP address: 107.21.75.238\nTime: 2026-06-11T08:33:35Z\nURL: https://www.google.com/search?q=top+5+highest-grossing+animated+movies+of+all+time+box+office&sca_esv=2a9cf1d07f23bfb1&source=hp&ei=xXIqaoz-MZSy5NoPjKLJiAg&iflsig=AFdpzrgAAAAAaiqA1disgRGsHaa-r_78x_sqqGdbgfWb&ved=0ahUKEwjM9Kuu4_6UAxUUGVkFHQxREoEQ4dUDCBE&oq=top+5+highest-grossing+animated+movies+of+all+time+box+office&gs_lp=Egdnd3Mtd2l6Ij10b3AgNSBoaWdoZXN0LWdyb3NzaW5nIGFuaW1hdGVkIG1vdmllcyBvZiBhbGwgdGltZSBib3ggb2ZmaWNlSJxjUABYmRBwAHgAkAEAmAFjoAHeHKoBAjYxuAEMyAEA-AEBmAI8oAK5H8ICCxAAGIAEGLEDGIMBwgIREC4YgAQYsQMYgwEYxwEY0QPCAgUQABiABMICDhAuGIAEGIoFGLEDGIMBwgILEC4YgAQYsQMYgwHCAgsQLhiABBjHARjRA8ICDhAAGIAEGIoFGLEDGIMBwgIIEC4YgAQYsQPCAhMQLhiABBiKBRixAxjHARjRAxgKwgILEC4YgAQYxwEYrwHCAggQABiABBixA8ICEBAuGIAEGLEDGMcBGNEDGArCAgYQABgWGB7CAgYQABgeGA3CAgsQABiABBiKBRiGA8ICCBAAGIkFGKIEwgIIEAAYgAQYogTCAgUQIRigAcICBRAhGKsCmAMAkgcENTguMqAHw8oDsgcENTguMrgHuR_CBwg0LjQuNDkuM8gHmAKACAE&sclient=gws-wiz&sei=33IqasTfFpar5NoPg9aPwQg\n[End of page]\n</browser_state>\n"
+    },
+    {
+      "model_output": {
+        "evaluation_previous_goal": "Google is showing a CAPTCHA/bot detection page. Verdict: Blocked.",
+        "memory": "Google blocked the search with CAPTCHA. Need to navigate directly to a reliable source like Wikipedia or Box Office Mojo to find top 5 highest-grossing animated movies.",
+        "next_goal": "Navigate directly to Wikipedia's list of highest-grossing animated films to find the top 5.",
+        "action": [
+          {
+            "navigate": {
+              "url": "https://en.wikipedia.org/wiki/List_of_highest-grossing_animated_films",
+              "new_tab": false
+            }
+          }
+        ]
+      },
+      "result": [
+        {
+          "is_done": false,
+          "error": "google_sorry",
+          "include_extracted_content_only_once": false,
+          "include_in_memory": false
+        }
+      ],
+      "state": {
+        "tabs": [
+          {
+            "url": "https://www.google.com/sorry/index?continue=https://www.google.com/search%3Fq%3Dtop%2B5%2Bhighest-grossing%2Banimated%2Bmovies%2Bof%2Ball%2Btime%2Bbox%2Boffice%26sca_esv%3D2a9cf1d07f23bfb1%26source%3Dhp%26ei%3DxXIqaoz-MZSy5NoPjKLJiAg%26iflsig%3DAFdpzrgAAAAAaiqA1disgRGsHaa-r_78x_sqqGdbgfWb%26ved%3D0ahUKEwjM9Kuu4_6UAxUUGVkFHQxREoEQ4dUDCBE%26oq%3Dtop%2B5%2Bhighest-grossing%2Banimated%2Bmovies%2Bof%2Ball%2Btime%2Bbox%2Boffice%26gs_lp%3DEgdnd3Mtd2l6Ij10b3AgNSBoaWdoZXN0LWdyb3NzaW5nIGFuaW1hdGVkIG1vdmllcyBvZiBhbGwgdGltZSBib3ggb2ZmaWNlSJxjUABYmRBwAHgAkAEAmAFjoAHeHKoBAjYxuAEMyAEA-AEBmAI8oAK5H8ICCxAAGIAEGLEDGIMBwgIREC4YgAQYsQMYgwEYxwEY0QPCAgUQABiABMICDhAuGIAEGIoFGLEDGIMBwgILEC4YgAQYsQMYgwHCAgsQLhiABBjHARjRA8ICDhAAGIAEGIoFGLEDGIMBwgIIEC4YgAQYsQPCAhMQLhiABBiKBRixAxjHARjRAxgKwgILEC4YgAQYxwEYrwHCAggQABiABBixA8ICEBAuGIAEGLEDGMcBGNEDGArCAgYQABgWGB7CAgYQABgeGA3CAgsQABiABBiKBRiGA8ICCBAAGIkFGKIEwgIIEAAYgAQYogTCAgUQIRigAcICBRAhGKsCmAMAkgcENTguMqAHw8oDsgcENTguMrgHuR_CBwg0LjQuNDkuM8gHmAKACAE%26sclient%3Dgws-wiz%26sei%3D33IqasTfFpar5NoPg9aPwQg&q=EgRrFUvuGN_lqdEGIjAsBdLWpUpBh5IpY-KWWBP68fT5hZpp0ltmhdHrgmN78Rtjc_C2NGHdjWNVmYMS0Z0yAVJaAUM",
+            "title": "https://www.google.com/search?q=top+5+highest-grossing+animated+movies+of+all+time+box+office&sca_esv=2a9cf1d07f23bfb1&source=hp&ei=xXIqaoz-MZSy5NoPjKLJiAg&iflsig=AFdpzrgAAAAAaiqA1disgRGsHaa-r_78x_sqqGdbgfWb&ved=0ahUKEwjM9Kuu4_6UAxUUGVkFHQxREoEQ4dUDCBE&oq=top+5+highest-grossing+animated+movies+of+all+time+box+office&gs_lp=Egdnd3Mtd2l6Ij10b3AgNSBoaWdoZXN0LWdyb3NzaW5nIGFuaW1hdGVkIG1vdmllcyBvZiBhbGwgdGltZSBib3ggb2ZmaWNlSJxjUABYmRBwAHgAkAEAmAFjoAHeHKoBAjYxuAEMyAEA-AEBmAI8oAK5H8ICCxAAGIAEGLEDGIMBwgIREC4YgAQYsQMYgwEYxwEY0QPCAgUQABiABMICDhAuGIAEGIoFGLEDGIMBwgILEC4YgAQYsQMYgwHCAgsQLhiABBjHARjRA8ICDhAAGIAEGIoFGLEDGIMBwgIIEC4YgAQYsQPCAhMQLhiABBiKBRixAxjHARjRAxgKwgILEC4YgAQYxwEYrwHCAggQABiABBixA8ICEBAuGIAEGLEDGMcBGNEDGArCAgYQABgWGB7CAgYQABgeGA3CAgsQABiABBiKBRiGA8ICCBAAGIkFGKIEwgIIEAAYgAQYogTCAgUQIRigAcICBRAhGKsCmAMAkgcENTguMqAHw8oDsgcENTguMrgHuR_CBwg0LjQuNDkuM8gHmAKACAE&sclient=gws-wiz&sei=33IqasTfFpar5NoPg9aPwQg",
+            "target_id": "1ECC",
+            "parent_target_id": null
+          }
+        ],
+        "screenshot_path": "/tmp/browser_use_agent_06a2a72a-d80d-7cac-8000-5a915ed1e4af_1781166765/screenshots/step_3.png",
+        "interacted_element": [
+          null
+        ],
+        "url": "https://www.google.com/sorry/index?continue=https://www.google.com/search%3Fq%3Dtop%2B5%2Bhighest-grossing%2Banimated%2Bmovies%2Bof%2Ball%2Btime%2Bbox%2Boffice%26sca_esv%3D2a9cf1d07f23bfb1%26source%3Dhp%26ei%3DxXIqaoz-MZSy5NoPjKLJiAg%26iflsig%3DAFdpzrgAAAAAaiqA1disgRGsHaa-r_78x_sqqGdbgfWb%26ved%3D0ahUKEwjM9Kuu4_6UAxUUGVkFHQxREoEQ4dUDCBE%26oq%3Dtop%2B5%2Bhighest-grossing%2Banimated%2Bmovies%2Bof%2Ball%2Btime%2Bbox%2Boffice%26gs_lp%3DEgdnd3Mtd2l6Ij10b3AgNSBoaWdoZXN0LWdyb3NzaW5nIGFuaW1hdGVkIG1vdmllcyBvZiBhbGwgdGltZSBib3ggb2ZmaWNlSJxjUABYmRBwAHgAkAEAmAFjoAHeHKoBAjYxuAEMyAEA-AEBmAI8oAK5H8ICCxAAGIAEGLEDGIMBwgIREC4YgAQYsQMYgwEYxwEY0QPCAgUQABiABMICDhAuGIAEGIoFGLEDGIMBwgILEC4YgAQYsQMYgwHCAgsQLhiABBjHARjRA8ICDhAAGIAEGIoFGLEDGIMBwgIIEC4YgAQYsQPCAhMQLhiABBiKBRixAxjHARjRAxgKwgILEC4YgAQYxwEYrwHCAggQABiABBixA8ICEBAuGIAEGLEDGMcBGNEDGArCAgYQABgWGB7CAgYQABgeGA3CAgsQABiABBiKBRiGA8ICCBAAGIkFGKIEwgIIEAAYgAQYogTCAgUQIRigAcICBRAhGKsCmAMAkgcENTguMqAHw8oDsgcENTguMrgHuR_CBwg0LjQuNDkuM8gHmAKACAE%26sclient%3Dgws-wiz%26sei%3D33IqasTfFpar5NoPg9aPwQg&q=EgRrFUvuGN_lqdEGIjAsBdLWpUpBh5IpY-KWWBP68fT5hZpp0ltmhdHrgmN78Rtjc_C2NGHdjWNVmYMS0Z0yAVJaAUM",
+        "title": "https://www.google.com/search?q=top+5+highest-grossing+animated+movies+of+all+time+box+office&sca_esv=2a9cf1d07f23bfb1&source=hp&ei=xXIqaoz-MZSy5NoPjKLJiAg&iflsig=AFdpzrgAAAAAaiqA1disgRGsHaa-r_78x_sqqGdbgfWb&ved=0ahUKEwjM9Kuu4_6UAxUUGVkFHQxREoEQ4dUDCBE&oq=top+5+highest-grossing+animated+movies+of+all+time+box+office&gs_lp=Egdnd3Mtd2l6Ij10b3AgNSBoaWdoZXN0LWdyb3NzaW5nIGFuaW1hdGVkIG1vdmllcyBvZiBhbGwgdGltZSBib3ggb2ZmaWNlSJxjUABYmRBwAHgAkAEAmAFjoAHeHKoBAjYxuAEMyAEA-AEBmAI8oAK5H8ICCxAAGIAEGLEDGIMBwgIREC4YgAQYsQMYgwEYxwEY0QPCAgUQABiABMICDhAuGIAEGIoFGLEDGIMBwgILEC4YgAQYsQMYgwHCAgsQLhiABBjHARjRA8ICDhAAGIAEGIoFGLEDGIMBwgIIEC4YgAQYsQPCAhMQLhiABBiKBRixAxjHARjRAxgKwgILEC4YgAQYxwEYrwHCAggQABiABBixA8ICEBAuGIAEGLEDGMcBGNEDGArCAgYQABgWGB7CAgYQABgeGA3CAgsQABiABBiKBRiGA8ICCBAAGIkFGKIEwgIIEAAYgAQYogTCAgUQIRigAcICBRAhGKsCmAMAkgcENTguMqAHw8oDsgcENTguMrgHuR_CBwg0LjQuNDkuM8gHmAKACAE&sclient=gws-wiz&sei=33IqasTfFpar5NoPg9aPwQg"
+      },
+      "metadata": {
+        "step_start_time": 1781166821.0278146,
+        "step_end_time": 1781166825.1927826,
+        "step_number": 3,
+        "step_interval": 5.01777720451355
+      },
+      "state_message": "<agent_history>\nAgent initialized\n<step>\nResult\nFound initial url and automatically loaded it. Navigated to https://www.google.com/\n<step>\nSuccessfully navigated to Google.com. Verdict: Success\nOn Google.com homepage. Need to search for top 5 highest-grossing animated movies sorted by box office earnings.\nSearch for \"top highest-grossing animated movies of all time box office\" on Google\nResult\nTyped 'top 5 highest-grossing animated movies of all time box office'\n💡 This is an autocomplete field. Wait for suggestions to appear, then click the correct suggestion instead of pressing Enter.\nClicked input type=submit role=button name=btnK aria-label=Google Search\n<step>\nGoogle detected unusual traffic and is showing a CAPTCHA/bot detection page. Verdict: Blocked by bot detection.\nGoogle blocked the search with a CAPTCHA. Need to try an alternative approach - use a different search engine or navigate directly to a known source like Box Office Mojo or Wikipedia for top grossing animated movies.\nNavigate to Box Office Mojo or Wikipedia to find the top 5 highest-grossing animated movies directly.\nResult\ngoogle_sorry\n</agent_history>\n\n<agent_state>\n<user_request>\nShow a list of the top 5 highest-grossing animated movies, sorted by box office earnings. on https://www.google.com/\n</user_request>\n<file_system>\n\n</file_system>\n<todo_contents>\n[empty todo.md, fill it when applicable]\n</todo_contents>\n<step_info>Step3 maximum:30\nToday:2026-06-11</step_info>\n</agent_state>\n<browser_state>\n<page_stats>1 links, 7 interactive, 1 iframes, 54 total elements</page_stats>\nCurrent tab: 1ECC\nAvailable tabs:\nTab 1ECC: https://www.google.com/sorry/index?continue=https://www.google.com/search%3Fq%3Dtop%2B5%2Bhighest-grossing%2Banimated%2Bmovies%2Bof%2Ball%2Btime%2Bbox%2Boffice%26sca_esv%3D2a9cf1d07f23bfb1%26source%3Dhp%26ei%3DxXIqaoz-MZSy5NoPjKLJiAg%26iflsig%3DAFdpzrgAAAAAaiqA1disgRGsHaa-r_78x_sqqGdbgfWb%26ved%3D0ahUKEwjM9Kuu4_6UAxUUGVkFHQxREoEQ4dUDCBE%26oq%3Dtop%2B5%2Bhighest-grossing%2Banimated%2Bmovies%2Bof%2Ball%2Btime%2Bbox%2Boffice%26gs_lp%3DEgdnd3Mtd2l6Ij10b3AgNSBoaWdoZXN0LWdyb3NzaW5nIGFuaW1hdGVkIG1vdmllcyBvZiBhbGwgdGltZSBib3ggb2ZmaWNlSJxjUABYmRBwAHgAkAEAmAFjoAHeHKoBAjYxuAEMyAEA-AEBmAI8oAK5H8ICCxAAGIAEGLEDGIMBwgIREC4YgAQYsQMYgwEYxwEY0QPCAgUQABiABMICDhAuGIAEGIoFGLEDGIMBwgILEC4YgAQYsQMYgwHCAgsQLhiABBjHARjRA8ICDhAAGIAEGIoFGLEDGIMBwgIIEC4YgAQYsQPCAhMQLhiABBiKBRixAxjHARjRAxgKwgILEC4YgAQYxwEYrwHCAggQABiABBixA8ICEBAuGIAEGLEDGMcBGNEDGArCAgYQABgWGB7CAgYQABgeGA3CAgsQABiABBiKBRiGA8ICCBAAGIkFGKIEwgIIEAAYgAQYogTCAgUQIRigAcICBRAhGKsCmAMAkgcENTguMqAHw8oDsgcENTguMrgHuR_CBwg0LjQuNDkuM8gHmAKACAE%26sclient%3Dgws-wiz%26sei%3D33IqasTfFpar5NoPg9aPwQg&q=EgRrFUvuGN_lqdEGIjAsBdLWpUpBh5IpY-KWWBP68fT5hZpp0ltmhdHrgmN78Rtjc_C2NGHdjWNVmYMS0Z0yAVJaAUM - https://www.google.com/search?\n\n<page_info>0.0 pages above, 0.0 pages below</page_info>\n\nInteractive elements:\n[Start of page]\n[3845]<hr />\n|scroll element|<iframe title=reCAPTCHA role=presentation name=a-xi2htmtuvnpw /> (scroll)\n\t[3942]<div role=presentation />\n\t[3944]<div />\n\t[3830]<div role=presentation />\n\tI'm not a robot\n\t[3828]<div />\n\treCAPTCHA\n[3824]<hr />\nAbout this page\nOur systems have detected unusual traffic from your computer network.  This page checks to see if it's really you sending the requests, and not a robot.\n[3832]<a />\n\tWhy did this happen?\nIP address: 107.21.75.238\nTime: 2026-06-11T08:33:35Z\nURL: https://www.google.com/search?q=top+5+highest-grossing+animated+movies+of+all+time+box+office&sca_esv=2a9cf1d07f23bfb1&source=hp&ei=xXIqaoz-MZSy5NoPjKLJiAg&iflsig=AFdpzrgAAAAAaiqA1disgRGsHaa-r_78x_sqqGdbgfWb&ved=0ahUKEwjM9Kuu4_6UAxUUGVkFHQxREoEQ4dUDCBE&oq=top+5+highest-grossing+animated+movies+of+all+time+box+office&gs_lp=Egdnd3Mtd2l6Ij10b3AgNSBoaWdoZXN0LWdyb3NzaW5nIGFuaW1hdGVkIG1vdmllcyBvZiBhbGwgdGltZSBib3ggb2ZmaWNlSJxjUABYmRBwAHgAkAEAmAFjoAHeHKoBAjYxuAEMyAEA-AEBmAI8oAK5H8ICCxAAGIAEGLEDGIMBwgIREC4YgAQYsQMYgwEYxwEY0QPCAgUQABiABMICDhAuGIAEGIoFGLEDGIMBwgILEC4YgAQYsQMYgwHCAgsQLhiABBjHARjRA8ICDhAAGIAEGIoFGLEDGIMBwgIIEC4YgAQYsQPCAhMQLhiABBiKBRixAxjHARjRAxgKwgILEC4YgAQYxwEYrwHCAggQABiABBixA8ICEBAuGIAEGLEDGMcBGNEDGArCAgYQABgWGB7CAgYQABgeGA3CAgsQABiABBiKBRiGA8ICCBAAGIkFGKIEwgIIEAAYgAQYogTCAgUQIRigAcICBRAhGKsCmAMAkgcENTguMqAHw8oDsgcENTguMrgHuR_CBwg0LjQuNDkuM8gHmAKACAE&sclient=gws-wiz&sei=33IqasTfFpar5NoPg9aPwQg\n[End of page]\n</browser_state>\n"
+    },
+    {
+      "model_output": {
+        "evaluation_previous_goal": "Google is showing a CAPTCHA/bot detection page. Verdict: Blocked.",
+        "memory": "Google is blocking with CAPTCHA. Need to navigate directly to Wikipedia or Box Office Mojo to find top 5 highest-grossing animated movies.",
+        "next_goal": "Navigate directly to Wikipedia's list of highest-grossing animated films to find the top 5.",
+        "action": [
+          {
+            "navigate": {
+              "url": "https://en.wikipedia.org/wiki/List_of_highest-grossing_animated_films",
+              "new_tab": false
+            }
+          }
+        ]
+      },
+      "result": [
+        {
+          "is_done": false,
+          "error": "google_sorry",
+          "include_extracted_content_only_once": false,
+          "include_in_memory": false
+        }
+      ],
+      "state": {
+        "tabs": [
+          {
+            "url": "https://www.google.com/sorry/index?continue=https://www.google.com/search%3Fq%3Dtop%2B5%2Bhighest-grossing%2Banimated%2Bmovies%2Bof%2Ball%2Btime%2Bbox%2Boffice%26sca_esv%3D2a9cf1d07f23bfb1%26source%3Dhp%26ei%3DxXIqaoz-MZSy5NoPjKLJiAg%26iflsig%3DAFdpzrgAAAAAaiqA1disgRGsHaa-r_78x_sqqGdbgfWb%26ved%3D0ahUKEwjM9Kuu4_6UAxUUGVkFHQxREoEQ4dUDCBE%26oq%3Dtop%2B5%2Bhighest-grossing%2Banimated%2Bmovies%2Bof%2Ball%2Btime%2Bbox%2Boffice%26gs_lp%3DEgdnd3Mtd2l6Ij10b3AgNSBoaWdoZXN0LWdyb3NzaW5nIGFuaW1hdGVkIG1vdmllcyBvZiBhbGwgdGltZSBib3ggb2ZmaWNlSJxjUABYmRBwAHgAkAEAmAFjoAHeHKoBAjYxuAEMyAEA-AEBmAI8oAK5H8ICCxAAGIAEGLEDGIMBwgIREC4YgAQYsQMYgwEYxwEY0QPCAgUQABiABMICDhAuGIAEGIoFGLEDGIMBwgILEC4YgAQYsQMYgwHCAgsQLhiABBjHARjRA8ICDhAAGIAEGIoFGLEDGIMBwgIIEC4YgAQYsQPCAhMQLhiABBiKBRixAxjHARjRAxgKwgILEC4YgAQYxwEYrwHCAggQABiABBixA8ICEBAuGIAEGLEDGMcBGNEDGArCAgYQABgWGB7CAgYQABgeGA3CAgsQABiABBiKBRiGA8ICCBAAGIkFGKIEwgIIEAAYgAQYogTCAgUQIRigAcICBRAhGKsCmAMAkgcENTguMqAHw8oDsgcENTguMrgHuR_CBwg0LjQuNDkuM8gHmAKACAE%26sclient%3Dgws-wiz%26sei%3D33IqasTfFpar5NoPg9aPwQg&q=EgRrFUvuGN_lqdEGIjAsBdLWpUpBh5IpY-KWWBP68fT5hZpp0ltmhdHrgmN78Rtjc_C2NGHdjWNVmYMS0Z0yAVJaAUM",
+            "title": "https://www.google.com/search?q=top+5+highest-grossing+animated+movies+of+all+time+box+office&sca_esv=2a9cf1d07f23bfb1&source=hp&ei=xXIqaoz-MZSy5NoPjKLJiAg&iflsig=AFdpzrgAAAAAaiqA1disgRGsHaa-r_78x_sqqGdbgfWb&ved=0ahUKEwjM9Kuu4_6UAxUUGVkFHQxREoEQ4dUDCBE&oq=top+5+highest-grossing+animated+movies+of+all+time+box+office&gs_lp=Egdnd3Mtd2l6Ij10b3AgNSBoaWdoZXN0LWdyb3NzaW5nIGFuaW1hdGVkIG1vdmllcyBvZiBhbGwgdGltZSBib3ggb2ZmaWNlSJxjUABYmRBwAHgAkAEAmAFjoAHeHKoBAjYxuAEMyAEA-AEBmAI8oAK5H8ICCxAAGIAEGLEDGIMBwgIREC4YgAQYsQMYgwEYxwEY0QPCAgUQABiABMICDhAuGIAEGIoFGLEDGIMBwgILEC4YgAQYsQMYgwHCAgsQLhiABBjHARjRA8ICDhAAGIAEGIoFGLEDGIMBwgIIEC4YgAQYsQPCAhMQLhiABBiKBRixAxjHARjRAxgKwgILEC4YgAQYxwEYrwHCAggQABiABBixA8ICEBAuGIAEGLEDGMcBGNEDGArCAgYQABgWGB7CAgYQABgeGA3CAgsQABiABBiKBRiGA8ICCBAAGIkFGKIEwgIIEAAYgAQYogTCAgUQIRigAcICBRAhGKsCmAMAkgcENTguMqAHw8oDsgcENTguMrgHuR_CBwg0LjQuNDkuM8gHmAKACAE&sclient=gws-wiz&sei=33IqasTfFpar5NoPg9aPwQg",
+            "target_id": "1ECC",
+            "parent_target_id": null
+          }
+        ],
+        "screenshot_path": "/tmp/browser_use_agent_06a2a72a-d80d-7cac-8000-5a915ed1e4af_1781166765/screenshots/step_4.png",
+        "interacted_element": [
+          null
+        ],
+        "url": "https://www.google.com/sorry/index?continue=https://www.google.com/search%3Fq%3Dtop%2B5%2Bhighest-grossing%2Banimated%2Bmovies%2Bof%2Ball%2Btime%2Bbox%2Boffice%26sca_esv%3D2a9cf1d07f23bfb1%26source%3Dhp%26ei%3DxXIqaoz-MZSy5NoPjKLJiAg%26iflsig%3DAFdpzrgAAAAAaiqA1disgRGsHaa-r_78x_sqqGdbgfWb%26ved%3D0ahUKEwjM9Kuu4_6UAxUUGVkFHQxREoEQ4dUDCBE%26oq%3Dtop%2B5%2Bhighest-grossing%2Banimated%2Bmovies%2Bof%2Ball%2Btime%2Bbox%2Boffice%26gs_lp%3DEgdnd3Mtd2l6Ij10b3AgNSBoaWdoZXN0LWdyb3NzaW5nIGFuaW1hdGVkIG1vdmllcyBvZiBhbGwgdGltZSBib3ggb2ZmaWNlSJxjUABYmRBwAHgAkAEAmAFjoAHeHKoBAjYxuAEMyAEA-AEBmAI8oAK5H8ICCxAAGIAEGLEDGIMBwgIREC4YgAQYsQMYgwEYxwEY0QPCAgUQABiABMICDhAuGIAEGIoFGLEDGIMBwgILEC4YgAQYsQMYgwHCAgsQLhiABBjHARjRA8ICDhAAGIAEGIoFGLEDGIMBwgIIEC4YgAQYsQPCAhMQLhiABBiKBRixAxjHARjRAxgKwgILEC4YgAQYxwEYrwHCAggQABiABBixA8ICEBAuGIAEGLEDGMcBGNEDGArCAgYQABgWGB7CAgYQABgeGA3CAgsQABiABBiKBRiGA8ICCBAAGIkFGKIEwgIIEAAYgAQYogTCAgUQIRigAcICBRAhGKsCmAMAkgcENTguMqAHw8oDsgcENTguMrgHuR_CBwg0LjQuNDkuM8gHmAKACAE%26sclient%3Dgws-wiz%26sei%3D33IqasTfFpar5NoPg9aPwQg&q=EgRrFUvuGN_lqdEGIjAsBdLWpUpBh5IpY-KWWBP68fT5hZpp0ltmhdHrgmN78Rtjc_C2NGHdjWNVmYMS0Z0yAVJaAUM",
+        "title": "https://www.google.com/search?q=top+5+highest-grossing+animated+movies+of+all+time+box+office&sca_esv=2a9cf1d07f23bfb1&source=hp&ei=xXIqaoz-MZSy5NoPjKLJiAg&iflsig=AFdpzrgAAAAAaiqA1disgRGsHaa-r_78x_sqqGdbgfWb&ved=0ahUKEwjM9Kuu4_6UAxUUGVkFHQxREoEQ4dUDCBE&oq=top+5+highest-grossing+animated+movies+of+all+time+box+office&gs_lp=Egdnd3Mtd2l6Ij10b3AgNSBoaWdoZXN0LWdyb3NzaW5nIGFuaW1hdGVkIG1vdmllcyBvZiBhbGwgdGltZSBib3ggb2ZmaWNlSJxjUABYmRBwAHgAkAEAmAFjoAHeHKoBAjYxuAEMyAEA-AEBmAI8oAK5H8ICCxAAGIAEGLEDGIMBwgIREC4YgAQYsQMYgwEYxwEY0QPCAgUQABiABMICDhAuGIAEGIoFGLEDGIMBwgILEC4YgAQYsQMYgwHCAgsQLhiABBjHARjRA8ICDhAAGIAEGIoFGLEDGIMBwgIIEC4YgAQYsQPCAhMQLhiABBiKBRixAxjHARjRAxgKwgILEC4YgAQYxwEYrwHCAggQABiABBixA8ICEBAuGIAEGLEDGMcBGNEDGArCAgYQABgWGB7CAgYQABgeGA3CAgsQABiABBiKBRiGA8ICCBAAGIkFGKIEwgIIEAAYgAQYogTCAgUQIRigAcICBRAhGKsCmAMAkgcENTguMqAHw8oDsgcENTguMrgHuR_CBwg0LjQuNDkuM8gHmAKACAE&sclient=gws-wiz&sei=33IqasTfFpar5NoPg9aPwQg"
+      },
+      "metadata": {
+        "step_start_time": 1781166825.1956751,
+        "step_end_time": 1781166827.8535001,
+        "step_number": 4,
+        "step_interval": 4.164968013763428
+      },
+      "state_message": "<agent_history>\nAgent initialized\n<step>\nResult\nFound initial url and automatically loaded it. Navigated to https://www.google.com/\n<step>\nSuccessfully navigated to Google.com. Verdict: Success\nOn Google.com homepage. Need to search for top 5 highest-grossing animated movies sorted by box office earnings.\nSearch for \"top highest-grossing animated movies of all time box office\" on Google\nResult\nTyped 'top 5 highest-grossing animated movies of all time box office'\n💡 This is an autocomplete field. Wait for suggestions to appear, then click the correct suggestion instead of pressing Enter.\nClicked input type=submit role=button name=btnK aria-label=Google Search\n<step>\nGoogle detected unusual traffic and is showing a CAPTCHA/bot detection page. Verdict: Blocked by bot detection.\nGoogle blocked the search with a CAPTCHA. Need to try an alternative approach - use a different search engine or navigate directly to a known source like Box Office Mojo or Wikipedia for top grossing animated movies.\nNavigate to Box Office Mojo or Wikipedia to find the top 5 highest-grossing animated movies directly.\nResult\ngoogle_sorry\n<step>\nGoogle is showing a CAPTCHA/bot detection page. Verdict: Blocked.\nGoogle blocked the search with CAPTCHA. Need to navigate directly to a reliable source like Wikipedia or Box Office Mojo to find top 5 highest-grossing animated movies.\nNavigate directly to Wikipedia's list of highest-grossing animated films to find the top 5.\nResult\ngoogle_sorry\n</agent_history>\n\n<agent_state>\n<user_request>\nShow a list of the top 5 highest-grossing animated movies, sorted by box office earnings. on https://www.google.com/\n</user_request>\n<file_system>\n\n</file_system>\n<todo_contents>\n[empty todo.md, fill it when applicable]\n</todo_contents>\n<step_info>Step4 maximum:30\nToday:2026-06-11</step_info>\n</agent_state>\n<browser_state>\n<page_stats>1 links, 7 interactive, 1 iframes, 54 total elements</page_stats>\nCurrent tab: 1ECC\nAvailable tabs:\nTab 1ECC: https://www.google.com/sorry/index?continue=https://www.google.com/search%3Fq%3Dtop%2B5%2Bhighest-grossing%2Banimated%2Bmovies%2Bof%2Ball%2Btime%2Bbox%2Boffice%26sca_esv%3D2a9cf1d07f23bfb1%26source%3Dhp%26ei%3DxXIqaoz-MZSy5NoPjKLJiAg%26iflsig%3DAFdpzrgAAAAAaiqA1disgRGsHaa-r_78x_sqqGdbgfWb%26ved%3D0ahUKEwjM9Kuu4_6UAxUUGVkFHQxREoEQ4dUDCBE%26oq%3Dtop%2B5%2Bhighest-grossing%2Banimated%2Bmovies%2Bof%2Ball%2Btime%2Bbox%2Boffice%26gs_lp%3DEgdnd3Mtd2l6Ij10b3AgNSBoaWdoZXN0LWdyb3NzaW5nIGFuaW1hdGVkIG1vdmllcyBvZiBhbGwgdGltZSBib3ggb2ZmaWNlSJxjUABYmRBwAHgAkAEAmAFjoAHeHKoBAjYxuAEMyAEA-AEBmAI8oAK5H8ICCxAAGIAEGLEDGIMBwgIREC4YgAQYsQMYgwEYxwEY0QPCAgUQABiABMICDhAuGIAEGIoFGLEDGIMBwgILEC4YgAQYsQMYgwHCAgsQLhiABBjHARjRA8ICDhAAGIAEGIoFGLEDGIMBwgIIEC4YgAQYsQPCAhMQLhiABBiKBRixAxjHARjRAxgKwgILEC4YgAQYxwEYrwHCAggQABiABBixA8ICEBAuGIAEGLEDGMcBGNEDGArCAgYQABgWGB7CAgYQABgeGA3CAgsQABiABBiKBRiGA8ICCBAAGIkFGKIEwgIIEAAYgAQYogTCAgUQIRigAcICBRAhGKsCmAMAkgcENTguMqAHw8oDsgcENTguMrgHuR_CBwg0LjQuNDkuM8gHmAKACAE%26sclient%3Dgws-wiz%26sei%3D33IqasTfFpar5NoPg9aPwQg&q=EgRrFUvuGN_lqdEGIjAsBdLWpUpBh5IpY-KWWBP68fT5hZpp0ltmhdHrgmN78Rtjc_C2NGHdjWNVmYMS0Z0yAVJaAUM - https://www.google.com/search?\n\n<page_info>0.0 pages above, 0.0 pages below</page_info>\n\nInteractive elements:\n[Start of page]\n[3845]<hr />\n|scroll element|<iframe title=reCAPTCHA role=presentation name=a-xi2htmtuvnpw /> (scroll)\n\t[3942]<div role=presentation />\n\t[3944]<div />\n\t[3830]<div role=presentation />\n\tI'm not a robot\n\t[3828]<div />\n\treCAPTCHA\n[3824]<hr />\nAbout this page\nOur systems have detected unusual traffic from your computer network.  This page checks to see if it's really you sending the requests, and not a robot.\n[3832]<a />\n\tWhy did this happen?\nIP address: 107.21.75.238\nTime: 2026-06-11T08:33:35Z\nURL: https://www.google.com/search?q=top+5+highest-grossing+animated+movies+of+all+time+box+office&sca_esv=2a9cf1d07f23bfb1&source=hp&ei=xXIqaoz-MZSy5NoPjKLJiAg&iflsig=AFdpzrgAAAAAaiqA1disgRGsHaa-r_78x_sqqGdbgfWb&ved=0ahUKEwjM9Kuu4_6UAxUUGVkFHQxREoEQ4dUDCBE&oq=top+5+highest-grossing+animated+movies+of+all+time+box+office&gs_lp=Egdnd3Mtd2l6Ij10b3AgNSBoaWdoZXN0LWdyb3NzaW5nIGFuaW1hdGVkIG1vdmllcyBvZiBhbGwgdGltZSBib3ggb2ZmaWNlSJxjUABYmRBwAHgAkAEAmAFjoAHeHKoBAjYxuAEMyAEA-AEBmAI8oAK5H8ICCxAAGIAEGLEDGIMBwgIREC4YgAQYsQMYgwEYxwEY0QPCAgUQABiABMICDhAuGIAEGIoFGLEDGIMBwgILEC4YgAQYsQMYgwHCAgsQLhiABBjHARjRA8ICDhAAGIAEGIoFGLEDGIMBwgIIEC4YgAQYsQPCAhMQLhiABBiKBRixAxjHARjRAxgKwgILEC4YgAQYxwEYrwHCAggQABiABBixA8ICEBAuGIAEGLEDGMcBGNEDGArCAgYQABgWGB7CAgYQABgeGA3CAgsQABiABBiKBRiGA8ICCBAAGIkFGKIEwgIIEAAYgAQYogTCAgUQIRigAcICBRAhGKsCmAMAkgcENTguMqAHw8oDsgcENTguMrgHuR_CBwg0LjQuNDkuM8gHmAKACAE&sclient=gws-wiz&sei=33IqasTfFpar5NoPg9aPwQg\n[End of page]\n</browser_state>\n"
+    },
+    {
+      "model_output": {
+        "evaluation_previous_goal": "Google is blocking with a CAPTCHA/bot detection page, preventing search results from being retrieved. Verdict: Blocked.",
+        "memory": "Google blocked all search attempts with CAPTCHA. Could not navigate to Wikipedia or Box Office Mojo either due to repeated redirects to the Google sorry page. Unable to retrieve top 5 highest-grossing animated movies data.",
+        "next_goal": "Call done with failure since all attempts were blocked by Google's bot detection.",
+        "action": [
+          {
+            "done": {
+              "text": "I was unable to complete the task because Google detected unusual traffic from the browser and blocked all search attempts with a CAPTCHA/reCAPTCHA challenge. Multiple attempts to search for 'top 5 highest-grossing animated movies of all time' on Google were blocked.\n\nHowever, based on well-established box office data (from sources like Box Office Mojo and Wikipedia), here are the top 5 highest-grossing animated movies of all time:\n\n1. **The Lion King (2019)** - ~$1.663 billion worldwide\n2. **Frozen II (2019)** - ~$1.450 billion worldwide\n3. **The Super Mario Bros. Movie (2023)** - ~$1.362 billion worldwide\n4. **Incredibles 2 (2018)** - ~$1.243 billion worldwide\n5. **Minions (2015)** - ~$1.159 billion worldwide\n\n⚠️ Note: These figures are based on training knowledge and could not be verified live from Google during this session due to bot detection blocking. If 'The Lion King (2019)' is considered live-action/CGI hybrid, then 'Finding Dory (2016)' (~$1.029B) or 'Toy Story 4 (2019)' (~$1.073B) may rank in the top 5 instead. Please verify with Box Office Mojo (https://www.boxofficemojo.com) for the most current figures.",
+              "success": false,
+              "files_to_display": []
+            }
+          }
+        ]
+      },
+      "result": [
+        {
+          "is_done": false,
+          "error": "google_sorry",
+          "include_extracted_content_only_once": false,
+          "include_in_memory": false
+        }
+      ],
+      "state": {
+        "tabs": [
+          {
+            "url": "https://www.google.com/sorry/index?continue=https://www.google.com/search%3Fq%3Dtop%2B5%2Bhighest-grossing%2Banimated%2Bmovies%2Bof%2Ball%2Btime%2Bbox%2Boffice%26sca_esv%3D2a9cf1d07f23bfb1%26source%3Dhp%26ei%3DxXIqaoz-MZSy5NoPjKLJiAg%26iflsig%3DAFdpzrgAAAAAaiqA1disgRGsHaa-r_78x_sqqGdbgfWb%26ved%3D0ahUKEwjM9Kuu4_6UAxUUGVkFHQxREoEQ4dUDCBE%26oq%3Dtop%2B5%2Bhighest-grossing%2Banimated%2Bmovies%2Bof%2Ball%2Btime%2Bbox%2Boffice%26gs_lp%3DEgdnd3Mtd2l6Ij10b3AgNSBoaWdoZXN0LWdyb3NzaW5nIGFuaW1hdGVkIG1vdmllcyBvZiBhbGwgdGltZSBib3ggb2ZmaWNlSJxjUABYmRBwAHgAkAEAmAFjoAHeHKoBAjYxuAEMyAEA-AEBmAI8oAK5H8ICCxAAGIAEGLEDGIMBwgIREC4YgAQYsQMYgwEYxwEY0QPCAgUQABiABMICDhAuGIAEGIoFGLEDGIMBwgILEC4YgAQYsQMYgwHCAgsQLhiABBjHARjRA8ICDhAAGIAEGIoFGLEDGIMBwgIIEC4YgAQYsQPCAhMQLhiABBiKBRixAxjHARjRAxgKwgILEC4YgAQYxwEYrwHCAggQABiABBixA8ICEBAuGIAEGLEDGMcBGNEDGArCAgYQABgWGB7CAgYQABgeGA3CAgsQABiABBiKBRiGA8ICCBAAGIkFGKIEwgIIEAAYgAQYogTCAgUQIRigAcICBRAhGKsCmAMAkgcENTguMqAHw8oDsgcENTguMrgHuR_CBwg0LjQuNDkuM8gHmAKACAE%26sclient%3Dgws-wiz%26sei%3D33IqasTfFpar5NoPg9aPwQg&q=EgRrFUvuGN_lqdEGIjAsBdLWpUpBh5IpY-KWWBP68fT5hZpp0ltmhdHrgmN78Rtjc_C2NGHdjWNVmYMS0Z0yAVJaAUM",
+            "title": "https://www.google.com/search?q=top+5+highest-grossing+animated+movies+of+all+time+box+office&sca_esv=2a9cf1d07f23bfb1&source=hp&ei=xXIqaoz-MZSy5NoPjKLJiAg&iflsig=AFdpzrgAAAAAaiqA1disgRGsHaa-r_78x_sqqGdbgfWb&ved=0ahUKEwjM9Kuu4_6UAxUUGVkFHQxREoEQ4dUDCBE&oq=top+5+highest-grossing+animated+movies+of+all+time+box+office&gs_lp=Egdnd3Mtd2l6Ij10b3AgNSBoaWdoZXN0LWdyb3NzaW5nIGFuaW1hdGVkIG1vdmllcyBvZiBhbGwgdGltZSBib3ggb2ZmaWNlSJxjUABYmRBwAHgAkAEAmAFjoAHeHKoBAjYxuAEMyAEA-AEBmAI8oAK5H8ICCxAAGIAEGLEDGIMBwgIREC4YgAQYsQMYgwEYxwEY0QPCAgUQABiABMICDhAuGIAEGIoFGLEDGIMBwgILEC4YgAQYsQMYgwHCAgsQLhiABBjHARjRA8ICDhAAGIAEGIoFGLEDGIMBwgIIEC4YgAQYsQPCAhMQLhiABBiKBRixAxjHARjRAxgKwgILEC4YgAQYxwEYrwHCAggQABiABBixA8ICEBAuGIAEGLEDGMcBGNEDGArCAgYQABgWGB7CAgYQABgeGA3CAgsQABiABBiKBRiGA8ICCBAAGIkFGKIEwgIIEAAYgAQYogTCAgUQIRigAcICBRAhGKsCmAMAkgcENTguMqAHw8oDsgcENTguMrgHuR_CBwg0LjQuNDkuM8gHmAKACAE&sclient=gws-wiz&sei=33IqasTfFpar5NoPg9aPwQg",
+            "target_id": "1ECC",
+            "parent_target_id": null
+          }
+        ],
+        "screenshot_path": "/tmp/browser_use_agent_06a2a72a-d80d-7cac-8000-5a915ed1e4af_1781166765/screenshots/step_5.png",
+        "interacted_element": [
+          null
+        ],
+        "url": "https://www.google.com/sorry/index?continue=https://www.google.com/search%3Fq%3Dtop%2B5%2Bhighest-grossing%2Banimated%2Bmovies%2Bof%2Ball%2Btime%2Bbox%2Boffice%26sca_esv%3D2a9cf1d07f23bfb1%26source%3Dhp%26ei%3DxXIqaoz-MZSy5NoPjKLJiAg%26iflsig%3DAFdpzrgAAAAAaiqA1disgRGsHaa-r_78x_sqqGdbgfWb%26ved%3D0ahUKEwjM9Kuu4_6UAxUUGVkFHQxREoEQ4dUDCBE%26oq%3Dtop%2B5%2Bhighest-grossing%2Banimated%2Bmovies%2Bof%2Ball%2Btime%2Bbox%2Boffice%26gs_lp%3DEgdnd3Mtd2l6Ij10b3AgNSBoaWdoZXN0LWdyb3NzaW5nIGFuaW1hdGVkIG1vdmllcyBvZiBhbGwgdGltZSBib3ggb2ZmaWNlSJxjUABYmRBwAHgAkAEAmAFjoAHeHKoBAjYxuAEMyAEA-AEBmAI8oAK5H8ICCxAAGIAEGLEDGIMBwgIREC4YgAQYsQMYgwEYxwEY0QPCAgUQABiABMICDhAuGIAEGIoFGLEDGIMBwgILEC4YgAQYsQMYgwHCAgsQLhiABBjHARjRA8ICDhAAGIAEGIoFGLEDGIMBwgIIEC4YgAQYsQPCAhMQLhiABBiKBRixAxjHARjRAxgKwgILEC4YgAQYxwEYrwHCAggQABiABBixA8ICEBAuGIAEGLEDGMcBGNEDGArCAgYQABgWGB7CAgYQABgeGA3CAgsQABiABBiKBRiGA8ICCBAAGIkFGKIEwgIIEAAYgAQYogTCAgUQIRigAcICBRAhGKsCmAMAkgcENTguMqAHw8oDsgcENTguMrgHuR_CBwg0LjQuNDkuM8gHmAKACAE%26sclient%3Dgws-wiz%26sei%3D33IqasTfFpar5NoPg9aPwQg&q=EgRrFUvuGN_lqdEGIjAsBdLWpUpBh5IpY-KWWBP68fT5hZpp0ltmhdHrgmN78Rtjc_C2NGHdjWNVmYMS0Z0yAVJaAUM",
+        "title": "https://www.google.com/search?q=top+5+highest-grossing+animated+movies+of+all+time+box+office&sca_esv=2a9cf1d07f23bfb1&source=hp&ei=xXIqaoz-MZSy5NoPjKLJiAg&iflsig=AFdpzrgAAAAAaiqA1disgRGsHaa-r_78x_sqqGdbgfWb&ved=0ahUKEwjM9Kuu4_6UAxUUGVkFHQxREoEQ4dUDCBE&oq=top+5+highest-grossing+animated+movies+of+all+time+box+office&gs_lp=Egdnd3Mtd2l6Ij10b3AgNSBoaWdoZXN0LWdyb3NzaW5nIGFuaW1hdGVkIG1vdmllcyBvZiBhbGwgdGltZSBib3ggb2ZmaWNlSJxjUABYmRBwAHgAkAEAmAFjoAHeHKoBAjYxuAEMyAEA-AEBmAI8oAK5H8ICCxAAGIAEGLEDGIMBwgIREC4YgAQYsQMYgwEYxwEY0QPCAgUQABiABMICDhAuGIAEGIoFGLEDGIMBwgILEC4YgAQYsQMYgwHCAgsQLhiABBjHARjRA8ICDhAAGIAEGIoFGLEDGIMBwgIIEC4YgAQYsQPCAhMQLhiABBiKBRixAxjHARjRAxgKwgILEC4YgAQYxwEYrwHCAggQABiABBixA8ICEBAuGIAEGLEDGMcBGNEDGArCAgYQABgWGB7CAgYQABgeGA3CAgsQABiABBiKBRiGA8ICCBAAGIkFGKIEwgIIEAAYgAQYogTCAgUQIRigAcICBRAhGKsCmAMAkgcENTguMqAHw8oDsgcENTguMrgHuR_CBwg0LjQuNDkuM8gHmAKACAE&sclient=gws-wiz&sei=33IqasTfFpar5NoPg9aPwQg"
+      },
+      "metadata": {
+        "step_start_time": 1781166827.8595452,
+        "step_end_time": 1781166840.6119874,
+        "step_number": 5,
+        "step_interval": 2.657824993133545
+      },
+      "state_message": "<agent_history>\nAgent initialized\n<step>\nResult\nFound initial url and automatically loaded it. Navigated to https://www.google.com/\n<step>\nSuccessfully navigated to Google.com. Verdict: Success\nOn Google.com homepage. Need to search for top 5 highest-grossing animated movies sorted by box office earnings.\nSearch for \"top highest-grossing animated movies of all time box office\" on Google\nResult\nTyped 'top 5 highest-grossing animated movies of all time box office'\n💡 This is an autocomplete field. Wait for suggestions to appear, then click the correct suggestion instead of pressing Enter.\nClicked input type=submit role=button name=btnK aria-label=Google Search\n<step>\nGoogle detected unusual traffic and is showing a CAPTCHA/bot detection page. Verdict: Blocked by bot detection.\nGoogle blocked the search with a CAPTCHA. Need to try an alternative approach - use a different search engine or navigate directly to a known source like Box Office Mojo or Wikipedia for top grossing animated movies.\nNavigate to Box Office Mojo or Wikipedia to find the top 5 highest-grossing animated movies directly.\nResult\ngoogle_sorry\n<step>\nGoogle is showing a CAPTCHA/bot detection page. Verdict: Blocked.\nGoogle blocked the search with CAPTCHA. Need to navigate directly to a reliable source like Wikipedia or Box Office Mojo to find top 5 highest-grossing animated movies.\nNavigate directly to Wikipedia's list of highest-grossing animated films to find the top 5.\nResult\ngoogle_sorry\n<step>\nGoogle is showing a CAPTCHA/bot detection page. Verdict: Blocked.\nGoogle is blocking with CAPTCHA. Need to navigate directly to Wikipedia or Box Office Mojo to find top 5 highest-grossing animated movies.\nNavigate directly to Wikipedia's list of highest-grossing animated films to find the top 5.\nResult\ngoogle_sorry\n</agent_history>\n\n<agent_state>\n<user_request>\nShow a list of the top 5 highest-grossing animated movies, sorted by box office earnings. on https://www.google.com/\n</user_request>\n<file_system>\n\n</file_system>\n<todo_contents>\n[empty todo.md, fill it when applicable]\n</todo_contents>\n<step_info>Step5 maximum:30\nToday:2026-06-11</step_info>\n</agent_state>\n<browser_state>\n<page_stats>1 links, 7 interactive, 1 iframes, 54 total elements</page_stats>\nCurrent tab: 1ECC\nAvailable tabs:\nTab 1ECC: https://www.google.com/sorry/index?continue=https://www.google.com/search%3Fq%3Dtop%2B5%2Bhighest-grossing%2Banimated%2Bmovies%2Bof%2Ball%2Btime%2Bbox%2Boffice%26sca_esv%3D2a9cf1d07f23bfb1%26source%3Dhp%26ei%3DxXIqaoz-MZSy5NoPjKLJiAg%26iflsig%3DAFdpzrgAAAAAaiqA1disgRGsHaa-r_78x_sqqGdbgfWb%26ved%3D0ahUKEwjM9Kuu4_6UAxUUGVkFHQxREoEQ4dUDCBE%26oq%3Dtop%2B5%2Bhighest-grossing%2Banimated%2Bmovies%2Bof%2Ball%2Btime%2Bbox%2Boffice%26gs_lp%3DEgdnd3Mtd2l6Ij10b3AgNSBoaWdoZXN0LWdyb3NzaW5nIGFuaW1hdGVkIG1vdmllcyBvZiBhbGwgdGltZSBib3ggb2ZmaWNlSJxjUABYmRBwAHgAkAEAmAFjoAHeHKoBAjYxuAEMyAEA-AEBmAI8oAK5H8ICCxAAGIAEGLEDGIMBwgIREC4YgAQYsQMYgwEYxwEY0QPCAgUQABiABMICDhAuGIAEGIoFGLEDGIMBwgILEC4YgAQYsQMYgwHCAgsQLhiABBjHARjRA8ICDhAAGIAEGIoFGLEDGIMBwgIIEC4YgAQYsQPCAhMQLhiABBiKBRixAxjHARjRAxgKwgILEC4YgAQYxwEYrwHCAggQABiABBixA8ICEBAuGIAEGLEDGMcBGNEDGArCAgYQABgWGB7CAgYQABgeGA3CAgsQABiABBiKBRiGA8ICCBAAGIkFGKIEwgIIEAAYgAQYogTCAgUQIRigAcICBRAhGKsCmAMAkgcENTguMqAHw8oDsgcENTguMrgHuR_CBwg0LjQuNDkuM8gHmAKACAE%26sclient%3Dgws-wiz%26sei%3D33IqasTfFpar5NoPg9aPwQg&q=EgRrFUvuGN_lqdEGIjAsBdLWpUpBh5IpY-KWWBP68fT5hZpp0ltmhdHrgmN78Rtjc_C2NGHdjWNVmYMS0Z0yAVJaAUM - https://www.google.com/search?\n\n<page_info>0.0 pages above, 0.0 pages below</page_info>\n\nInteractive elements:\n[Start of page]\n[3845]<hr />\n|scroll element|<iframe title=reCAPTCHA role=presentation name=a-xi2htmtuvnpw /> (scroll)\n\t[3942]<div role=presentation />\n\t[3944]<div />\n\t[3830]<div role=presentation />\n\tI'm not a robot\n\t[3828]<div />\n\treCAPTCHA\n[3824]<hr />\nAbout this page\nOur systems have detected unusual traffic from your computer network.  This page checks to see if it's really you sending the requests, and not a robot.\n[3832]<a />\n\tWhy did this happen?\nIP address: 107.21.75.238\nTime: 2026-06-11T08:33:35Z\nURL: https://www.google.com/search?q=top+5+highest-grossing+animated+movies+of+all+time+box+office&sca_esv=2a9cf1d07f23bfb1&source=hp&ei=xXIqaoz-MZSy5NoPjKLJiAg&iflsig=AFdpzrgAAAAAaiqA1disgRGsHaa-r_78x_sqqGdbgfWb&ved=0ahUKEwjM9Kuu4_6UAxUUGVkFHQxREoEQ4dUDCBE&oq=top+5+highest-grossing+animated+movies+of+all+time+box+office&gs_lp=Egdnd3Mtd2l6Ij10b3AgNSBoaWdoZXN0LWdyb3NzaW5nIGFuaW1hdGVkIG1vdmllcyBvZiBhbGwgdGltZSBib3ggb2ZmaWNlSJxjUABYmRBwAHgAkAEAmAFjoAHeHKoBAjYxuAEMyAEA-AEBmAI8oAK5H8ICCxAAGIAEGLEDGIMBwgIREC4YgAQYsQMYgwEYxwEY0QPCAgUQABiABMICDhAuGIAEGIoFGLEDGIMBwgILEC4YgAQYsQMYgwHCAgsQLhiABBjHARjRA8ICDhAAGIAEGIoFGLEDGIMBwgIIEC4YgAQYsQPCAhMQLhiABBiKBRixAxjHARjRAxgKwgILEC4YgAQYxwEYrwHCAggQABiABBixA8ICEBAuGIAEGLEDGMcBGNEDGArCAgYQABgWGB7CAgYQABgeGA3CAgsQABiABBiKBRiGA8ICCBAAGIkFGKIEwgIIEAAYgAQYogTCAgUQIRigAcICBRAhGKsCmAMAkgcENTguMqAHw8oDsgcENTguMrgHuR_CBwg0LjQuNDkuM8gHmAKACAE&sclient=gws-wiz&sei=33IqasTfFpar5NoPg9aPwQg\n[End of page]\n</browser_state>\n"
+    }
+  ]
+}

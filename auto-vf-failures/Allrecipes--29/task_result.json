@@ -1,0 +1,36 @@
+{
+  "task_id": "Allrecipes--29",
+  "web_name": "https://www.allrecipes.com/",
+  "start_time": "2026-06-11 08:16:36.443242",
+  "end_time": "2026-06-11 08:17:30.333655",
+  "duration_seconds": 53.890413,
+  "num_steps": 7,
+  "success": "failed",
+  "task_prompt": "Search for a Mediterranean-style grilled fish recipe on Allrecipes that includes ingredients like olives, has at least a 4-star rating, and more than 25 reviews. Detail the ingredients, cooking method, and total time required for preparation and cooking. on https://www.allrecipes.com/",
+  "final_answer": "<NO FINAL ANSWER>",
+  "gpt_4v_res": "",
+  "stuck": false,
+  "stuck_reason": null,
+  "captcha_blocked": true,
+  "captcha_type": "google_sorry",
+  "error": null,
+  "loop_summary": {
+    "max_consec_run": 1,
+    "looped_action_name": null,
+    "looped_action_args": null
+  },
+  "browser_use_version": "unknown",
+  "cost_totals": {
+    "input_tokens": 263185,
+    "output_tokens": 5136,
+    "n_llm_calls": 20,
+    "cost_usd": 0.866595,
+    "model_id": "us.anthropic.claude-sonnet-4-6",
+    "input_price_per_m": 3.0,
+    "output_price_per_m": 15.0
+  },
+  "wait_time_s": 0.0,
+  "n_rate_limit_waits": 0,
+  "llm_time_s": 115.42838546799885,
+  "browser_time_s": 0.0
+}

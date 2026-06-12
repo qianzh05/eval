@@ -1,0 +1,36 @@
+{
+  "task_id": "Google Search--21",
+  "web_name": "https://www.google.com/",
+  "start_time": "2026-06-11 08:32:40.781570",
+  "end_time": "2026-06-11 08:34:04.323138",
+  "duration_seconds": 83.541568,
+  "num_steps": 6,
+  "success": "failed",
+  "task_prompt": "Show a list of the top 5 highest-grossing animated movies, sorted by box office earnings. on https://www.google.com/",
+  "final_answer": "<NO FINAL ANSWER>",
+  "gpt_4v_res": "",
+  "stuck": false,
+  "stuck_reason": null,
+  "captcha_blocked": true,
+  "captcha_type": "google_sorry",
+  "error": null,
+  "loop_summary": {
+    "max_consec_run": 1,
+    "looped_action_name": null,
+    "looped_action_args": null
+  },
+  "browser_use_version": "unknown",
+  "cost_totals": {
+    "input_tokens": 203119,
+    "output_tokens": 4953,
+    "n_llm_calls": 17,
+    "cost_usd": 0.6836519999999999,
+    "model_id": "us.anthropic.claude-sonnet-4-6",
+    "input_price_per_m": 3.0,
+    "output_price_per_m": 15.0
+  },
+  "wait_time_s": 0.0,
+  "n_rate_limit_waits": 0,
+  "llm_time_s": 95.69728444500015,
+  "browser_time_s": 0.0
+}

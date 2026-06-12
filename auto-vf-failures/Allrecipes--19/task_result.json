@@ -1,0 +1,36 @@
+{
+  "task_id": "Allrecipes--19",
+  "web_name": "https://www.allrecipes.com/",
+  "start_time": "2026-06-11 08:10:22.656919",
+  "end_time": "2026-06-11 08:12:06.736734",
+  "duration_seconds": 104.079815,
+  "num_steps": 7,
+  "success": "failed",
+  "task_prompt": "Find a vegan lasagna recipe on Allrecipes that requires 10 ingredients or less and has feedback of more than 200 reviews. Provide a brief overview of the ingredient list and the total prep and cook time. on https://www.allrecipes.com/",
+  "final_answer": "<NO FINAL ANSWER>",
+  "gpt_4v_res": "",
+  "stuck": false,
+  "stuck_reason": null,
+  "captcha_blocked": true,
+  "captcha_type": "google_sorry",
+  "error": null,
+  "loop_summary": {
+    "max_consec_run": 1,
+    "looped_action_name": null,
+    "looped_action_args": null
+  },
+  "browser_use_version": "unknown",
+  "cost_totals": {
+    "input_tokens": 387252,
+    "output_tokens": 8842,
+    "n_llm_calls": 32,
+    "cost_usd": 1.294386,
+    "model_id": "us.anthropic.claude-sonnet-4-6",
+    "input_price_per_m": 3.0,
+    "output_price_per_m": 15.0
+  },
+  "wait_time_s": 0.0,
+  "n_rate_limit_waits": 0,
+  "llm_time_s": 200.61965538099957,
+  "browser_time_s": 0.0
+}

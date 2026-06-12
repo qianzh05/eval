@@ -1,0 +1,335 @@
+{
+  "history": [
+    {
+      "model_output": {
+        "evaluation_previous_goal": "Start",
+        "memory": null,
+        "next_goal": "Initial navigation",
+        "action": [
+          {
+            "navigate": {
+              "url": "https://www.google.com/",
+              "new_tab": false
+            }
+          }
+        ]
+      },
+      "result": [
+        {
+          "is_done": false,
+          "long_term_memory": "Found initial url and automatically loaded it. Navigated to https://www.google.com/",
+          "extracted_content": "🔗 Navigated to https://www.google.com/",
+          "include_extracted_content_only_once": false,
+          "include_in_memory": false
+        }
+      ],
+      "state": {
+        "tabs": [],
+        "screenshot_path": null,
+        "interacted_element": [
+          null
+        ],
+        "url": "https://www.google.com/",
+        "title": "Initial Actions"
+      },
+      "metadata": {
+        "step_start_time": 1781166709.9270372,
+        "step_end_time": 1781166709.9270375,
+        "step_number": 0,
+        "step_interval": null
+      },
+      "state_message": null
+    },
+    {
+      "model_output": {
+        "evaluation_previous_goal": "Successfully loaded Google homepage. Verdict: Success",
+        "memory": "On Google homepage, need to search for the latest Fast & Furious movie release date.",
+        "next_goal": "Search for the latest Fast & Furious movie release date on Google.",
+        "action": [
+          {
+            "input": {
+              "index": 2,
+              "text": "latest Fast & Furious movie release date",
+              "clear": true
+            }
+          },
+          {
+            "send_keys": {
+              "keys": "Enter"
+            }
+          }
+        ]
+      },
+      "result": [
+        {
+          "is_done": false,
+          "long_term_memory": "Typed 'latest Fast & Furious movie release date'\n💡 This is an autocomplete field. Wait for suggestions to appear, then click the correct suggestion instead of pressing Enter.",
+          "extracted_content": "Typed 'latest Fast & Furious movie release date'\n💡 This is an autocomplete field. Wait for suggestions to appear, then click the correct suggestion instead of pressing Enter.",
+          "include_extracted_content_only_once": false,
+          "metadata": {
+            "input_x": 639.5,
+            "input_y": 402.0
+          },
+          "include_in_memory": false
+        },
+        {
+          "is_done": false,
+          "long_term_memory": "Sent keys: Enter",
+          "extracted_content": "Sent keys: Enter",
+          "include_extracted_content_only_once": false,
+          "include_in_memory": false
+        }
+      ],
+      "state": {
+        "tabs": [
+          {
+            "url": "https://www.google.com/?zx=1781166691564",
+            "title": "Google",
+            "target_id": "DDA4",
+            "parent_target_id": null
+          }
+        ],
+        "screenshot_path": "/tmp/browser_use_agent_06a2a725-c967-7ca8-8000-3cd3036624d4_1781166684/screenshots/step_1.png",
+        "interacted_element": [
+          {
+            "node_id": 657,
+            "backend_node_id": 2,
+            "frame_id": null,
+            "node_type": 1,
+            "node_value": "",
+            "node_name": "TEXTAREA",
+            "attributes": {
+              "jsname": "yZiJbe",
+              "class": "gLFyf",
+              "aria-controls": "Alh6id",
+              "aria-owns": "Alh6id",
+              "autofocus": "",
+              "title": "Search",
+              "value": "",
+              "aria-label": "Search",
+              "placeholder": "",
+              "aria-autocomplete": "both",
+              "aria-expanded": "false",
+              "aria-haspopup": "false",
+              "autocapitalize": "off",
+              "autocomplete": "off",
+              "autocorrect": "off",
+              "id": "APjFqb",
+              "maxlength": "2048",
+              "name": "q",
+              "role": "combobox",
+              "rows": "1",
+              "spellcheck": "false",
+              "data-ved": "0ahUKEwio1pX_4v6UAxXSEFkFHUPAF7kQ39UDCAU"
+            },
+            "x_path": "html/body/div[2]/div[4]/form/div[1]/div/div[1]/div[1]/div[2]/textarea",
+            "element_hash": 887221250628730007,
+            "stable_hash": 10110593287483505811,
+            "bounds": {
+              "x": 396.0,
+              "y": 377.0,
+              "width": 487.0,
+              "height": 50.0
+            },
+            "ax_name": "Search"
+          },
+          null
+        ],
+        "url": "https://www.google.com/?zx=1781166691564",
+        "title": "Google"
+      },
+      "metadata": {
+        "step_start_time": 1781166709.927122,
+        "step_end_time": 1781166715.9264686,
+        "step_number": 1,
+        "step_interval": 2.384185791015625e-07
+      },
+      "state_message": "<agent_history>\nAgent initialized\n<step>\nResult\nFound initial url and automatically loaded it. Navigated to https://www.google.com/\n</agent_history>\n\n<agent_state>\n<user_request>\nFind the release date for the latest \"Fast & Furious\" movie. on https://www.google.com/\n</user_request>\n<file_system>\n\n</file_system>\n<todo_contents>\n[empty todo.md, fill it when applicable]\n</todo_contents>\n<step_info>Step1 maximum:30\nToday:2026-06-11</step_info>\n</agent_state>\n<browser_state>\n<page_stats>Page appears to show skeleton/placeholder content (still loading?) - 13 links, 30 interactive, 0 iframes, 3 shadow(open), 0 shadow(closed), 1 images, 102 total elements</page_stats>\nCurrent tab: DDA4\nAvailable tabs:\nTab DDA4: https://www.google.com/?zx=1781166691564 - Google\n\n<page_info>0.0 pages above, 0.0 pages below</page_info>\n\nInteractive elements:\n[Start of page]\n[13]<div />\n\t[85]<a />\n\t\tAbout\n\t[87]<a />\n\t\tStore\n\t[93]<div />\n\t\t[14]<a aria-label=Gmail />\n\t\t\tGmail\n\t[15]<a aria-label=Search for Images />\n\t\tImages\n\t[16]<div id=gbwa />\n\t\t[97]<div />\n\t\t\t[17]<a aria-label=Google apps aria-expanded=false role=button />\n\t[18]<a aria-label=Sign in />\n\t\tSign in\n\t<svg aria-label=Google role=img /> <!-- SVG content collapsed -->\n\t[3]<form role=search />\n\t\t[19]<div />\n\t\t\t[170]<div />\n\t\t\t\t[171]<span />\n\t\t\t\t\t<svg /> <!-- SVG content collapsed -->\n\t\t|SHADOW(open)|[2]<textarea title=Search aria-label=Search aria-expanded=false id=APjFqb name=q role=combobox />\n\t\t[10]<div />\n\t\t\t[184]<div />\n\t\t\t[193]<div />\n\t\t\t\t[22]<div aria-label=Search by image role=button />\n\t\t|SHADOW(open)|[26]<input value=Google Search aria-label=Google Search name=btnK role=button type=submit />\n\t\t|SHADOW(open)|[27]<input id=gbqfbb value=I'm Feeling Lucky aria-label=I'm Feeling Lucky name=btnI role=button type=submit />\n\t[28]<div id=19056387 />\n\t\t[427]<a role=link />\n\t\t\tWhether you call it football or soccer, get live scores and updates on Google ⚽\n\t[445]<a />\n\t\tAdvertising\n\t[447]<a />\n\t\tBusiness\n\t[449]<a />\n\t\tHow Search works\n\t[452]<a />\n\t\tApplying AI towards science and the environment\n\t[5]<a />\n\t\tPrivacy\n\t[6]<a />\n\t\tTerms\n\t[465]<div aria-expanded=false role=button />\n\t\tSettings\n[End of page]\n</browser_state>\n"
+    },
+    {
+      "model_output": {
+        "evaluation_previous_goal": "Google detected unusual traffic and is blocking the search. Verdict: Failure",
+        "memory": "Google blocked the search with a CAPTCHA/unusual traffic page. Need to try an alternative search engine like DuckDuckGo.",
+        "next_goal": "Search for the latest Fast & Furious movie release date on DuckDuckGo instead.",
+        "action": [
+          {
+            "navigate": {
+              "url": "https://duckduckgo.com/?q=latest+Fast+%26+Furious+movie+release+date",
+              "new_tab": false
+            }
+          }
+        ]
+      },
+      "result": [
+        {
+          "is_done": false,
+          "error": "google_sorry",
+          "include_extracted_content_only_once": false,
+          "include_in_memory": false
+        }
+      ],
+      "state": {
+        "tabs": [
+          {
+            "url": "https://www.google.com/sorry/index?continue=https://www.google.com/search%3Fq%3Dlatest%2BFast%2B%2526%2BFurious%2Bmovie%2Brelease%2Bdate%26sca_esv%3D2a9cf1d07f23bfb1%26source%3Dhp%26ei%3DYnIqaqidNtKh5NoPw4DfyAs%26iflsig%3DAFdpzrgAAAAAaiqAcphwNHmSaVroJB48SOM-mknpBAGd%26ved%3D0ahUKEwio1pX_4v6UAxXSEFkFHUPAF7kQ4dUDCA8%26uact%3D5%26oq%3Dlatest%2BFast%2B%2526%2BFurious%2Bmovie%2Brelease%2Bdate%26gs_lp%3DEgdnd3Mtd2l6IihsYXRlc3QgRmFzdCAmIEZ1cmlvdXMgbW92aWUgcmVsZWFzZSBkYXRlMgYQABgWGB4yBhAAGBYYHjIGEAAYFhgeMgYQABgWGB4yCBAAGIAEGKIEMgUQABjvBTIIEAAYgAQYogQyBRAAGO8FSOoSUABYiApwAHgAkAEAmAFQoAGIEKoBAjQwuAEDyAEA-AEBmAIooAKGEsICERAuGIAEGLEDGIMBGMcBGNEDwgIOEC4YgAQYigUYsQMYgwHCAggQABiABBixA8ICCBAuGIAEGLEDwgIOEAAYgAQYigUYsQMYgwHCAgUQABiABMICCxAuGIAEGMcBGNEDwgILEC4YgAQYsQMYgwHCAgUQLhiABMICCxAAGIAEGLEDGIMBwgIJEAAYgAQYChgLwgIJEC4YgAQYChgLwgILEAAYgAQYigUYhgOYAwCSBwI0MKAHnukCsgcCNDC4B4YSwgcGMi0zOC4yyAfCAYAIAQ%26sclient%3Dgws-wiz%26sei%3De3IqaoPVMZnl5NoPiPmwqA8&q=EgRrFUvuGPzkqdEGIjAorzHp9bHd-QCx5NRcZ174HiSP1j8yHojwjXV0z9r3bh7Mssb7Ev76u8QhRZJBiG4yAVJaAUM",
+            "title": "google.com/sorry/index?continue=https://www.google.com/search%3Fq%3Dlatest%2BFast%2B%2526%2BFurious%2Bmovie%2Brelease%2Bdate%26sca_esv%3D2a9cf1d07f23bfb1%26source%3Dhp%26ei%3DYnIqaqidNtKh5NoPw4DfyAs%26iflsig%3DAFdpzrgAAAAAaiqAcphwNHmSaVroJB48SOM-mknpBAGd%26ved%3D0ahUKEwio1pX_4v6UAxXSEFkFHUPAF7kQ4dUDCA8%26uact%3D5%26oq%3Dlatest%2BFast%2B%2526%2BFurious%2Bmovie%2Brelease%2Bdate%26gs_lp%3DEgdnd3Mtd2l6IihsYXRlc3QgRmFzdCAmIEZ1cmlvdXMgbW92aWUgcmVsZWFzZSBkYXRlMgYQABgWGB4yBhAAGBYYHjIGEAAYFhgeMgYQABgWGB4yCBAAGIAEGKIEMgUQABjvBTIIEAAYgAQYogQyBRAAGO8FSOoSUABYiApwAHgAkAEAmAFQoAGIEKoBAjQwuAEDyAEA-AEBmAIooAKGEsICERAuGIAEGLEDGIMBGMcBGNEDwgIOEC4YgAQYigUYsQMYgwHCAggQABiABBixA8ICCBAuGIAEGLEDwgIOEAAYgAQYigUYsQMYgwHCAgUQABiABMICCxAuGIAEGMcBGNEDwgILEC4YgAQYsQMYgwHCAgUQLhiABMICCxAAGIAEGLEDGIMBwgIJEAAYgAQYChgLwgIJEC4YgAQYChgLwgILEAAYgAQYigUYhgOYAwCSBwI0MKAHnukCsgcCNDC4B4YSwgcGMi0zOC4yyAfCAYAIAQ%26sclient%3Dgws-wiz%26sei%3De3IqaoPVMZnl5NoPiPmwqA8&q=EgRrFUvuGPzkqdEGIjAorzHp9bHd-QCx5NRcZ174HiSP1j8yHojwjXV0z9r3bh7Mssb7Ev76u8QhRZJBiG4yAVJaAUM",
+            "target_id": "DDA4",
+            "parent_target_id": null
+          }
+        ],
+        "screenshot_path": "/tmp/browser_use_agent_06a2a725-c967-7ca8-8000-3cd3036624d4_1781166684/screenshots/step_2.png",
+        "interacted_element": [
+          null
+        ],
+        "url": "https://www.google.com/search?q=latest+Fast+%26+Furious+movie+release+date&sca_esv=2a9cf1d07f23bfb1&source=hp&ei=YnIqaqidNtKh5NoPw4DfyAs&iflsig=AFdpzrgAAAAAaiqAcphwNHmSaVroJB48SOM-mknpBAGd&ved=0ahUKEwio1pX_4v6UAxXSEFkFHUPAF7kQ4dUDCA8&uact=5&oq=latest+Fast+%26+Furious+movie+release+date&gs_lp=Egdnd3Mtd2l6IihsYXRlc3QgRmFzdCAmIEZ1cmlvdXMgbW92aWUgcmVsZWFzZSBkYXRlMgYQABgWGB4yBhAAGBYYHjIGEAAYFhgeMgYQABgWGB4yCBAAGIAEGKIEMgUQABjvBTIIEAAYgAQYogQyBRAAGO8FSOoSUABYiApwAHgAkAEAmAFQoAGIEKoBAjQwuAEDyAEA-AEBmAIooAKGEsICERAuGIAEGLEDGIMBGMcBGNEDwgIOEC4YgAQYigUYsQMYgwHCAggQABiABBixA8ICCBAuGIAEGLEDwgIOEAAYgAQYigUYsQMYgwHCAgUQABiABMICCxAuGIAEGMcBGNEDwgILEC4YgAQYsQMYgwHCAgUQLhiABMICCxAAGIAEGLEDGIMBwgIJEAAYgAQYChgLwgIJEC4YgAQYChgLwgILEAAYgAQYigUYhgOYAwCSBwI0MKAHnukCsgcCNDC4B4YSwgcGMi0zOC4yyAfCAYAIAQ&sclient=gws-wiz",
+        "title": "google.com/sorry/index?continue=https://www.google.com/search%3Fq%3Dlatest%2BFast%2B%2526%2BFurious%2Bmovie%2Brelease%2Bdate%26sca_esv%3D2a9cf1d07f23bfb1%26source%3Dhp%26ei%3DYnIqaqidNtKh5NoPw4DfyAs%26iflsig%3DAFdpzrgAAAAAaiqAcphwNHmSaVroJB48SOM-mknpBAGd%26ved%3D0ahUKEwio1pX_4v6UAxXSEFkFHUPAF7kQ4dUDCA8%26uact%3D5%26oq%3Dlatest%2BFast%2B%2526%2BFurious%2Bmovie%2Brelease%2Bdate%26gs_lp%3DEgdnd3Mtd2l6IihsYXRlc3QgRmFzdCAmIEZ1cmlvdXMgbW92aWUgcmVsZWFzZSBkYXRlMgYQABgWGB4yBhAAGBYYHjIGEAAYFhgeMgYQABgWGB4yCBAAGIAEGKIEMgUQABjvBTIIEAAYgAQYogQyBRAAGO8FSOoSUABYiApwAHgAkAEAmAFQoAGIEKoBAjQwuAEDyAEA-AEBmAIooAKGEsICERAuGIAEGLEDGIMBGMcBGNEDwgIOEC4YgAQYigUYsQMYgwHCAggQABiABBixA8ICCBAuGIAEGLEDwgIOEAAYgAQYigUYsQMYgwHCAgUQABiABMICCxAuGIAEGMcBGNEDwgILEC4YgAQYsQMYgwHCAgUQLhiABMICCxAAGIAEGLEDGIMBwgIJEAAYgAQYChgLwgIJEC4YgAQYChgLwgILEAAYgAQYigUYhgOYAwCSBwI0MKAHnukCsgcCNDC4B4YSwgcGMi0zOC4yyAfCAYAIAQ%26sclient%3Dgws-wiz%26sei%3De3IqaoPVMZnl5NoPiPmwqA8&q=EgRrFUvuGPzkqdEGIjAorzHp9bHd-QCx5NRcZ174HiSP1j8yHojwjXV0z9r3bh7Mssb7Ev76u8QhRZJBiG4yAVJaAUM"
+      },
+      "metadata": {
+        "step_start_time": 1781166715.9292068,
+        "step_end_time": 1781166719.7600472,
+        "step_number": 2,
+        "step_interval": 5.999346494674683
+      },
+      "state_message": "<agent_history>\nAgent initialized\n<step>\nResult\nFound initial url and automatically loaded it. Navigated to https://www.google.com/\n<step>\nSuccessfully loaded Google homepage. Verdict: Success\nOn Google homepage, need to search for the latest Fast & Furious movie release date.\nSearch for the latest Fast & Furious movie release date on Google.\nResult\nTyped 'latest Fast & Furious movie release date'\n💡 This is an autocomplete field. Wait for suggestions to appear, then click the correct suggestion instead of pressing Enter.\nSent keys: Enter\n</agent_history>\n\n<agent_state>\n<user_request>\nFind the release date for the latest \"Fast & Furious\" movie. on https://www.google.com/\n</user_request>\n<file_system>\n\n</file_system>\n<todo_contents>\n[empty todo.md, fill it when applicable]\n</todo_contents>\n<step_info>Step2 maximum:30\nToday:2026-06-11</step_info>\n</agent_state>\n<browser_state>\n<page_stats>1 links, 3 interactive, 0 iframes, 26 total elements</page_stats>\n\nAvailable tabs:\nTab DDA4: https://www.google.com/sorry/index?continue=https://www.google.com/search%3Fq%3Dlatest%2BFast%2B%2526%2BFurious%2Bmovie%2Brelease%2Bdate%26sca_esv%3D2a9cf1d07f23bfb1%26source%3Dhp%26ei%3DYnIqaqidNtKh5NoPw4DfyAs%26iflsig%3DAFdpzrgAAAAAaiqAcphwNHmSaVroJB48SOM-mknpBAGd%26ved%3D0ahUKEwio1pX_4v6UAxXSEFkFHUPAF7kQ4dUDCA8%26uact%3D5%26oq%3Dlatest%2BFast%2B%2526%2BFurious%2Bmovie%2Brelease%2Bdate%26gs_lp%3DEgdnd3Mtd2l6IihsYXRlc3QgRmFzdCAmIEZ1cmlvdXMgbW92aWUgcmVsZWFzZSBkYXRlMgYQABgWGB4yBhAAGBYYHjIGEAAYFhgeMgYQABgWGB4yCBAAGIAEGKIEMgUQABjvBTIIEAAYgAQYogQyBRAAGO8FSOoSUABYiApwAHgAkAEAmAFQoAGIEKoBAjQwuAEDyAEA-AEBmAIooAKGEsICERAuGIAEGLEDGIMBGMcBGNEDwgIOEC4YgAQYigUYsQMYgwHCAggQABiABBixA8ICCBAuGIAEGLEDwgIOEAAYgAQYigUYsQMYgwHCAgUQABiABMICCxAuGIAEGMcBGNEDwgILEC4YgAQYsQMYgwHCAgUQLhiABMICCxAAGIAEGLEDGIMBwgIJEAAYgAQYChgLwgIJEC4YgAQYChgLwgILEAAYgAQYigUYhgOYAwCSBwI0MKAHnukCsgcCNDC4B4YSwgcGMi0zOC4yyAfCAYAIAQ%26sclient%3Dgws-wiz%26sei%3De3IqaoPVMZnl5NoPiPmwqA8&q=EgRrFUvuGPzkqdEGIjAorzHp9bHd-QCx5NRcZ174HiSP1j8yHojwjXV0z9r3bh7Mssb7Ev76u8QhRZJBiG4yAVJaAUM - google.com/sorry/index?continu\n\n<page_info>0.0 pages above, 0.0 pages below</page_info>\n\nInteractive elements:\n[Start of page]\n*[3253]<hr />\n*[3272]<hr />\nAbout this page\nOur systems have detected unusual traffic from your computer network.  This page checks to see if it's really you sending the requests, and not a robot.\n*[3240]<a />\n\tWhy did this happen?\nIP address: 107.21.75.238\nTime: 2026-06-11T08:31:56Z\nURL: https://www.google.com/search?q=latest+Fast+%26+Furious+movie+release+date&sca_esv=2a9cf1d07f23bfb1&source=hp&ei=YnIqaqidNtKh5NoPw4DfyAs&iflsig=AFdpzrgAAAAAaiqAcphwNHmSaVroJB48SOM-mknpBAGd&ved=0ahUKEwio1pX_4v6UAxXSEFkFHUPAF7kQ4dUDCA8&uact=5&oq=latest+Fast+%26+Furious+movie+release+date&gs_lp=Egdnd3Mtd2l6IihsYXRlc3QgRmFzdCAmIEZ1cmlvdXMgbW92aWUgcmVsZWFzZSBkYXRlMgYQABgWGB4yBhAAGBYYHjIGEAAYFhgeMgYQABgWGB4yCBAAGIAEGKIEMgUQABjvBTIIEAAYgAQYogQyBRAAGO8FSOoSUABYiApwAHgAkAEAmAFQoAGIEKoBAjQwuAEDyAEA-AEBmAIooAKGEsICERAuGIAEGLEDGIMBGMcBGNEDwgIOEC4YgAQYigUYsQMYgwHCAggQABiABBixA8ICCBAuGIAEGLEDwgIOEAAYgAQYigUYsQMYgwHCAgUQABiABMICCxAuGIAEGMcBGNEDwgILEC4YgAQYsQMYgwHCAgUQLhiABMICCxAAGIAEGLEDGIMBwgIJEAAYgAQYChgLwgIJEC4YgAQYChgLwgILEAAYgAQYigUYhgOYAwCSBwI0MKAHnukCsgcCNDC4B4YSwgcGMi0zOC4yyAfCAYAIAQ&sclient=gws-wiz&sei=e3IqaoPVMZnl5NoPiPmwqA8\n[End of page]\n</browser_state>\n"
+    },
+    {
+      "model_output": {
+        "evaluation_previous_goal": "Google is showing a CAPTCHA/unusual traffic page. Need to use an alternative approach.",
+        "memory": "Google blocked the search with CAPTCHA. Need to search on DuckDuckGo for the latest Fast & Furious movie release date.",
+        "next_goal": "Search for the latest Fast & Furious movie release date on DuckDuckGo.",
+        "action": [
+          {
+            "search": {
+              "query": "latest Fast & Furious movie release date 2024 2025",
+              "engine": "duckduckgo"
+            }
+          }
+        ]
+      },
+      "result": [
+        {
+          "is_done": false,
+          "error": "google_sorry",
+          "include_extracted_content_only_once": false,
+          "include_in_memory": false
+        }
+      ],
+      "state": {
+        "tabs": [
+          {
+            "url": "https://www.google.com/sorry/index?continue=https://www.google.com/search%3Fq%3Dlatest%2BFast%2B%2526%2BFurious%2Bmovie%2Brelease%2Bdate%26sca_esv%3D2a9cf1d07f23bfb1%26source%3Dhp%26ei%3DYnIqaqidNtKh5NoPw4DfyAs%26iflsig%3DAFdpzrgAAAAAaiqAcphwNHmSaVroJB48SOM-mknpBAGd%26ved%3D0ahUKEwio1pX_4v6UAxXSEFkFHUPAF7kQ4dUDCA8%26uact%3D5%26oq%3Dlatest%2BFast%2B%2526%2BFurious%2Bmovie%2Brelease%2Bdate%26gs_lp%3DEgdnd3Mtd2l6IihsYXRlc3QgRmFzdCAmIEZ1cmlvdXMgbW92aWUgcmVsZWFzZSBkYXRlMgYQABgWGB4yBhAAGBYYHjIGEAAYFhgeMgYQABgWGB4yCBAAGIAEGKIEMgUQABjvBTIIEAAYgAQYogQyBRAAGO8FSOoSUABYiApwAHgAkAEAmAFQoAGIEKoBAjQwuAEDyAEA-AEBmAIooAKGEsICERAuGIAEGLEDGIMBGMcBGNEDwgIOEC4YgAQYigUYsQMYgwHCAggQABiABBixA8ICCBAuGIAEGLEDwgIOEAAYgAQYigUYsQMYgwHCAgUQABiABMICCxAuGIAEGMcBGNEDwgILEC4YgAQYsQMYgwHCAgUQLhiABMICCxAAGIAEGLEDGIMBwgIJEAAYgAQYChgLwgIJEC4YgAQYChgLwgILEAAYgAQYigUYhgOYAwCSBwI0MKAHnukCsgcCNDC4B4YSwgcGMi0zOC4yyAfCAYAIAQ%26sclient%3Dgws-wiz%26sei%3De3IqaoPVMZnl5NoPiPmwqA8&q=EgRrFUvuGPzkqdEGIjAorzHp9bHd-QCx5NRcZ174HiSP1j8yHojwjXV0z9r3bh7Mssb7Ev76u8QhRZJBiG4yAVJaAUM",
+            "title": "https://www.google.com/search?q=latest+Fast+%26+Furious+movie+release+date&sca_esv=2a9cf1d07f23bfb1&source=hp&ei=YnIqaqidNtKh5NoPw4DfyAs&iflsig=AFdpzrgAAAAAaiqAcphwNHmSaVroJB48SOM-mknpBAGd&ved=0ahUKEwio1pX_4v6UAxXSEFkFHUPAF7kQ4dUDCA8&uact=5&oq=latest+Fast+%26+Furious+movie+release+date&gs_lp=Egdnd3Mtd2l6IihsYXRlc3QgRmFzdCAmIEZ1cmlvdXMgbW92aWUgcmVsZWFzZSBkYXRlMgYQABgWGB4yBhAAGBYYHjIGEAAYFhgeMgYQABgWGB4yCBAAGIAEGKIEMgUQABjvBTIIEAAYgAQYogQyBRAAGO8FSOoSUABYiApwAHgAkAEAmAFQoAGIEKoBAjQwuAEDyAEA-AEBmAIooAKGEsICERAuGIAEGLEDGIMBGMcBGNEDwgIOEC4YgAQYigUYsQMYgwHCAggQABiABBixA8ICCBAuGIAEGLEDwgIOEAAYgAQYigUYsQMYgwHCAgUQABiABMICCxAuGIAEGMcBGNEDwgILEC4YgAQYsQMYgwHCAgUQLhiABMICCxAAGIAEGLEDGIMBwgIJEAAYgAQYChgLwgIJEC4YgAQYChgLwgILEAAYgAQYigUYhgOYAwCSBwI0MKAHnukCsgcCNDC4B4YSwgcGMi0zOC4yyAfCAYAIAQ&sclient=gws-wiz&sei=e3IqaoPVMZnl5NoPiPmwqA8",
+            "target_id": "DDA4",
+            "parent_target_id": null
+          }
+        ],
+        "screenshot_path": "/tmp/browser_use_agent_06a2a725-c967-7ca8-8000-3cd3036624d4_1781166684/screenshots/step_3.png",
+        "interacted_element": [
+          null
+        ],
+        "url": "https://www.google.com/sorry/index?continue=https://www.google.com/search%3Fq%3Dlatest%2BFast%2B%2526%2BFurious%2Bmovie%2Brelease%2Bdate%26sca_esv%3D2a9cf1d07f23bfb1%26source%3Dhp%26ei%3DYnIqaqidNtKh5NoPw4DfyAs%26iflsig%3DAFdpzrgAAAAAaiqAcphwNHmSaVroJB48SOM-mknpBAGd%26ved%3D0ahUKEwio1pX_4v6UAxXSEFkFHUPAF7kQ4dUDCA8%26uact%3D5%26oq%3Dlatest%2BFast%2B%2526%2BFurious%2Bmovie%2Brelease%2Bdate%26gs_lp%3DEgdnd3Mtd2l6IihsYXRlc3QgRmFzdCAmIEZ1cmlvdXMgbW92aWUgcmVsZWFzZSBkYXRlMgYQABgWGB4yBhAAGBYYHjIGEAAYFhgeMgYQABgWGB4yCBAAGIAEGKIEMgUQABjvBTIIEAAYgAQYogQyBRAAGO8FSOoSUABYiApwAHgAkAEAmAFQoAGIEKoBAjQwuAEDyAEA-AEBmAIooAKGEsICERAuGIAEGLEDGIMBGMcBGNEDwgIOEC4YgAQYigUYsQMYgwHCAggQABiABBixA8ICCBAuGIAEGLEDwgIOEAAYgAQYigUYsQMYgwHCAgUQABiABMICCxAuGIAEGMcBGNEDwgILEC4YgAQYsQMYgwHCAgUQLhiABMICCxAAGIAEGLEDGIMBwgIJEAAYgAQYChgLwgIJEC4YgAQYChgLwgILEAAYgAQYigUYhgOYAwCSBwI0MKAHnukCsgcCNDC4B4YSwgcGMi0zOC4yyAfCAYAIAQ%26sclient%3Dgws-wiz%26sei%3De3IqaoPVMZnl5NoPiPmwqA8&q=EgRrFUvuGPzkqdEGIjAorzHp9bHd-QCx5NRcZ174HiSP1j8yHojwjXV0z9r3bh7Mssb7Ev76u8QhRZJBiG4yAVJaAUM",
+        "title": "https://www.google.com/search?q=latest+Fast+%26+Furious+movie+release+date&sca_esv=2a9cf1d07f23bfb1&source=hp&ei=YnIqaqidNtKh5NoPw4DfyAs&iflsig=AFdpzrgAAAAAaiqAcphwNHmSaVroJB48SOM-mknpBAGd&ved=0ahUKEwio1pX_4v6UAxXSEFkFHUPAF7kQ4dUDCA8&uact=5&oq=latest+Fast+%26+Furious+movie+release+date&gs_lp=Egdnd3Mtd2l6IihsYXRlc3QgRmFzdCAmIEZ1cmlvdXMgbW92aWUgcmVsZWFzZSBkYXRlMgYQABgWGB4yBhAAGBYYHjIGEAAYFhgeMgYQABgWGB4yCBAAGIAEGKIEMgUQABjvBTIIEAAYgAQYogQyBRAAGO8FSOoSUABYiApwAHgAkAEAmAFQoAGIEKoBAjQwuAEDyAEA-AEBmAIooAKGEsICERAuGIAEGLEDGIMBGMcBGNEDwgIOEC4YgAQYigUYsQMYgwHCAggQABiABBixA8ICCBAuGIAEGLEDwgIOEAAYgAQYigUYsQMYgwHCAgUQABiABMICCxAuGIAEGMcBGNEDwgILEC4YgAQYsQMYgwHCAgUQLhiABMICCxAAGIAEGLEDGIMBwgIJEAAYgAQYChgLwgIJEC4YgAQYChgLwgILEAAYgAQYigUYhgOYAwCSBwI0MKAHnukCsgcCNDC4B4YSwgcGMi0zOC4yyAfCAYAIAQ&sclient=gws-wiz&sei=e3IqaoPVMZnl5NoPiPmwqA8"
+      },
+      "metadata": {
+        "step_start_time": 1781166719.7634335,
+        "step_end_time": 1781166726.790796,
+        "step_number": 3,
+        "step_interval": 3.8308403491973877
+      },
+      "state_message": "<agent_history>\nAgent initialized\n<step>\nResult\nFound initial url and automatically loaded it. Navigated to https://www.google.com/\n<step>\nSuccessfully loaded Google homepage. Verdict: Success\nOn Google homepage, need to search for the latest Fast & Furious movie release date.\nSearch for the latest Fast & Furious movie release date on Google.\nResult\nTyped 'latest Fast & Furious movie release date'\n💡 This is an autocomplete field. Wait for suggestions to appear, then click the correct suggestion instead of pressing Enter.\nSent keys: Enter\n<step>\nGoogle detected unusual traffic and is blocking the search. Verdict: Failure\nGoogle blocked the search with a CAPTCHA/unusual traffic page. Need to try an alternative search engine like DuckDuckGo.\nSearch for the latest Fast & Furious movie release date on DuckDuckGo instead.\nResult\ngoogle_sorry\n</agent_history>\n\n<agent_state>\n<user_request>\nFind the release date for the latest \"Fast & Furious\" movie. on https://www.google.com/\n</user_request>\n<file_system>\n\n</file_system>\n<todo_contents>\n[empty todo.md, fill it when applicable]\n</todo_contents>\n<step_info>Step3 maximum:30\nToday:2026-06-11</step_info>\n</agent_state>\n<browser_state>\n<page_stats>1 links, 7 interactive, 1 iframes, 54 total elements</page_stats>\nCurrent tab: DDA4\nAvailable tabs:\nTab DDA4: https://www.google.com/sorry/index?continue=https://www.google.com/search%3Fq%3Dlatest%2BFast%2B%2526%2BFurious%2Bmovie%2Brelease%2Bdate%26sca_esv%3D2a9cf1d07f23bfb1%26source%3Dhp%26ei%3DYnIqaqidNtKh5NoPw4DfyAs%26iflsig%3DAFdpzrgAAAAAaiqAcphwNHmSaVroJB48SOM-mknpBAGd%26ved%3D0ahUKEwio1pX_4v6UAxXSEFkFHUPAF7kQ4dUDCA8%26uact%3D5%26oq%3Dlatest%2BFast%2B%2526%2BFurious%2Bmovie%2Brelease%2Bdate%26gs_lp%3DEgdnd3Mtd2l6IihsYXRlc3QgRmFzdCAmIEZ1cmlvdXMgbW92aWUgcmVsZWFzZSBkYXRlMgYQABgWGB4yBhAAGBYYHjIGEAAYFhgeMgYQABgWGB4yCBAAGIAEGKIEMgUQABjvBTIIEAAYgAQYogQyBRAAGO8FSOoSUABYiApwAHgAkAEAmAFQoAGIEKoBAjQwuAEDyAEA-AEBmAIooAKGEsICERAuGIAEGLEDGIMBGMcBGNEDwgIOEC4YgAQYigUYsQMYgwHCAggQABiABBixA8ICCBAuGIAEGLEDwgIOEAAYgAQYigUYsQMYgwHCAgUQABiABMICCxAuGIAEGMcBGNEDwgILEC4YgAQYsQMYgwHCAgUQLhiABMICCxAAGIAEGLEDGIMBwgIJEAAYgAQYChgLwgIJEC4YgAQYChgLwgILEAAYgAQYigUYhgOYAwCSBwI0MKAHnukCsgcCNDC4B4YSwgcGMi0zOC4yyAfCAYAIAQ%26sclient%3Dgws-wiz%26sei%3De3IqaoPVMZnl5NoPiPmwqA8&q=EgRrFUvuGPzkqdEGIjAorzHp9bHd-QCx5NRcZ174HiSP1j8yHojwjXV0z9r3bh7Mssb7Ev76u8QhRZJBiG4yAVJaAUM - https://www.google.com/search?\n\n<page_info>0.0 pages above, 0.0 pages below</page_info>\n\nInteractive elements:\n[Start of page]\n[3253]<hr />\n|scroll element|<iframe title=reCAPTCHA role=presentation name=a-mj4o9wuzqwxx /> (scroll)\n\t*[3370]<div role=presentation />\n\t*[3372]<div />\n\t*[3321]<div role=presentation />\n\tI'm not a robot\n\t*[3319]<div />\n\treCAPTCHA\n[3272]<hr />\nAbout this page\nOur systems have detected unusual traffic from your computer network.  This page checks to see if it's really you sending the requests, and not a robot.\n[3240]<a />\n\tWhy did this happen?\nIP address: 107.21.75.238\nTime: 2026-06-11T08:31:56Z\nURL: https://www.google.com/search?q=latest+Fast+%26+Furious+movie+release+date&sca_esv=2a9cf1d07f23bfb1&source=hp&ei=YnIqaqidNtKh5NoPw4DfyAs&iflsig=AFdpzrgAAAAAaiqAcphwNHmSaVroJB48SOM-mknpBAGd&ved=0ahUKEwio1pX_4v6UAxXSEFkFHUPAF7kQ4dUDCA8&uact=5&oq=latest+Fast+%26+Furious+movie+release+date&gs_lp=Egdnd3Mtd2l6IihsYXRlc3QgRmFzdCAmIEZ1cmlvdXMgbW92aWUgcmVsZWFzZSBkYXRlMgYQABgWGB4yBhAAGBYYHjIGEAAYFhgeMgYQABgWGB4yCBAAGIAEGKIEMgUQABjvBTIIEAAYgAQYogQyBRAAGO8FSOoSUABYiApwAHgAkAEAmAFQoAGIEKoBAjQwuAEDyAEA-AEBmAIooAKGEsICERAuGIAEGLEDGIMBGMcBGNEDwgIOEC4YgAQYigUYsQMYgwHCAggQABiABBixA8ICCBAuGIAEGLEDwgIOEAAYgAQYigUYsQMYgwHCAgUQABiABMICCxAuGIAEGMcBGNEDwgILEC4YgAQYsQMYgwHCAgUQLhiABMICCxAAGIAEGLEDGIMBwgIJEAAYgAQYChgLwgIJEC4YgAQYChgLwgILEAAYgAQYigUYhgOYAwCSBwI0MKAHnukCsgcCNDC4B4YSwgcGMi0zOC4yyAfCAYAIAQ&sclient=gws-wiz&sei=e3IqaoPVMZnl5NoPiPmwqA8\n[End of page]\n</browser_state>\n"
+    },
+    {
+      "model_output": {
+        "evaluation_previous_goal": "Google is showing a CAPTCHA/reCAPTCHA page blocking the search. Verdict: Failure",
+        "memory": "Google is blocked with CAPTCHA. Need to use DuckDuckGo to search for the latest Fast & Furious movie release date.",
+        "next_goal": "Search for the latest Fast & Furious movie release date on DuckDuckGo.",
+        "action": [
+          {
+            "search": {
+              "query": "latest Fast & Furious movie release date 2025",
+              "engine": "duckduckgo"
+            }
+          }
+        ]
+      },
+      "result": [
+        {
+          "is_done": false,
+          "error": "google_sorry",
+          "include_extracted_content_only_once": false,
+          "include_in_memory": false
+        }
+      ],
+      "state": {
+        "tabs": [
+          {
+            "url": "https://www.google.com/sorry/index?continue=https://www.google.com/search%3Fq%3Dlatest%2BFast%2B%2526%2BFurious%2Bmovie%2Brelease%2Bdate%26sca_esv%3D2a9cf1d07f23bfb1%26source%3Dhp%26ei%3DYnIqaqidNtKh5NoPw4DfyAs%26iflsig%3DAFdpzrgAAAAAaiqAcphwNHmSaVroJB48SOM-mknpBAGd%26ved%3D0ahUKEwio1pX_4v6UAxXSEFkFHUPAF7kQ4dUDCA8%26uact%3D5%26oq%3Dlatest%2BFast%2B%2526%2BFurious%2Bmovie%2Brelease%2Bdate%26gs_lp%3DEgdnd3Mtd2l6IihsYXRlc3QgRmFzdCAmIEZ1cmlvdXMgbW92aWUgcmVsZWFzZSBkYXRlMgYQABgWGB4yBhAAGBYYHjIGEAAYFhgeMgYQABgWGB4yCBAAGIAEGKIEMgUQABjvBTIIEAAYgAQYogQyBRAAGO8FSOoSUABYiApwAHgAkAEAmAFQoAGIEKoBAjQwuAEDyAEA-AEBmAIooAKGEsICERAuGIAEGLEDGIMBGMcBGNEDwgIOEC4YgAQYigUYsQMYgwHCAggQABiABBixA8ICCBAuGIAEGLEDwgIOEAAYgAQYigUYsQMYgwHCAgUQABiABMICCxAuGIAEGMcBGNEDwgILEC4YgAQYsQMYgwHCAgUQLhiABMICCxAAGIAEGLEDGIMBwgIJEAAYgAQYChgLwgIJEC4YgAQYChgLwgILEAAYgAQYigUYhgOYAwCSBwI0MKAHnukCsgcCNDC4B4YSwgcGMi0zOC4yyAfCAYAIAQ%26sclient%3Dgws-wiz%26sei%3De3IqaoPVMZnl5NoPiPmwqA8&q=EgRrFUvuGPzkqdEGIjAorzHp9bHd-QCx5NRcZ174HiSP1j8yHojwjXV0z9r3bh7Mssb7Ev76u8QhRZJBiG4yAVJaAUM",
+            "title": "https://www.google.com/search?q=latest+Fast+%26+Furious+movie+release+date&sca_esv=2a9cf1d07f23bfb1&source=hp&ei=YnIqaqidNtKh5NoPw4DfyAs&iflsig=AFdpzrgAAAAAaiqAcphwNHmSaVroJB48SOM-mknpBAGd&ved=0ahUKEwio1pX_4v6UAxXSEFkFHUPAF7kQ4dUDCA8&uact=5&oq=latest+Fast+%26+Furious+movie+release+date&gs_lp=Egdnd3Mtd2l6IihsYXRlc3QgRmFzdCAmIEZ1cmlvdXMgbW92aWUgcmVsZWFzZSBkYXRlMgYQABgWGB4yBhAAGBYYHjIGEAAYFhgeMgYQABgWGB4yCBAAGIAEGKIEMgUQABjvBTIIEAAYgAQYogQyBRAAGO8FSOoSUABYiApwAHgAkAEAmAFQoAGIEKoBAjQwuAEDyAEA-AEBmAIooAKGEsICERAuGIAEGLEDGIMBGMcBGNEDwgIOEC4YgAQYigUYsQMYgwHCAggQABiABBixA8ICCBAuGIAEGLEDwgIOEAAYgAQYigUYsQMYgwHCAgUQABiABMICCxAuGIAEGMcBGNEDwgILEC4YgAQYsQMYgwHCAgUQLhiABMICCxAAGIAEGLEDGIMBwgIJEAAYgAQYChgLwgIJEC4YgAQYChgLwgILEAAYgAQYigUYhgOYAwCSBwI0MKAHnukCsgcCNDC4B4YSwgcGMi0zOC4yyAfCAYAIAQ&sclient=gws-wiz&sei=e3IqaoPVMZnl5NoPiPmwqA8",
+            "target_id": "DDA4",
+            "parent_target_id": null
+          }
+        ],
+        "screenshot_path": "/tmp/browser_use_agent_06a2a725-c967-7ca8-8000-3cd3036624d4_1781166684/screenshots/step_4.png",
+        "interacted_element": [
+          null
+        ],
+        "url": "https://www.google.com/sorry/index?continue=https://www.google.com/search%3Fq%3Dlatest%2BFast%2B%2526%2BFurious%2Bmovie%2Brelease%2Bdate%26sca_esv%3D2a9cf1d07f23bfb1%26source%3Dhp%26ei%3DYnIqaqidNtKh5NoPw4DfyAs%26iflsig%3DAFdpzrgAAAAAaiqAcphwNHmSaVroJB48SOM-mknpBAGd%26ved%3D0ahUKEwio1pX_4v6UAxXSEFkFHUPAF7kQ4dUDCA8%26uact%3D5%26oq%3Dlatest%2BFast%2B%2526%2BFurious%2Bmovie%2Brelease%2Bdate%26gs_lp%3DEgdnd3Mtd2l6IihsYXRlc3QgRmFzdCAmIEZ1cmlvdXMgbW92aWUgcmVsZWFzZSBkYXRlMgYQABgWGB4yBhAAGBYYHjIGEAAYFhgeMgYQABgWGB4yCBAAGIAEGKIEMgUQABjvBTIIEAAYgAQYogQyBRAAGO8FSOoSUABYiApwAHgAkAEAmAFQoAGIEKoBAjQwuAEDyAEA-AEBmAIooAKGEsICERAuGIAEGLEDGIMBGMcBGNEDwgIOEC4YgAQYigUYsQMYgwHCAggQABiABBixA8ICCBAuGIAEGLEDwgIOEAAYgAQYigUYsQMYgwHCAgUQABiABMICCxAuGIAEGMcBGNEDwgILEC4YgAQYsQMYgwHCAgUQLhiABMICCxAAGIAEGLEDGIMBwgIJEAAYgAQYChgLwgIJEC4YgAQYChgLwgILEAAYgAQYigUYhgOYAwCSBwI0MKAHnukCsgcCNDC4B4YSwgcGMi0zOC4yyAfCAYAIAQ%26sclient%3Dgws-wiz%26sei%3De3IqaoPVMZnl5NoPiPmwqA8&q=EgRrFUvuGPzkqdEGIjAorzHp9bHd-QCx5NRcZ174HiSP1j8yHojwjXV0z9r3bh7Mssb7Ev76u8QhRZJBiG4yAVJaAUM",
+        "title": "https://www.google.com/search?q=latest+Fast+%26+Furious+movie+release+date&sca_esv=2a9cf1d07f23bfb1&source=hp&ei=YnIqaqidNtKh5NoPw4DfyAs&iflsig=AFdpzrgAAAAAaiqAcphwNHmSaVroJB48SOM-mknpBAGd&ved=0ahUKEwio1pX_4v6UAxXSEFkFHUPAF7kQ4dUDCA8&uact=5&oq=latest+Fast+%26+Furious+movie+release+date&gs_lp=Egdnd3Mtd2l6IihsYXRlc3QgRmFzdCAmIEZ1cmlvdXMgbW92aWUgcmVsZWFzZSBkYXRlMgYQABgWGB4yBhAAGBYYHjIGEAAYFhgeMgYQABgWGB4yCBAAGIAEGKIEMgUQABjvBTIIEAAYgAQYogQyBRAAGO8FSOoSUABYiApwAHgAkAEAmAFQoAGIEKoBAjQwuAEDyAEA-AEBmAIooAKGEsICERAuGIAEGLEDGIMBGMcBGNEDwgIOEC4YgAQYigUYsQMYgwHCAggQABiABBixA8ICCBAuGIAEGLEDwgIOEAAYgAQYigUYsQMYgwHCAgUQABiABMICCxAuGIAEGMcBGNEDwgILEC4YgAQYsQMYgwHCAgUQLhiABMICCxAAGIAEGLEDGIMBwgIJEAAYgAQYChgLwgIJEC4YgAQYChgLwgILEAAYgAQYigUYhgOYAwCSBwI0MKAHnukCsgcCNDC4B4YSwgcGMi0zOC4yyAfCAYAIAQ&sclient=gws-wiz&sei=e3IqaoPVMZnl5NoPiPmwqA8"
+      },
+      "metadata": {
+        "step_start_time": 1781166726.793742,
+        "step_end_time": 1781166741.0742683,
+        "step_number": 4,
+        "step_interval": 7.027362585067749
+      },
+      "state_message": "<agent_history>\nAgent initialized\n<step>\nResult\nFound initial url and automatically loaded it. Navigated to https://www.google.com/\n<step>\nSuccessfully loaded Google homepage. Verdict: Success\nOn Google homepage, need to search for the latest Fast & Furious movie release date.\nSearch for the latest Fast & Furious movie release date on Google.\nResult\nTyped 'latest Fast & Furious movie release date'\n💡 This is an autocomplete field. Wait for suggestions to appear, then click the correct suggestion instead of pressing Enter.\nSent keys: Enter\n<step>\nGoogle detected unusual traffic and is blocking the search. Verdict: Failure\nGoogle blocked the search with a CAPTCHA/unusual traffic page. Need to try an alternative search engine like DuckDuckGo.\nSearch for the latest Fast & Furious movie release date on DuckDuckGo instead.\nResult\ngoogle_sorry\n<step>\nGoogle is showing a CAPTCHA/unusual traffic page. Need to use an alternative approach.\nGoogle blocked the search with CAPTCHA. Need to search on DuckDuckGo for the latest Fast & Furious movie release date.\nSearch for the latest Fast & Furious movie release date on DuckDuckGo.\nResult\ngoogle_sorry\n</agent_history>\n\n<agent_state>\n<user_request>\nFind the release date for the latest \"Fast & Furious\" movie. on https://www.google.com/\n</user_request>\n<file_system>\n\n</file_system>\n<todo_contents>\n[empty todo.md, fill it when applicable]\n</todo_contents>\n<step_info>Step4 maximum:30\nToday:2026-06-11</step_info>\n</agent_state>\n<browser_state>\n<page_stats>1 links, 7 interactive, 1 iframes, 54 total elements</page_stats>\nCurrent tab: DDA4\nAvailable tabs:\nTab DDA4: https://www.google.com/sorry/index?continue=https://www.google.com/search%3Fq%3Dlatest%2BFast%2B%2526%2BFurious%2Bmovie%2Brelease%2Bdate%26sca_esv%3D2a9cf1d07f23bfb1%26source%3Dhp%26ei%3DYnIqaqidNtKh5NoPw4DfyAs%26iflsig%3DAFdpzrgAAAAAaiqAcphwNHmSaVroJB48SOM-mknpBAGd%26ved%3D0ahUKEwio1pX_4v6UAxXSEFkFHUPAF7kQ4dUDCA8%26uact%3D5%26oq%3Dlatest%2BFast%2B%2526%2BFurious%2Bmovie%2Brelease%2Bdate%26gs_lp%3DEgdnd3Mtd2l6IihsYXRlc3QgRmFzdCAmIEZ1cmlvdXMgbW92aWUgcmVsZWFzZSBkYXRlMgYQABgWGB4yBhAAGBYYHjIGEAAYFhgeMgYQABgWGB4yCBAAGIAEGKIEMgUQABjvBTIIEAAYgAQYogQyBRAAGO8FSOoSUABYiApwAHgAkAEAmAFQoAGIEKoBAjQwuAEDyAEA-AEBmAIooAKGEsICERAuGIAEGLEDGIMBGMcBGNEDwgIOEC4YgAQYigUYsQMYgwHCAggQABiABBixA8ICCBAuGIAEGLEDwgIOEAAYgAQYigUYsQMYgwHCAgUQABiABMICCxAuGIAEGMcBGNEDwgILEC4YgAQYsQMYgwHCAgUQLhiABMICCxAAGIAEGLEDGIMBwgIJEAAYgAQYChgLwgIJEC4YgAQYChgLwgILEAAYgAQYigUYhgOYAwCSBwI0MKAHnukCsgcCNDC4B4YSwgcGMi0zOC4yyAfCAYAIAQ%26sclient%3Dgws-wiz%26sei%3De3IqaoPVMZnl5NoPiPmwqA8&q=EgRrFUvuGPzkqdEGIjAorzHp9bHd-QCx5NRcZ174HiSP1j8yHojwjXV0z9r3bh7Mssb7Ev76u8QhRZJBiG4yAVJaAUM - https://www.google.com/search?\n\n<page_info>0.0 pages above, 0.0 pages below</page_info>\n\nInteractive elements:\n[Start of page]\n[3253]<hr />\n|scroll element|<iframe title=reCAPTCHA role=presentation name=a-mj4o9wuzqwxx /> (scroll)\n\t[3370]<div role=presentation />\n\t[3372]<div />\n\t[3321]<div role=presentation />\n\tI'm not a robot\n\t[3319]<div />\n\treCAPTCHA\n[3272]<hr />\nAbout this page\nOur systems have detected unusual traffic from your computer network.  This page checks to see if it's really you sending the requests, and not a robot.\n[3240]<a />\n\tWhy did this happen?\nIP address: 107.21.75.238\nTime: 2026-06-11T08:31:56Z\nURL: https://www.google.com/search?q=latest+Fast+%26+Furious+movie+release+date&sca_esv=2a9cf1d07f23bfb1&source=hp&ei=YnIqaqidNtKh5NoPw4DfyAs&iflsig=AFdpzrgAAAAAaiqAcphwNHmSaVroJB48SOM-mknpBAGd&ved=0ahUKEwio1pX_4v6UAxXSEFkFHUPAF7kQ4dUDCA8&uact=5&oq=latest+Fast+%26+Furious+movie+release+date&gs_lp=Egdnd3Mtd2l6IihsYXRlc3QgRmFzdCAmIEZ1cmlvdXMgbW92aWUgcmVsZWFzZSBkYXRlMgYQABgWGB4yBhAAGBYYHjIGEAAYFhgeMgYQABgWGB4yCBAAGIAEGKIEMgUQABjvBTIIEAAYgAQYogQyBRAAGO8FSOoSUABYiApwAHgAkAEAmAFQoAGIEKoBAjQwuAEDyAEA-AEBmAIooAKGEsICERAuGIAEGLEDGIMBGMcBGNEDwgIOEC4YgAQYigUYsQMYgwHCAggQABiABBixA8ICCBAuGIAEGLEDwgIOEAAYgAQYigUYsQMYgwHCAgUQABiABMICCxAuGIAEGMcBGNEDwgILEC4YgAQYsQMYgwHCAgUQLhiABMICCxAAGIAEGLEDGIMBwgIJEAAYgAQYChgLwgIJEC4YgAQYChgLwgILEAAYgAQYigUYhgOYAwCSBwI0MKAHnukCsgcCNDC4B4YSwgcGMi0zOC4yyAfCAYAIAQ&sclient=gws-wiz&sei=e3IqaoPVMZnl5NoPiPmwqA8\n[End of page]\n</browser_state>\n"
+    },
+    {
+      "model_output": {
+        "evaluation_previous_goal": "Google is blocking the search with a reCAPTCHA/unusual traffic page. Verdict: Failure",
+        "memory": "Google blocked all search attempts with CAPTCHA. Could not retrieve the latest Fast & Furious movie release date from Google. DuckDuckGo navigation was also not attempted successfully due to repeated Google CAPTCHA blocks.",
+        "next_goal": "Call done since no other tools are available and the task could not be completed.",
+        "action": [
+          {
+            "done": {
+              "text": "I was unable to find the release date for the latest Fast & Furious movie on Google. Google detected unusual traffic from the browser and blocked all search attempts with a reCAPTCHA challenge that could not be bypassed. As a result, I could not retrieve the requested information.\n\nBased on my training knowledge (not verified from the page during this session): The latest main Fast & Furious film is 'Fast X' (Fast & Furious 10), which was released on May 19, 2023. However, this information was NOT confirmed via Google search as requested — the search was blocked by Google's CAPTCHA system.",
+              "success": false,
+              "files_to_display": []
+            }
+          }
+        ]
+      },
+      "result": [
+        {
+          "is_done": false,
+          "error": "google_sorry",
+          "include_extracted_content_only_once": false,
+          "include_in_memory": false
+        }
+      ],
+      "state": {
+        "tabs": [
+          {
+            "url": "https://www.google.com/sorry/index?continue=https://www.google.com/search%3Fq%3Dlatest%2BFast%2B%2526%2BFurious%2Bmovie%2Brelease%2Bdate%26sca_esv%3D2a9cf1d07f23bfb1%26source%3Dhp%26ei%3DYnIqaqidNtKh5NoPw4DfyAs%26iflsig%3DAFdpzrgAAAAAaiqAcphwNHmSaVroJB48SOM-mknpBAGd%26ved%3D0ahUKEwio1pX_4v6UAxXSEFkFHUPAF7kQ4dUDCA8%26uact%3D5%26oq%3Dlatest%2BFast%2B%2526%2BFurious%2Bmovie%2Brelease%2Bdate%26gs_lp%3DEgdnd3Mtd2l6IihsYXRlc3QgRmFzdCAmIEZ1cmlvdXMgbW92aWUgcmVsZWFzZSBkYXRlMgYQABgWGB4yBhAAGBYYHjIGEAAYFhgeMgYQABgWGB4yCBAAGIAEGKIEMgUQABjvBTIIEAAYgAQYogQyBRAAGO8FSOoSUABYiApwAHgAkAEAmAFQoAGIEKoBAjQwuAEDyAEA-AEBmAIooAKGEsICERAuGIAEGLEDGIMBGMcBGNEDwgIOEC4YgAQYigUYsQMYgwHCAggQABiABBixA8ICCBAuGIAEGLEDwgIOEAAYgAQYigUYsQMYgwHCAgUQABiABMICCxAuGIAEGMcBGNEDwgILEC4YgAQYsQMYgwHCAgUQLhiABMICCxAAGIAEGLEDGIMBwgIJEAAYgAQYChgLwgIJEC4YgAQYChgLwgILEAAYgAQYigUYhgOYAwCSBwI0MKAHnukCsgcCNDC4B4YSwgcGMi0zOC4yyAfCAYAIAQ%26sclient%3Dgws-wiz%26sei%3De3IqaoPVMZnl5NoPiPmwqA8&q=EgRrFUvuGPzkqdEGIjAorzHp9bHd-QCx5NRcZ174HiSP1j8yHojwjXV0z9r3bh7Mssb7Ev76u8QhRZJBiG4yAVJaAUM",
+            "title": "https://www.google.com/search?q=latest+Fast+%26+Furious+movie+release+date&sca_esv=2a9cf1d07f23bfb1&source=hp&ei=YnIqaqidNtKh5NoPw4DfyAs&iflsig=AFdpzrgAAAAAaiqAcphwNHmSaVroJB48SOM-mknpBAGd&ved=0ahUKEwio1pX_4v6UAxXSEFkFHUPAF7kQ4dUDCA8&uact=5&oq=latest+Fast+%26+Furious+movie+release+date&gs_lp=Egdnd3Mtd2l6IihsYXRlc3QgRmFzdCAmIEZ1cmlvdXMgbW92aWUgcmVsZWFzZSBkYXRlMgYQABgWGB4yBhAAGBYYHjIGEAAYFhgeMgYQABgWGB4yCBAAGIAEGKIEMgUQABjvBTIIEAAYgAQYogQyBRAAGO8FSOoSUABYiApwAHgAkAEAmAFQoAGIEKoBAjQwuAEDyAEA-AEBmAIooAKGEsICERAuGIAEGLEDGIMBGMcBGNEDwgIOEC4YgAQYigUYsQMYgwHCAggQABiABBixA8ICCBAuGIAEGLEDwgIOEAAYgAQYigUYsQMYgwHCAgUQABiABMICCxAuGIAEGMcBGNEDwgILEC4YgAQYsQMYgwHCAgUQLhiABMICCxAAGIAEGLEDGIMBwgIJEAAYgAQYChgLwgIJEC4YgAQYChgLwgILEAAYgAQYigUYhgOYAwCSBwI0MKAHnukCsgcCNDC4B4YSwgcGMi0zOC4yyAfCAYAIAQ&sclient=gws-wiz&sei=e3IqaoPVMZnl5NoPiPmwqA8",
+            "target_id": "DDA4",
+            "parent_target_id": null
+          }
+        ],
+        "screenshot_path": "/tmp/browser_use_agent_06a2a725-c967-7ca8-8000-3cd3036624d4_1781166684/screenshots/step_5.png",
+        "interacted_element": [
+          null
+        ],
+        "url": "https://www.google.com/sorry/index?continue=https://www.google.com/search%3Fq%3Dlatest%2BFast%2B%2526%2BFurious%2Bmovie%2Brelease%2Bdate%26sca_esv%3D2a9cf1d07f23bfb1%26source%3Dhp%26ei%3DYnIqaqidNtKh5NoPw4DfyAs%26iflsig%3DAFdpzrgAAAAAaiqAcphwNHmSaVroJB48SOM-mknpBAGd%26ved%3D0ahUKEwio1pX_4v6UAxXSEFkFHUPAF7kQ4dUDCA8%26uact%3D5%26oq%3Dlatest%2BFast%2B%2526%2BFurious%2Bmovie%2Brelease%2Bdate%26gs_lp%3DEgdnd3Mtd2l6IihsYXRlc3QgRmFzdCAmIEZ1cmlvdXMgbW92aWUgcmVsZWFzZSBkYXRlMgYQABgWGB4yBhAAGBYYHjIGEAAYFhgeMgYQABgWGB4yCBAAGIAEGKIEMgUQABjvBTIIEAAYgAQYogQyBRAAGO8FSOoSUABYiApwAHgAkAEAmAFQoAGIEKoBAjQwuAEDyAEA-AEBmAIooAKGEsICERAuGIAEGLEDGIMBGMcBGNEDwgIOEC4YgAQYigUYsQMYgwHCAggQABiABBixA8ICCBAuGIAEGLEDwgIOEAAYgAQYigUYsQMYgwHCAgUQABiABMICCxAuGIAEGMcBGNEDwgILEC4YgAQYsQMYgwHCAgUQLhiABMICCxAAGIAEGLEDGIMBwgIJEAAYgAQYChgLwgIJEC4YgAQYChgLwgILEAAYgAQYigUYhgOYAwCSBwI0MKAHnukCsgcCNDC4B4YSwgcGMi0zOC4yyAfCAYAIAQ%26sclient%3Dgws-wiz%26sei%3De3IqaoPVMZnl5NoPiPmwqA8&q=EgRrFUvuGPzkqdEGIjAorzHp9bHd-QCx5NRcZ174HiSP1j8yHojwjXV0z9r3bh7Mssb7Ev76u8QhRZJBiG4yAVJaAUM",
+        "title": "https://www.google.com/search?q=latest+Fast+%26+Furious+movie+release+date&sca_esv=2a9cf1d07f23bfb1&source=hp&ei=YnIqaqidNtKh5NoPw4DfyAs&iflsig=AFdpzrgAAAAAaiqAcphwNHmSaVroJB48SOM-mknpBAGd&ved=0ahUKEwio1pX_4v6UAxXSEFkFHUPAF7kQ4dUDCA8&uact=5&oq=latest+Fast+%26+Furious+movie+release+date&gs_lp=Egdnd3Mtd2l6IihsYXRlc3QgRmFzdCAmIEZ1cmlvdXMgbW92aWUgcmVsZWFzZSBkYXRlMgYQABgWGB4yBhAAGBYYHjIGEAAYFhgeMgYQABgWGB4yCBAAGIAEGKIEMgUQABjvBTIIEAAYgAQYogQyBRAAGO8FSOoSUABYiApwAHgAkAEAmAFQoAGIEKoBAjQwuAEDyAEA-AEBmAIooAKGEsICERAuGIAEGLEDGIMBGMcBGNEDwgIOEC4YgAQYigUYsQMYgwHCAggQABiABBixA8ICCBAuGIAEGLEDwgIOEAAYgAQYigUYsQMYgwHCAgUQABiABMICCxAuGIAEGMcBGNEDwgILEC4YgAQYsQMYgwHCAgUQLhiABMICCxAAGIAEGLEDGIMBwgIJEAAYgAQYChgLwgIJEC4YgAQYChgLwgILEAAYgAQYigUYhgOYAwCSBwI0MKAHnukCsgcCNDC4B4YSwgcGMi0zOC4yyAfCAYAIAQ&sclient=gws-wiz&sei=e3IqaoPVMZnl5NoPiPmwqA8"
+      },
+      "metadata": {
+        "step_start_time": 1781166741.1876535,
+        "step_end_time": 1781166753.2294302,
+        "step_number": 5,
+        "step_interval": 14.280526399612427
+      },
+      "state_message": "<agent_history>\nAgent initialized\n<step>\nResult\nFound initial url and automatically loaded it. Navigated to https://www.google.com/\n<step>\nSuccessfully loaded Google homepage. Verdict: Success\nOn Google homepage, need to search for the latest Fast & Furious movie release date.\nSearch for the latest Fast & Furious movie release date on Google.\nResult\nTyped 'latest Fast & Furious movie release date'\n💡 This is an autocomplete field. Wait for suggestions to appear, then click the correct suggestion instead of pressing Enter.\nSent keys: Enter\n<step>\nGoogle detected unusual traffic and is blocking the search. Verdict: Failure\nGoogle blocked the search with a CAPTCHA/unusual traffic page. Need to try an alternative search engine like DuckDuckGo.\nSearch for the latest Fast & Furious movie release date on DuckDuckGo instead.\nResult\ngoogle_sorry\n<step>\nGoogle is showing a CAPTCHA/unusual traffic page. Need to use an alternative approach.\nGoogle blocked the search with CAPTCHA. Need to search on DuckDuckGo for the latest Fast & Furious movie release date.\nSearch for the latest Fast & Furious movie release date on DuckDuckGo.\nResult\ngoogle_sorry\n<step>\nGoogle is showing a CAPTCHA/reCAPTCHA page blocking the search. Verdict: Failure\nGoogle is blocked with CAPTCHA. Need to use DuckDuckGo to search for the latest Fast & Furious movie release date.\nSearch for the latest Fast & Furious movie release date on DuckDuckGo.\nResult\ngoogle_sorry\n</agent_history>\n\n<agent_state>\n<user_request>\nFind the release date for the latest \"Fast & Furious\" movie. on https://www.google.com/\n</user_request>\n<file_system>\n\n</file_system>\n<todo_contents>\n[empty todo.md, fill it when applicable]\n</todo_contents>\n<step_info>Step5 maximum:30\nToday:2026-06-11</step_info>\n</agent_state>\n<browser_state>\n<page_stats>1 links, 7 interactive, 1 iframes, 54 total elements</page_stats>\nCurrent tab: DDA4\nAvailable tabs:\nTab DDA4: https://www.google.com/sorry/index?continue=https://www.google.com/search%3Fq%3Dlatest%2BFast%2B%2526%2BFurious%2Bmovie%2Brelease%2Bdate%26sca_esv%3D2a9cf1d07f23bfb1%26source%3Dhp%26ei%3DYnIqaqidNtKh5NoPw4DfyAs%26iflsig%3DAFdpzrgAAAAAaiqAcphwNHmSaVroJB48SOM-mknpBAGd%26ved%3D0ahUKEwio1pX_4v6UAxXSEFkFHUPAF7kQ4dUDCA8%26uact%3D5%26oq%3Dlatest%2BFast%2B%2526%2BFurious%2Bmovie%2Brelease%2Bdate%26gs_lp%3DEgdnd3Mtd2l6IihsYXRlc3QgRmFzdCAmIEZ1cmlvdXMgbW92aWUgcmVsZWFzZSBkYXRlMgYQABgWGB4yBhAAGBYYHjIGEAAYFhgeMgYQABgWGB4yCBAAGIAEGKIEMgUQABjvBTIIEAAYgAQYogQyBRAAGO8FSOoSUABYiApwAHgAkAEAmAFQoAGIEKoBAjQwuAEDyAEA-AEBmAIooAKGEsICERAuGIAEGLEDGIMBGMcBGNEDwgIOEC4YgAQYigUYsQMYgwHCAggQABiABBixA8ICCBAuGIAEGLEDwgIOEAAYgAQYigUYsQMYgwHCAgUQABiABMICCxAuGIAEGMcBGNEDwgILEC4YgAQYsQMYgwHCAgUQLhiABMICCxAAGIAEGLEDGIMBwgIJEAAYgAQYChgLwgIJEC4YgAQYChgLwgILEAAYgAQYigUYhgOYAwCSBwI0MKAHnukCsgcCNDC4B4YSwgcGMi0zOC4yyAfCAYAIAQ%26sclient%3Dgws-wiz%26sei%3De3IqaoPVMZnl5NoPiPmwqA8&q=EgRrFUvuGPzkqdEGIjAorzHp9bHd-QCx5NRcZ174HiSP1j8yHojwjXV0z9r3bh7Mssb7Ev76u8QhRZJBiG4yAVJaAUM - https://www.google.com/search?\n\n<page_info>0.0 pages above, 0.0 pages below</page_info>\n\nInteractive elements:\n[Start of page]\n[3253]<hr />\n|scroll element|<iframe title=reCAPTCHA role=presentation name=a-mj4o9wuzqwxx /> (scroll)\n\t[3370]<div role=presentation />\n\t[3372]<div />\n\t[3321]<div role=presentation />\n\tI'm not a robot\n\t[3319]<div />\n\treCAPTCHA\n[3272]<hr />\nAbout this page\nOur systems have detected unusual traffic from your computer network.  This page checks to see if it's really you sending the requests, and not a robot.\n[3240]<a />\n\tWhy did this happen?\nIP address: 107.21.75.238\nTime: 2026-06-11T08:31:56Z\nURL: https://www.google.com/search?q=latest+Fast+%26+Furious+movie+release+date&sca_esv=2a9cf1d07f23bfb1&source=hp&ei=YnIqaqidNtKh5NoPw4DfyAs&iflsig=AFdpzrgAAAAAaiqAcphwNHmSaVroJB48SOM-mknpBAGd&ved=0ahUKEwio1pX_4v6UAxXSEFkFHUPAF7kQ4dUDCA8&uact=5&oq=latest+Fast+%26+Furious+movie+release+date&gs_lp=Egdnd3Mtd2l6IihsYXRlc3QgRmFzdCAmIEZ1cmlvdXMgbW92aWUgcmVsZWFzZSBkYXRlMgYQABgWGB4yBhAAGBYYHjIGEAAYFhgeMgYQABgWGB4yCBAAGIAEGKIEMgUQABjvBTIIEAAYgAQYogQyBRAAGO8FSOoSUABYiApwAHgAkAEAmAFQoAGIEKoBAjQwuAEDyAEA-AEBmAIooAKGEsICERAuGIAEGLEDGIMBGMcBGNEDwgIOEC4YgAQYigUYsQMYgwHCAggQABiABBixA8ICCBAuGIAEGLEDwgIOEAAYgAQYigUYsQMYgwHCAgUQABiABMICCxAuGIAEGMcBGNEDwgILEC4YgAQYsQMYgwHCAgUQLhiABMICCxAAGIAEGLEDGIMBwgIJEAAYgAQYChgLwgIJEC4YgAQYChgLwgILEAAYgAQYigUYhgOYAwCSBwI0MKAHnukCsgcCNDC4B4YSwgcGMi0zOC4yyAfCAYAIAQ&sclient=gws-wiz&sei=e3IqaoPVMZnl5NoPiPmwqA8\n[End of page]\n</browser_state>\n"
+    }
+  ]
+}

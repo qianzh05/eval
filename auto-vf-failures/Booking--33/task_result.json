@@ -1,0 +1,36 @@
+{
+  "task_id": "Booking--33",
+  "web_name": "https://www.booking.com/",
+  "start_time": "2026-06-11 09:16:25.817049",
+  "end_time": "2026-06-11 09:21:10.004759",
+  "duration_seconds": 284.18771,
+  "num_steps": 15,
+  "success": "failed",
+  "task_prompt": "Find the Customer Service on the Booking website, browse the questions about cancellation, and tell me 'how do I know whether my booking has been cancelled'. on https://www.booking.com/",
+  "final_answer": "<NO FINAL ANSWER>",
+  "gpt_4v_res": "",
+  "stuck": false,
+  "stuck_reason": null,
+  "captcha_blocked": true,
+  "captcha_type": "google_sorry",
+  "error": null,
+  "loop_summary": {
+    "max_consec_run": 1,
+    "looped_action_name": null,
+    "looped_action_args": null
+  },
+  "browser_use_version": "unknown",
+  "cost_totals": {
+    "input_tokens": 1082580,
+    "output_tokens": 28131,
+    "n_llm_calls": 83,
+    "cost_usd": 3.6697050000000004,
+    "model_id": "us.anthropic.claude-sonnet-4-6",
+    "input_price_per_m": 3.0,
+    "output_price_per_m": 15.0
+  },
+  "wait_time_s": 22.890530659000433,
+  "n_rate_limit_waits": 1,
+  "llm_time_s": 672.882130826998,
+  "browser_time_s": 0.0
+}
