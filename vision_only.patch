@@ -1,0 +1,60 @@
+diff --git a/browser_use/agent/system_prompts/system_prompt.md b/browser_use/agent/system_prompts/system_prompt.md
+index 56c67d8..8fac03c 100644
+--- a/browser_use/agent/system_prompts/system_prompt.md
++++ b/browser_use/agent/system_prompts/system_prompt.md
+@@ -18,7 +18,7 @@ At every step, your input will consist of:
+ 2. <agent_history>: A chronological event stream including your previous actions and their results.
+ 3. <agent_state>: Summary of <file_system>, <todo_contents>, and other current agent context.
+ 4. <browser_state>: Current URL, open tabs, interactive elements indexed for actions, and visible page content.
+-5. <browser_vision>: Screenshot of the browser with bounding boxes around interactive elements. If you used screenshot before, this will contain a screenshot.
++5. <browser_vision>: A clean screenshot of the browser (no bounding boxes, no index labels). If you used screenshot before, this will contain a screenshot.
+ 6. <read_state> This will be displayed only if your previous action was extract or read_file. This data is only shown in the current step.
+ </input>
+ <user_request>
+@@ -62,9 +62,8 @@ Note that:
+ - `|SHADOW(open)|` or `|SHADOW(closed)|` prefix indicates shadow DOM elements
+ </browser_state>
+ <browser_vision>
+-If you used screenshot before, you will be provided with a screenshot of the current page with  bounding boxes around interactive elements. This is your GROUND TRUTH: reason about the image in your thinking to evaluate your progress.
+-If an interactive index inside your browser_state does not have text information, then the interactive index is written at the top center of it's element in the screenshot.
+-Use screenshot if you are unsure or simply want more information.
++You are given a CLEAN screenshot of the current page. It has NO bounding boxes and NO index numbers drawn on it - it shows the page exactly as a human would see it. This screenshot is your GROUND TRUTH: reason about the image in your thinking to evaluate your progress.
++To click something, locate the target visually in the screenshot and act by pixel coordinates: call click with coordinate_x and coordinate_y (the pixel position of the target's center in the screenshot). Only form fields (inputs/selects) carry an [index] in browser_state for typing; everything else must be located visually and clicked by coordinates.
+ </browser_vision>
+ <browser_rules>
+ Strictly follow these rules while using the browser and navigating the web:
+diff --git a/browser_use/dom/views.py b/browser_use/dom/views.py
+index 43df563..0955c4e 100644
+--- a/browser_use/dom/views.py
++++ b/browser_use/dom/views.py
+@@ -946,6 +946,30 @@ class SerializedDOMState:
+ 
+ 		include_attributes = include_attributes or DEFAULT_INCLUDE_ATTRIBUTES
+ 
++		# VISION-ONLY MODE: when BROWSER_USE_VISION_ONLY is set, expose ONLY form-field
++		# elements (input/select/textarea) with their indices so index-based typing still
++		# works, and omit every other interactive element. The model must then locate all
++		# clickable targets visually in the (clean) screenshot and act by pixel coordinates.
++		import os as _os
++
++		if _os.environ.get('BROWSER_USE_VISION_ONLY', '').strip().lower() in ('1', 'true', 'yes', 'on'):
++			_FORM_TAGS = {'input', 'select', 'textarea'}
++			_SHOW_ATTRS = ('type', 'name', 'placeholder', 'aria-label', 'value', 'role', 'id')
++			_lines: list[str] = []
++			for _idx, _node in self.selector_map.items():
++				if _node.tag_name not in _FORM_TAGS:
++					continue
++				_attrs = _node.attributes or {}
++				_shown = ' '.join(f'{_k}={_attrs[_k]!r}' for _k in _SHOW_ATTRS if _k in _attrs)
++				_lines.append(f'[{_idx}]<{_node.tag_name} {_shown}/>')
++			_header = (
++				'VISION-ONLY MODE. The list below contains ONLY form fields (use their [index] with input_text to type). '
++				'No other interactive elements are listed: locate every clickable target visually in the screenshot and click by pixel coordinates (coordinate_x, coordinate_y).'
++			)
++			if not _lines:
++				return _header + '\nNo form fields detected on this page.'
++			return _header + '\n' + '\n'.join(_lines)
++
+ 		return DOMTreeSerializer.serialize_tree(self._root, include_attributes)
+ 
+ 	@observe_debug(ignore_input=True, ignore_output=True, name='eval_representation')

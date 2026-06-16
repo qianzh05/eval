@@ -1,57 +1,41 @@
 #!/bin/bash
+# Build a patched browser-use for the VISION-ONLY experiment.
+#   - pins browser-use to tag 0.13.2 (matches VISION_ONLY_PLAN.txt)
+#   - applies vision_only.patch (Layer B: clean-screenshot prompt + form-field-only DOM)
+#   - builds the wheel and installs it into a dedicated venv (.venv-vision-only)
+# Re-run safe: removes any prior ./browser-use checkout first.
+set -euo pipefail
 
-# go to location of this script
-# cd $(dirname $0)
-# remove browser-use folder if it exists
-# rm -rf browser-use
+# go to location of this script (the eval repo root)
+cd "$(dirname "$0")"
+REPO_ROOT="$(pwd)"
 
-# Simple test script for browser-use Gemini branch
+# fresh checkout
+rm -rf browser-use
 git clone https://github.com/browser-use/browser-use.git
 cd browser-use
-# git checkout models/gemini
-# git checkout hot-fix/default-not-permitted
-# checkout 1a5a4bd557a190dbc6a77985c46db383779ae4bf
-echo "Checking out branch"
-git checkout memory-state-extraction
 
+echo "Checking out tag 0.13.2"
+git checkout 0.13.2          # NOTE: tag is '0.13.2' (no leading 'v'); not yet on PyPI
 
-# Setup environment and build
-# echo "Setting up environment and building"
-cd ..
-uv venv --python=3.11
-source .venv/bin/activate
+echo "Applying vision_only.patch"
+git apply "${REPO_ROOT}/vision_only.patch"
+git --no-pager diff --stat   # show what was patched
+
+# build + install into a dedicated venv so it doesn't clobber .venv-v2 (0.12.6)
+cd "${REPO_ROOT}"
+uv venv --python=3.11 .venv-vision-only
+source .venv-vision-only/bin/activate
 cd browser-use
-uv pip install build 
+uv pip install build
 python -m build
 
-echo "Installing browser-use"
+echo "Installing patched browser-use"
 uv pip install dist/browser_use-*.whl
-uv pip install langchain_google_genai
+# Bedrock provider deps used by the eval runner
+uv pip install "botocore[crt]" boto3
 
-echo "Installing playwright"
-playwright install
+echo "Installing playwright browsers"
+playwright install chromium
 
-
-# Run test
-# copy test.py to browser-use
-#echo "Copying test.py to browser-use"
-cd ..
-source .venv/bin/activate
-#cp test.py browser-use/test.py
-#cd browser-use
-
-
-
-# deactivate
-
-# activate
-# cd browser-use
-# source .venv/bin/activate
-# cd ..
-# python test.py
-
-
-# c
-# i browser-use
-
-# a .venv
+echo "Done. Activate with:  source ${REPO_ROOT}/.venv-vision-only/bin/activate"
