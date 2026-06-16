@@ -1,0 +1,52 @@
+VISION-ONLY MODE — implementation spec (browser-use 0.13.2)
+==========================================================
+Goal: rerun the DOM-only failure tasks with targeting driven by the screenshot
+(click by pixel coordinates) instead of the DOM index list. Measure whether
+vision recovers tasks that DOM-only failed on. Keep the screenshot CLEAN
+(no set-of-marks) for the pilot.
+
+TWO LAYERS
+----------
+A) EVAL-SIDE (no browser-use patch; uses public API in the runner):
+   - Agent(..., use_vision=True)                # always attach screenshot
+   - agent.tools.set_coordinate_clicking(True)  # force coordinate clicks on (don't rely on model-name gate at agent/service.py:327)
+   - agent.tools.exclude_action('find_elements','select_dropdown_option',
+       'get_dropdown_options','upload_file')     # drop DOM crutches
+   - custom vision prompt via override_system_message / extend_system_message
+     (Agent params exist: agent/service.py:172-173)
+   - restrict run to the DOM-failure subset (= the vision-false failures, i.e.
+     the auto-vf-failures task ids)
+   - write to a fresh results dir, e.g. results/vision-only/
+
+B) BROWSER-USE PATCH (vision_only.patch — the irreducible bits):
+   1. Prompt: agent/system_prompts/system_prompt.md, <browser_vision> section
+      (lines ~64-68 and ~21). REMOVE the false "bounding boxes around interactive
+      elements" + "index written at top center" claims. Replace with: "You are
+      given a clean screenshot. Locate the target visually and act by pixel
+      coordinates (coordinate_x, coordinate_y)."  [mismatch is resolved by removal]
+   2. DOM suppression: dom_state.llm_representation() (dom/views.py:937) is what
+      renders the "[index]<tag>" element list the model reads. Under a vision_only
+      flag, return empty/minimal so the model relies on the screenshot.
+      (Alt point: where message_manager/service.py inserts the browser_state text.)
+      NOTE: if input_text stays index-based, keep ONLY form-field elements
+      (input/select/file) in the list; else hide all and use coordinate typing.
+   3. Typing decision (pick one):
+      (A) keep input_text(index) + keep minimal field list  -> simpler, typing reliable
+      (B) screenshots-only: exclude input_text; type via click(coord)+send_keys
+          (send_keys is DOM-free) or add a small input_at_coordinate(x,y,text) tool.
+   4. Coordinate clicking is already wired: ClickElementAction has coordinate_x/y
+      (tools/views.py:69-72); _click_by_coordinate + screenshot->viewport scaling
+      exist (tools/service.py:635, :590). No new plumbing needed.
+
+BUILD / REPRO
+-------------
+   - build_repo.sh: pin `git checkout v0.13.2`, then `git apply ../vision_only.patch`
+     before building the wheel. Patch + build script are the tracked record.
+
+PILOT FIRST
+-----------
+   - Run ~5-10 DOM-failure tasks (Apple--9 is the key probe: vision saw the button,
+     DOM couldn't click it). Check: do coordinate clicks land on the right element?
+   - Only if localization holds up, do the full subset rerun.
+   - Open risk: pixel-localization accuracy on a clean screenshot. If poor,
+     fallback = add set-of-marks / grid overlay (separate experiment, clean run = baseline).
