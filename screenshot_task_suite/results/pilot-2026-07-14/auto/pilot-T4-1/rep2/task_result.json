@@ -1,0 +1,79 @@
+{
+  "task_id": "pilot-T4-1",
+  "rep": 2,
+  "mode": "auto",
+  "use_vision": "'auto'",
+  "category": "T4",
+  "site": "coursera.org",
+  "prompt": "On Coursera, find the course titled 'Wind Energy' offered by the Technical University of Denmark (DTU) and report how many modules it contains.",
+  "start_url": "https://www.coursera.org",
+  "start_time": "2026-07-14 02:57:51.431440",
+  "success": "success",
+  "num_steps": 6,
+  "final_answer": "The course 'Wind Energy' offered by the Technical University of Denmark (DTU) on Coursera contains **16 modules**.\n\nThis information is clearly displayed on the course page at https://www.coursera.org/learn/wind-energy, which states both '16 modules' in the course summary section and 'There are 16 modules in this course' in the syllabus section.",
+  "is_done": true,
+  "is_successful_flag": true,
+  "history_urls": [
+    "https://www.coursera.org/",
+    "https://www.coursera.org/search?query=Wind%20Energy%20DTU",
+    "https://www.coursera.org/search?query=Wind%20Energy%20DTU",
+    "https://www.coursera.org/learn/wind-energy",
+    "https://www.coursera.org/learn/wind-energy"
+  ],
+  "usage_native": {
+    "total_prompt_tokens": 74273,
+    "total_prompt_cost": 0.0,
+    "total_prompt_cached_tokens": 61410,
+    "total_prompt_cached_cost": 0.0,
+    "total_prompt_cache_creation_tokens": 6805,
+    "total_prompt_cache_creation_cost": 0.0,
+    "total_completion_tokens": 1012,
+    "total_completion_cost": 0.0,
+    "total_tokens": 75285,
+    "total_cost": 0.0,
+    "entry_count": 5,
+    "by_model": {
+      "us.anthropic.claude-sonnet-4-6": {
+        "model": "us.anthropic.claude-sonnet-4-6",
+        "prompt_tokens": 74273,
+        "completion_tokens": 1012,
+        "total_tokens": 75285,
+        "cost": 0.0,
+        "invocations": 5,
+        "average_tokens_per_invocation": 15057.0
+      }
+    }
+  },
+  "end_time": "2026-07-14 02:59:00.710542",
+  "duration_seconds": 69.3,
+  "step_urls": [
+    "https://www.coursera.org/",
+    "https://www.coursera.org/search?query=Wind%20Energy%20DTU",
+    "https://www.coursera.org/search?query=Wind%20Energy%20DTU",
+    "https://www.coursera.org/learn/wind-energy",
+    "https://www.coursera.org/learn/wind-energy"
+  ],
+  "rate_limiter_errors": [],
+  "rate_limiter_stats": {
+    "wait_time_s": 9.030356667004526,
+    "n_rate_limit_waits": 1
+  },
+  "screenshot_requests": 2,
+  "screenshot_request_steps": [
+    2,
+    4
+  ],
+  "cost_totals": {
+    "input_tokens": 74273,
+    "output_tokens": 1012,
+    "n_llm_calls": 5,
+    "model_id": "us.anthropic.claude-sonnet-4-6",
+    "cost_usd": 0.23799900000000002,
+    "note": "static-price estimate, cache-inclusive; see usage_native for cached split"
+  },
+  "checker": {
+    "verdict": "PASS",
+    "final_assertion": "gold"
+  },
+  "scored_with_urls": 5
+}

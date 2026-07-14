@@ -37,3 +37,13 @@ failure_analysis/
 
 # cloned third-party agent repos (studied locally, never commit)
 /agent-browser/
+
+# screenshot_task_suite deliverables: override the global *.md ignore so the
+# binding spec and pilot docs are tracked (code/json are not *.md-ignored).
+# Curated textual run RESULTS (task_result.json/steps.jsonl/summary.json/
+# run_manifest.json/ANALYSIS.md) are committed via `git add -f`; the heavy
+# screenshots/history.json/conversation binaries stay ignored under results/.
+!screenshot_task_suite/DESIGN_RULES.md
+!screenshot_task_suite/PILOT_TASKS.md
+!screenshot_task_suite/Pilot tasks 2.0.md
+!screenshot_task_suite/Task Design Plan.md

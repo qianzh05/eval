@@ -1,0 +1,89 @@
+PILOT RUNBOOK - screenshot task suite, generation 2
+====================================================
+All commands from the repo root (browser-use-eval/) unless noted.
+Nothing below launches agent runs except steps 5-6, which spend AWS credits
+and hit live sites - those are run by Frank, within the pre-approved ~$50.
+
+0. WHY A NEW ENV (.venv-pilot)
+   .venv-vision-only's wheel was built from the PATCHED checkout, and the
+   vision_only.patch system-prompt hunks are unconditional (not env-gated):
+   that env tells the model "the screenshot is clean, click by pixel
+   coordinates" in every mode. The pilot needs stock 0.13.2 prompting.
+   run_pilot.py hard-refuses to run on a patched prompt (it diffs the
+   installed prompt against vision_only.patch's added lines).
+
+1. BUILD THE PRISTINE ENV (once, ~2-4 min)
+   bash screenshot_task_suite/build_pilot_env.sh
+   -> creates .venv-pilot with pristine browser-use 0.13.2 + boto3.
+   Chrome for Testing is shared from ~/Library/Caches/ms-playwright.
+
+2. DRY RUN (no launches; validates everything)
+   .venv-pilot/bin/python screenshot_task_suite/run_pilot.py --mode on   --dry-run
+   .venv-pilot/bin/python screenshot_task_suite/run_pilot.py --mode off  --dry-run
+   .venv-pilot/bin/python screenshot_task_suite/run_pilot.py --mode auto --dry-run
+   Every line must read [ok]: version 0.13.2, pristine prompt, Chrome found,
+   vector gate green (test_checker.py), resolved use_vision True/False/'auto'.
+
+3. RUN-DAY ONE-GET RECHECKS (read-only, seconds)
+   a) vscode labels unchanged (expect exactly 8135 8324 8454 8569):
+      curl -s "https://api.github.com/search/issues?q=repo:microsoft/vscode+is:issue+label:emmet+created:2016-06-01..2016-06-30" | python3 -c "import json,sys; print(sorted(i['number'] for i in json.load(sys.stdin)['items']))"
+   b) arXiv radios still 3/4/4 (see tasks/pilot_tasks.json T3-1 verification
+      for the three URLs; count 'of N results').
+   c) Commons pyramid image unchanged: curl -sI the Special:FilePath URL in
+      the Type5 record; compare Content-Length to artifacts note.
+   d) HF snippet still IQ3_M: curl -s the bartowski model page, grep IQ3_M.
+   e) Apple price JSON still 1399 for 13inch-skyblue-10-10.
+
+4. PRE-CELL MANUAL CHECK (pre-committed; rendered browser, ~5 min)
+   T1-3c pod phrasing sweep: in a real browser, run 2-3 phrasings of the 2018
+   inflation query ("US inflation rate in 2018", "inflation in the United
+   States in 2018", "average inflation rate in the United States in 2018").
+   If any reasonable phrasing renders 2.44 (annual convention) as the Result,
+   STOP and decide the 2.44 policy before scoring anything (pre-commitment in
+   pilot_tasks.json). Also re-confirm the three pods still render 8.1 / 17.3
+   / 1.91 (artifacts/pod_freeze_2026-07-11.json is the baseline).
+
+5. SMOKE (Frank launches; ~1-2 cents, 1 live-site run)
+   AWS_PROFILE=prof .venv-pilot/bin/python screenshot_task_suite/run_pilot.py \
+       --mode off --repeats 1 --task-id pilot-T2-3 --run-tag pilot-smoke
+   Then: .venv-pilot/bin/python screenshot_task_suite/score_pilot.py --run-tag pilot-smoke
+   Inspect: task_result.json (is_done, final_answer, step_urls), steps.jsonl,
+   conversation/ exists, checker verdict sensible.
+   ALT-TEXT SPOT-CHECK (load-bearing for all Type1): run one off-mode rep of
+   pilot-T1-2c, open its conversation/ files at the step on the Wolfram
+   result page, and search for "17.3" in the serialized browser state the
+   model received. Present -> alt text IS surfaced (Type1 stands). Absent ->
+   the pre-committed contingency fires: all three T1 tasks reclassify to
+   Type5, excluded from the success pool, replacements authored before the
+   full run.
+
+6. THE MATRIX (Frank launches; ~90 runs total, budget ~$50 pre-approved)
+   Run modes as separate processes, sequentially (one at a time keeps site
+   load polite and logs untangled):
+   AWS_PROFILE=prof .venv-pilot/bin/python screenshot_task_suite/run_pilot.py --mode off  --repeats 3 --concurrency 3 --run-tag pilot-2026-07-XX
+   AWS_PROFILE=prof .venv-pilot/bin/python screenshot_task_suite/run_pilot.py --mode on   --repeats 3 --concurrency 3 --run-tag pilot-2026-07-XX
+   AWS_PROFILE=prof .venv-pilot/bin/python screenshot_task_suite/run_pilot.py --mode auto --repeats 3 --concurrency 3 --run-tag pilot-2026-07-XX
+
+7. SCORE (deterministic; refuses if the vector gate is red)
+   .venv-pilot/bin/python screenshot_task_suite/score_pilot.py --run-tag pilot-2026-07-XX
+   -> writes checker verdicts + success into each task_result.json and a
+   summary.json; prints the per-task x per-mode table (pass, cost, steps,
+   duration, auto screenshot requests, url-gate failures, errors).
+
+8. WHAT THE PILOT REPORT NEEDS (DESIGN_RULES section 9)
+   per-run cost/tokens/latency; check flakiness (repeat disagreement);
+   wall incidence per site incl. the three pilot-gated sites; auto opt-in
+   per task (screenshot_requests + which step, vs the task's trigger note);
+   failure classification per rubric (agent / environment / task-defect),
+   using error fields, step_urls, url-gate results, and conversation logs.
+
+NOTES
+- cost_totals.cost_usd is a static-price, cache-inclusive ESTIMATE (the real
+  Bedrock bill runs ~9x lower with caching); usage_native carries the cached
+  token split. Use cost_totals for arm-to-arm comparison, not for budgeting.
+- use_judge=False everywhere: unlike repro-11, no judge LLM call is included
+  in cost or latency. Do not compare absolute costs to repro-11 without
+  noting this.
+- The 30s per-URL rate limiter is ON (hard policy). Banned-site guard is ON.
+- Retired gen-1 task ids exist in checker.TASKS as alternates; the runner
+  only ever drives tasks/pilot_tasks.json tasks[].

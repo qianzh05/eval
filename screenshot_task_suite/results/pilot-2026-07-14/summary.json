@@ -1,0 +1,307 @@
+{
+  "run_tag": "pilot-2026-07-14",
+  "n_reps": 90,
+  "per_cell": {
+    "pilot-P0-2|on": {
+      "pass": 3,
+      "n": 3,
+      "cost": 0.673818,
+      "steps": 15,
+      "dur": 215.6,
+      "shots": 0,
+      "gate_fails": 0,
+      "errors": 0
+    },
+    "pilot-T1-1c|on": {
+      "pass": 0,
+      "n": 3,
+      "cost": 0.762339,
+      "steps": 17,
+      "dur": 278.3,
+      "shots": 0,
+      "gate_fails": 0,
+      "errors": 0
+    },
+    "pilot-T1-2c|on": {
+      "pass": 3,
+      "n": 3,
+      "cost": 0.337797,
+      "steps": 9,
+      "dur": 174.7,
+      "shots": 0,
+      "gate_fails": 0,
+      "errors": 0
+    },
+    "pilot-T1-3c|on": {
+      "pass": 3,
+      "n": 3,
+      "cost": 0.489444,
+      "steps": 12,
+      "dur": 217.1,
+      "shots": 0,
+      "gate_fails": 0,
+      "errors": 0
+    },
+    "pilot-T2-2|on": {
+      "pass": 3,
+      "n": 3,
+      "cost": 0.353298,
+      "steps": 9,
+      "dur": 137.3,
+      "shots": 0,
+      "gate_fails": 0,
+      "errors": 0
+    },
+    "pilot-T2-3|on": {
+      "pass": 3,
+      "n": 3,
+      "cost": 0.327132,
+      "steps": 9,
+      "dur": 130.1,
+      "shots": 0,
+      "gate_fails": 0,
+      "errors": 0
+    },
+    "pilot-T3-1|on": {
+      "pass": 2,
+      "n": 3,
+      "cost": 1.721142,
+      "steps": 29,
+      "dur": 506.0,
+      "shots": 0,
+      "gate_fails": 0,
+      "errors": 0
+    },
+    "pilot-T3-2|on": {
+      "pass": 3,
+      "n": 3,
+      "cost": 0.40317,
+      "steps": 9,
+      "dur": 145.6,
+      "shots": 0,
+      "gate_fails": 0,
+      "errors": 0
+    },
+    "pilot-T4-1|on": {
+      "pass": 3,
+      "n": 3,
+      "cost": 0.668793,
+      "steps": 15,
+      "dur": 199.4,
+      "shots": 0,
+      "gate_fails": 0,
+      "errors": 0
+    },
+    "pilot-T4-2|on": {
+      "pass": 1,
+      "n": 3,
+      "cost": 0.659415,
+      "steps": 15,
+      "dur": 224.6,
+      "shots": 0,
+      "gate_fails": 0,
+      "errors": 0
+    },
+    "pilot-P0-2|off": {
+      "pass": 1,
+      "n": 3,
+      "cost": 3.3067919999999997,
+      "steps": 80,
+      "dur": 981.1,
+      "shots": 0,
+      "gate_fails": 0,
+      "errors": 0
+    },
+    "pilot-T1-1c|off": {
+      "pass": 0,
+      "n": 3,
+      "cost": 1.149819,
+      "steps": 31,
+      "dur": 374.5,
+      "shots": 0,
+      "gate_fails": 0,
+      "errors": 0
+    },
+    "pilot-T1-2c|off": {
+      "pass": 3,
+      "n": 3,
+      "cost": 1.6631550000000002,
+      "steps": 43,
+      "dur": 504.5,
+      "shots": 0,
+      "gate_fails": 0,
+      "errors": 0
+    },
+    "pilot-T1-3c|off": {
+      "pass": 2,
+      "n": 3,
+      "cost": 2.93475,
+      "steps": 74,
+      "dur": 761.2,
+      "shots": 0,
+      "gate_fails": 0,
+      "errors": 0
+    },
+    "pilot-T2-2|off": {
+      "pass": 3,
+      "n": 3,
+      "cost": 0.24638100000000004,
+      "steps": 9,
+      "dur": 130.8,
+      "shots": 0,
+      "gate_fails": 0,
+      "errors": 0
+    },
+    "pilot-T2-3|off": {
+      "pass": 3,
+      "n": 3,
+      "cost": 0.480705,
+      "steps": 13,
+      "dur": 161.2,
+      "shots": 0,
+      "gate_fails": 0,
+      "errors": 0
+    },
+    "pilot-T3-1|off": {
+      "pass": 3,
+      "n": 3,
+      "cost": 1.1793390000000001,
+      "steps": 30,
+      "dur": 393.5,
+      "shots": 0,
+      "gate_fails": 0,
+      "errors": 0
+    },
+    "pilot-T3-2|off": {
+      "pass": 3,
+      "n": 3,
+      "cost": 0.42817500000000003,
+      "steps": 13,
+      "dur": 190.2,
+      "shots": 0,
+      "gate_fails": 0,
+      "errors": 0
+    },
+    "pilot-T4-1|off": {
+      "pass": 3,
+      "n": 3,
+      "cost": 0.43482600000000005,
+      "steps": 14,
+      "dur": 185.7,
+      "shots": 0,
+      "gate_fails": 0,
+      "errors": 0
+    },
+    "pilot-T4-2|off": {
+      "pass": 3,
+      "n": 3,
+      "cost": 0.356424,
+      "steps": 12,
+      "dur": 161.3,
+      "shots": 0,
+      "gate_fails": 0,
+      "errors": 0
+    },
+    "pilot-P0-2|auto": {
+      "pass": 3,
+      "n": 3,
+      "cost": 0.918771,
+      "steps": 25,
+      "dur": 282.59999999999997,
+      "shots": 3,
+      "gate_fails": 0,
+      "errors": 0
+    },
+    "pilot-T1-1c|auto": {
+      "pass": 3,
+      "n": 3,
+      "cost": 1.4114159999999998,
+      "steps": 35,
+      "dur": 388.6,
+      "shots": 9,
+      "gate_fails": 0,
+      "errors": 0
+    },
+    "pilot-T1-2c|auto": {
+      "pass": 3,
+      "n": 3,
+      "cost": 0.493491,
+      "steps": 15,
+      "dur": 220.2,
+      "shots": 3,
+      "gate_fails": 0,
+      "errors": 0
+    },
+    "pilot-T1-3c|auto": {
+      "pass": 3,
+      "n": 3,
+      "cost": 0.648243,
+      "steps": 18,
+      "dur": 248.8,
+      "shots": 3,
+      "gate_fails": 0,
+      "errors": 0
+    },
+    "pilot-T2-2|auto": {
+      "pass": 3,
+      "n": 3,
+      "cost": 0.25072500000000003,
+      "steps": 9,
+      "dur": 137.1,
+      "shots": 0,
+      "gate_fails": 0,
+      "errors": 0
+    },
+    "pilot-T2-3|auto": {
+      "pass": 3,
+      "n": 3,
+      "cost": 0.36890999999999996,
+      "steps": 10,
+      "dur": 133.8,
+      "shots": 0,
+      "gate_fails": 0,
+      "errors": 0
+    },
+    "pilot-T3-1|auto": {
+      "pass": 2,
+      "n": 3,
+      "cost": 1.506546,
+      "steps": 40,
+      "dur": 533.1,
+      "shots": 1,
+      "gate_fails": 0,
+      "errors": 0
+    },
+    "pilot-T3-2|auto": {
+      "pass": 3,
+      "n": 3,
+      "cost": 0.472614,
+      "steps": 14,
+      "dur": 194.29999999999998,
+      "shots": 0,
+      "gate_fails": 0,
+      "errors": 0
+    },
+    "pilot-T4-1|auto": {
+      "pass": 3,
+      "n": 3,
+      "cost": 0.606468,
+      "steps": 16,
+      "dur": 188.29999999999998,
+      "shots": 4,
+      "gate_fails": 0,
+      "errors": 0
+    },
+    "pilot-T4-2|auto": {
+      "pass": 3,
+      "n": 3,
+      "cost": 0.361935,
+      "steps": 12,
+      "dur": 163.8,
+      "shots": 0,
+      "gate_fails": 0,
+      "errors": 0
+    }
+  },
+  "total_cost_estimate_usd": 25.62
+}

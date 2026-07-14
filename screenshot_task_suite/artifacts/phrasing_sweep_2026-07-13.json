@@ -1,0 +1,22 @@
+{
+  "purpose": "PILOT_RUNBOOK step 4: pre-committed T1-3c inflation phrasing sweep + pod re-confirmation before the pilot matrix. Rendered in Frank's real Chrome (claude-in-chrome extension), 2026-07-13 ~00:45 PT.",
+  "baseline": "artifacts/pod_freeze_2026-07-11.json",
+  "phrasing_sweep": [
+    {"query": "US inflation rate in 2018", "interpretation": "United States | inflation rate | 2018", "result_pod": "1.91 %/yr (December 2018)"},
+    {"query": "inflation in the United States in 2018", "interpretation": "United States | inflation rate | 2018", "result_pod": "1.91 %/yr (December 2018)"},
+    {"query": "average inflation rate in the United States in 2018", "interpretation": "United States | inflation rate | 2018", "result_pod": "1.91 %/yr (December 2018)"}
+  ],
+  "verdict_2_44": "2.44 (annual-average convention) did NOT render as the Result pod under any phrasing, including one containing 'average'. WA anchors on the December year-over-year value. Contingency does not fire; 1.91 stands as sole gold (2.4/2.44 remain fail-by-design distractors).",
+  "pod_reconfirmation": [
+    {"task": "pilot-T1-1c", "query": "average unemployment rate in the united states 2020", "interpretation": "United States | civilian unemployment rate | 2020 | annual", "result_pod": "8.1% (2020)", "matches_freeze": true},
+    {"task": "pilot-T1-2c", "query": "united states consumer price index 1923", "interpretation": "United States | consumer price index | 1923 | monthly | not seasonally adjusted", "result_pod": "17.3 (December 1923)", "matches_freeze": true},
+    {"task": "pilot-T1-3c", "query": "us inflation rate 2018", "interpretation": "United States | inflation rate | 2018", "result_pod": "1.91 %/yr (December 2018)", "matches_freeze": true}
+  ],
+  "run_day_one_get_rechecks_2026_07_13": {
+    "vscode_emmet_labels": "[8135, 8324, 8454, 8569] - exact match",
+    "arxiv_date_radios": "submitted_date=3, submitted_date_first=4, announced_date_first=4 - matches 3/4/4",
+    "commons_pyramid_png": "1876x1324 via IHDR range-GET - matches task record (no stored Content-Length baseline existed; dimensions used instead)",
+    "hf_snippet": "filename=\"Llama-3.2-1B-Instruct-IQ3_M.gguf\" - exact match",
+    "apple_price_json": "13inch-skyblue-10-10 -> amount 1399.00 / 'From $1399'; distractors 1299 (8-core) and 1499 (15-inch) confirmed present"
+  }
+}

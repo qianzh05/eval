@@ -1,0 +1,72 @@
+{
+  "task_id": "pilot-T4-2",
+  "rep": 1,
+  "mode": "off",
+  "use_vision": "False",
+  "category": "T4",
+  "site": "apple.com",
+  "prompt": "On Apple's online store, find the starting ('From') price for a 13-inch MacBook Air in Sky Blue with the chip option that has the 10-core GPU.",
+  "start_url": "https://www.apple.com",
+  "start_time": "2026-07-14 02:18:31.627647",
+  "success": "success",
+  "num_steps": 4,
+  "final_answer": "On Apple's online store, the 13-inch MacBook Air in Sky Blue with the **10-core CPU, 10-core GPU, 16-core Neural Engine** chip option starts at **From $1,399**.\n\n(The base chip option with 8-core GPU starts at $1,299, while the 10-core GPU upgrade starts at $1,399.)",
+  "is_done": true,
+  "is_successful_flag": true,
+  "history_urls": [
+    "https://www.apple.com/",
+    "https://www.apple.com/shop/buy-mac/macbook-air/13-inch",
+    "https://www.apple.com/shop/buy-mac/macbook-air/13-inch"
+  ],
+  "usage_native": {
+    "total_prompt_tokens": 36291,
+    "total_prompt_cost": 0.0,
+    "total_prompt_cached_tokens": 36222,
+    "total_prompt_cached_cost": 0.0,
+    "total_prompt_cache_creation_tokens": 10247,
+    "total_prompt_cache_creation_cost": 0.0,
+    "total_completion_tokens": 671,
+    "total_completion_cost": 0.0,
+    "total_tokens": 36962,
+    "total_cost": 0.0,
+    "entry_count": 3,
+    "by_model": {
+      "us.anthropic.claude-sonnet-4-6": {
+        "model": "us.anthropic.claude-sonnet-4-6",
+        "prompt_tokens": 36291,
+        "completion_tokens": 671,
+        "total_tokens": 36962,
+        "cost": 0.0,
+        "invocations": 3,
+        "average_tokens_per_invocation": 12320.666666666666
+      }
+    }
+  },
+  "end_time": "2026-07-14 02:19:25.887123",
+  "duration_seconds": 54.3,
+  "step_urls": [
+    "https://www.apple.com/",
+    "https://www.apple.com/shop/buy-mac/macbook-air/13-inch",
+    "https://www.apple.com/shop/buy-mac/macbook-air/13-inch"
+  ],
+  "rate_limiter_errors": [],
+  "rate_limiter_stats": {
+    "wait_time_s": 21.10745866698562,
+    "n_rate_limit_waits": 1
+  },
+  "screenshot_requests": 0,
+  "screenshot_request_steps": [],
+  "cost_totals": {
+    "input_tokens": 36291,
+    "output_tokens": 671,
+    "n_llm_calls": 3,
+    "model_id": "us.anthropic.claude-sonnet-4-6",
+    "cost_usd": 0.118938,
+    "note": "static-price estimate, cache-inclusive; see usage_native for cached split"
+  },
+  "checker": {
+    "verdict": "PASS",
+    "final_assertion": "gold"
+  },
+  "scored_with_urls": 3
+}

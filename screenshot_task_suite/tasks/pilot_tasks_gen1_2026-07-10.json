@@ -1,0 +1,341 @@
+{
+  "_meta": {
+    "status": "APPROVED by Frank 2026-07-09 (task set); check semantics v3.1 after four verification passes; checker.py implements them (gate: test_checker.py, 30/30). Runner code in progress; nothing launched.",
+    "spec": "../DESIGN_RULES.md v0.2.2 (sections 2-5, 9)",
+    "authored": "2026-07-08",
+    "authoring_method": "Each task was drafted grounded against the live site on 2026-07-08, then independently adversarially reviewed (answer re-verified from a second source, tolerance attacked, shortcut and trigger-plausibility probed). Reviewer fixes are incorporated below. Mathematical answers (17623, -22140) were verified three independent ways. 2026-07-09 addendum: T1 tasks additionally verified in a live rendered browser (Chrome extension): WA pod alt-text behavior confirmed (T1 vs P0 boundary resolved), and the GitHub chart task was caught rendering viewport-dependent bins and replaced with a reviewed WA date-arithmetic task (pilot-T1-3r, pass_with_fixes, fixes applied). 2026-07-09 second (independent) verification pass: found pilot-T1-3r's original tolerance broken in both directions and pilot-T3-1's gold set radio-dependent (live check of all three arXiv date-type radios: form-default 'submitted_date' returns 3 papers; 'submitted_date_first' and 'announced_date_first' return 4, adding 1907.02957). Fixes: value-band rule for T1-3r, dual gold set for T3-1, and ALL tolerances rewritten as instantiations of _meta.check_semantics. Third adversarial pass (2026-07-09, on the rewritten semantics): 12 further defects found and fixed - T4-1 moved from proximity pool to syntactic binding, T3-2 extraction floor (>=1000, year band excluded unless #-prefixed), thousands-only comma folding, negation binding rules (next-candidate-only, clause breaks protect), bidirectional per-distractor attribution windows, word-boundary token matching, T1-1 band re-audited against the live pod inventory and narrowed to [17550,17700], P0-2 million-abbreviation guard and 3.90 acceptance, T2-2 bare-quant-name policy, T2-3 unnegated presence. The surviving attack strings from all three passes are frozen in _meta.test_vectors; THE CHECKER MUST PASS ALL TEST VECTORS BEFORE ANY PILOT RUN IS SCORED. Fourth independent verification pass (2026-07-10): re-derived earlier fixes, re-checked the arXiv radios live (3/4/4 again), traced all 27 vectors; found two residual false-fail edges - a bare '16' answer on T4-1 (empty candidate pool under syntactic binding) and the plural 'males' not matching the word-boundary 'male' attribution token on P0-2. Both fixed (v3.1: T4-1 bare-number fallback; P0-2 token males?) with three new frozen vectors (30 total).",
+    "mix": "3x T1 (all wolframalpha — see homogeneity note), 2x T2, 2x T3, 2x T4, 1x P0 — pilot-gated sites covered: huggingface.co (T2), coursera.org (T4), apple.com (T4). HOMOGENEITY NOTE (adversarial reviewer, accepted): the three T1 tasks are correlated probes of one mechanism (WA image pods) — acceptable for the pilot since T1 is 35%-weight and WA is its canonical pattern, but the pilot validates only the WA variant of T1; PRE-COMMITMENT: full-suite T1 (~35 tasks) must diversify beyond WA, with the binning lesson applied to any chart-reading candidates.",
+    "alternates_not_selected": [
+      "pilot-T2-1 apple.com MacBook Air full-config price $1,799 (verified correct; dropped as redundant with pilot-T4-2's picker flow)",
+      "pilot-T3-3 coursera.org 4-filter search URL-state check (verified; dropped: weakest check type — Coursera serves the same UI on /search and /courses and param schema may drift)",
+      "pilot-T4-3 apple.com Apple Watch titanium 46mm $749 (verified; dropped: highest memorization risk — Sept 2025 pricing is likely in model training data)",
+      "pilot-P0-1 arxiv.org 2312.10997v5 Figure 2 'Zhen Huan' chunk title (verified, version-pinned; dropped: the RAG survey's Figure 2 is famous enough that parametric leakage into the DOM arm could muddy the positive control; keep as backup P0)",
+      "pilot-T1-3 github.com code-frequency max-weekly-deletions 6467 (RETIRED 2026-07-09, BROKEN AT ITS OWN PILOT GATE: live-browser check showed the chart bins by viewport width — tooltip reads 'January-March 2015 / -8764' at 1298px but 'January-June 2015 / -10074' at 900px; the weekly value 6467 is unreachable in the entire UI including the View-as-table dialog, existing only in the JSON endpoints. No rendered value on this chart can back a deterministic check. SUITE LESSON for DESIGN_RULES Change Log: any chart-value-reading task must verify at authoring time that the rendered granularity is viewport-independent.)"
+    ],
+    "field_note": "DESIGN_RULES section 4 requires id, site, category, prompt, answer spec, check type, authored, trigger note. start_url, tolerance, verification, stability, risks, pilot_logging are additions for the reporting commitments (section 8); trim if unwanted.",
+    "check_semantics": {
+      "normalize": "fold thousands separators ONLY via (\\d),(\\d{3})(?!\\d) -> digits (leaves comma-separated lists like '8135,8324,8454,8569' intact); remove currency tokens ($, US$, USD); map U+2212 and dash variants used as signs to '-'; map the word-signs 'negative <num>' / 'minus <num>' to '-<num>'; matching case-insensitive. Normalize runs BEFORE set extraction too.",
+      "candidates": "boundary-aware regex matches of the task's gold pattern plus each listed distractor; a band distractor matches any standalone number in [lo,hi] other than the gold. Text spans matched by the gold pattern are NEVER distractor candidates (e.g. the 'iq3_m' inside T2-2's gold filename does not trigger the quant-token distractor).",
+      "exemption_negation": "a negation/contrast marker (not, n't, never, wrong, incorrect, rather than, instead of, excluding) drops ONLY THE NEXT candidate, at distance marker-end to candidate-start <= 25 chars, and only if no clause break (comma, semicolon, period, dash, 'but') and no other candidate intervenes. So 'the answer is NOT 32037' fails (gold dropped); 'not 32038 but 32037' passes (32038 dropped, clause break protects the gold); 'I'm not sure, but 32037' passes (clause break intervenes).",
+      "exemption_attribution": "attribution tokens are listed PER DISTRACTOR VALUE in each task, matched at word boundaries ('male' does not match inside 'female'), with a BIDIRECTIONAL window of 12 chars between token edge and candidate edge; a matched attribution drops that distractor candidate only.",
+      "verdict": "PASS iff at least one gold candidate survives and the LAST surviving candidate in the final answer is the gold. Gold-presence tasks (T2-3) mean UNNEGATED presence. FAIL records which distractor (if any) was the final assertion - feeds failure classification.",
+      "set_match": "set-check tasks use their stated extraction rule on the NORMALIZED answer; PASS iff the extracted set exactly equals ONE of the listed gold sets (no extras, no mixtures).",
+      "provenance": "v3, 2026-07-09: adopted after a second independent verification pass broke the original hand-written T1-3r clause in both directions; refined the same day after a third adversarial pass found 12 further defects (T4-1 proximity pool broken both directions, T3-2 extraction counting the 'I found 4 issues' count, comma-normalize fusing comma-separated set answers, unbound negation windows killing 'not 32038 but 32037', trailing explanatory mentions false-failing diligent answers, spec ambiguities that flipped this file's own worked examples). The checker implements THIS block and must pass _meta.test_vectors before any pilot run is scored. v3.1, 2026-07-10: fourth pass added the T4-1 bare-number fallback and the plural-aware males? attribution token; vectors 28-30."
+    },
+    "structural_risks": "T1 is 100% Wolfram Alpha in the pilot: one Cloudflare event or a WA frontend redesign zeroes the validation of the suite's 35%-weight category, and all three triggers share one mechanism (image pods). Accepted for the pilot. PRE-COMMITMENTS (decided 2026-07-09, before any run): (1) full-suite T1 diversifies beyond WA; (2) the FIRST non-WA T1 batch gets its own mini-gate - 2 to 3 tasks run pilot-style in all three modes before that batch is authored at scale, since this pilot validates only the WA variant of T1; (3) alt-text contingency: if the pilot spot-check shows browser-use 0.13.2 does NOT surface img alt text in its DOM serialization, alt-only tasks (at minimum pilot-T1-3r) are functionally P0 - reclassify to P0, EXCLUDE from the success-comparison pool per the P0 pre-commitment, and author replacements before the full run.",
+    "test_vectors": [
+      {
+        "task": "pilot-T1-3r",
+        "answer": "Wolfram Alpha shows 32,037 days, equal to 4,576 weeks 5 days.",
+        "expect": "PASS"
+      },
+      {
+        "task": "pilot-T1-3r",
+        "answer": "Wolfram's pod reads 32037 days, but counting inclusively the answer is 32038.",
+        "expect": "FAIL"
+      },
+      {
+        "task": "pilot-T1-3r",
+        "answer": "Final answer: 32037 days. (If you count both endpoints you get 32038.)",
+        "expect": "PASS (32038 dropped by attribution tokens 'inclusive'/'both endpoints')"
+      },
+      {
+        "task": "pilot-T1-3r",
+        "answer": "The answer is not 32037.",
+        "expect": "FAIL"
+      },
+      {
+        "task": "pilot-T1-3r",
+        "answer": "It's not 32038 but 32037.",
+        "expect": "PASS"
+      },
+      {
+        "task": "pilot-T1-3r",
+        "answer": "87*365+21+261 = 32037",
+        "expect": "PASS (check-level; the run is separately logged shortcut-contaminated if no results URL)"
+      },
+      {
+        "task": "pilot-T1-2",
+        "answer": "The determinant is -22140 (magnitude 22140).",
+        "expect": "PASS ('magnitude' attribution drops the positive mention)"
+      },
+      {
+        "task": "pilot-T1-2",
+        "answer": "22140",
+        "expect": "FAIL (sign required)"
+      },
+      {
+        "task": "pilot-T1-2",
+        "answer": "values range 5000-22140",
+        "expect": "FAIL (range dash is not a sign)"
+      },
+      {
+        "task": "pilot-T2-2",
+        "answer": "llm = Llama.from_pretrained(..., filename=\"Llama-3.2-1B-Instruct-IQ3_M.gguf\") - note it picks IQ3_M, not the recommended Q4_K_M.",
+        "expect": "PASS"
+      },
+      {
+        "task": "pilot-T2-2",
+        "answer": "Probably Llama-3.2-1B-Instruct-IQ3_M.gguf or Llama-3.2-1B-Instruct-Q4_K_M.gguf",
+        "expect": "FAIL (hedge; last surviving candidate is the Q4_K_M mention)"
+      },
+      {
+        "task": "pilot-T2-2",
+        "answer": "IQ3_M",
+        "expect": "FAIL (prompt requires the exact filename; bare quant name is format noncompliance - stated policy)"
+      },
+      {
+        "task": "pilot-T2-3",
+        "answer": "The credit shown is NOT Frank Schulenburg.",
+        "expect": "FAIL (unnegated presence required)"
+      },
+      {
+        "task": "pilot-T3-1",
+        "answer": "arXiv:1710.09829, arXiv:1811.06969, arXiv:1906.06818",
+        "expect": "PASS (SET-A)"
+      },
+      {
+        "task": "pilot-T3-1",
+        "answer": "1710.09829, 1811.06969, 1906.06818, 1907.02957 (I used original-submission dates)",
+        "expect": "PASS (SET-B)"
+      },
+      {
+        "task": "pilot-T3-1",
+        "answer": "1710.09829, 1811.06969, 1906.06818. Hinton's GLOM paper (2102.12627) is capsule-adjacent but outside the window.",
+        "expect": "FAIL - KNOWN harsh false-fail mode (narrated extra ID); accepted consciously, logged if observed"
+      },
+      {
+        "task": "pilot-T3-2",
+        "answer": "I found 4 issues created in June 2016: #8135, #8324, #8454, #8569.",
+        "expect": "PASS (counts <1000 and years are not extractable)"
+      },
+      {
+        "task": "pilot-T3-2",
+        "answer": "8135,8324,8454,8569",
+        "expect": "PASS (thousands-only comma folding leaves the list intact)"
+      },
+      {
+        "task": "pilot-T4-1",
+        "answer": "The course page lists 15 modules (16 weeks).",
+        "expect": "FAIL (15 bound to modules; 16 bound to weeks is not a candidate)"
+      },
+      {
+        "task": "pilot-T4-1",
+        "answer": "The course contains 16 modules (approximately 39 hours of content).",
+        "expect": "PASS (39 bound to hours, not a candidate)"
+      },
+      {
+        "task": "pilot-T4-1",
+        "answer": "the course has sixteen modules across 30 hours",
+        "expect": "PASS"
+      },
+      {
+        "task": "pilot-T4-2",
+        "answer": "$1,399 - that's $100 more than the $1,299 8-core config.",
+        "expect": "PASS ('8-core' attribution drops 1299)"
+      },
+      {
+        "task": "pilot-P0-2",
+        "answer": "female: 3.9%",
+        "expect": "PASS ('male' matches at word boundaries only)"
+      },
+      {
+        "task": "pilot-P0-2",
+        "answer": "Females 75-79 are 3.9% of the population (the whole 75-79 cohort is 5.68%).",
+        "expect": "PASS ('cohort' attribution drops 5.68)"
+      },
+      {
+        "task": "pilot-P0-2",
+        "answer": "3.90%",
+        "expect": "PASS (trailing zero accepted)"
+      },
+      {
+        "task": "pilot-P0-2",
+        "answer": "About 3.9M women are in that bracket.",
+        "expect": "FAIL (million-guard covers M/mn; no percentage gold present)"
+      },
+      {
+        "task": "pilot-P0-2",
+        "answer": "3.9%, though the table computes ~3.2",
+        "expect": "PASS (comput* stem attribution drops 3.2)"
+      },
+      {
+        "task": "pilot-T4-1",
+        "answer": "16",
+        "expect": "PASS (v3.1 bare-number fallback: no module token to bind to, exactly one unbound standalone number)"
+      },
+      {
+        "task": "pilot-T4-1",
+        "answer": "16 weeks",
+        "expect": "FAIL (unit-bound to weeks, not modules; the fallback must not rescue it)"
+      },
+      {
+        "task": "pilot-P0-2",
+        "answer": "Females 75-79: 3.9%; males: 3.3%",
+        "expect": "PASS (plural 'males' exempts the male bar; 'males?' cannot match inside 'females')"
+      }
+    ]
+  },
+  "tasks": [
+    {
+      "id": "pilot-T1-1",
+      "site": "wolframalpha.com",
+      "category": "T1",
+      "prompt": "Find the 2026th prime number using Wolfram Alpha and report it.",
+      "start_url": "https://www.wolframalpha.com/",
+      "answer_spec": "17623",
+      "check_type": "string_match",
+      "tolerance": "check_semantics instantiation - gold: (?<!\\d)17623(?!\\d) after normalization. Distractors: any other standalone integer in [17550, 17700] (the nearby-prime hallucination band: 17551..17699 covers realistic near-misses like 17597/17609/17621/17627/17657). Band audited 2026-07-09 against the live rendered pod inventory (browser session): the page's other numbers - 2026, number-line axis ticks 14000-22000, the mod-table values (<=9), 26/3/47 from the sum representation, 0.114963 - ALL fall outside the band, so verbatim pod transcription cannot false-fail (the audit the original [17000,18000] band lacked: 18000 is an axis tick).",
+      "authored": "2026-07-08",
+      "trigger_note": "Canonical Wolfram Alpha T1 pattern (Wolfram Alpha--13: extract() returned nothing while screenshots read the rendered pods). Verified live 2026-07-08 that the /input page HTML is a JS app shell with no result text — the result pod renders client-side. DOM-solvable in principle via pod alt text, so T1 not P0. LIVE-BROWSER UPDATE 2026-07-09: rendered-pod alt text confirmed — the Result pod img carries alt='17623' and the value also appears in the text layer on this query; T1 (not P0) classification is now verified, not assumed.",
+      "verification": "Answer derived independently three ways offline (trial division, sieve, sympy.prime(2026)) = 17623. Live fetch of /input?i=2026th+prime+number on 2026-07-08: page loads (no bot wall), HTML contains no numeric result.",
+      "stability": "Mathematical fact; frozen forever.",
+      "risks": "Model may confidently hallucinate a nearby prime without consulting the page — deterministic check scores it failed; classify as agent-limited, not environment. WA occasionally serves Cloudflare to datacenter IPs (none observed in June runs or today); monitor. Expected path ~3-4 steps.",
+      "pilot_logging": "Backstop (uniform across WA tasks): a WA results URL (path containing '/input?i=') must appear in steps.jsonl url_after IN OR BEFORE the answer step (reworded 2026-07-09: browser-use can pack navigation and done() into one multi-action step, so 'strictly before' would false-fail legitimate runs); domain visitation alone does not count."
+    },
+    {
+      "id": "pilot-T1-2",
+      "site": "wolframalpha.com",
+      "category": "T1",
+      "prompt": "Use Wolfram Alpha to compute the determinant of the 5x5 matrix {{7,3,-2,5,4},{1,8,4,-6,2},{-3,2,9,1,-5},{5,-4,0,6,3},{2,6,-7,3,8}} and report its value.",
+      "start_url": "https://www.wolframalpha.com/",
+      "answer_spec": "-22140",
+      "check_type": "string_match",
+      "tolerance": "check_semantics instantiation - gold: (?<!\\d)-22140(?!\\d) after normalization ('negative 22140'/'minus 22140' normalize to the sign; U+2212 and dash variants too), where the '-' must be a true sign: the character before it is a non-digit (a range dash as in '5000-22140' does NOT count). Trailing '.0' accepted. Sign REQUIRED - positive 22140 is not gold. Distractors: any other standalone signed integer with absolute value in [21500, 22800]; attribution tokens 'magnitude'/'absolute' scoped to the positive 22140 mention (so '-22140 (magnitude 22140)' passes).",
+      "authored": "2026-07-08",
+      "trigger_note": "Same rendered-output hidden state as Wolfram Alpha--13: the determinant renders in a client-side pod that text extraction misses (verified live: WA /input HTML is a JS shell with no result content). Matrix upgraded from 4x4 to 5x5 on adversarial review — a 4x4 was mentally computable by a strong model, which would pass the check without ever exercising the trigger and silently corrupt the auto-opt-in measurement; 120 Leibniz terms make mental computation unreliable while the WA interaction stays identical.",
+      "verification": "det = -22140 verified three independent ways offline (Leibniz expansion, numpy, exact-fraction Gaussian elimination; re-verified with sympy at file-authoring time). WA app-shell behavior verified live 2026-07-08.",
+      "stability": "Mathematical fact; frozen forever.",
+      "risks": "Sign-dropping is the main string-match hazard (tolerance requires the minus). The {{...}} row syntax is WA's native matrix notation, mitigating NL-parse risk. Expected path ~3-5 steps.",
+      "pilot_logging": "REQUIRED backstop: a WA results URL (path containing '/input?i=') must appear in steps.jsonl url_after IN OR BEFORE the answer step; domain visitation alone is vacuous since start_url is WA. PRE-COMMITTED rubric rule: runs whose reasoning shows mental arithmetic producing the answer are logged shortcut-contaminated and excluded from trigger-validation analysis (their success still counts in the success comparison). Dry-run status CORRECTED 2026-07-09 (previous text overclaimed): only the prime query (alt text + text-layer value) and the date query (alt-ONLY) were live-verified, and they behaved DIFFERENTLY - the determinant query's pod was never checked. Verify it in the dry run; do not infer its behavior from the other two."
+    },
+    {
+      "id": "pilot-T1-3r",
+      "site": "wolframalpha.com",
+      "category": "T1",
+      "prompt": "Use Wolfram Alpha to find the number of days between April 15, 1912 and January 1, 2000, and report the number.",
+      "start_url": "https://www.wolframalpha.com/",
+      "answer_spec": "32037",
+      "check_type": "string_match",
+      "tolerance": "check_semantics instantiation - gold: (?<!\\d)32037(?!\\d) after normalization. Distractors: any other standalone integer in [31500, 32500], ANYWHERE in the answer (value-band rule, position-independent; replaces the original proximity clause, which the 2026-07-09 second verification showed false-failed correct answers transcribing WA's conversion pod '4576 weeks 5 days' - a failure that would land asymmetrically on the vision arm - and false-passed word-order-lucky '...so the answer is 32038' hedges). Every legitimate page number (4576, the 41,7xx/9,6xx today-counters, 114/2/24, 1912/2000/2026) falls outside the band; every plausible competing day count (32038 inclusive trap, 31966/32039-class slips) falls inside. Attribution tokens (added v3): 'inclusive', 'both endpoints', 'end date' scoped to 32038 - a diligent answer explaining the inclusive-count variant after stating the gold passes; an answer ASSERTING 32038 still fails (last-assertion rule with no attribution).",
+      "authored": "2026-07-09",
+      "trigger_note": "Same WA rendered-pod hidden state as T1-1/T1-2, verified 2026-07-09 in a LIVE RENDERED BROWSER (not just server HTML): the Result pod is an image with alt='32037 days', and the value is ABSENT from body innerText entirely — only alt-aware extraction reaches it in text, the strongest hidden-state property of the three WA tasks. Third WA flavor (date arithmetic) diversifies pod types within the category. Replaces the GitHub code-frequency task, which died at its own pilot gate: the chart's binning is viewport-width-dependent (quarterly at 1298px = -8764, half-year at 900px = -10074, verified live), so no rendered value on it can back a deterministic check.",
+      "verification": "Answer computed four independent ways (datetime subtraction + roundtrip, Julian Day Number formula, brute-force iteration, manual leap-year decomposition 87*365+21+261) = 32037. Live rendered-browser check 2026-07-09: no wall, query parses ('days from Monday, April 15, 1912 to Saturday, January 1, 2000'), alt-only answer confirmed. Adversarial reviewer additionally confirmed the answer is NOT indexed on the open web for this date pair (duration calculators require form interaction).",
+      "stability": "Date arithmetic; frozen forever. Correlated exposure flagged: a WA frontend redesign that moves image pods to selectable text would kill the TRIGGER (not the check) for all three WA tasks simultaneously.",
+      "risks": "SHORTCUT RISK MEDIUM-HIGH, the weakest of the three WA tasks: date arithmetic is in-context computable by Sonnet-class models (the reviewer computed it mentally on first attempt; a weaker model produced 31,966 and 32,039 — wrong). Mitigation is the logging backstop, not the check. Inclusive-count ambiguity resolves by construction: the prompt says 'Use Wolfram Alpha to find', so WA's exclusive-difference convention (32037) is ground truth; an agent overriding WA with 32038 fails, as desired.",
+      "pilot_logging": "REQUIRED backstop: a WA results URL (path containing '/input?i=') must appear in steps.jsonl url_after IN OR BEFORE the answer step. PRE-COMMITTED rubric rule: mental-arithmetic runs are logged shortcut-contaminated for trigger validation. ALT-TEXT CONTINGENCY (pre-committed, see _meta.structural_risks): this task's answer is alt-ONLY in the rendered DOM - if browser-use 0.13.2's extraction does not surface img alt, this task is functionally P0 and gets reclassified/excluded/replaced; decided now, not after seeing arm results."
+    },
+    {
+      "id": "pilot-T2-2",
+      "site": "huggingface.co",
+      "category": "T2",
+      "prompt": "The Hugging Face model page for bartowski/Llama-3.2-1B-Instruct-GGUF provides ready-made usage instructions for several libraries. Find the code example for using this model with the llama-cpp-python library, and report the exact .gguf filename that the example passes as the filename argument to Llama.from_pretrained.",
+      "start_url": "https://huggingface.co/bartowski/Llama-3.2-1B-Instruct-GGUF",
+      "answer_spec": "Llama-3.2-1B-Instruct-IQ3_M.gguf",
+      "check_type": "string_match",
+      "tolerance": "check_semantics instantiation - gold: substring 'llama-3.2-1b-instruct-iq3_m.gguf' (case-insensitive; quotes/backticks stripped). POLICY (stated v3): the prompt requires the exact filename, so a bare quant name ('IQ3_M' alone) FAILS as format noncompliance. Distractors: any other quant token matching \\bi?q\\d[a-z0-9_]*\\b (q4_k_m, q8_0, ...) - spans inside the gold filename are never distractor candidates (per check_semantics). Negation/contrast exemption: '...filename=\"Llama-3.2-1B-Instruct-IQ3_M.gguf\" - note it picks IQ3_M, not the recommended Q4_K_M' PASSES; 'IQ3_M.gguf or Q4_K_M.gguf' FAILS via last-assertion.",
+      "authored": "2026-07-08",
+      "trigger_note": "The answer sits behind dynamic UI: the 'Use this model' button opens a revealed dropdown panel listing libraries, and the llama-cpp-python entry opens the snippet view. The snippet is pre-rendered in the base-page HTML but inside collapsed panel markup — browser-use's visible-text extraction will not surface it until the UI is driven: the 'overlay/revealed panel the DOM text missed' pattern (13/91 auto requests). Alternate legitimate path: the entry links to ?library=llama-cpp-python, which server-renders the snippet — that bypass still lands on a revealed-panel state. DOM-solvable, so T2 not P0.",
+      "verification": "2026-07-08: four GETs (three user agents + the ?library= URL), all 200, no bot wall (pilot-relevant datum for this pilot-gated site). All returned the byte-identical snippet: Llama.from_pretrained(repo_id=\"bartowski/Llama-3.2-1B-Instruct-GGUF\", filename=\"Llama-3.2-1B-Instruct-IQ3_M.gguf\").",
+      "stability": "Frozen 2024 bartowski quant repo (lastModified 2024-10-08, 18 variants); the snippet filename is HF's generator picking the alphabetically-first .gguf. Residual risk: HF changing its snippet template (historically infrequent).",
+      "risks": "Anti-shortcut is strong: a from-memory answer would guess Q4_K_M (the conventional recommended quant) and fail; IQ3_M is an arbitrary artifact of HF's snippet generator AND of this repo's file inventory (no IQ2/IQ3_XS quants here, unlike many bartowski repos). Expected path ~4 steps.",
+      "pilot_logging": "Log whether the agent used the button path or the ?library= URL path."
+    },
+    {
+      "id": "pilot-T2-3",
+      "site": "wikipedia.org",
+      "category": "T2",
+      "prompt": "Go to the English Wikipedia article about the Golden Gate Bridge. Open the main infobox photograph at the top of the article in the pop-up image viewer, and report the name of the photographer credited for that photograph.",
+      "start_url": "https://en.wikipedia.org/wiki/Golden_Gate_Bridge",
+      "answer_spec": "Frank Schulenburg",
+      "check_type": "string_match",
+      "tolerance": "check_semantics instantiation - gold: tokens 'frank' and 'schulenburg' both present UNNEGATED (case-insensitive, whitespace-normalized; 'the credit is NOT Frank Schulenburg' fails per the negation rule). No enumerable distractors; verdict reduces to unnegated gold presence.",
+      "authored": "2026-07-08",
+      "trigger_note": "Clicking the infobox image is intercepted by MediaViewer: a full-screen dark overlay with only a URL-fragment change (#/media/File:Golden_Gate_Bridge_as_seen_from_Battery_East.jpg) — page identity unchanged, visible state completely different; the photographer credit renders only in the overlay's footer strip. Verified: 'Schulenburg' occurs ZERO times in the article HTML. The Booking-popup pattern on a wall-free site. DOM fallback exists (the File: description page shows the name), so T2 not P0 — and the fallback also passes the check, so JS flakiness cannot fail it.",
+      "verification": "2026-07-08: pageimages API returns lead image 'Golden_Gate_Bridge_as_seen_from_Battery_East.jpg'; Commons extmetadata returns Artist 'Frank Schulenburg' (CC BY-SA 4.0, taken 2017-06-24); article wikitext already used this file at the 2025-12-08 revision (not a recent swap); grep of full article HTML: 0 hits for 'Schulenburg'.",
+      "stability": "Semi-protected high-traffic article; the photo is a Commons featured picture (rarely swapped); authorship metadata effectively immutable. Re-verify the infobox image on run day (one API GET).",
+      "risks": "Moderate memorization risk contained: the filename is visible in DOM on first load and Schulenburg is a known Wikimedian, so a strong model might answer early — but it must still visit the page to know which file is current, and the prompt's explicit 'open the pop-up viewer' instruction makes the trigger click near-certain for an instruction-following agent.",
+      "pilot_logging": "Log the URL fragment (#/media/...) as diagnostic evidence of the MediaViewer path; an agent landing on the File: page instead still legitimately passes."
+    },
+    {
+      "id": "pilot-T3-1",
+      "site": "arxiv.org",
+      "category": "T3",
+      "prompt": "Use arXiv's advanced search to find every paper that has 'Hinton' in the author field and the term 'capsule' in any field, submitted between 2017-01-01 and 2019-12-31. Report the arXiv identifiers of all matching papers.",
+      "start_url": "https://arxiv.org/search/advanced",
+      "answer_spec": "ONE OF TWO exact sets, depending on arXiv's date-type radio - both are correct readings of 'submitted between' (CORRECTED 2026-07-09; the radio invariance previously claimed here is false): SET-A {1710.09829, 1811.06969, 1906.06818} via 'Submission date (most recent)' - the FORM DEFAULT, verified live; SET-B {1710.09829, 1811.06969, 1906.06818, 1907.02957} via 'Submission date (original)' or 'Announcement date' (1907.02957 = Qin, Frosst, Sabour, Raffel, Cowles-Barrie, Hinton, capsule-reconstruction adversarial detection; originally submitted 2019-07-05, latest version postdates the window).",
+      "check_type": "set_match",
+      "tolerance": "Set match per check_semantics - extraction: all matches of \\d{4}\\.\\d{4,5}(?:v\\d+)? (version suffix stripped; 'arXiv:'/'arxiv:' prefixes and full-URL forms covered). PASS iff the extracted set exactly equals SET-A or SET-B (no extras; a mixture such as SET-A plus any other ID fails).",
+      "authored": "2026-07-08",
+      "trigger_note": "arXiv advanced search is a genuine multi-field form: two term rows each with a field-selector dropdown (author vs all-fields), a date-filter radio, and two date inputs. Mis-setting the author dropdown or leaving 'all dates' silently returns a confidently wrong larger set — the pre-submit form-check moment (5/91 auto requests). Form state is DOM-readable, so auto opt-in is plausible rather than forced — which is exactly what the pilot measures.",
+      "verification": "2026-07-08: live fetch of the advanced-search URL with all fields set rendered 'Showing 1-3 of 3 results': arXiv:1906.06818, 1811.06969, 1710.09829. 2026-07-09: all three date-type radios fetched live - 3/4/4 results respectively, form default confirmed as submitted_date (checked radio in served HTML).",
+      "stability": "Closed 2017-2019 window; arXiv records immutable (withdrawn papers remain listed). Radio behavior verified live 2026-07-09: submitted_date -> 3 results, submitted_date_first -> 4, announced_date_first -> 4; frozen into the two gold sets. Re-verify all three counts (one GET each) before the pilot and before the full run.",
+      "risks": "Moderate shortcut risk, defended: a strong model knows 1710.09829 from memory, but 1811.06969 (DARCCC) is obscure — partial recall fails the all-3-no-extras rule, and Hinton's 'Matrix capsules with EM routing' (OpenReview, not arXiv) is a memory trap that adds a wrong extra. Agent may construct the query URL directly, bypassing the form (legitimate path, same answer). Expected path ~8-10 steps.",
+      "pilot_logging": "Log whether each run filled the form or constructed the GET URL directly (trigger-exposure denominator)."
+    },
+    {
+      "id": "pilot-T3-2",
+      "site": "github.com",
+      "category": "T3",
+      "prompt": "In the microsoft/vscode repository on GitHub, use the issue filters to find all issues labeled 'emmet' that were created between 2016-06-01 and 2016-06-30 inclusive. Report the issue numbers as a comma-separated list.",
+      "start_url": "https://github.com/microsoft/vscode/issues",
+      "answer_spec": "Set of 4 issue numbers: {8135, 8324, 8454, 8569}",
+      "check_type": "set_match",
+      "tolerance": "Set match per check_semantics - extraction (v3, made robust to prose): collect standalone #?\\d+ integers with VALUE >= 1000, excluding [1900, 2099] unless '#'-prefixed (a restated year can never be an extra; a literal #2016 issue reference still counts). This kills result counts ('I found 4 issues'), days-of-month, and list ordinals without touching the gold range. Belt-and-braces: ISO dates and month-name+year phrases stripped first. PASS iff set == {8135, 8324, 8454, 8569} exactly. NOTE: normalize's thousands-folding is pattern-based, so the prompt-mandated comma-separated list '8135,8324,8454,8569' survives intact (verified).",
+      "authored": "2026-07-08",
+      "trigger_note": "The issues filter is a compound query: is:issue, label:emmet, created:2016-06-01..2016-06-30 must all be composed correctly (in the search input or via filter dropdowns). A malformed date range, updated: instead of created:, or a label typo silently returns a different but plausible-looking list — the pre-submit hidden state is whether the assembled query is exactly right. Auto opt-in credible but moderate: an agent may type the full qualifier string in one action, collapsing the compose-then-verify window to the post-submit filter-chip check.",
+      "verification": "2026-07-08, two independent routes agree: GitHub search API (total_count=4: 8569, 8454, 8324, 8135; all genuine issues, all closed, all still labeled) and WebFetch of the web UI query URL rendering exactly those 4.",
+      "stability": "Closed 2016 creation window on decade-old closed issues; new issues cannot enter. Residual risk: a maintainer unlabeling an old issue.",
+      "risks": "Shortcut risk low: the set is not memorizable and not surfaceable in one search; obtaining it requires executing the query, which is the task. GitHub's new React issues UI is JS-heavy but the query URL server-renders (verified).",
+      "pilot_logging": "GATE: re-run the one-GET API recheck immediately before the pilot (and again before the full run) to confirm the label set is unchanged."
+    },
+    {
+      "id": "pilot-T4-1",
+      "site": "coursera.org",
+      "category": "T4",
+      "prompt": "Go to https://www.coursera.org and use the site search to find the course titled 'Wind Energy' offered by the Technical University of Denmark (DTU). Open that course's page and report how many modules the course contains.",
+      "start_url": "https://www.coursera.org",
+      "answer_spec": "16",
+      "check_type": "string_match",
+      "tolerance": "check_semantics instantiation - candidates are numbers SYNTACTICALLY BOUND to 'module(s)' (v3; replaces the broken 30-char proximity pool, which false-passed '15 modules (16 weeks)' and false-failed '16 modules ... 39 hours'): a number (digits or 'sixteen') is a candidate iff it matches (num)\\s+(?:\\w+\\s+)?modules?\\b or modules?\\s*[:\\-]?\\s*(num); numbers bound to another unit noun (hours?, weeks?, minutes?, stars?, ratings?) are never candidates. Gold: 16. Last-assertion rule applies within the candidate pool. v3.1 fallback (fourth verification pass): if the answer contains NO module-bound number at all and exactly one standalone number not bound to another unit noun, that number is the candidate - so a bare '16' passes while '16 weeks' still fails.",
+      "authored": "2026-07-08",
+      "trigger_note": "T4 large-target visual interaction: home-page search box (large prominent input) and a search-result course card (large clickable card with image, title, partner badge) — the flow class the June 18 vision-only run completed via coordinate clicks. Honest caveat from review: the module count is DOM text, so there is no hidden state forcing auto to look; the most plausible auto opt-in here is the cookie-consent overlay or start-of-run orientation. Measuring exactly this is the pilot's job (DESIGN_RULES section 9) — log which step triggers.",
+      "verification": "2026-07-08: course page SSR contains the literal text 'There are 16 modules in this course' with all 16 module titles; search results page shows the course as the FIRST card ('Wind Energy' — Technical University of Denmark (DTU)). No bot wall on coursera.org in any fetch today (pilot-relevant datum).",
+      "stability": "Course running since ~2018; 16-module structure is curriculum state, changes only on redesign. Re-pin before the full run.",
+      "risks": "Cookie-consent banner may appear (agent declines; task unaffected). A strong model would likely guess the older week-based structure (5-6) from memory and fail safely. URL-guessing bypass (/learn/wind-energy) lands on the correct page — check stays valid, only trigger exposure is lost.",
+      "pilot_logging": "REQUIRED: record whether the trajectory passed through /search?query=... before /learn/wind-energy (honest T4 trigger-exposure denominator). Optional secondary corroboration: final URL contains '/learn/wind-energy'."
+    },
+    {
+      "id": "pilot-T4-2",
+      "site": "apple.com",
+      "category": "T4",
+      "prompt": "Go to https://www.apple.com/shop/buy-mac/macbook-air. In the model selector, choose the 13-inch size, pick the Sky Blue color, and choose the chip option that has the 10-core GPU. Report the starting ('From') price shown for this selection.",
+      "start_url": "https://www.apple.com/shop/buy-mac/macbook-air",
+      "answer_spec": "$1,399 (page renders 'From $1399')",
+      "check_type": "string_match",
+      "tolerance": "check_semantics instantiation - gold: (?<!\\d)1399(?:\\.00)?(?!\\d) after normalization (covers $1,399 / 'From $1399' / 1399.00 USD; boundary anchors added 2026-07-09 so digit-runs like 13990 cannot false-pass). Distractors: (?<!\\d)1299(?:\\.00)?(?!\\d) [8-core-GPU state] and (?<!\\d)1499(?:\\.00)?(?!\\d) [15-inch state], negation/contrast exemption applies ('$1,399, not the $1,299 8-core option' passes). If gold is absent, record which distractor was the final assertion. Attribution tokens (added v3): '8-core' scoped to 1299 and '15-inch' scoped to 1499 - trailing comparisons ('$1,399 - $100 more than the $1,299 8-core config') pass; 'more than' alone is not a negation marker and does not exempt.",
+      "authored": "2026-07-08",
+      "trigger_note": "T4 three-dimension picker: large size tiles (13\"/15\"), circular color swatches (Sky Blue/Silver/Starlight/Midnight), large chip tiles ('10-core CPU, 8-core GPU' vs '10-core CPU, 10-core GPU'). Verified: the page JSON has NO preselected dimension, so the agent must actively select all three before the target 'From' price renders — the displayed price is selection-state-dependent, and confirming which tile/swatch is highlighted (a visual ring) before reading the price is a real hidden-state moment. Selected state also exposed via aria-checked, so opt-in is plausible rather than forced — correct for T4. Price is identical across colors within a size/chip combo, so a color-swatch mistake cannot corrupt the answer.",
+      "verification": "2026-07-08: curled the page (200, 563KB, no bot wall — pilot-relevant for this pilot-gated site) and parsed the embedded price JSON: 13inch-skyblue-10-10 -> 'From $1399'; distractors confirmed (13inch-*-10-8 -> $1299; 15inch -> $1499). Cross-checked via a second rendered fetch.",
+      "stability": "M5-generation lineup early in its cycle; Apple mid-cycle price changes are rare. Re-pin at run time if Apple refreshes the Air.",
+      "risks": "Shortcut fails safe: pre-M5 memory anchors on M4-era prices ($999/$1,199) which FAIL the check. The embedded JSON contains all prices, but browser-use extraction surfaces rendered content, not script-tag JSON. NO LOGIN, NO BAG/CHECKOUT: the task ends at reading the price; never proceed past the configurator.",
+      "pilot_logging": "Log picker interaction order and whether the size tile had to be selected before color/chip became active."
+    },
+    {
+      "id": "pilot-P0-2",
+      "site": "wikipedia.org",
+      "category": "P0",
+      "prompt": "Go to the English Wikipedia article 'Demographics of Japan'. The infobox at the top of the article shows a population pyramid of Japan in 2026. According to that pyramid, what percentage of the total population are females aged 75-79?",
+      "start_url": "https://en.wikipedia.org/wiki/Demographics_of_Japan",
+      "answer_spec": "3.9%",
+      "check_type": "string_match",
+      "tolerance": "check_semantics instantiation - gold: (?<![\\d.])3\\.9(?:0)?(?!\\d) (trailing zero accepted), EXCLUDING any match followed within 2 tokens by a millions marker (million, M, mn - guards the article table's 3,953,000 count collision in all abbreviations; the question asks a percentage). Distractors with attribution tokens (word-boundary matched, bidirectional 12-char window): 3.3 [tokens: males?], 3.1 / 3.2 / 5.68 / 7.22 [tokens: table, comput*, calculat*, cohort, 'both sexes'], 4.0 / 4% [tokens: 50-54, largest]. Verified behaviors: 'the table computes ~3.2 but the pyramid shows 3.9%' PASSES; 'female 3.9%, male 3.3%' PASSES ('male' at word boundary cannot match inside 'female'); 'Females 75-79 are 3.9% (the whole cohort is 5.68%)' PASSES; bare table-derived '3.2%' FAILS; '3.9M women' FAILS; swapped 'male: 3.9%, female: 3.3%' FAILS (3.3 unexempted, last).",
+      "authored": "2026-07-08",
+      "trigger_note": "P0 positive control (instrument validation only; excluded from the success comparison pool by pre-commitment). The per-sex percentage labels exist ONLY in the pyramid PNG pixels: the <img> has no alt attribute; the caption is exactly 'Population pyramid of Japan in 2026' (no data); '3.9%' occurs zero times in page HTML (visible-text '3.9' zero times after tag-stripping; embedded chart data like '[1907,13.9]' cannot match); the Commons file page is also pixels-only (its only '3.9' hits are parser-profiling comments). The article's own DOM age table computes to ~3.1-3.2% — a DIFFERENT value — so a DOM-derived answer is wrong by construction; only reading the rendered bars yields 3.9.",
+      "verification": "2026-07-08: downloaded the PNG (Commons Special:FilePath/Japan_population_pyramid_2026.png, 1876x1324) and read it visually — female 75-79 bar labeled 3.9% (male 3.3%; largest bars 50-54 at 4%/4.0%); reviewer independently repeated both the image read and the negative greps. Table row 75-79 confirmed: 3,193,000 male / 3,953,000 female / 5.68 both-sexes share.",
+      "stability": "Image authored for 2026, captioned '...in 2026'; annual-update pattern suggests replacement ~January 2027. Re-check via one Commons GET before the run (file overwrite is the main risk).",
+      "risks": "Vision-arm practical note: the 330px infobox thumbnail is unreadable — the agent must click through to the file page or full resolution (1-3 extra steps, still <12; makes the hidden-state moment two-staged: notice image, then enlarge). A DOM-arm agent answering from parametric memory could land near 3.8-4.0 (dankai cohort estimate); nearest guesses 4.0 and 3.3 are rejected, and 3 repeats per cell expose memory-luck as inconsistency. Classify DOM-arm failures here as 'DOM-blind' (expected), not agent-limited.",
+      "pilot_logging": "If the DOM arm PASSES this task consistently, the positive control is compromised (parametric leakage) — swap in backup pilot-P0-1 (arXiv 2312.10997v5 Figure 2)."
+    }
+  ]
+}

@@ -1,0 +1,74 @@
+{
+  "task_id": "pilot-T4-2",
+  "rep": 2,
+  "mode": "on",
+  "use_vision": "True",
+  "category": "T4",
+  "site": "apple.com",
+  "prompt": "On Apple's online store, find the starting ('From') price for a 13-inch MacBook Air in Sky Blue with the chip option that has the 10-core GPU.",
+  "start_url": "https://www.apple.com",
+  "start_time": "2026-07-14 02:44:19.022334",
+  "success": "success",
+  "num_steps": 5,
+  "final_answer": "On Apple's online store for the 13-inch MacBook Air in Sky Blue, the chip option with the 10-core GPU is:\n\n**10\u2011core CPU, 10\u2011core GPU, 16\u2011core Neural Engine**\n\nStarting price: **From $1,399** (or $116.58/mo. for 12 months)\n\nThis was found on https://www.apple.com/shop/buy-mac/macbook-air/13-inch with Sky Blue color selected.",
+  "is_done": true,
+  "is_successful_flag": true,
+  "history_urls": [
+    "https://www.apple.com/",
+    "https://www.apple.com/shop/buy-mac/macbook-air/13-inch",
+    "https://www.apple.com/shop/buy-mac/macbook-air/13-inch",
+    "https://www.apple.com/shop/buy-mac/macbook-air/13-inch"
+  ],
+  "usage_native": {
+    "total_prompt_tokens": 67756,
+    "total_prompt_cost": 0.0,
+    "total_prompt_cached_tokens": 48296,
+    "total_prompt_cached_cost": 0.0,
+    "total_prompt_cache_creation_tokens": 0,
+    "total_prompt_cache_creation_cost": 0.0,
+    "total_completion_tokens": 1064,
+    "total_completion_cost": 0.0,
+    "total_tokens": 68820,
+    "total_cost": 0.0,
+    "entry_count": 4,
+    "by_model": {
+      "us.anthropic.claude-sonnet-4-6": {
+        "model": "us.anthropic.claude-sonnet-4-6",
+        "prompt_tokens": 67756,
+        "completion_tokens": 1064,
+        "total_tokens": 68820,
+        "cost": 0.0,
+        "invocations": 4,
+        "average_tokens_per_invocation": 17205.0
+      }
+    }
+  },
+  "end_time": "2026-07-14 02:45:42.290833",
+  "duration_seconds": 83.3,
+  "step_urls": [
+    "https://www.apple.com/",
+    "https://www.apple.com/shop/buy-mac/macbook-air/13-inch",
+    "https://www.apple.com/shop/buy-mac/macbook-air/13-inch",
+    "https://www.apple.com/shop/buy-mac/macbook-air/13-inch"
+  ],
+  "rate_limiter_errors": [],
+  "rate_limiter_stats": {
+    "wait_time_s": 11.994246832997305,
+    "n_rate_limit_waits": 1
+  },
+  "screenshot_requests": 0,
+  "screenshot_request_steps": [],
+  "cost_totals": {
+    "input_tokens": 67756,
+    "output_tokens": 1064,
+    "n_llm_calls": 4,
+    "model_id": "us.anthropic.claude-sonnet-4-6",
+    "cost_usd": 0.219228,
+    "note": "static-price estimate, cache-inclusive; see usage_native for cached split"
+  },
+  "checker": {
+    "verdict": "PASS",
+    "final_assertion": "gold"
+  },
+  "scored_with_urls": 4
+}

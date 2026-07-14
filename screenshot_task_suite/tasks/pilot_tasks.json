@@ -1,0 +1,561 @@
+{
+  "_meta": {
+    "status": "PROPOSED v2 (generation-2, 2026-07-11) - chained multi-page T1 + de-prescribed prompts per advisor feedback 2026-07-10; checker and test vectors updated; awaiting Frank's pod screenshots (save under screenshot_task_suite/artifacts/) and the pilot runner build. Nothing launched.",
+    "spec": "../DESIGN_RULES.md v0.2.3 (sections 2-5, 9)",
+    "authored": "2026-07-08",
+    "authoring_method": "Each task was drafted grounded against the live site on 2026-07-08, then independently adversarially reviewed (answer re-verified from a second source, tolerance attacked, shortcut and trigger-plausibility probed). Reviewer fixes are incorporated below. Mathematical answers (17623, -22140) were verified three independent ways. 2026-07-09 addendum: T1 tasks additionally verified in a live rendered browser (Chrome extension): WA pod alt-text behavior confirmed (T1 vs P0 boundary resolved), and the GitHub chart task was caught rendering viewport-dependent bins and replaced with a reviewed WA date-arithmetic task (pilot-T1-3r, pass_with_fixes, fixes applied). 2026-07-09 second (independent) verification pass: found pilot-T1-3r's original tolerance broken in both directions and pilot-T3-1's gold set radio-dependent (live check of all three arXiv date-type radios: form-default 'submitted_date' returns 3 papers; 'submitted_date_first' and 'announced_date_first' return 4, adding 1907.02957). Fixes: value-band rule for T1-3r, dual gold set for T3-1, and ALL tolerances rewritten as instantiations of _meta.check_semantics. Third adversarial pass (2026-07-09, on the rewritten semantics): 12 further defects found and fixed - T4-1 moved from proximity pool to syntactic binding, T3-2 extraction floor (>=1000, year band excluded unless #-prefixed), thousands-only comma folding, negation binding rules (next-candidate-only, clause breaks protect), bidirectional per-distractor attribution windows, word-boundary token matching, T1-1 band re-audited against the live pod inventory and narrowed to [17550,17700], P0-2 million-abbreviation guard and 3.90 acceptance, T2-2 bare-quant-name policy, T2-3 unnegated presence. The surviving attack strings from all three passes are frozen in _meta.test_vectors; THE CHECKER MUST PASS ALL TEST VECTORS BEFORE ANY PILOT RUN IS SCORED. Fourth independent verification pass (2026-07-10): re-derived earlier fixes, re-checked the arXiv radios live (3/4/4 again), traced all 27 vectors; found two residual false-fail edges - a bare '16' answer on T4-1 (empty candidate pool under syntactic binding) and the plural 'males' not matching the word-boundary 'male' attribution token on P0-2. Both fixed (v3.1: T4-1 bare-number fallback; P0-2 token males?) with three new frozen vectors (30 total). 2026-07-11 GENERATION 2: advisor feedback (multi-page tasks; specify what is desired, not how) triggered a redesign - the three single-query WA tasks were retired to alternates and replaced by two-site chains (GitHub->WA 2020 unemployment 8.1; Wikipedia->WA 1923 CPI 17.3/17.1 dual gold; arXiv->WA 2018 inflation 1.91), all seven surviving prompts de-prescribed per the professor's examples, and start_urls de-prescribed (arxiv advanced-search start removed; huggingface locate hop and apple storefront hop added). Gen-2 verification: round 1 re-done against primary sources on 2026-07-11 (FRED CPIAUCNS + UNRATE, GitHub API + server-rendered banner HTML, arXiv API, HF ?library= snippet spot-checks); round 2 = Frank's rendered-browser pod freeze 2026-07-11 (8.1 / 17.3+17.1 / 1.91; screenshots to be committed as artifacts); round 3 = tolerance red-team of the new rules with the vectors frozen below. URL-STATE GATING (first use of DESIGN_RULES section 5's URL check type) adopted for the three chained tasks by Frank's decision 2026-07-11: the logged WA query must contain the correct year+topic or the run FAILS - required because CPI 1924 collides with 1923 on BOTH gold values (Dec 17.3 / annual 17.1; Dec 1927 is also 17.3) and because 8.1%/2020 is a heavily memorized statistic the string check alone cannot attribute to a site visit.",
+    "mix": "3x T1 (chained two-site: github/wikipedia/arxiv first hop -> wolframalpha image-pod final hop - the WA homogeneity note now applies to the FINAL hop only, but still to all three), 2x T2, 2x T3, 2x T4, 1x P0 - pilot-gated sites covered: huggingface.co (T2), coursera.org (T4), apple.com (T4). HOMOGENEITY PRE-COMMITMENT unchanged: full-suite T1 (~35 tasks) must diversify beyond WA; the pilot validates only the WA-final-hop variant of T1.",
+    "alternates_not_selected": [
+      "pilot-T2-1 apple.com MacBook Air full-config price $1,799 (verified correct; dropped as redundant with pilot-T4-2's picker flow)",
+      "pilot-T3-3 coursera.org 4-filter search URL-state check (verified; dropped: weakest check type — Coursera serves the same UI on /search and /courses and param schema may drift)",
+      "pilot-T4-3 apple.com Apple Watch titanium 46mm $749 (verified; dropped: highest memorization risk — Sept 2025 pricing is likely in model training data)",
+      "pilot-P0-1 arxiv.org 2312.10997v5 Figure 2 'Zhen Huan' chunk title (verified, version-pinned; dropped: the RAG survey's Figure 2 is famous enough that parametric leakage into the DOM arm could muddy the positive control; keep as backup P0)",
+      "pilot-T1-3 github.com code-frequency max-weekly-deletions 6467 (RETIRED 2026-07-09, BROKEN AT ITS OWN PILOT GATE: live-browser check showed the chart bins by viewport width — tooltip reads 'January-March 2015 / -8764' at 1298px but 'January-June 2015 / -10074' at 900px; the weekly value 6467 is unreachable in the entire UI including the View-as-table dialog, existing only in the JSON endpoints. No rendered value on this chart can back a deterministic check. SUITE LESSON for DESIGN_RULES Change Log: any chart-value-reading task must verify at authoring time that the rendered granularity is viewport-independent.)",
+      "pilot-T1-1 wolframalpha.com 'Find the 2026th prime number using Wolfram Alpha and report it....' gold=17623 (RETIRED 2026-07-11, superseded by the generation-2 chained redesign per advisor feedback 2026-07-10: single-site single-query WA tasks are not multi-page. Task was sound - answer verified, tolerance vectorized - and remains a valid alternate if a chained slot ever breaks. Full spec preserved in tasks/pilot_tasks_gen1_2026-07-10.json.)",
+      "pilot-T1-2 wolframalpha.com 'Use Wolfram Alpha to compute the determinant of the 5x5 matrix {{7,3,-...' gold=-22140 (RETIRED 2026-07-11, superseded by the generation-2 chained redesign per advisor feedback 2026-07-10: single-site single-query WA tasks are not multi-page. Task was sound - answer verified, tolerance vectorized - and remains a valid alternate if a chained slot ever breaks. Full spec preserved in tasks/pilot_tasks_gen1_2026-07-10.json.)",
+      "pilot-T1-3r wolframalpha.com 'Use Wolfram Alpha to find the number of days between April 15, 1912 an...' gold=32037 (RETIRED 2026-07-11, superseded by the generation-2 chained redesign per advisor feedback 2026-07-10: single-site single-query WA tasks are not multi-page. Task was sound - answer verified, tolerance vectorized - and remains a valid alternate if a chained slot ever breaks. Full spec preserved in tasks/pilot_tasks_gen1_2026-07-10.json.)"
+    ],
+    "field_note": "DESIGN_RULES section 4 requires id, site, category, prompt, answer spec, check type, authored, trigger note. start_url, tolerance, verification, stability, risks, pilot_logging are additions for the reporting commitments (section 8); trim if unwanted.",
+    "check_semantics": {
+      "normalize": "fold thousands separators ONLY via (\\d),(\\d{3})(?!\\d) -> digits (leaves comma-separated lists like '8135,8324,8454,8569' intact); remove currency tokens ($, US$, USD); map U+2212 and dash variants used as signs to '-'; map the word-signs 'negative <num>' / 'minus <num>' to '-<num>'; matching case-insensitive. Normalize runs BEFORE set extraction too.",
+      "candidates": "boundary-aware regex matches of the task's gold pattern plus each listed distractor; a band distractor matches any standalone number in [lo,hi] other than the gold. Text spans matched by the gold pattern are NEVER distractor candidates (e.g. the 'iq3_m' inside T2-2's gold filename does not trigger the quant-token distractor).",
+      "exemption_negation": "a negation/contrast marker (not, n't, never, wrong, incorrect, rather than, instead of, excluding) drops ONLY THE NEXT candidate, at distance marker-end to candidate-start <= 25 chars, and only if no clause break (comma, semicolon, period, dash, 'but') and no other candidate intervenes. So 'the answer is NOT 32037' fails (gold dropped); 'not 32038 but 32037' passes (32038 dropped, clause break protects the gold); 'I'm not sure, but 32037' passes (clause break intervenes).",
+      "exemption_attribution": "attribution tokens are listed PER DISTRACTOR VALUE in each task, matched at word boundaries ('male' does not match inside 'female'), with a BIDIRECTIONAL window of 12 chars between token edge and candidate edge; a matched attribution drops that distractor candidate only.",
+      "verdict": "PASS iff at least one gold candidate survives and the LAST surviving candidate in the final answer is the gold. Gold-presence tasks (T2-3) mean UNNEGATED presence. FAIL records which distractor (if any) was the final assertion - feeds failure classification.",
+      "set_match": "set-check tasks use their stated extraction rule on the NORMALIZED answer; PASS iff the extracted set exactly equals ONE of the listed gold sets (no extras, no mixtures).",
+      "provenance": "v3, 2026-07-09: adopted after a second independent verification pass broke the original hand-written T1-3r clause in both directions; refined the same day after a third adversarial pass found 12 further defects (T4-1 proximity pool broken both directions, T3-2 extraction counting the 'I found 4 issues' count, comma-normalize fusing comma-separated set answers, unbound negation windows killing 'not 32038 but 32037', trailing explanatory mentions false-failing diligent answers, spec ambiguities that flipped this file's own worked examples). The checker implements THIS block and must pass _meta.test_vectors before any pilot run is scored. v3.1, 2026-07-10: fourth pass added the T4-1 bare-number fallback and the plural-aware males? attribution token; vectors 28-30. v4, 2026-07-11: decimal/dual golds and url_gate added for the generation-2 chained T1 tasks; the retired tasks' nine vectors left with their tasks; gen-2 vectors appended. The checker must pass the full list before any pilot run is scored. Round-3 red-team of the gen-2 rules (2026-07-11, independent agent, all findings execution-confirmed): 6 trailing-context false-fails -> token lists widened; Dec*/Sep* overbreadth -> anchored; url-gate substring matching -> structural host/path/i-param parsing with word-boundary tokens; topic must_any lists widened. Attack strings frozen below; 50/50 green.",
+      "decimal_golds": "gen-2 tasks may list DECIMAL gold literals, matched boundary-aware after normalization (no digit or '.' adjacent): e.g. 8.1/8.10; DUAL golds 17.3/17.1 (the pod may show the December value, the annual average, or both - any listed gold is gold); 1.91/1.9/1.90. Distractors on decimal tasks are ENUMERATED literals only - no band rules - so verbatim source phrasing ('rose 10.4 percentage points') can never become a candidate. Attribution and negation rules apply unchanged; last-assertion verdict unchanged.",
+      "url_gate": "tasks with check_type 'string_match + url_gate' additionally require: at least one steps.jsonl URL (url_before/url_after, any step at or before the answer step) whose PARSED host is wolframalpha.com (or a subdomain) AND path starts with '/input' AND whose decoded i= query parameter word-boundary-matches ALL tokens in query_must_all and AT LEAST ONE in query_must_any (per-task lists in the tolerance field; topic lists widened 2026-07-11: unemployment/unemployed/jobless; cpi/consumer price/price index/cost of living; inflation/cpi/consumer price - the CPI-YoY phrasing IS the gold convention for T1-3c). Structural parsing is load-bearing (red-team 2026-07-11): substring matching wrongly passed a '1923' inside a timestamp param on a 1924 query, and a duckduckgo URL that merely mentioned wolframalpha. Gate failure -> verdict FAIL, final_assertion 'url-gate', with the string verdict preserved under string_result for the failure rubric. urls=None -> url_gate 'not_evaluated' (scoring runs MUST supply urls); urls=[] (empty log, e.g. crashed run) FAILS the gate - crashed runs classify under the rubric before scoring."
+    },
+    "structural_risks": "T1 is 100% Wolfram Alpha in the pilot: one Cloudflare event or a WA frontend redesign zeroes the validation of the suite's 35%-weight category, and all three triggers share one mechanism (image pods). Accepted for the pilot. PRE-COMMITMENTS (decided 2026-07-09, before any run): (1) full-suite T1 diversifies beyond WA; (2) the FIRST non-WA T1 batch gets its own mini-gate - 2 to 3 tasks run pilot-style in all three modes before that batch is authored at scale, since this pilot validates only the WA variant of T1; (3) alt-text contingency: if the pilot spot-check shows browser-use 0.13.2 does NOT surface img alt text in its DOM serialization, alt-only tasks (at minimum pilot-T1-3r) are functionally P0 - reclassify to P0, EXCLUDE from the success-comparison pool per the P0 pre-commitment, and author replacements before the full run. GEN-2 UPDATE (2026-07-11): the multi-page redesign does NOT remove the WA single-vendor final hop - all three T1 finals are still WA image pods, so one Cloudflare event or a WA frontend redesign still zeroes the category; pre-commitments (1)-(3) carry forward unchanged. NEW: the per-pod alt-text-vs-text-layer status of the three NEW pods (unemployment/CPI/inflation) must be recorded alongside Frank's screenshots - gen-1 showed this differs by query (prime: alt+text; date: alt-only) - and the alt-text contingency applies to any alt-only pod.",
+    "test_vectors": [
+      {
+        "task": "pilot-T2-2",
+        "answer": "llm = Llama.from_pretrained(..., filename=\"Llama-3.2-1B-Instruct-IQ3_M.gguf\") - note it picks IQ3_M, not the recommended Q4_K_M.",
+        "expect": "PASS"
+      },
+      {
+        "task": "pilot-T2-2",
+        "answer": "Probably Llama-3.2-1B-Instruct-IQ3_M.gguf or Llama-3.2-1B-Instruct-Q4_K_M.gguf",
+        "expect": "FAIL (hedge; last surviving candidate is the Q4_K_M mention)"
+      },
+      {
+        "task": "pilot-T2-2",
+        "answer": "IQ3_M",
+        "expect": "FAIL (prompt requires the exact filename; bare quant name is format noncompliance - stated policy)"
+      },
+      {
+        "task": "pilot-T2-3",
+        "answer": "The credit shown is NOT Frank Schulenburg.",
+        "expect": "FAIL (unnegated presence required)"
+      },
+      {
+        "task": "pilot-T3-1",
+        "answer": "arXiv:1710.09829, arXiv:1811.06969, arXiv:1906.06818",
+        "expect": "PASS (SET-A)"
+      },
+      {
+        "task": "pilot-T3-1",
+        "answer": "1710.09829, 1811.06969, 1906.06818, 1907.02957 (I used original-submission dates)",
+        "expect": "PASS (SET-B)"
+      },
+      {
+        "task": "pilot-T3-1",
+        "answer": "1710.09829, 1811.06969, 1906.06818. Hinton's GLOM paper (2102.12627) is capsule-adjacent but outside the window.",
+        "expect": "FAIL - KNOWN harsh false-fail mode (narrated extra ID); accepted consciously, logged if observed"
+      },
+      {
+        "task": "pilot-T3-2",
+        "answer": "I found 4 issues created in June 2016: #8135, #8324, #8454, #8569.",
+        "expect": "PASS (counts <1000 and years are not extractable)"
+      },
+      {
+        "task": "pilot-T3-2",
+        "answer": "8135,8324,8454,8569",
+        "expect": "PASS (thousands-only comma folding leaves the list intact)"
+      },
+      {
+        "task": "pilot-T4-1",
+        "answer": "The course page lists 15 modules (16 weeks).",
+        "expect": "FAIL (15 bound to modules; 16 bound to weeks is not a candidate)"
+      },
+      {
+        "task": "pilot-T4-1",
+        "answer": "The course contains 16 modules (approximately 39 hours of content).",
+        "expect": "PASS (39 bound to hours, not a candidate)"
+      },
+      {
+        "task": "pilot-T4-1",
+        "answer": "the course has sixteen modules across 30 hours",
+        "expect": "PASS"
+      },
+      {
+        "task": "pilot-T4-2",
+        "answer": "$1,399 - that's $100 more than the $1,299 8-core config.",
+        "expect": "PASS ('8-core' attribution drops 1299)"
+      },
+      {
+        "task": "pilot-P0-2",
+        "answer": "female: 3.9%",
+        "expect": "PASS ('male' matches at word boundaries only)"
+      },
+      {
+        "task": "pilot-P0-2",
+        "answer": "Females 75-79 are 3.9% of the population (the whole 75-79 cohort is 5.68%).",
+        "expect": "PASS ('cohort' attribution drops 5.68)"
+      },
+      {
+        "task": "pilot-P0-2",
+        "answer": "3.90%",
+        "expect": "PASS (trailing zero accepted)"
+      },
+      {
+        "task": "pilot-P0-2",
+        "answer": "About 3.9M women are in that bracket.",
+        "expect": "FAIL (million-guard covers M/mn; no percentage gold present)"
+      },
+      {
+        "task": "pilot-P0-2",
+        "answer": "3.9%, though the table computes ~3.2",
+        "expect": "PASS (comput* stem attribution drops 3.2)"
+      },
+      {
+        "task": "pilot-T4-1",
+        "answer": "16",
+        "expect": "PASS (v3.1 bare-number fallback: no module token to bind to, exactly one unbound standalone number)"
+      },
+      {
+        "task": "pilot-T4-1",
+        "answer": "16 weeks",
+        "expect": "FAIL (unit-bound to weeks, not modules; the fallback must not rescue it)"
+      },
+      {
+        "task": "pilot-P0-2",
+        "answer": "Females 75-79: 3.9%; males: 3.3%",
+        "expect": "PASS (plural 'males' exempts the male bar; 'males?' cannot match inside 'females')"
+      },
+      {
+        "task": "pilot-T1-1c",
+        "answer": "According to Wolfram Alpha, the average US unemployment rate in 2020 was 8.1%.",
+        "urls": [
+          "https://github.com/facebookarchive/pop",
+          "https://www.wolframalpha.com/input?i=average+unemployment+rate+in+the+united+states+2020"
+        ],
+        "expect": "PASS"
+      },
+      {
+        "task": "pilot-T1-1c",
+        "answer": "8.1% (the rate peaked at 14.8% in April).",
+        "urls": [
+          "https://github.com/facebookarchive/pop",
+          "https://www.wolframalpha.com/input?i=average+unemployment+rate+in+the+united+states+2020"
+        ],
+        "expect": "PASS (peak/April attribution drops 14.8)"
+      },
+      {
+        "task": "pilot-T1-1c",
+        "answer": "The December 2020 rate was 6.7%.",
+        "urls": [
+          "https://github.com/facebookarchive/pop",
+          "https://www.wolframalpha.com/input?i=average+unemployment+rate+in+the+united+states+2020"
+        ],
+        "expect": "FAIL (6.7 asserted; no gold present)"
+      },
+      {
+        "task": "pilot-T1-1c",
+        "answer": "8.1%",
+        "urls": [
+          "https://github.com/facebookarchive/pop"
+        ],
+        "expect": "FAIL (url-gate: no WA query with 2020+unemployment)"
+      },
+      {
+        "task": "pilot-T1-1c",
+        "answer": "The 2020 average was 8.1 percent, though December was 6.7.",
+        "urls": [
+          "https://github.com/facebookarchive/pop",
+          "https://www.wolframalpha.com/input?i=average+unemployment+rate+in+the+united+states+2020"
+        ],
+        "expect": "PASS (December attribution drops 6.7)"
+      },
+      {
+        "task": "pilot-T1-1c",
+        "answer": "8.1",
+        "urls": [
+          "https://github.com/facebookarchive/pop",
+          "https://www.wolframalpha.com/input?i=average+unemployment+rate+in+the+united+states+2020"
+        ],
+        "expect": "PASS (bare number accepted)"
+      },
+      {
+        "task": "pilot-T1-2c",
+        "answer": "The CPI for 1923 was 17.1 on an annual-average basis; the December 1923 reading was 17.3.",
+        "urls": [
+          "https://en.wikipedia.org/wiki/Sydney_Harbour_Bridge",
+          "https://www.wolframalpha.com/input?i=united+states+consumer+price+index+1923"
+        ],
+        "expect": "PASS (dual gold, both mentioned)"
+      },
+      {
+        "task": "pilot-T1-2c",
+        "answer": "17.3",
+        "urls": [
+          "https://en.wikipedia.org/wiki/Sydney_Harbour_Bridge",
+          "https://www.wolframalpha.com/input?i=us+consumer+price+index+1924"
+        ],
+        "expect": "FAIL (url-gate: wrong year 1924 - the value collides, only the gate catches it)"
+      },
+      {
+        "task": "pilot-T1-2c",
+        "answer": "The index was 16.9.",
+        "urls": [
+          "https://en.wikipedia.org/wiki/Sydney_Harbour_Bridge",
+          "https://www.wolframalpha.com/input?i=united+states+consumer+price+index+1923"
+        ],
+        "expect": "FAIL (Dec-1922 value asserted)"
+      },
+      {
+        "task": "pilot-T1-2c",
+        "answer": "17.1, versus 16.9 in 1922.",
+        "urls": [
+          "https://en.wikipedia.org/wiki/Sydney_Harbour_Bridge",
+          "https://www.wolframalpha.com/input?i=united+states+consumer+price+index+1923"
+        ],
+        "expect": "PASS (1922 attribution drops 16.9)"
+      },
+      {
+        "task": "pilot-T1-2c",
+        "answer": "17.3",
+        "urls": [
+          "https://en.wikipedia.org/wiki/Sydney_Harbour_Bridge",
+          "https://www.wolframalpha.com/input?i=us+cpi+1923"
+        ],
+        "expect": "PASS ('cpi' satisfies the topic requirement)"
+      },
+      {
+        "task": "pilot-T1-3c",
+        "answer": "Wolfram Alpha reports the 2018 US inflation rate as 1.91% (about 1.9%).",
+        "urls": [
+          "https://arxiv.org/abs/1811.06969",
+          "https://www.wolframalpha.com/input?i=us+inflation+rate+2018"
+        ],
+        "expect": "PASS"
+      },
+      {
+        "task": "pilot-T1-3c",
+        "answer": "2018 inflation was about 2.4%.",
+        "urls": [
+          "https://arxiv.org/abs/1811.06969",
+          "https://www.wolframalpha.com/input?i=us+inflation+rate+2018"
+        ],
+        "expect": "FAIL (memory/annual-average answer)"
+      },
+      {
+        "task": "pilot-T1-3c",
+        "answer": "1.91%, not the 2.44% annual-average figure.",
+        "urls": [
+          "https://arxiv.org/abs/1811.06969",
+          "https://www.wolframalpha.com/input?i=us+inflation+rate+2018"
+        ],
+        "expect": "PASS (negation drops 2.44)"
+      },
+      {
+        "task": "pilot-T1-3c",
+        "answer": "The rate was 1.9%, though the annual average was 2.4%.",
+        "urls": [
+          "https://arxiv.org/abs/1811.06969",
+          "https://www.wolframalpha.com/input?i=us+inflation+rate+2018"
+        ],
+        "expect": "PASS (annual/average attribution drops 2.4)"
+      },
+      {
+        "task": "pilot-T1-3c",
+        "answer": "1.91%",
+        "urls": [
+          "https://arxiv.org/abs/1811.06969",
+          "https://www.wolframalpha.com/input?i=us+inflation+rate"
+        ],
+        "expect": "FAIL (url-gate: query lacks 2018)"
+      },
+      {
+        "task": "pilot-T1-3c",
+        "answer": "It was 1.8%.",
+        "urls": [
+          "https://arxiv.org/abs/1811.06969",
+          "https://www.wolframalpha.com/input?i=us+inflation+rate+2018"
+        ],
+        "expect": "FAIL (2019 annual near-miss rejected; exact-literal matching)"
+      },
+      {
+        "task": "pilot-T1-1c",
+        "answer": "The 2020 average unemployment rate was 8.1%, up from 3.7% a year earlier.",
+        "urls": [
+          "https://github.com/facebookarchive/pop",
+          "https://www.wolframalpha.com/input?i=average+unemployment+rate+in+the+united+states+2020"
+        ],
+        "expect": "PASS (red-team: 'a year earlier' exempts 3.7)"
+      },
+      {
+        "task": "pilot-T1-1c",
+        "answer": "Unemployment averaged 8.1% in 2020, ending the year at 6.7%.",
+        "urls": [
+          "https://github.com/facebookarchive/pop",
+          "https://www.wolframalpha.com/input?i=average+unemployment+rate+in+the+united+states+2020"
+        ],
+        "expect": "PASS (red-team: 'ending the year' exempts 6.7)"
+      },
+      {
+        "task": "pilot-T1-1c",
+        "answer": "The 2020 average was 8.1%, though it reached 14.8 in the spring.",
+        "urls": [
+          "https://github.com/facebookarchive/pop",
+          "https://www.wolframalpha.com/input?i=average+unemployment+rate+in+the+united+states+2020"
+        ],
+        "expect": "PASS (red-team: reached/spring exempt 14.8)"
+      },
+      {
+        "task": "pilot-T1-1c",
+        "answer": "8.1% for 2020, falling to 5.4% the following year.",
+        "urls": [
+          "https://github.com/facebookarchive/pop",
+          "https://www.wolframalpha.com/input?i=average+unemployment+rate+in+the+united+states+2020"
+        ],
+        "expect": "PASS (red-team: 'following' exempts 5.4)"
+      },
+      {
+        "task": "pilot-T1-1c",
+        "answer": "The separate figure, 7.8, is my final answer.",
+        "urls": [
+          "https://github.com/facebookarchive/pop",
+          "https://www.wolframalpha.com/input?i=average+unemployment+rate+in+the+united+states+2020"
+        ],
+        "expect": "FAIL (red-team: 'separate' must not match anchored Sep(t)(ember))"
+      },
+      {
+        "task": "pilot-T1-2c",
+        "answer": "The 1923 annual average CPI was 17.1; monthly it ranged from 17.3 in December, falling to 16.9 by April.",
+        "urls": [
+          "https://en.wikipedia.org/wiki/Sydney_Harbour_Bridge",
+          "https://www.wolframalpha.com/input?i=united+states+consumer+price+index+1923"
+        ],
+        "expect": "PASS (red-team: April/fall* exempt 1923's own monthly 16.9)"
+      },
+      {
+        "task": "pilot-T1-2c",
+        "answer": "Prices held near 17.1 early on, but the index declined to 16.9, which is the 1923 figure I'd report.",
+        "urls": [
+          "https://en.wikipedia.org/wiki/Sydney_Harbour_Bridge",
+          "https://www.wolframalpha.com/input?i=united+states+consumer+price+index+1923"
+        ],
+        "expect": "FAIL (red-team: 'declined' must not match anchored Dec(ember); asserted 16.9 is last)"
+      },
+      {
+        "task": "pilot-T1-2c",
+        "answer": "17.3",
+        "urls": [
+          "https://en.wikipedia.org/wiki/Sydney_Harbour_Bridge",
+          "https://www.wolframalpha.com/input?i=us+consumer+price+index+1924&ts=1781923456"
+        ],
+        "expect": "FAIL (red-team url-gate: '1923' inside a timestamp param must not satisfy the year requirement)"
+      },
+      {
+        "task": "pilot-T1-3c",
+        "answer": "Wolfram Alpha gives 1.91% for 2018, versus 2.4% for the full year.",
+        "urls": [
+          "https://arxiv.org/abs/1811.06969",
+          "https://www.wolframalpha.com/input?i=us+inflation+rate+2018"
+        ],
+        "expect": "PASS (red-team: 'full' exempts 2.4)"
+      },
+      {
+        "task": "pilot-T1-3c",
+        "answer": "1.91%",
+        "urls": [
+          "https://arxiv.org/abs/1811.06969",
+          "https://duckduckgo.com/?q=wolframalpha.com%2Finput+us+inflation+rate+2018"
+        ],
+        "expect": "FAIL (red-team url-gate: a search-engine URL mentioning WA is not a WA visit)"
+      },
+      {
+        "task": "pilot-T1-3c",
+        "answer": "1.91%",
+        "urls": [
+          "https://arxiv.org/abs/1811.06969",
+          "https://www.wolframalpha.com/input?i=us+cpi+year+over+year+2018"
+        ],
+        "expect": "PASS (widened topic tokens: CPI-YoY is the gold convention)"
+      },
+      {
+        "task": "pilot-T1-1c",
+        "answer": "8.1%",
+        "urls": [
+          "https://github.com/facebookarchive/pop",
+          "https://www.wolframalpha.com/input?i=us+jobless+rate+2020"
+        ],
+        "expect": "PASS (widened topic tokens: jobless)"
+      }
+    ]
+  },
+  "tasks": [
+    {
+      "id": "pilot-T1-1c",
+      "site": "github.com -> wolframalpha.com",
+      "category": "T1",
+      "prompt": "Find the year in which the GitHub repository facebookarchive/pop was archived. Then report, according to Wolfram Alpha, the average unemployment rate in the United States for that year.",
+      "start_url": "https://github.com/facebookarchive/pop",
+      "answer_spec": "8.1% (WA average US unemployment rate for 2020 = BLS annual average)",
+      "check_type": "string_match + url_gate",
+      "tolerance": "check_semantics v4 instantiation - golds: literals 8.1 / 8.10 (boundary-aware; '%', 'percent', bare number all fine). Enumerated distractors with attribution tokens (bidirectional 12-char window, word-boundary): 14.8 and 14.7 [April, peak*, high, spring, reach*, pandemic, rose, ris*, month*] (the April peak; 14.7 is the as-first-published figure, revised to 14.8), 6.7 [Dec(ember), Nov(ember), end*, month*], 13.2 [May, month*], 11.0 [June, month*], 10.2 [July, month*], 8.4 [August, Aug, month*], 7.8 [September, Sep*, month*], 6.9 [October, Oct, month*], 4.4 [March, month*], 3.6 [Jan(uary), month*, prev-year tokens], 3.5 [February, Feb, month*], 3.7 [2019, previous, prior, earlier, year before], 5.3 / 5.4 [2021, following, next]. NO band rule - only enumerated values are candidates, so verbatim BLS phrasing ('rose 10.4 percentage points') cannot false-fail. Last-assertion verdict. URL GATE (success-gating, Frank's decision 2026-07-11): a WA /input URL whose decoded query contains '2020' AND 'unemployment' must appear in or before the answer step, else FAIL ('url-gate') regardless of the answer string - this is what makes 'the final read is on a rendered surface' true against memorization. TOKEN LISTS WIDENED 2026-07-11 after the gen-2 red-team (round 3): trailing-context narration ('up from 3.7% a year earlier', 'ending the year at 6.7%', 'reached 14.8 in the spring', 'falling to 5.4% the following year') must exempt its value or correct verbose answers false-fail; month abbreviations anchored (Dec(ember), Sep(t)(ember)) so 'declined'/'separate' cannot exempt an asserted distractor. Residual accepted+logged: attribution can exempt an ASSERTED distractor when gold is also mentioned ('the December figure, 6.7%, is the answer') - requires misreading the prompt while citing gold; and a non-enumerated wrong value ('WA shows 2.0%') cannot be the final assertion - both same-class as pre-accepted harsh modes, review under check-artifact.",
+      "authored": "2026-07-11",
+      "trigger_note": "Chained two-site T1 (advisor feedback 2026-07-10: multi-page). Hop 1: the archive year appears in the repo page's UI banner ('This repository was archived by the owner on Mar 3, 2020. It is now read-only.') - NOTE the REST API's archived_at field is NULL for this repo (never backfilled), so the page banner is the natural and near-only source. Hop 2: the unemployment figure renders as a WA image pod (Frank's rendered-browser freeze 2026-07-11: 8.1%). SHORTCUT CAVEAT (stated honestly): 8.1%/2020 is a heavily memorized COVID-era statistic and the archiving is plausibly in training data - the highest memorization risk of the three chained tasks, accepted 2026-07-11 with the URL gate as the compensating control; a memory-only correct answer FAILS by design since the prompt pins WA as the source.",
+      "verification": "Gold + distractors re-derived 2026-07-11 from FRED UNRATE (BLS LNS14000000): 2020 monthly 3.6, 3.5, 4.4, 14.8, 13.2, 11.0, 10.2, 8.4, 7.8, 6.9, 6.7, 6.7 -> annual mean exactly 8.1; revision-stable (with the originally published April 14.7 the mean is 8.09 -> still rounds 8.1). Dec 2020 = 6.7 (Nov also 6.7 - do not describe 6.7 as uniquely December). Neighbor years: 2019 = 3.7, 2021 = 5.3/5.4 (raw mean 5.35). Archive banner verified live 2026-07-11 from server-rendered HTML ('was archived by the owner on Mar 3, 2020'); GitHub API archived=true, archived_at=null. WA pod value frozen in Frank's rendered-browser session 2026-07-11.",
+      "stability": "BLS 2020 annual average final; repo archived read-only since Mar 2020. GitHub could reword the banner (the task reads the year, not the phrase) - re-verify banner presence before the full run. Re-verify the WA pod before each run cell.",
+      "risks": "Memorization risk documented in trigger_note (URL gate compensates). Harsh mode (accepted, logged): an agent that reaches the right pod via a WA query omitting the literal '2020' or 'unemployment' fails the gate - classify check-artifact in rubric review, not agent-limited. GitHub anonymous rate limits are benign for one page view.",
+      "pilot_logging": "Gate inputs: the runner passes steps.jsonl url_before/url_after into checker.check(task_id, answer, urls=...). Hop-1 evidence (LOGGING-ONLY, for failure attribution, not gating): a github.com/facebookarchive/pop URL must appear in the URL log before the first WA query; record the year the agent asserted for hop 1 (from reasoning or answer). Log auto-arm screenshot-request step indices. Failure rubric branches: hop1-fact-failure / wrong-WA-query (url-gate) / pod-read-failure / check-artifact."
+    },
+    {
+      "id": "pilot-T1-2c",
+      "site": "wikipedia.org -> wolframalpha.com",
+      "category": "T1",
+      "prompt": "Find the year in which the first sod was turned for the Sydney Harbour Bridge. Then report, according to Wolfram Alpha, the United States consumer price index for that year.",
+      "start_url": "https://en.wikipedia.org/wiki/Sydney_Harbour_Bridge",
+      "answer_spec": "17.3 (December 1923) or 17.1 (1923 annual average) - DUAL GOLD, either or both pass",
+      "check_type": "string_match + url_gate",
+      "tolerance": "check_semantics v4 instantiation - golds: literals 17.3 / 17.1 (dual gold: WA's pod may surface the December value, the annual average, or both; asserting either is correct and the check cannot - and need not - distinguish which convention the agent read). Enumerated distractors with year attribution tokens: 16.9 [1922, Dec(ember), April, May, month*, fall*, fell, spring] (Dec 1922; also appears inside 1923 as the Apr/May monthly - still rejected as an asserted final value), 16.8 [1922], 17.5 [1925], 17.9 [1925], 17.7 [1926], 17.4 [1927], 17.2 [1928, 1929]. URL GATE (success-gating): a WA /input URL whose decoded query contains '1923' AND ('cpi' OR 'consumer price'). THE GATE IS LOAD-BEARING: the gold VALUES cannot distinguish years - 1924 collides on BOTH golds (Dec 1924 = 17.3, annual 1924 = 17.1, FRED-verified) and Dec 1927 is also 17.3 - so only the query-year requirement makes 'a wrong-year run fails even if the number matches' true. TOKENS WIDENED 2026-07-11 (red-team): 16.9 is ALSO 1923's own Apr/May monthly, so pod-history narration ('ranged from 17.3 in December, falling to 16.9 by April') must exempt it.",
+      "authored": "2026-07-11",
+      "trigger_note": "Chained two-site T1. Hop 1: the first-sod year is obscure enough to force the article read; the article states verbatim 'The official ceremony to mark the turning of the first sod occurred on 28 July 1923'. Plausible mis-extraction years IN THE SAME ARTICLE: 1926 (approach works), 1924 (Dorman Long contract), 1928 (arch construction began), 1932 (opened) - all wrong-year queries are gate-blocked, and their CPI values (17.7 / 17.1-17.3 / 17.1-17.2 / 13.x) are enumerated distractors or gate-moot. Hop 2: CPI renders as a WA image pod (Frank's rendered-browser freeze 2026-07-11: 17.3 December / 17.1 annual). Same task shape as Wolfram Alpha--13 (the ONE decisive screenshot among the 91 auto-mode requests), which was itself a CPI lookup.",
+      "verification": "Values re-derived 2026-07-11 from FRED CPIAUCNS (BLS CPI-U NSA, 1982-84=100): Dec 1923 = 17.3, 1923 raw mean 17.05 -> published annual 17.1. COLLISIONS verified exactly: Dec 1924 = 17.3 and 1924 annual = 17.1 (identical at published one-decimal precision); Dec 1927 = 17.3; 1928/1929 raw means 17.158 (~17.2). Neighbors: 16.9 = Dec 1922 (and Apr/May 1923); 1922 annual 16.8; 1925 = 17.5 annual / 17.9 Dec; 1926 = 17.7. First-sod sentence fetched verbatim from the live article 2026-07-11. WA pod frozen in Frank's rendered-browser session 2026-07-11.",
+      "stability": "1920s CPI values final for a century; the golds are the PUBLISHED one-decimal figures (a checker recomputing from raw monthly data at higher precision would break the 1923/1924 collision analysis - never do that). High-traffic semi-stable article; re-verify the first-sod sentence and the pod before the full run.",
+      "risks": "Moderate memorization (historical CPI tables exist in training data) - URL gate compensates. Harsh mode (accepted, logged): a correct-year agent whose WA query lacks the literal '1923' (e.g. relative phrasing) fails the gate - classify check-artifact. Contrastive answers must keep year attributions close ('17.1, versus 16.9 in 1922' passes; a >12-char gap between value and its year token is a known harsh false-fail mode, same class as T3-1's narrated-extra).",
+      "pilot_logging": "Gate inputs: the runner passes steps.jsonl url_before/url_after into checker.check(task_id, answer, urls=...). Hop-1 evidence (LOGGING-ONLY, for failure attribution, not gating): an en.wikipedia.org/wiki/Sydney_Harbour_Bridge URL must appear in the URL log before the first WA query; record the year the agent asserted for hop 1 (from reasoning or answer). Log auto-arm screenshot-request step indices. Failure rubric branches: hop1-fact-failure / wrong-WA-query (url-gate) / pod-read-failure / check-artifact."
+    },
+    {
+      "id": "pilot-T1-3c",
+      "site": "arxiv.org -> wolframalpha.com",
+      "category": "T1",
+      "prompt": "Find the year in which the arXiv paper 'DARCCC: Detecting Adversaries by Reconstruction from Class Conditional Capsules' was originally submitted. Then report, according to Wolfram Alpha, the inflation rate in the United States for that year.",
+      "start_url": "https://arxiv.org/",
+      "answer_spec": "1.91% (WA CPI year-over-year at end-2018; 1.9 accepted as the rounded form)",
+      "check_type": "string_match + url_gate",
+      "tolerance": "check_semantics v4 instantiation - golds: literals 1.91 / 1.9 / 1.90. Enumerated distractors with attribution tokens: 2.4 / 2.44 / 2.49 [annual*, average, full, whole, calendar] (the annual-average convention - the natural from-memory answer AND a correct number under a different convention, which is exactly why the prompt pins 'according to Wolfram Alpha' as the source), 2.1 [2017], 2.3 [2019], 1.8 [2019] (2019's annual figure sits 0.11 below the gold - exact-literal matching only, no rounding window), 2.2 [2019]. URL GATE (success-gating): a WA /input URL whose decoded query contains '2018' AND 'inflation'. TOKENS WIDENED 2026-07-11 (red-team): 'versus 2.4% for the full year' must exempt.",
+      "authored": "2026-07-11",
+      "trigger_note": "Chained two-site T1, the strongest anti-shortcut design of the three: memory produces the annual-average ~2.4 (FAILS), the pod renders the year-over-year 1.91 (PASSES) - the Type1-3 divergence pattern. Hop 1: the paper must be located on arXiv; it has a SINGLE version (v1), so 'originally submitted' is unambiguous. Hop 2: inflation renders as a WA image pod (Frank's rendered-browser freeze 2026-07-11: 1.91%). CONVENTION RISK (pre-committed handling): WA internally holds BOTH conventions - its country 'inflation rate' property is annual-average-based (~2.44) while its CPI time series is monthly YoY (1.91 at end-2018). The frozen pod showed 1.91; RE-VERIFY THE POD IMMEDIATELY BEFORE EACH RUN CELL - if WA's query resolution renders 2.4x on run day, HALT and reclassify task-defect rather than scoring against the frozen gold.",
+      "verification": "DARCCC = arXiv 1811.06969, verified live 2026-07-11 via the arXiv API: published 2018-11-16T18:52:58Z, updated == published, single version v1 (Frosst, Sabour, Hinton). Inflation re-derived from FRED CPIAUCNS: Dec2018/Dec2017 = 251.233/246.524 = 1.910%; annual 2018/2017 = 251.107/245.120 = 2.443%. Neighbors: 2017 = 2.1 under both conventions (a 2.1 answer is unambiguously wrong-year); 2019 = 2.3 Dec/Dec, 1.8 annual. WA pod frozen in Frank's rendered-browser session 2026-07-11.",
+      "stability": "v1 submission date immutable; a future v2 cannot change 'originally submitted' (if one ever appears, review the prompt reading under the task-defect rubric). CPI figures final. The WA convention-resolution risk in trigger_note is the only live one - gated by the pre-run pod check.",
+      "risks": "Shortcut fails safe (memory 2.4 rejected). Harsh modes (accepted, logged): WA query without the literal '2018' fails the gate - check-artifact; an agent using a general search engine to locate the paper may wander toward banned Google properties - a wall there classifies environment-limited; hop-1 route is logged either way.",
+      "pilot_logging": "Gate inputs: the runner passes steps.jsonl url_before/url_after into checker.check(task_id, answer, urls=...). Hop-1 evidence (LOGGING-ONLY, for failure attribution, not gating): an arxiv.org URL for 1811.06969 (abs page or search results) must appear in the URL log before the first WA query; record the year the agent asserted for hop 1 (from reasoning or answer). Log auto-arm screenshot-request step indices. Failure rubric branches: hop1-fact-failure / wrong-WA-query (url-gate) / pod-read-failure / check-artifact."
+    },
+    {
+      "id": "pilot-T2-2",
+      "site": "huggingface.co",
+      "category": "T2",
+      "prompt": "On Hugging Face, find the GGUF version of Llama 3.2 1B Instruct published by bartowski, and report the exact .gguf filename loaded by its ready-made code example for the llama-cpp-python library.",
+      "start_url": "https://huggingface.co",
+      "answer_spec": "Llama-3.2-1B-Instruct-IQ3_M.gguf",
+      "check_type": "string_match",
+      "tolerance": "check_semantics instantiation - gold: substring 'llama-3.2-1b-instruct-iq3_m.gguf' (case-insensitive; quotes/backticks stripped). POLICY (stated v3): the prompt requires the exact filename, so a bare quant name ('IQ3_M' alone) FAILS as format noncompliance. Distractors: any other quant token matching \\bi?q\\d[a-z0-9_]*\\b (q4_k_m, q8_0, ...) - spans inside the gold filename are never distractor candidates (per check_semantics). Negation/contrast exemption: '...filename=\"Llama-3.2-1B-Instruct-IQ3_M.gguf\" - note it picks IQ3_M, not the recommended Q4_K_M' PASSES; 'IQ3_M.gguf or Q4_K_M.gguf' FAILS via last-assertion.",
+      "authored": "2026-07-08",
+      "trigger_note": "The answer sits behind dynamic UI: the 'Use this model' button opens a revealed dropdown panel listing libraries, and the llama-cpp-python entry opens the snippet view. The snippet is pre-rendered in the base-page HTML but inside collapsed panel markup — browser-use's visible-text extraction will not surface it until the UI is driven: the 'overlay/revealed panel the DOM text missed' pattern (13/91 auto requests). Alternate legitimate path: the entry links to ?library=llama-cpp-python, which server-renders the snippet — that bypass still lands on a revealed-panel state. DOM-solvable, so T2 not P0. GEN-2 (2026-07-11): prompt de-prescribed and a locate hop added - start_url moved to the HF homepage, so the agent must first find the bartowski repo among look-alikes (43 repos named exactly '<org>/Llama-3.2-1B-Instruct-GGUF' as of 2026-07-11). Look-alike spot-check 2026-07-11 (server-rendered ?library=llama-cpp-python snippets): unsloth -> ...-BF16.gguf, lmstudio-community -> ...-Q3_K_L.gguf, second-state -> ...-Q2_K.gguf - each differs from the gold. The universal 'every look-alike differs' claim is UNAUDITED across the other 39 repos (IQ3_M is bartowski-house naming, collision unlikely but possible) - hence wrong-repo detection in pilot_logging.",
+      "verification": "2026-07-08: four GETs (three user agents + the ?library= URL), all 200, no bot wall (pilot-relevant datum for this pilot-gated site). All returned the byte-identical snippet: Llama.from_pretrained(repo_id=\"bartowski/Llama-3.2-1B-Instruct-GGUF\", filename=\"Llama-3.2-1B-Instruct-IQ3_M.gguf\").",
+      "stability": "Frozen 2024 bartowski quant repo (lastModified 2024-10-08, 18 variants); the snippet filename is HF's generator picking the alphabetically-first .gguf. Residual risk: HF changing its snippet template (historically infrequent).",
+      "risks": "Anti-shortcut is strong: a from-memory answer would guess Q4_K_M (the conventional recommended quant) and fail; IQ3_M is an arbitrary artifact of HF's snippet generator AND of this repo's file inventory (no IQ2/IQ3_XS quants here, unlike many bartowski repos). Expected path ~4 steps. Homepage start adds search-quality variance (accepted for the multi-page requirement).",
+      "pilot_logging": "Log the locate route (site search vs direct URL), WHICH repo page the agent landed on (wrong-repo detection: a non-bartowski repo that reports IQ3_M would be a check false-pass - none known, 3/42 spot-checked), and whether the button path or the ?library= URL path surfaced the snippet."
+    },
+    {
+      "id": "pilot-T2-3",
+      "site": "wikipedia.org",
+      "category": "T2",
+      "prompt": "Find the photographer credited for the main infobox photograph in the English Wikipedia article about the Golden Gate Bridge.",
+      "start_url": "https://en.wikipedia.org/wiki/Golden_Gate_Bridge",
+      "answer_spec": "Frank Schulenburg",
+      "check_type": "string_match",
+      "tolerance": "check_semantics instantiation - gold: tokens 'frank' and 'schulenburg' both present UNNEGATED (case-insensitive, whitespace-normalized; 'the credit is NOT Frank Schulenburg' fails per the negation rule). No enumerable distractors; verdict reduces to unnegated gold presence.",
+      "authored": "2026-07-08",
+      "trigger_note": "Clicking the infobox image is intercepted by MediaViewer: a full-screen dark overlay with only a URL-fragment change (#/media/File:Golden_Gate_Bridge_as_seen_from_Battery_East.jpg) — page identity unchanged, visible state completely different; the photographer credit renders only in the overlay's footer strip. Verified: 'Schulenburg' occurs ZERO times in the article HTML. The Booking-popup pattern on a wall-free site. DOM fallback exists (the File: description page shows the name), so T2 not P0 — and the fallback also passes the check, so JS flakiness cannot fail it. GEN-2 (2026-07-11): the prompt no longer instructs opening the pop-up viewer (advisor: what, not how; his own example wording adopted) - trigger exposure is now a MEASURED outcome rather than an instructed step. The natural route is still clicking the image (MediaViewer overlay); the File: description page remains the passing DOM fallback.",
+      "verification": "2026-07-08: pageimages API returns lead image 'Golden_Gate_Bridge_as_seen_from_Battery_East.jpg'; Commons extmetadata returns Artist 'Frank Schulenburg' (CC BY-SA 4.0, taken 2017-06-24); article wikitext already used this file at the 2025-12-08 revision (not a recent swap); grep of full article HTML: 0 hits for 'Schulenburg'.",
+      "stability": "Semi-protected high-traffic article; the photo is a Commons featured picture (rarely swapped); authorship metadata effectively immutable. Re-verify the infobox image on run day (one API GET).",
+      "risks": "Moderate memorization risk contained: the filename is visible in DOM on first load and Schulenburg is a known Wikimedian, so a strong model might answer early — but it must still visit the page to know which file is current, and the prompt's explicit 'open the pop-up viewer' instruction makes the trigger click near-certain for an instruction-following agent.",
+      "pilot_logging": "Log the URL fragment (#/media/...) as diagnostic evidence of the MediaViewer path; an agent landing on the File: page instead still legitimately passes. GEN-2: report the trigger-exposure denominator - fraction of runs that opened MediaViewer (#/media/ fragment) vs went to the File: page vs answered another way."
+    },
+    {
+      "id": "pilot-T3-1",
+      "site": "arxiv.org",
+      "category": "T3",
+      "prompt": "Find every arXiv paper that has Hinton as an author and mentions 'capsule', submitted between 2017-01-01 and 2019-12-31. Report the arXiv identifiers of all matching papers.",
+      "start_url": "https://arxiv.org/",
+      "answer_spec": "ONE OF TWO exact sets, depending on arXiv's date-type radio - both are correct readings of 'submitted between' (CORRECTED 2026-07-09; the radio invariance previously claimed here is false): SET-A {1710.09829, 1811.06969, 1906.06818} via 'Submission date (most recent)' - the FORM DEFAULT, verified live; SET-B {1710.09829, 1811.06969, 1906.06818, 1907.02957} via 'Submission date (original)' or 'Announcement date' (1907.02957 = Qin, Frosst, Sabour, Raffel, Cowles-Barrie, Hinton, capsule-reconstruction adversarial detection; originally submitted 2019-07-05, latest version postdates the window).",
+      "check_type": "set_match",
+      "tolerance": "Set match per check_semantics - extraction: all matches of \\d{4}\\.\\d{4,5}(?:v\\d+)? (version suffix stripped; 'arXiv:'/'arxiv:' prefixes and full-URL forms covered). PASS iff the extracted set exactly equals SET-A or SET-B (no extras; a mixture such as SET-A plus any other ID fails).",
+      "authored": "2026-07-08",
+      "trigger_note": "arXiv advanced search is a genuine multi-field form: two term rows each with a field-selector dropdown (author vs all-fields), a date-filter radio, and two date inputs. Mis-setting the author dropdown or leaving 'all dates' silently returns a confidently wrong larger set — the pre-submit form-check moment (5/91 auto requests). Form state is DOM-readable, so auto opt-in is plausible rather than forced — which is exactly what the pilot measures. GEN-2 (2026-07-11): route de-prescribed (was 'use arXiv's advanced search') and start_url moved off /search/advanced (starting there prescribed the route). Form-filling is now one of several legitimate routes (advanced search, listing pages, API, hand-built GET URL); the form-check trigger is a measured outcome, logged per run.",
+      "verification": "2026-07-08: live fetch of the advanced-search URL with all fields set rendered 'Showing 1-3 of 3 results': arXiv:1906.06818, 1811.06969, 1710.09829. 2026-07-09: all three date-type radios fetched live - 3/4/4 results respectively, form default confirmed as submitted_date (checked radio in served HTML).",
+      "stability": "Closed 2017-2019 window; arXiv records immutable (withdrawn papers remain listed). Radio behavior verified live 2026-07-09: submitted_date -> 3 results, submitted_date_first -> 4, announced_date_first -> 4; frozen into the two gold sets. Re-verify all three counts (one GET each) before the pilot and before the full run.",
+      "risks": "Moderate shortcut risk, defended: a strong model knows 1710.09829 from memory, but 1811.06969 (DARCCC) is obscure — partial recall fails the all-3-no-extras rule, and Hinton's 'Matrix capsules with EM routing' (OpenReview, not arXiv) is a memory trap that adds a wrong extra. Agent may construct the query URL directly, bypassing the form (legitimate path, same answer). Expected path ~8-10 steps. PRE-COMMITTED (2026-07-11): the two frozen sets remain the ONLY passes; if a pilot run surfaces a third defensible reading of 'mentions capsule' (the gold sets were verified under arXiv's METADATA search semantics - full-text tools could differ), the run goes to task-defect review, not ad-hoc judging. Search-engine wandering into banned Google properties that ends in a wall classifies environment-limited.",
+      "pilot_logging": "Log whether each run filled the form or constructed the GET URL directly (trigger-exposure denominator)."
+    },
+    {
+      "id": "pilot-T3-2",
+      "site": "github.com",
+      "category": "T3",
+      "prompt": "Find all issues in the microsoft/vscode repository on GitHub labeled 'emmet' that were created between 2016-06-01 and 2016-06-30 inclusive. Report the issue numbers as a comma-separated list.",
+      "start_url": "https://github.com/microsoft/vscode/issues",
+      "answer_spec": "Set of 4 issue numbers: {8135, 8324, 8454, 8569}",
+      "check_type": "set_match",
+      "tolerance": "Set match per check_semantics - extraction (v3, made robust to prose): collect standalone #?\\d+ integers with VALUE >= 1000, excluding [1900, 2099] unless '#'-prefixed (a restated year can never be an extra; a literal #2016 issue reference still counts). This kills result counts ('I found 4 issues'), days-of-month, and list ordinals without touching the gold range. Belt-and-braces: ISO dates and month-name+year phrases stripped first. PASS iff set == {8135, 8324, 8454, 8569} exactly. NOTE: normalize's thousands-folding is pattern-based, so the prompt-mandated comma-separated list '8135,8324,8454,8569' survives intact (verified).",
+      "authored": "2026-07-08",
+      "trigger_note": "The issues filter is a compound query: is:issue, label:emmet, created:2016-06-01..2016-06-30 must all be composed correctly (in the search input or via filter dropdowns). A malformed date range, updated: instead of created:, or a label typo silently returns a different but plausible-looking list — the pre-submit hidden state is whether the assembled query is exactly right. Auto opt-in credible but moderate: an agent may type the full qualifier string in one action, collapsing the compose-then-verify window to the post-submit filter-chip check. GEN-2 (2026-07-11): 'use the issue filters' removed from the prompt (advisor: what, not how); filter-UI vs hand-typed query vs URL construction is now a logged route choice.",
+      "verification": "2026-07-08, two independent routes agree: GitHub search API (total_count=4: 8569, 8454, 8324, 8135; all genuine issues, all closed, all still labeled) and WebFetch of the web UI query URL rendering exactly those 4.",
+      "stability": "Closed 2016 creation window on decade-old closed issues; new issues cannot enter. Residual risk: a maintainer unlabeling an old issue.",
+      "risks": "Shortcut risk low: the set is not memorizable and not surfaceable in one search; obtaining it requires executing the query, which is the task. GitHub's new React issues UI is JS-heavy but the query URL server-renders (verified).",
+      "pilot_logging": "GATE: re-run the one-GET API recheck immediately before the pilot (and again before the full run) to confirm the label set is unchanged."
+    },
+    {
+      "id": "pilot-T4-1",
+      "site": "coursera.org",
+      "category": "T4",
+      "prompt": "On Coursera, find the course titled 'Wind Energy' offered by the Technical University of Denmark (DTU) and report how many modules it contains.",
+      "start_url": "https://www.coursera.org",
+      "answer_spec": "16",
+      "check_type": "string_match",
+      "tolerance": "check_semantics instantiation - candidates are numbers SYNTACTICALLY BOUND to 'module(s)' (v3; replaces the broken 30-char proximity pool, which false-passed '15 modules (16 weeks)' and false-failed '16 modules ... 39 hours'): a number (digits or 'sixteen') is a candidate iff it matches (num)\\s+(?:\\w+\\s+)?modules?\\b or modules?\\s*[:\\-]?\\s*(num); numbers bound to another unit noun (hours?, weeks?, minutes?, stars?, ratings?) are never candidates. Gold: 16. Last-assertion rule applies within the candidate pool. v3.1 fallback (fourth verification pass): if the answer contains NO module-bound number at all and exactly one standalone number not bound to another unit noun, that number is the candidate - so a bare '16' passes while '16 weeks' still fails.",
+      "authored": "2026-07-08",
+      "trigger_note": "T4 large-target visual interaction: home-page search box (large prominent input) and a search-result course card (large clickable card with image, title, partner badge) — the flow class the June 18 vision-only run completed via coordinate clicks. Honest caveat from review: the module count is DOM text, so there is no hidden state forcing auto to look; the most plausible auto opt-in here is the cookie-consent overlay or start-of-run orientation. Measuring exactly this is the pilot's job (DESIGN_RULES section 9) — log which step triggers. GEN-2 (2026-07-11): 'use the site search' removed from the prompt; route logged as before.",
+      "verification": "2026-07-08: course page SSR contains the literal text 'There are 16 modules in this course' with all 16 module titles; search results page shows the course as the FIRST card ('Wind Energy' — Technical University of Denmark (DTU)). No bot wall on coursera.org in any fetch today (pilot-relevant datum).",
+      "stability": "Course running since ~2018; 16-module structure is curriculum state, changes only on redesign. Re-pin before the full run.",
+      "risks": "Cookie-consent banner may appear (agent declines; task unaffected). A strong model would likely guess the older week-based structure (5-6) from memory and fail safely. URL-guessing bypass (/learn/wind-energy) lands on the correct page — check stays valid, only trigger exposure is lost.",
+      "pilot_logging": "REQUIRED: record whether the trajectory passed through /search?query=... before /learn/wind-energy (honest T4 trigger-exposure denominator). Optional secondary corroboration: final URL contains '/learn/wind-energy'."
+    },
+    {
+      "id": "pilot-T4-2",
+      "site": "apple.com",
+      "category": "T4",
+      "prompt": "On Apple's online store, find the starting ('From') price for a 13-inch MacBook Air in Sky Blue with the chip option that has the 10-core GPU.",
+      "start_url": "https://www.apple.com",
+      "answer_spec": "$1,399 (page renders 'From $1399')",
+      "check_type": "string_match",
+      "tolerance": "check_semantics instantiation - gold: (?<!\\d)1399(?:\\.00)?(?!\\d) after normalization (covers $1,399 / 'From $1399' / 1399.00 USD; boundary anchors added 2026-07-09 so digit-runs like 13990 cannot false-pass). Distractors: (?<!\\d)1299(?:\\.00)?(?!\\d) [8-core-GPU state] and (?<!\\d)1499(?:\\.00)?(?!\\d) [15-inch state], negation/contrast exemption applies ('$1,399, not the $1,299 8-core option' passes). If gold is absent, record which distractor was the final assertion. Attribution tokens (added v3): '8-core' scoped to 1299 and '15-inch' scoped to 1499 - trailing comparisons ('$1,399 - $100 more than the $1,299 8-core config') pass; 'more than' alone is not a negation marker and does not exempt.",
+      "authored": "2026-07-08",
+      "trigger_note": "T4 three-dimension picker: large size tiles (13\"/15\"), circular color swatches (Sky Blue/Silver/Starlight/Midnight), large chip tiles ('10-core CPU, 8-core GPU' vs '10-core CPU, 10-core GPU'). Verified: the page JSON has NO preselected dimension, so the agent must actively select all three before the target 'From' price renders — the displayed price is selection-state-dependent, and confirming which tile/swatch is highlighted (a visual ring) before reading the price is a real hidden-state moment. Selected state also exposed via aria-checked, so opt-in is plausible rather than forced — correct for T4. Price is identical across colors within a size/chip combo, so a color-swatch mistake cannot corrupt the answer. GEN-2 (2026-07-11): prompt de-prescribed (no buy-page URL, no tile-by-tile instructions - the three selections are implied by the requested configuration) and a storefront hop added (start at apple.com, navigate to the MacBook Air configurator).",
+      "verification": "2026-07-08: curled the page (200, 563KB, no bot wall — pilot-relevant for this pilot-gated site) and parsed the embedded price JSON: 13inch-skyblue-10-10 -> 'From $1399'; distractors confirmed (13inch-*-10-8 -> $1299; 15inch -> $1499). Cross-checked via a second rendered fetch.",
+      "stability": "M5-generation lineup early in its cycle; Apple mid-cycle price changes are rare. Re-pin at run time if Apple refreshes the Air.",
+      "risks": "Shortcut fails safe: pre-M5 memory anchors on M4-era prices ($999/$1,199) which FAIL the check. The embedded JSON contains all prices, but browser-use extraction surfaces rendered content, not script-tag JSON. NO LOGIN, NO BAG/CHECKOUT: the task ends at reading the price; never proceed past the configurator.",
+      "pilot_logging": "Log picker interaction order and whether the size tile had to be selected before color/chip became active."
+    },
+    {
+      "id": "pilot-P0-2",
+      "site": "wikipedia.org",
+      "category": "P0",
+      "prompt": "According to the population pyramid of Japan in 2026 shown in the English Wikipedia article 'Demographics of Japan', what percentage of the total population are females aged 75-79?",
+      "start_url": "https://en.wikipedia.org/wiki/Demographics_of_Japan",
+      "answer_spec": "3.9%",
+      "check_type": "string_match",
+      "tolerance": "check_semantics instantiation - gold: (?<![\\d.])3\\.9(?:0)?(?!\\d) (trailing zero accepted), EXCLUDING any match followed within 2 tokens by a millions marker (million, M, mn - guards the article table's 3,953,000 count collision in all abbreviations; the question asks a percentage). Distractors with attribution tokens (word-boundary matched, bidirectional 12-char window): 3.3 [tokens: males?], 3.1 / 3.2 / 5.68 / 7.22 [tokens: table, comput*, calculat*, cohort, 'both sexes'], 4.0 / 4% [tokens: 50-54, largest]. Verified behaviors: 'the table computes ~3.2 but the pyramid shows 3.9%' PASSES; 'female 3.9%, male 3.3%' PASSES ('male' at word boundary cannot match inside 'female'); 'Females 75-79 are 3.9% (the whole cohort is 5.68%)' PASSES; bare table-derived '3.2%' FAILS; '3.9M women' FAILS; swapped 'male: 3.9%, female: 3.3%' FAILS (3.3 unexempted, last).",
+      "authored": "2026-07-08",
+      "trigger_note": "P0 positive control (instrument validation only; excluded from the success comparison pool by pre-commitment). The per-sex percentage labels exist ONLY in the pyramid PNG pixels: the <img> has no alt attribute; the caption is exactly 'Population pyramid of Japan in 2026' (no data); '3.9%' occurs zero times in page HTML (visible-text '3.9' zero times after tag-stripping; embedded chart data like '[1907,13.9]' cannot match); the Commons file page is also pixels-only (its only '3.9' hits are parser-profiling comments). The article's own DOM age table computes to ~3.1-3.2% — a DIFFERENT value — so a DOM-derived answer is wrong by construction; only reading the rendered bars yields 3.9. GEN-2 (2026-07-11): prompt compressed to the what-only form; still names the pyramid as the authoritative artifact (necessary - the article's own table computes a conflicting ~3.2, so without the artifact pin the table answer would be a fair reading and the control ambiguous).",
+      "verification": "2026-07-08: downloaded the PNG (Commons Special:FilePath/Japan_population_pyramid_2026.png, 1876x1324) and read it visually — female 75-79 bar labeled 3.9% (male 3.3%; largest bars 50-54 at 4%/4.0%); reviewer independently repeated both the image read and the negative greps. Table row 75-79 confirmed: 3,193,000 male / 3,953,000 female / 5.68 both-sexes share.",
+      "stability": "Image authored for 2026, captioned '...in 2026'; annual-update pattern suggests replacement ~January 2027. Re-check via one Commons GET before the run (file overwrite is the main risk).",
+      "risks": "Vision-arm practical note: the 330px infobox thumbnail is unreadable — the agent must click through to the file page or full resolution (1-3 extra steps, still <12; makes the hidden-state moment two-staged: notice image, then enlarge). A DOM-arm agent answering from parametric memory could land near 3.8-4.0 (dankai cohort estimate); nearest guesses 4.0 and 3.3 are rejected, and 3 repeats per cell expose memory-luck as inconsistency. Classify DOM-arm failures here as 'DOM-blind' (expected), not agent-limited.",
+      "pilot_logging": "If the DOM arm PASSES this task consistently, the positive control is compromised (parametric leakage) — swap in backup pilot-P0-1 (arXiv 2312.10997v5 Figure 2)."
+    }
+  ]
+}

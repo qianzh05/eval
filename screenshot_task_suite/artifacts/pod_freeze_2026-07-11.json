@@ -1,0 +1,37 @@
+{
+  "artifact": "pod_freeze",
+  "date": "2026-07-11",
+  "method": "Live Chrome session (claude-in-chrome extension) on Frank's machine; each query URL loaded, page fully rendered, img alt attributes and body.innerText checks captured via JS. Values independently confirmed same day against BLS/FRED series (see adversarial review: UNRATE/CPIAUCNS Dec-Dec NSA; core 2.179 matched to 4 decimals, proving the Dec/Dec NSA convention).",
+  "pods": [
+    {
+      "task": "pilot-T1-1 (new)",
+      "query_url": "https://www.wolframalpha.com/input?i=average+unemployment+rate+in+the+United+States+in+2020",
+      "interpretation_alt": "United States | civilian unemployment rate | 2020 annual",
+      "result_pod_alt": "8.1% (2020)",
+      "frozen_gold": "8.1",
+      "value_in_text_layer": false,
+      "notes": "Page also renders a December-2020 sidebar pod (6.7%) - a named distractor. Value is ALT-ONLY."
+    },
+    {
+      "task": "pilot-T1-2 (new)",
+      "query_url": "https://www.wolframalpha.com/input?i=US+consumer+price+index+in+1923",
+      "interpretation_alt": "United States | consumer price index | 1923 monthly not seasonally adjusted",
+      "result_pod_alt": "17.3 (December 1923) (index reference base: 1982-84 = 100)",
+      "frozen_gold": "17.3",
+      "second_gold_17_1": "NOT pod-rendered anywhere on this page (innerText and alts negative); accepted from the BLS 1923 annual-average table as a fair reading of 'CPI for that year', not as a frozen pod value",
+      "value_in_text_layer": false,
+      "notes": "Dec 1924 shares the same value (17.3) - handled by the query-year gate: the logged /input?i= query must contain 1923. Value is ALT-ONLY."
+    },
+    {
+      "task": "pilot-T1-3 (new)",
+      "query_url": "https://www.wolframalpha.com/input?i=US+inflation+rate+in+2018",
+      "interpretation_alt": "United States | inflation rate | 2018",
+      "result_pod_alt": "1.91 %/yr (December 2018)",
+      "frozen_gold": "1.91",
+      "convention": "CPI time-series pod (Dec/Dec on NSA CPI), NOT the country-property convention; 2.44 appears NOWHERE on this page (alts and innerText negative). Same pod lists core inflation 2.179 %/yr labeled 'core' - exempt distractor.",
+      "value_in_text_layer": false,
+      "notes": "Pre-pilot phrasing sweep (2-3 query variants, incl. 'average inflation rate...') still pre-committed - decide 2.44 policy before scoring. Value is ALT-ONLY."
+    }
+  ],
+  "cross_cutting_finding": "ALL THREE new Type1 values are alt-text-only (absent from the rendered text layer). The alt-text contingency therefore covers all three new Type1 tasks: if browser-use 0.13.2's DOM serialization does not surface img alt text, these are functionally Type5 (pixels-only) and get reclassified/excluded/replaced per the pre-commitment. The dry-run spot-check of alt-text surfacing is now load-bearing for the entire Type1 category."
+}

@@ -1,0 +1,31 @@
+{
+  "started_at": "2026-07-14T02:53:29.288717",
+  "host": "MacBook-Air-6.local",
+  "os": "Darwin 25.2.0",
+  "browser_use": "0.13.2",
+  "mode": "auto",
+  "resolved_use_vision": "'auto'",
+  "use_judge": false,
+  "repeats": 3,
+  "max_steps": 30,
+  "wallclock_cap_s": 900,
+  "concurrency": 3,
+  "n_tasks": 10,
+  "n_jobs": 30,
+  "task_ids": [
+    "pilot-T1-1c",
+    "pilot-T1-2c",
+    "pilot-T1-3c",
+    "pilot-T2-2",
+    "pilot-T2-3",
+    "pilot-T3-1",
+    "pilot-T3-2",
+    "pilot-T4-1",
+    "pilot-T4-2",
+    "pilot-P0-2"
+  ],
+  "task_file_sha256": "fbbcc0b9095e812dccb72810d1d2aefec9f08fc67ec2d0c37ad0fa040743e0bd",
+  "bedrock_model_id": "us.anthropic.claude-sonnet-4-6",
+  "vision_only_env_was_set": false,
+  "chrome": "/Users/frank/Library/Caches/ms-playwright/chromium-1228/chrome-mac-arm64/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing"
+}

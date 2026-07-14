@@ -1,0 +1,74 @@
+{
+  "task_id": "pilot-T4-1",
+  "rep": 3,
+  "mode": "on",
+  "use_vision": "True",
+  "category": "T4",
+  "site": "coursera.org",
+  "prompt": "On Coursera, find the course titled 'Wind Energy' offered by the Technical University of Denmark (DTU) and report how many modules it contains.",
+  "start_url": "https://www.coursera.org",
+  "start_time": "2026-07-14 02:46:32.640940",
+  "success": "success",
+  "num_steps": 5,
+  "final_answer": "The course 'Wind Energy' offered by the Technical University of Denmark (DTU) on Coursera contains **16 modules**. The course page (https://www.coursera.org/learn/wind-energy) shows it takes approximately 3 weeks to complete at 10 hours per week, with a flexible schedule.",
+  "is_done": true,
+  "is_successful_flag": true,
+  "history_urls": [
+    "https://www.coursera.org/",
+    "https://www.coursera.org/search?query=Wind%20Energy",
+    "https://www.coursera.org/search?query=Wind%20Energy",
+    "https://www.coursera.org/learn/wind-energy"
+  ],
+  "usage_native": {
+    "total_prompt_tokens": 67967,
+    "total_prompt_cost": 0.0,
+    "total_prompt_cached_tokens": 48296,
+    "total_prompt_cached_cost": 0.0,
+    "total_prompt_cache_creation_tokens": 0,
+    "total_prompt_cache_creation_cost": 0.0,
+    "total_completion_tokens": 766,
+    "total_completion_cost": 0.0,
+    "total_tokens": 68733,
+    "total_cost": 0.0,
+    "entry_count": 4,
+    "by_model": {
+      "us.anthropic.claude-sonnet-4-6": {
+        "model": "us.anthropic.claude-sonnet-4-6",
+        "prompt_tokens": 67967,
+        "completion_tokens": 766,
+        "total_tokens": 68733,
+        "cost": 0.0,
+        "invocations": 4,
+        "average_tokens_per_invocation": 17183.25
+      }
+    }
+  },
+  "end_time": "2026-07-14 02:47:36.704171",
+  "duration_seconds": 64.1,
+  "step_urls": [
+    "https://www.coursera.org/",
+    "https://www.coursera.org/search?query=Wind%20Energy",
+    "https://www.coursera.org/search?query=Wind%20Energy",
+    "https://www.coursera.org/learn/wind-energy"
+  ],
+  "rate_limiter_errors": [],
+  "rate_limiter_stats": {
+    "wait_time_s": 2.3074751249951078,
+    "n_rate_limit_waits": 1
+  },
+  "screenshot_requests": 0,
+  "screenshot_request_steps": [],
+  "cost_totals": {
+    "input_tokens": 67967,
+    "output_tokens": 766,
+    "n_llm_calls": 4,
+    "model_id": "us.anthropic.claude-sonnet-4-6",
+    "cost_usd": 0.215391,
+    "note": "static-price estimate, cache-inclusive; see usage_native for cached split"
+  },
+  "checker": {
+    "verdict": "PASS",
+    "final_assertion": "gold"
+  },
+  "scored_with_urls": 4
+}
